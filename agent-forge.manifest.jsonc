@@ -28,6 +28,7 @@
     { "id": "database-engineer",       "file": "agents/database-engineer.agent.md",        "category": "engineering",   "model": null, "toolset": null },
     { "id": "devops-engineer",         "file": "agents/devops-engineer.agent.md",          "category": "engineering",   "model": null, "toolset": null },
     { "id": "dotnet-engineer",         "file": "agents/dotnet-engineer.agent.md",          "category": "engineering",   "model": null, "toolset": null },
+    { "id": "desktop-app-engineer",    "file": "agents/desktop-app-engineer.agent.md",     "category": "engineering",   "model": null, "toolset": null },
     { "id": "mobile-engineer",         "file": "agents/mobile-engineer.agent.md",          "category": "engineering",   "model": null, "toolset": null },
     { "id": "ml-engineer",             "file": "agents/ml-engineer.agent.md",              "category": "engineering",   "model": null, "toolset": null },
     { "id": "data-scientist",          "file": "agents/data-scientist.agent.md",           "category": "engineering",   "model": null, "toolset": null },
@@ -57,7 +58,9 @@
   // ── Skills ──────────────────────────────────────────────────────────
   "skills": [
     { "id": "query-knowledge-base",    "dir": "skills/query-knowledge-base/" },
-    { "id": "scaffold-project",        "dir": "skills/scaffold-project/" }
+    { "id": "scaffold-project",        "dir": "skills/scaffold-project/" },
+    { "id": "generate-logo",           "dir": "skills/generate-logo/" },
+    { "id": "search-stock-images",     "dir": "skills/search-stock-images/" }
   ],
 
   // ── Toolsets ────────────────────────────────────────────────────────
