@@ -22,6 +22,8 @@ cd agent-forge
 
 The install script builds all packages, packages the extension as a VSIX, installs it into VS Code, and links the CLI globally.
 
+> **Antivirus note:** During installation, `npx` downloads `@vscode/vsce` (Microsoft's official extension packaging tool) to build the VSIX. Some heuristic-based antivirus engines (e.g., `CMD:Heur.BZC.ZFV.Boxter`) may flag this as suspicious because it downloads and executes a package at runtime. This is a **false positive**. If your antivirus blocks the install, add the `agent-forge` repository folder to your AV exclusion list and re-run the script.
+
 ## CLI Usage
 
 All commands accept `--repo <path>` (defaults to cwd) and `-y` to skip confirmation prompts.
