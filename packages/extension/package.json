@@ -11,7 +11,10 @@
   "categories": [
     "Other"
   ],
-  "activationEvents": [],
+  "activationEvents": [
+    "onView:agentForge.dashboard",
+    "onView:agentForge.roster"
+  ],
   "main": "./out/extension.js",
   "contributes": {
     "viewsContainers": {
@@ -26,31 +29,17 @@
     "views": {
       "agent-forge": [
         {
+          "id": "agentForge.dashboard",
+          "name": "Dashboard",
+          "type": "webview"
+        },
+        {
           "id": "agentForge.roster",
           "name": "Roster",
           "when": "agentForge.repoConfigured"
-        },
-        {
-          "id": "agentForge.roster.welcome",
-          "name": "Agent Forge",
-          "when": "!agentForge.repoConfigured"
         }
       ]
     },
-    "viewsWelcome": [
-      {
-        "view": "agentForge.roster.welcome",
-        "contents": "No Agent Forge repository configured.\n[Set Repository Path](command:agentForge.setRepoPath)\nConfigure the path to your agent roster Git repository."
-      },
-      {
-        "view": "agentForge.roster.welcome",
-        "contents": "[Enable Sub-Agent Nesting](command:agentForge.enableSubAgents)\nAllow agents to invoke other agents for multi-step workflows."
-      },
-      {
-        "view": "agentForge.roster.welcome",
-        "contents": "[Open Settings](command:agentForge.openSettings)\nConfigure model storage, generated assets, and other preferences."
-      }
-    ],
     "commands": [
       {
         "command": "agentForge.deploy",

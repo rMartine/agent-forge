@@ -4,6 +4,7 @@ import * as path from 'node:path';
 import * as vscode from 'vscode';
 import { handleDeploy, handleRestore, handleWipe, handleStatus, resolveRepoPath } from './commands';
 import { RosterTreeViewProvider } from './rosterTreeView';
+import { SidebarViewProvider } from './sidebarViewProvider';
 import { scaffoldRepo, detectHardware, selectImageModel, selectImageRuntime } from '@agent-forge/core';
 
 let outputChannel: vscode.OutputChannel;
@@ -29,9 +30,24 @@ export async function activate(context: vscode.ExtensionContext): Promise<void> 
 
   const provider = new RosterTreeViewProvider(() => getConfiguredRepoPath());
 
+  const sidebarProvider = new SidebarViewProvider(context.extensionUri);
+
   updateRepoContext();
 
+  function updateSidebarState(): void {
+    const repoPath = getConfiguredRepoPath();
+    const subAgentsEnabled = vscode.workspace
+      .getConfiguration('chat.subagents')
+      .get<boolean>('allowInvocationsFromSubagents') ?? false;
+    sidebarProvider.updateState({
+      repoConfigured: !!repoPath,
+      repoPath: repoPath,
+      subAgentsEnabled,
+    });
+  }
+
   context.subscriptions.push(
+    vscode.window.registerWebviewViewProvider(SidebarViewProvider.viewType, sidebarProvider),
     vscode.window.registerTreeDataProvider('agentForge.roster', provider),
 
     vscode.commands.registerCommand('agentForge.deploy', async () => {
@@ -68,6 +84,7 @@ export async function activate(context: vscode.ExtensionContext): Promise<void> 
           .update('repoPath', selectedPath, vscode.ConfigurationTarget.Global);
         updateRepoContext();
         provider.refresh();
+        updateSidebarState();
 
         const manifestPath = path.join(selectedPath, 'agent-forge.manifest.jsonc');
         if (!fs.existsSync(manifestPath)) {
@@ -104,6 +121,7 @@ export async function activate(context: vscode.ExtensionContext): Promise<void> 
         .getConfiguration('chat.subagents')
         .update('allowInvocationsFromSubagents', true, vscode.ConfigurationTarget.Global);
       vscode.window.showInformationMessage('Agent Forge: Sub-agent nesting enabled.');
+      updateSidebarState();
     }),
 
     vscode.commands.registerCommand('agentForge.selectImageModel', () =>
@@ -118,11 +136,17 @@ export async function activate(context: vscode.ExtensionContext): Promise<void> 
       if (e.affectsConfiguration('agentForge.repoPath')) {
         updateRepoContext();
         provider.refresh();
+        updateSidebarState();
+      }
+      if (e.affectsConfiguration('chat.subagents')) {
+        updateSidebarState();
       }
     }),
 
     outputChannel,
   );
+
+  updateSidebarState();
 
   // Image generation prerequisite check
   const prereqDismissed = context.globalState.get<boolean>('imagePrereqPromptDismissed');
@@ -201,6 +225,7 @@ export async function activate(context: vscode.ExtensionContext): Promise<void> 
             vscode.workspace
               .getConfiguration('chat.subagents')
               .update('allowInvocationsFromSubagents', true, vscode.ConfigurationTarget.Global);
+            updateSidebarState();
           } else if (choice === 'Not Now') {
             context.globalState.update('subAgentPromptDismissed', true);
           }
