@@ -17,6 +17,7 @@ export async function wipe(repoPath: string): Promise<WipeResult> {
   const manifest = await loadManifest(repoPath);
   const promptsTarget = resolveTargetPath(manifest.targets.prompts);
   const skillsTarget = resolveTargetPath(manifest.targets.skills);
+  const hooksTarget = manifest.targets.hooks ? resolveTargetPath(manifest.targets.hooks) : undefined;
 
   const details: FileOperationDetail[] = [];
   const errors: OperationError[] = [];
@@ -76,6 +77,18 @@ export async function wipe(repoPath: string): Promise<WipeResult> {
       }
     } catch (err: unknown) {
       errors.push({ path: skill.dir, message: (err as Error).message });
+    }
+  }
+
+  // Wipe prompts
+  for (const prompt of manifest.prompts ?? []) {
+    await wipeSingleFile(prompt.file, promptsTarget, 'prompt');
+  }
+
+  // Wipe hooks
+  if (hooksTarget) {
+    for (const hook of manifest.hooks ?? []) {
+      await wipeSingleFile(hook.file, hooksTarget, 'hook');
     }
   }
 

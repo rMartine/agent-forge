@@ -146,5 +146,50 @@ export function validateManifest(raw: unknown): Manifest {
     }
   }
 
+  // --- prompts --------------------------------------------------------
+  if (obj.prompts !== undefined && obj.prompts !== null) {
+    if (!Array.isArray(obj.prompts)) {
+      throw new ManifestValidationError('Field "prompts" must be an array');
+    }
+    for (let i = 0; i < obj.prompts.length; i++) {
+      const p = obj.prompts[i];
+      if (!p || typeof p !== 'object') {
+        throw new ManifestValidationError(`prompts[${i}] must be an object`);
+      }
+      if (typeof p.id !== 'string' || p.id.length === 0) {
+        throw new ManifestValidationError(`prompts[${i}].id must be a non-empty string`);
+      }
+      if (typeof p.file !== 'string' || p.file.length === 0) {
+        throw new ManifestValidationError(`prompts[${i}].file must be a non-empty string`);
+      }
+      requireUniqueId(p.id, `prompts[${i}]`);
+    }
+  }
+
+  // --- hooks ----------------------------------------------------------
+  if (obj.hooks !== undefined && obj.hooks !== null) {
+    if (!Array.isArray(obj.hooks)) {
+      throw new ManifestValidationError('Field "hooks" must be an array');
+    }
+    for (let i = 0; i < obj.hooks.length; i++) {
+      const h = obj.hooks[i];
+      if (!h || typeof h !== 'object') {
+        throw new ManifestValidationError(`hooks[${i}] must be an object`);
+      }
+      if (typeof h.id !== 'string' || h.id.length === 0) {
+        throw new ManifestValidationError(`hooks[${i}].id must be a non-empty string`);
+      }
+      if (typeof h.file !== 'string' || h.file.length === 0) {
+        throw new ManifestValidationError(`hooks[${i}].file must be a non-empty string`);
+      }
+      requireUniqueId(h.id, `hooks[${i}]`);
+    }
+    if (obj.hooks.length > 0) {
+      if (typeof targets.hooks !== 'string' || targets.hooks.length === 0) {
+        throw new ManifestValidationError('Field "targets.hooks" must be a non-empty string when hooks are defined');
+      }
+    }
+  }
+
   return raw as Manifest;
 }

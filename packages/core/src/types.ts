@@ -6,6 +6,8 @@ export interface Manifest {
   instructions?: InstructionEntry[];
   skills?: SkillEntry[];
   toolsets?: ToolsetsConfig;
+  prompts?: PromptEntry[];
+  hooks?: HookEntry[];
 }
 
 export interface AgentEntry {
@@ -17,6 +19,16 @@ export interface AgentEntry {
 }
 
 export interface InstructionEntry {
+  id: string;
+  file: string;
+}
+
+export interface PromptEntry {
+  id: string;
+  file: string;
+}
+
+export interface HookEntry {
   id: string;
   file: string;
 }
@@ -33,11 +45,12 @@ export interface ToolsetsConfig {
 export interface TargetPaths {
   prompts: string;
   skills: string;
+  hooks?: string;
 }
 
 export type FileState = 'synced' | 'modified' | 'missing-locally' | 'missing-from-repo' | 'untracked';
 
-export type FileType = 'agent' | 'instruction' | 'skill' | 'toolset';
+export type FileType = 'agent' | 'instruction' | 'skill' | 'toolset' | 'prompt' | 'hook';
 
 export interface FileStatus {
   path: string;
@@ -85,5 +98,7 @@ export interface StatusResult {
   instructions: FileStatus[];
   skills: FileStatus[];
   toolsets: FileStatus[];
+  prompts: FileStatus[];
+  hooks: FileStatus[];
   syncState: 'synced' | 'out-of-sync';
 }

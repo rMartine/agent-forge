@@ -20,6 +20,7 @@ export async function restore(repoPath: string): Promise<RestoreResult> {
   const manifest = await loadManifest(repoPath);
   const promptsTarget = resolveTargetPath(manifest.targets.prompts);
   const skillsTarget = resolveTargetPath(manifest.targets.skills);
+  const hooksTarget = manifest.targets.hooks ? resolveTargetPath(manifest.targets.hooks) : undefined;
   const git = simpleGit(repoPath);
 
   // Verify repo has commits
@@ -123,6 +124,18 @@ export async function restore(repoPath: string): Promise<RestoreResult> {
       restored++;
     } catch (err: unknown) {
       errors.push({ path: skill.dir, message: (err as Error).message });
+    }
+  }
+
+  // Restore prompts
+  for (const prompt of manifest.prompts ?? []) {
+    await restoreSingleFile(prompt.file, promptsTarget, 'prompt');
+  }
+
+  // Restore hooks
+  if (hooksTarget) {
+    for (const hook of manifest.hooks ?? []) {
+      await restoreSingleFile(hook.file, hooksTarget, 'hook');
     }
   }
 

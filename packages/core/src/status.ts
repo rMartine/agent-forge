@@ -73,11 +73,14 @@ export async function status(repoPath: string): Promise<StatusResult> {
   const manifest = await loadManifest(repoPath);
   const promptsTarget = resolveTargetPath(manifest.targets.prompts);
   const skillsTarget = resolveTargetPath(manifest.targets.skills);
+  const hooksTarget = manifest.targets.hooks ? resolveTargetPath(manifest.targets.hooks) : undefined;
 
   const agents: FileStatus[] = [];
   const instructions: FileStatus[] = [];
   const skills: FileStatus[] = [];
   const toolsets: FileStatus[] = [];
+  const prompts: FileStatus[] = [];
+  const hooks: FileStatus[] = [];
 
   // --- Managed files --------------------------------------------------
 
@@ -137,12 +140,27 @@ export async function status(repoPath: string): Promise<StatusResult> {
     }
   }
 
+  const managedPromptNames = new Set<string>();
+  for (const prompt of manifest.prompts ?? []) {
+    managedPromptNames.add(path.basename(prompt.file));
+    prompts.push(await getFileStatus(repoPath, prompt.file, promptsTarget, 'prompt'));
+  }
+
+  const managedHookNames = new Set<string>();
+  if (hooksTarget) {
+    for (const hook of manifest.hooks ?? []) {
+      managedHookNames.add(path.basename(hook.file));
+      hooks.push(await getFileStatus(repoPath, hook.file, hooksTarget, 'hook'));
+    }
+  }
+
   // --- Untracked detection --------------------------------------------
 
   const allManagedPromptNames = new Set([
     ...managedAgentNames,
     ...managedInstructionNames,
     ...managedToolsetNames,
+    ...managedPromptNames,
   ]);
 
   agents.push(
@@ -158,6 +176,18 @@ export async function status(repoPath: string): Promise<StatusResult> {
       /\.toolsets\.jsonc$/,
     ])),
   );
+  prompts.push(
+    ...(await scanForUntracked(promptsTarget, allManagedPromptNames, 'prompt', [
+      /\.prompt\.md$/,
+    ])),
+  );
+
+  // Scan for untracked hook files
+  if (hooksTarget) {
+    hooks.push(
+      ...(await scanForUntracked(hooksTarget, managedHookNames, 'hook', [/\.json$/])),
+    );
+  }
 
   // Scan for untracked skill directories
   try {
@@ -176,8 +206,8 @@ export async function status(repoPath: string): Promise<StatusResult> {
 
   // --- Overall state --------------------------------------------------
 
-  const allStatuses = [...agents, ...instructions, ...skills, ...toolsets];
+  const allStatuses = [...agents, ...instructions, ...skills, ...toolsets, ...prompts, ...hooks];
   const syncState = allStatuses.every(s => s.state === 'synced') ? 'synced' : 'out-of-sync';
 
-  return { agents, instructions, skills, toolsets, syncState };
+  return { agents, instructions, skills, toolsets, prompts, hooks, syncState };
 }

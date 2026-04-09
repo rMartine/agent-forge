@@ -8,7 +8,8 @@
   // Deployment target paths (Windows environment variables expanded at runtime).
   "targets": {
     "prompts": "%APPDATA%/Code/User/prompts",
-    "skills": "%USERPROFILE%/.copilot/skills"
+    "skills": "%USERPROFILE%/.copilot/skills",
+    "hooks": "%USERPROFILE%/.copilot/hooks"
   },
 
   // ── Agents ──────────────────────────────────────────────────────────
@@ -62,5 +63,11 @@
   // ── Toolsets ────────────────────────────────────────────────────────
   "toolsets": {
     "file": "config/common.toolsets.jsonc"
-  }
+  },
+
+  // ── Prompts ─────────────────────────────────────────────────────────
+  "prompts": [],
+
+  // ── Hooks ───────────────────────────────────────────────────────────
+  "hooks": []
 }

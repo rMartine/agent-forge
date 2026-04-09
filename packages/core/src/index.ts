@@ -3,6 +3,8 @@ export type {
   Manifest,
   AgentEntry,
   InstructionEntry,
+  PromptEntry,
+  HookEntry,
   SkillEntry,
   ToolsetsConfig,
   TargetPaths,

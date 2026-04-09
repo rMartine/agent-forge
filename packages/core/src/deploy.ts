@@ -34,6 +34,7 @@ export async function deploy(repoPath: string): Promise<DeployResult> {
   const manifest = await loadManifest(repoPath);
   const promptsTarget = resolveTargetPath(manifest.targets.prompts);
   const skillsTarget = resolveTargetPath(manifest.targets.skills);
+  const hooksTarget = manifest.targets.hooks ? resolveTargetPath(manifest.targets.hooks) : undefined;
 
   const details: FileOperationDetail[] = [];
   const errors: OperationError[] = [];
@@ -111,6 +112,18 @@ export async function deploy(repoPath: string): Promise<DeployResult> {
     } catch (err: unknown) {
       errors.push({ path: skill.dir, message: (err as Error).message });
       failed++;
+    }
+  }
+
+  // Prompts
+  for (const prompt of manifest.prompts ?? []) {
+    await deploySingleFile(prompt.file, promptsTarget, 'prompt');
+  }
+
+  // Hooks
+  if (hooksTarget) {
+    for (const hook of manifest.hooks ?? []) {
+      await deploySingleFile(hook.file, hooksTarget, 'hook');
     }
   }
 

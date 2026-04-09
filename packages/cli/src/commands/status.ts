@@ -19,6 +19,8 @@ export function registerStatus(program: Command): void {
           { label: 'Instructions', items: result.instructions },
           { label: 'Skills', items: result.skills },
           { label: 'Toolsets', items: result.toolsets },
+          { label: 'Prompts', items: result.prompts },
+          { label: 'Hooks', items: result.hooks },
         ];
 
         for (const section of sections) {
