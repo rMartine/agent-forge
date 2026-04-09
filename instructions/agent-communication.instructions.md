@@ -8,21 +8,22 @@ description: "Use when: delegating work to other agents, receiving delegated wor
 
 When a task is ambiguous or underspecified, ask **one focused clarifying question** before proceeding. Do not guess at requirements — a wrong assumption wastes more time than a question.
 
-- **User-invocable agents**: Use the `ask` tool to present structured questions with selectable options when choices are finite. Reserve free-text questions for open-ended clarification only.
-- **Hidden agents** (`user-invocable: false`): You do NOT have the `ask` tool. See "Clarification Escalation" below.
+- Use the `ask` tool to present structured questions with selectable options when choices are finite. Reserve free-text questions for open-ended clarification only.
+- **Prefer reasonable defaults** — if you can make a sensible choice and note the assumption (e.g., "Assumed REST over GraphQL — change if needed"), do that instead of interrupting the user.
+- **Use `ask` directly** for blocking questions you cannot resolve from context or codebase inspection.
+- **Escalate to parent** when the decision requires orchestration context that only the parent has (scope changes, cross-domain coordination, release approval).
 
 ## Clarification Escalation
 
-Hidden agents cannot prompt the user directly. When a hidden agent encounters **blocking ambiguity** that it cannot resolve from context, codebase inspection, or reasonable defaults:
+When a sub-agent encounters a decision that requires its **parent's orchestration context** (not just a factual answer):
 
-1. **Return to your parent** via `handoffs` — do not stall or guess blindly.
-2. **Include in your handoff**:
+1. **Return to your parent** via `handoffs` with:
    - What you were trying to do
-   - The specific question that needs a user answer
-   - What you will do with each possible answer (so the parent can present options)
-3. **The parent agent** uses `ask` to get the user's answer, then re-delegates with the answer included in context.
+   - The specific question that needs resolution
+   - What you will do with each possible answer
+2. **The parent agent** resolves (from its own context or by asking the user), then re-delegates with the answer.
 
-**Prefer defaults over escalation.** If you can make a reasonable choice and note the assumption (e.g., "Assumed REST over GraphQL — change if needed"), do that instead of interrupting the user. Only escalate for decisions that would be costly to reverse: data model choices, public API contracts, technology selections, or scope questions.
+Only escalate for decisions that would be costly to reverse: data model choices, public API contracts, technology selections, or scope questions. For everything else, decide and note the assumption.
 
 ## Context Window Awareness
 

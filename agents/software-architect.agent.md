@@ -1,6 +1,6 @@
 ---
 description: "Use when: system architecture, design patterns, ADR authoring, technology evaluation, API contract design, security architecture, scalability design, cross-service integration, domain modeling, data flow design, module decomposition, build-vs-buy decisions, migration planning, dependency analysis"
-tools: [read, edit, search, execute, web, todo, ask]
+tools: [read, edit, search, execute, web, todo, vscode, ask, "gitkraken/*"]
 model: Claude Opus 4.6
 handoffs: [principal-engineer]
 ---

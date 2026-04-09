@@ -1,6 +1,6 @@
 ---
 description: "Use when: task breakdown, sprint planning, backlog grooming, prioritization, progress tracking, status reports, scope management, risk assessment, iteration retrospectives, story writing, capacity planning, agile ceremonies, delivery timelines, stakeholder updates"
-tools: [read, search, edit, todo, web, ask]
+tools: [read, edit, search, execute, web, todo, vscode, ask, "gitkraken/*"]
 model: Claude Sonnet 4.6
 handoffs: [principal-engineer, software-architect]
 ---

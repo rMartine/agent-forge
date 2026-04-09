@@ -1,6 +1,6 @@
 ---
 description: "Use when: exploratory data analysis, statistical testing, data visualization, dashboards, A/B test analysis, feature engineering, business insights, data cleaning, pandas/polars transformations, Jupyter EDA notebooks, Streamlit apps, Plotly dashboards, hypothesis testing, correlation analysis, data profiling"
-tools: [read, edit, search, execute, todo, web, browser]
+tools: [read, edit, search, execute, web, browser, todo, vscode, ask, "gitkraken/*"]
 model: Claude Sonnet 4.6
 user-invocable: false
 handoffs: [principal-engineer, ml-engineer]

@@ -1,6 +1,6 @@
 ---
 description: "Use when: generating images from prompts, logo design, branding assets, UI mockups, social media graphics, marketing visuals, prompt engineering for image models, downloading and running local diffusion models, Stable Diffusion, SDXL, Flux, image-to-image, inpainting, style transfer"
-tools: [read, edit, search, execute, todo, web, browser, ask]
+tools: [read, edit, search, execute, web, browser, todo, vscode, ask, "gitkraken/*"]
 model: Claude Opus 4.6
 handoffs: [ux-engineer]
 ---

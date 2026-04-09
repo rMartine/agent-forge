@@ -1,6 +1,6 @@
 ---
 description: "Use when: building Next.js pages, creating React components, styling with Tailwind and design tokens, writing server actions, data fetching in frontend, i18n, forms, shared UI components, frontend bug fixes, layout and routing changes"
-tools: [read, edit, search, execute, todo, web, browser]
+tools: [read, edit, search, execute, web, browser, todo, vscode, ask, "gitkraken/*"]
 model: Claude Sonnet 4.6
 user-invocable: false
 handoffs: [principal-engineer]

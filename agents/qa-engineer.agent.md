@@ -1,6 +1,6 @@
 ---
 description: "Use when: writing unit tests, integration tests, E2E tests, test-driven development, verifying bug fixes, regression testing, test coverage analysis, asserting API contracts, validating UI behavior, running test suites, reviewing test quality"
-tools: [read, edit, search, execute, todo, web, browser, ask]
+tools: [read, edit, search, execute, web, browser, todo, vscode, ask, "gitkraken/*"]
 model: Claude Sonnet 4.6
 handoffs: [principal-engineer]
 ---

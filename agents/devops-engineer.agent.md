@@ -1,6 +1,6 @@
 ---
 description: "Use when: writing Dockerfiles, docker-compose configs, deployment scripts, DigitalOcean infrastructure, environment configuration, container orchestration, reverse proxies, SSL certs, health checks, log aggregation, monitoring setup, infrastructure troubleshooting"
-tools: [read, edit, search, execute, todo, web, "com_digitaloc/*", "com_docker_do/*", "gitkraken/*", "com_github_gi/*"]
+tools: [read, edit, search, execute, web, todo, vscode, ask, "gitkraken/*", "com_digitaloc/*", "com_docker_do/*", "com_github_gi/*"]
 model: Claude Sonnet 4.6
 user-invocable: false
 handoffs: [principal-engineer]

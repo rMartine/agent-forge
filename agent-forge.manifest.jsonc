@@ -47,6 +47,8 @@
   // ── Instructions ────────────────────────────────────────────────────
   "instructions": [
     { "id": "agent-communication",     "file": "instructions/agent-communication.instructions.md" },
+    { "id": "agent-self-governance",   "file": "instructions/agent-self-governance.instructions.md" },
+    { "id": "git-workflow",            "file": "instructions/git-workflow.instructions.md" },
     { "id": "knowledge-base-protocol", "file": "instructions/knowledge-base-protocol.instructions.md" },
     { "id": "project-conventions",     "file": "instructions/project-conventions.instructions.md" }
   ],

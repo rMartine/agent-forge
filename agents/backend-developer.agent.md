@@ -1,6 +1,6 @@
 ---
 description: "Use when: implementing API endpoints, writing background workers, adding job queues, creating GraphQL types, writing API tests, backend bug fixes, adding queries or mutations, worker handler logic, shared contract schemas, Zod validation schemas, REST or GraphQL API development"
-tools: [read, edit, search, execute, todo, web]
+tools: [read, edit, search, execute, web, todo, vscode, ask, "gitkraken/*"]
 model: Claude Sonnet 4.6
 user-invocable: false
 handoffs: [principal-engineer]

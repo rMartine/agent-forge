@@ -1,6 +1,6 @@
 ---
 description: "Use when: training ML models, fine-tuning LLMs, data preprocessing, feature engineering, building inference APIs, Hugging Face pipelines, LangChain agents, Ollama local models, ONNX export, scikit-learn pipelines, PyTorch training loops, TensorFlow models, Jupyter notebooks, AI agent orchestration, prompt engineering, RAG pipelines, embeddings, vector stores"
-tools: [read, edit, search, execute, todo, web]
+tools: [read, edit, search, execute, web, todo, vscode, ask, "gitkraken/*"]
 model: Claude Opus 4.6
 user-invocable: false
 handoffs: [principal-engineer]

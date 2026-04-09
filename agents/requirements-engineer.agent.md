@@ -1,6 +1,6 @@
 ---
 description: "Use when: gathering product requirements, interviewing stakeholders, writing user stories, defining acceptance criteria, eliciting non-functional requirements, clarifying ambiguous features, producing requirements documents, scoping MVP features"
-tools: [read, edit, search, web, todo, ask]
+tools: [read, edit, search, execute, web, todo, vscode, ask, "gitkraken/*"]
 model: Claude Opus 4.6
 handoffs: [creative-director, software-architect, project-manager]
 ---

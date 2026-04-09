@@ -1,6 +1,6 @@
 ---
 description: "Use when: design systems, component specs, accessibility audits, WCAG compliance, ARIA patterns, interaction design, animations, motion design, UI prototyping, wireframes, design tokens, color systems, typography scales, spacing systems, usability review, responsive design patterns, user research synthesis"
-tools: [read, edit, search, todo, web, browser, ask]
+tools: [read, edit, search, execute, web, browser, todo, vscode, ask, "gitkraken/*"]
 model: Claude Sonnet 4.6
 handoffs: [principal-engineer, frontend-developer, mobile-engineer, dotnet-engineer]
 ---

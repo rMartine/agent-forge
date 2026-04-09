@@ -1,34 +1,33 @@
 {
-	"coding": {
+	"universal": {
 		"tools": [
 			"read",
 			"edit",
 			"search",
 			"execute",
-			"todo"
+			"web",
+			"todo",
+			"vscode",
+			"ask",
+			"gitkraken/*"
 		],
-		"description": "Standard toolset for agents that read, write, and execute code",
-		"icon": "code"
+		"description": "Full built-in toolset plus GitKraken — assigned to every agent",
+		"icon": "tools"
 	},
-	"design": {
+	"orchestrator": {
 		"tools": [
 			"read",
 			"edit",
 			"search",
+			"execute",
 			"web",
-			"todo"
+			"todo",
+			"vscode",
+			"ask",
+			"agent",
+			"gitkraken/*"
 		],
-		"description": "Toolset for design and planning agents — no terminal execution",
-		"icon": "lightbulb"
-	},
-	"readonly": {
-		"tools": [
-			"read",
-			"search",
-			"web",
-			"todo"
-		],
-		"description": "Read-only toolset for research and analysis agents",
-		"icon": "search"
+		"description": "Universal + sub-agent spawning — for CTO, principal-engineer, creative-director",
+		"icon": "organization"
 	}
 }
