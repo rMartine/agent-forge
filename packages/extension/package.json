@@ -126,6 +126,11 @@
           "type": "string",
           "default": "",
           "description": "Absolute path where image generation models are stored. Defaults to ~/.agent-forge/models if empty. Used by the graphic-designer agent."
+        },
+        "agentForge.generatedAssetsPath": {
+          "type": "string",
+          "default": "",
+          "description": "Absolute path where the graphic-designer stores generated and downloaded assets (logos, stock images, mockups). Defaults to the project's generated/ folder if empty."
         }
       }
     }

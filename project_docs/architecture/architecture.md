@@ -16,6 +16,8 @@ agent-forge/
 ├── agents/                             # Agent .agent.md files
 │   ├── software-architect.agent.md
 │   ├── backend-developer.agent.md
+│   ├── desktop-app-engineer.agent.md
+│   ├── graphic-designer.agent.md
 │   └── ...
 │
 ├── instructions/                       # Instruction .instructions.md files
@@ -24,6 +26,12 @@ agent-forge/
 │
 ├── skills/                             # Skill directories (each contains SKILL.md + assets)
 │   ├── query-knowledge-base/
+│   │   └── SKILL.md
+│   ├── scaffold-project/
+│   │   └── SKILL.md
+│   ├── generate-logo/
+│   │   └── SKILL.md
+│   ├── search-stock-images/
 │   │   └── SKILL.md
 │   └── ...
 │
@@ -43,14 +51,16 @@ agent-forge/
 │   │       ├── status.ts
 │   │       ├── hash.ts
 │   │       ├── types.ts
-│   │       └── errors.ts
+│   │       ├── errors.ts
+│   │       └── imageModel.ts
 │   │
 │   ├── extension/                      # VS Code extension
 │   │   ├── package.json                # Extension manifest (contributes, activationEvents)
 │   │   ├── tsconfig.json
 │   │   └── src/
 │   │       ├── extension.ts
-│   │       └── commands.ts
+│   │       ├── commands.ts
+│   │       └── rosterTreeView.ts
 │   │
 │   └── cli/                            # CLI tool
 │       ├── package.json                # bin entry: "agent-forge"
@@ -62,6 +72,10 @@ agent-forge/
 │               ├── restore.ts
 │               ├── wipe.ts
 │               └── status.ts
+│
+├── generated/                          # Generated/downloaded assets (gitignored images)
+│   └── logo/
+│       └── generate_logo.py
 │
 ├── scripts/
 │   ├── install.ps1                     # Build + install extension + CLI
@@ -285,6 +299,8 @@ The extension is a thin wrapper around `@agent-forge/core`. It handles VS Code-s
 |---------|------|---------|-------------|
 | `agentForge.repoPath` | string | `""` | Absolute path to the roster Git repository |
 | `agentForge.autoConfirm` | boolean | `false` | Skip confirmation for destructive operations |
+| `agentForge.imageModelStoragePath` | string | `""` | Where image generation models are stored (default: `~/.agent-forge/models`) |
+| `agentForge.generatedAssetsPath` | string | `""` | Where the graphic-designer saves generated/downloaded assets (default: project `generated/` folder) |
 
 ### `commands.ts` — Command Handlers
 
