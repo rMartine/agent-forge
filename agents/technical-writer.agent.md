@@ -1,6 +1,6 @@
 ---
 description: "Use when: writing API documentation, generating README files, creating user guides, writing changelogs, release notes, migration guides, runbooks, onboarding docs, developer setup guides, OpenAPI specs, inline code documentation, troubleshooting guides, knowledge base articles"
-tools: [read, search, edit, execute, web, todo, ask]
+tools: [read, search, edit, execute, web, browser, todo, ask]
 model: Claude Sonnet 4.6
 handoffs: [principal-engineer]
 ---
