@@ -37,6 +37,26 @@ if (-not $code) {
     $skipVSIX = $false
 }
 
+# Optional: Python + PyTorch (for image generation)
+$python = Get-Command python -ErrorAction SilentlyContinue
+if ($python) {
+    $pyVersion = python --version 2>&1
+    Write-Host "  Python:  $pyVersion" -ForegroundColor Green
+    try {
+        python -c "import torch" 2>$null
+        if ($LASTEXITCODE -eq 0) {
+            $torchInfo = python -c "import torch; print(f'PyTorch {torch.__version__}, CUDA={torch.cuda.is_available()}')" 2>&1
+            Write-Host "  PyTorch: $torchInfo" -ForegroundColor Green
+        } else {
+            Write-Warning "PyTorch not installed. Image generation requires: pip install torch torchvision --index-url https://download.pytorch.org/whl/cu118"
+        }
+    } catch {
+        Write-Warning "PyTorch not installed. Image generation requires: pip install torch torchvision --index-url https://download.pytorch.org/whl/cu118"
+    }
+} else {
+    Write-Warning "Python not found. Image generation features require Python 3.11+ with PyTorch."
+}
+
 Write-Host ""
 
 # --- Install & Build -------------------------------------------------
@@ -81,6 +101,15 @@ try {
         }
     }
 
+    # --- Create model storage directory --------------------------------
+    $modelsDir = Join-Path $env:USERPROFILE ".agent-forge\models"
+    if (-not (Test-Path $modelsDir)) {
+        New-Item -ItemType Directory -Path $modelsDir -Force | Out-Null
+        Write-Host "  Created model storage: $modelsDir" -ForegroundColor Green
+    } else {
+        Write-Host "  Model storage exists: $modelsDir" -ForegroundColor Green
+    }
+
     # --- Set up CLI -----------------------------------------------------
     Write-Host "Setting up CLI..." -ForegroundColor Yellow
     $binDir = Join-Path $env:USERPROFILE ".agent-forge\bin"
@@ -109,7 +138,15 @@ Write-Host ""
 Write-Host "=== Installation Complete ===" -ForegroundColor Cyan
 Write-Host "  Extension: $(if ($skipVSIX) { 'skipped (no VS Code CLI)' } else { 'installed' })"
 Write-Host "  CLI:       $binDir"
+Write-Host "  Models:    $modelsDir"
 Write-Host ""
-Write-Host "Usage:"
+Write-Host "Usage:" -ForegroundColor Yellow
 Write-Host "  VS Code:  Open Command Palette > 'Agent Forge: Deploy'"
 Write-Host "  CLI:      agent-forge deploy --repo `"$RepoRoot`""
+Write-Host ""
+Write-Host "Image Generation:" -ForegroundColor Yellow
+Write-Host "  Run 'Agent Forge: Select Image Model' from the command palette to"
+Write-Host "  detect your GPU and download the appropriate model."
+Write-Host "  Models are stored in: $modelsDir"
+Write-Host "  Configure via: agentForge.imageModelStoragePath setting"
+Write-Host "  Assets saved to: agentForge.generatedAssetsPath setting (default: project generated/ folder)"
