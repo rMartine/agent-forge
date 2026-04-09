@@ -121,6 +121,11 @@
           "type": "boolean",
           "default": false,
           "description": "Skip confirmation for destructive operations"
+        },
+        "agentForge.imageModelStoragePath": {
+          "type": "string",
+          "default": "",
+          "description": "Absolute path where image generation models are stored. Defaults to ~/.agent-forge/models if empty. Used by the graphic-designer agent."
         }
       }
     }

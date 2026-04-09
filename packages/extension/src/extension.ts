@@ -1,4 +1,5 @@
 import * as fs from 'node:fs';
+import * as os from 'node:os';
 import * as path from 'node:path';
 import * as vscode from 'vscode';
 import { handleDeploy, handleRestore, handleWipe, handleStatus, resolveRepoPath } from './commands';
@@ -9,6 +10,13 @@ let outputChannel: vscode.OutputChannel;
 
 function getConfiguredRepoPath(): string | undefined {
   return vscode.workspace.getConfiguration('agentForge').get<string>('repoPath') || undefined;
+}
+
+function getModelStoragePath(): string {
+  const configured = vscode.workspace.getConfiguration('agentForge').get<string>('imageModelStoragePath');
+  if (configured) { return configured; }
+  const home = process.env.USERPROFILE || process.env.HOME || os.homedir();
+  return path.join(home, '.agent-forge', 'models');
 }
 
 function updateRepoContext(): void {
@@ -210,6 +218,12 @@ async function runImageModelSelection(output: vscode.OutputChannel): Promise<voi
     return;
   }
 
+  const storagePath = getModelStoragePath();
+  if (!fs.existsSync(storagePath)) {
+    fs.mkdirSync(storagePath, { recursive: true });
+  }
+
+  output.appendLine(`[Image Model] Model storage: ${storagePath}`);
   output.appendLine('[Image Model] Detecting hardware…');
   const hw = detectHardware();
   output.appendLine(`[Image Model] GPU: ${hw.gpu ?? 'none'}, VRAM: ${hw.vramMB} MB, RAM: ${hw.ramMB} MB`);
@@ -295,7 +309,7 @@ async function runImageModelSelection(output: vscode.OutputChannel): Promise<voi
       });
     }
 
-    // Download model to HuggingFace cache
+    // Download model to configured storage path
     await vscode.window.withProgress(
       {
         location: vscode.ProgressLocation.Notification,
@@ -305,7 +319,10 @@ async function runImageModelSelection(output: vscode.OutputChannel): Promise<voi
       () =>
         new Promise<void>((resolve, reject) => {
           const script = `from diffusers import ${pipelineClass}; ${pipelineClass}.from_pretrained('${model}')`;
-          cp.execFile('python', ['-c', script], { timeout: 600_000 }, (err) => {
+          cp.execFile('python', ['-c', script], {
+            timeout: 600_000,
+            env: { ...process.env, HF_HOME: storagePath },
+          }, (err) => {
             if (err) {
               reject(err);
             } else {

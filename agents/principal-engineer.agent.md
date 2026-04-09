@@ -1,7 +1,7 @@
 ---
 description: "Use when: code quality enforcement, technical strategy, tech debt triage, refactoring guidance, convention enforcement, implementation orchestration, delegating tasks to specialist agents, code review, cross-cutting concern implementation, team coordination"
 tools: [read, edit, search, execute, web, todo, vscode, ask, agent, "gitkraken/*"]
-agents: [backend-developer, frontend-developer, mobile-engineer, dotnet-engineer, database-engineer, devops-engineer, qa-engineer, ml-engineer, data-scientist]
+agents: [backend-developer, frontend-developer, mobile-engineer, dotnet-engineer, desktop-app-engineer, database-engineer, devops-engineer, qa-engineer, ml-engineer, data-scientist]
 model: Claude Opus 4.6
 ---
 
