@@ -19,7 +19,9 @@ The roster manifest is the central registry file that describes every managed ar
 - [ ] Given the manifest lists an instruction, then the instruction entry includes: `id` (unique string), `file` (path in repo)
 - [ ] Given the manifest lists a skill, then the skill entry includes: `id` (unique string), `dir` (directory path in repo)
 - [ ] Given the manifest lists a toolsets config, then the toolsets entry includes: `file` (path in repo)
-- [ ] Given the manifest defines `targets`, then each target maps a type (prompts, skills) to an OS-specific absolute path with environment variable support (e.g., `%APPDATA%`)
+- [ ] Given the manifest lists a prompt, then the prompt entry includes: `id` (unique string), `file` (path in repo)
+- [ ] Given the manifest lists a hook, then the hook entry includes: `id` (unique string), `file` (path in repo)
+- [ ] Given the manifest defines `targets`, then each target maps a type (prompts, skills, hooks) to an OS-specific absolute path with environment variable support (e.g., `%APPDATA%`)
 - [ ] Given the manifest includes a `version` field, then the version follows semver and is used for compatibility checking
 - [ ] Given the manifest includes an `editor` field, then it specifies which editor this manifest targets (e.g., `"vscode"`)
 
@@ -36,7 +38,8 @@ The roster manifest is the central registry file that describes every managed ar
   // Deployment target paths (OS-specific, supports env vars)
   "targets": {
     "prompts": "%APPDATA%/Code/User/prompts",
-    "skills": "%USERPROFILE%/.copilot/skills"
+    "skills": "%USERPROFILE%/.copilot/skills",
+    "hooks": "%USERPROFILE%/.copilot/hooks"
   },
 
   // Agent definitions
@@ -69,7 +72,23 @@ The roster manifest is the central registry file that describes every managed ar
   // Toolset configuration
   "toolsets": {
     "file": "config/common.toolsets.jsonc"
-  }
+  },
+
+  // Prompt definitions (reusable slash commands)
+  "prompts": [
+    {
+      "id": "my-slash-command",
+      "file": "prompts/my-slash-command.prompt.md"
+    }
+  ],
+
+  // Hook definitions (lifecycle event configs)
+  "hooks": [
+    {
+      "id": "pre-tool-use",
+      "file": "hooks/pre-tool-use.json"
+    }
+  ]
 }
 ```
 

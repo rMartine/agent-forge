@@ -1,0 +1,23 @@
+services:
+  postgres:
+    image: postgres:16-alpine
+    container_name: agent-forge-kb
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB: knowledge
+      POSTGRES_USER: knowledge_admin
+      POSTGRES_PASSWORD: ${KB_POSTGRES_PASSWORD:-agent-forge-kb-dev}
+    ports:
+      - "5433:5432"
+    volumes:
+      - agent-forge-kb-data:/var/lib/postgresql/data
+      - ./init:/docker-entrypoint-initdb.d:ro
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U knowledge_admin -d knowledge"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 10s
+
+volumes:
+  agent-forge-kb-data:

@@ -3,3 +3,8 @@ dist/
 out/
 *.vsix
 .DS_Store
+
+# Generated image outputs (scripts are committed, outputs are not)
+generated/**/*.png
+generated/**/*.jpg
+generated/**/*.webp

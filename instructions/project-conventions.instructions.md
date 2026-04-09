@@ -6,6 +6,8 @@ description: "Use when: scaffolding projects, creating files, configuring builds
 
 ## Tech Stack Defaults
 
+> **Note:** These are defaults for web application projects. Adapt them to the actual project type. For VS Code extensions, desktop apps, CLIs, or other non-web projects, ignore web-specific defaults (Next.js, React, Tailwind, ORM, etc.) and use the conventions appropriate for that platform.
+
 - **Web**: TypeScript, Next.js (App Router), React, Node.js, Tailwind CSS
 - **Database**: PostgreSQL with PostGIS and PGVector extensions — always
 - **ORM**: Drizzle ORM (preferred), Prisma as fallback

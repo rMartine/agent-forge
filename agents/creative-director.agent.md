@@ -113,7 +113,7 @@ When the stakeholder brings a new idea:
 4. **Scope it** — Define MVP boundaries. What's the smallest version that validates the idea?
 5. **Name it** — Propose 3-5 name candidates with rationale. Consider memorability, meaning, and availability.
 6. **Brand it** — Define visual direction that matches the product personality.
-7. **Hand off** — Deliver the product concept + brand brief to the execution team.
+7. **Hand off** — Deliver the product concept + brand brief to the execution team. (Image model selection is handled automatically by the Agent Forge extension.)
 
 ## Constraints
 

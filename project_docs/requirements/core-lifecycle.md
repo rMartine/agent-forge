@@ -103,6 +103,6 @@ Agent Forge provides four core lifecycle operations that manage the sync between
 
 ## Open Questions
 
-- **OQ-LIFECYCLE-1**: Should `deploy` also clean up files that are locally present but no longer in the manifest? (i.e., should deploy be declarative, making local match repo exactly, or additive, only adding/updating?)
+- ~~**OQ-LIFECYCLE-1**: Should `deploy` also clean up files that are locally present but no longer in the manifest?~~ **Resolved** — ADR-008: Additive deploy. Deploy only adds/updates; it does not delete removed entries. Use `wipe` + `deploy` for a clean slate.
 - **OQ-LIFECYCLE-2**: Should `restore` use the last Git commit, or should there be a concept of "snapshots" / tagged versions the user can restore to?
-- **OQ-LIFECYCLE-3**: For `status`, should content diffing use file hash comparison, timestamp comparison, or both?
+- ~~**OQ-LIFECYCLE-3**: For `status`, should content diffing use file hash comparison, timestamp comparison, or both?~~ **Resolved** — ADR-003: SHA-256 content hashing. No timestamp comparison. Deployment uses a snapshot of the manifest at operation start; manifest changes during an active operation require a re-deploy.

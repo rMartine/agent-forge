@@ -25,6 +25,9 @@ Agent Forge exposes all operations through two interfaces: a VS Code extension (
 - [ ] Given `Wipe` is invoked, then a modal confirmation dialog is shown before proceeding
 - [ ] Given `Restore` is invoked, then a modal confirmation dialog is shown before proceeding
 - [ ] Given `Status` completes, then results are displayed in a VS Code output channel named "Agent Forge"
+- [ ] Given the extension is installed, then a tree view named "Agent Forge Roster" is registered in the Explorer sidebar, showing managed artifacts grouped by type (Agents, Instructions, Skills, Toolsets, Prompts, Hooks)
+- [ ] Given the tree view is visible and a repo path is configured, when the user clicks an artifact entry, then the corresponding file opens in the editor
+- [ ] Given the tree view is visible, when the user invokes `Agent Forge: Refresh` (via palette or tree view toolbar), then the tree view re-reads status from the repo and updates
 
 #### Edge Cases
 

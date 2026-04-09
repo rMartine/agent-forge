@@ -29,5 +29,21 @@
 		],
 		"description": "Universal + sub-agent spawning — for CTO, principal-engineer, creative-director",
 		"icon": "organization"
+	},
+	"browser-capable": {
+		"tools": [
+			"read",
+			"edit",
+			"search",
+			"execute",
+			"web",
+			"todo",
+			"vscode",
+			"ask",
+			"browser",
+			"gitkraken/*"
+		],
+		"description": "Universal + browser — for agents needing web preview and testing capabilities",
+		"icon": "globe"
 	}
 }
