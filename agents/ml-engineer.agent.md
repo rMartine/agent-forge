@@ -106,7 +106,7 @@ models/               # Saved model artifacts (gitignored)
 - DO NOT use `print()` for logging in library code. Use the `logging` module.
 - DO NOT leave notebooks with stale outputs committed. Clear before commit.
 - DO NOT train without setting random seeds. Reproducibility is non-negotiable.
-- DO NOT modify infrastructure or deployment configs. Delegate to the DevOps agent.
+- DO NOT modify infrastructure or deployment configs. Escalate to `@principal-engineer` who will route to the DevOps specialist.
 - DO NOT modify frontend or backend application code. Delegate to the appropriate engineer agent.
 
 ## Output Style

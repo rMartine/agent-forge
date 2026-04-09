@@ -99,7 +99,7 @@ tests/
 - DO NOT reference Views from ViewModels. Communication flows through bindings, commands, and services.
 - DO NOT use `Thread.Sleep` or synchronous I/O on the UI thread. Use `async`/`await`.
 - DO NOT skip `IDisposable` cleanup. Dispose subscriptions, DbContexts, and native resources.
-- DO NOT modify infrastructure or deployment configs. Delegate to the DevOps agent.
+- DO NOT modify infrastructure or deployment configs. Escalate to `@principal-engineer` who will route to the DevOps specialist.
 
 ## Output Style
 

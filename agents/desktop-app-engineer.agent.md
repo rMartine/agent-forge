@@ -155,7 +155,7 @@ pyproject.toml
 - DO NOT block the UI thread. Use async patterns, worker threads, or message passing.
 - DO NOT skip error handling. Every `Result` must be handled; every exception caught at boundaries.
 - DO NOT hardcode paths. Use platform-appropriate directories (`QStandardPaths`, `dirs` crate, `platformdirs`).
-- DO NOT modify infrastructure or deployment configs. Delegate to the DevOps agent.
+- DO NOT modify infrastructure or deployment configs. Escalate to `@principal-engineer` who will route to the DevOps specialist.
 
 ## Output Style
 
