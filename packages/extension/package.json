@@ -13,24 +13,89 @@
   "activationEvents": [],
   "main": "./out/extension.js",
   "contributes": {
+    "viewsContainers": {
+      "activitybar": [
+        {
+          "id": "agent-forge",
+          "title": "Agent Forge",
+          "icon": "media/agent-forge.svg"
+        }
+      ]
+    },
+    "views": {
+      "agent-forge": [
+        {
+          "id": "agentForge.roster",
+          "name": "Roster",
+          "when": "agentForge.repoConfigured"
+        },
+        {
+          "id": "agentForge.roster.welcome",
+          "name": "Agent Forge",
+          "when": "!agentForge.repoConfigured"
+        }
+      ]
+    },
+    "viewsWelcome": [
+      {
+        "view": "agentForge.roster.welcome",
+        "contents": "No Agent Forge repository configured.\n[Set Repository Path](command:agentForge.setRepoPath)\nConfigure the path to your agent roster Git repository."
+      }
+    ],
     "commands": [
       {
         "command": "agentForge.deploy",
-        "title": "Agent Forge: Deploy"
+        "title": "Deploy",
+        "icon": "$(cloud-upload)",
+        "category": "Agent Forge"
       },
       {
         "command": "agentForge.restore",
-        "title": "Agent Forge: Restore"
+        "title": "Restore",
+        "icon": "$(history)",
+        "category": "Agent Forge"
       },
       {
         "command": "agentForge.wipe",
-        "title": "Agent Forge: Wipe"
+        "title": "Wipe",
+        "icon": "$(trash)",
+        "category": "Agent Forge"
       },
       {
         "command": "agentForge.status",
-        "title": "Agent Forge: Status"
+        "title": "Status",
+        "icon": "$(info)",
+        "category": "Agent Forge"
+      },
+      {
+        "command": "agentForge.refresh",
+        "title": "Refresh",
+        "icon": "$(refresh)",
+        "category": "Agent Forge"
+      },
+      {
+        "command": "agentForge.setRepoPath",
+        "title": "Set Repository Path",
+        "category": "Agent Forge"
+      },
+      {
+        "command": "agentForge.openFile",
+        "title": "Open File",
+        "icon": "$(go-to-file)",
+        "category": "Agent Forge"
       }
     ],
+    "menus": {
+      "view/title": [
+        { "command": "agentForge.deploy", "when": "view == agentForge.roster", "group": "navigation@1" },
+        { "command": "agentForge.restore", "when": "view == agentForge.roster", "group": "navigation@2" },
+        { "command": "agentForge.wipe", "when": "view == agentForge.roster", "group": "navigation@3" },
+        { "command": "agentForge.refresh", "when": "view == agentForge.roster", "group": "navigation@4" }
+      ],
+      "view/item/context": [
+        { "command": "agentForge.openFile", "when": "view == agentForge.roster && viewItem == entry", "group": "inline" }
+      ]
+    },
     "configuration": {
       "title": "Agent Forge",
       "properties": {
