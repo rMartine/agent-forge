@@ -1,7 +1,7 @@
 import * as vscode from 'vscode';
 import { deploy, restore, wipe, status } from '@agent-forge/core';
 
-async function resolveRepoPath(): Promise<string | undefined> {
+export async function resolveRepoPath(): Promise<string | undefined> {
   const config = vscode.workspace.getConfiguration('agentForge');
   let repoPath = config.get<string>('repoPath');
 
