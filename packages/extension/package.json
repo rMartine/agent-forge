@@ -41,6 +41,14 @@
       {
         "view": "agentForge.roster.welcome",
         "contents": "No Agent Forge repository configured.\n[Set Repository Path](command:agentForge.setRepoPath)\nConfigure the path to your agent roster Git repository."
+      },
+      {
+        "view": "agentForge.roster.welcome",
+        "contents": "[Enable Sub-Agent Nesting](command:agentForge.enableSubAgents)\nAllow agents to invoke other agents for multi-step workflows."
+      },
+      {
+        "view": "agentForge.roster.welcome",
+        "contents": "[Open Settings](command:agentForge.openSettings)\nConfigure model storage, generated assets, and other preferences."
       }
     ],
     "commands": [
@@ -95,6 +103,12 @@
         "title": "Select Image Model",
         "icon": "$(device-camera)",
         "category": "Agent Forge"
+      },
+      {
+        "command": "agentForge.openSettings",
+        "title": "Open Settings",
+        "icon": "$(gear)",
+        "category": "Agent Forge"
       }
     ],
     "menus": {
@@ -103,7 +117,10 @@
         { "command": "agentForge.restore", "when": "view == agentForge.roster", "group": "navigation@2" },
         { "command": "agentForge.wipe", "when": "view == agentForge.roster", "group": "navigation@3" },
         { "command": "agentForge.refresh", "when": "view == agentForge.roster", "group": "navigation@4" },
-        { "command": "agentForge.selectImageModel", "when": "view == agentForge.roster", "group": "navigation@5" }
+        { "command": "agentForge.status", "when": "view == agentForge.roster", "group": "navigation@5" },
+        { "command": "agentForge.selectImageModel", "when": "view == agentForge.roster", "group": "navigation@6" },
+        { "command": "agentForge.enableSubAgents", "when": "view == agentForge.roster", "group": "1_settings@1" },
+        { "command": "agentForge.openSettings", "when": "view == agentForge.roster", "group": "1_settings@2" }
       ],
       "view/item/context": [
         { "command": "agentForge.openFile", "when": "view == agentForge.roster && viewItem == entry", "group": "inline" }

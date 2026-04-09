@@ -110,6 +110,10 @@ export async function activate(context: vscode.ExtensionContext): Promise<void> 
       runImageModelSelection(outputChannel),
     ),
 
+    vscode.commands.registerCommand('agentForge.openSettings', () => {
+      vscode.commands.executeCommand('workbench.action.openSettings', 'agentForge');
+    }),
+
     vscode.workspace.onDidChangeConfiguration((e) => {
       if (e.affectsConfiguration('agentForge.repoPath')) {
         updateRepoContext();
