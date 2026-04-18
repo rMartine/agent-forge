@@ -1,65 +1,99 @@
 #Requires -Version 5.1
 
+<#
+.SYNOPSIS
+    Remove from your VS Code / Copilot user profile the agents, instructions,
+    and skills that were deployed by install.ps1.
+
+.DESCRIPTION
+    Only files that exist in THIS repo are removed from the destination. Files
+    in the destination that don't correspond to anything in this repo are left
+    untouched.
+
+.PARAMETER DryRun
+    Show what would be removed without deleting anything.
+
+.EXAMPLE
+    .\scripts\uninstall.ps1
+    .\scripts\uninstall.ps1 -DryRun
+#>
+
+[CmdletBinding()]
+param(
+    [switch]$DryRun
+)
+
 $ErrorActionPreference = 'Stop'
 
+$RepoRoot    = Split-Path -Parent $PSScriptRoot
+$PromptsDest = Join-Path $env:APPDATA     'Code\User\prompts'
+$SkillsDest  = Join-Path $env:USERPROFILE '.copilot\skills'
+
 Write-Host "=== Agent Forge Uninstaller ===" -ForegroundColor Cyan
+Write-Host "Repository:     $RepoRoot"
+Write-Host "Prompts target: $PromptsDest"
+Write-Host "Skills target:  $SkillsDest"
+if ($DryRun) { Write-Host "Mode:           DRY RUN (no files will be removed)" -ForegroundColor Yellow }
 Write-Host ""
 
-# --- Uninstall VS Code extension ------------------------------------
-$code = Get-Command code -ErrorAction SilentlyContinue
-if ($code) {
-    Write-Host "Uninstalling VS Code extension..." -ForegroundColor Yellow
-    code --uninstall-extension agent-forge.agent-forge 2>$null
-    if ($LASTEXITCODE -eq 0) {
-        Write-Host "  Extension uninstalled." -ForegroundColor Green
-        Write-Host "  Reload VS Code to remove the sidebar entry (Ctrl+Shift+P → 'Reload Window')." -ForegroundColor Yellow
+function Remove-OneFile {
+    param([Parameter(Mandatory)][string]$Path)
+    if (-not (Test-Path $Path)) { return }
+    if ($DryRun) {
+        Write-Host "  [dry-run] would remove: $Path" -ForegroundColor DarkGray
     } else {
-        Write-Host "  Extension not found or already uninstalled." -ForegroundColor Yellow
-    }
-} else {
-    Write-Host "VS Code CLI not found, skipping extension uninstall." -ForegroundColor Yellow
-}
-
-# --- Remove CLI ------------------------------------------------------
-$binDir = Join-Path $env:USERPROFILE ".agent-forge\bin"
-if (Test-Path $binDir) {
-    Write-Host "Removing CLI from $binDir..." -ForegroundColor Yellow
-    Remove-Item $binDir -Recurse -Force
-    Write-Host "  CLI removed." -ForegroundColor Green
-} else {
-    Write-Host "CLI directory not found, nothing to remove." -ForegroundColor Yellow
-}
-
-# --- Remove from PATH ------------------------------------------------
-$userPath = [Environment]::GetEnvironmentVariable('Path', 'User')
-if ($userPath -like "*$binDir*") {
-    $newPath = ($userPath -split ';' | Where-Object { $_ -ne $binDir }) -join ';'
-    [Environment]::SetEnvironmentVariable('Path', $newPath, 'User')
-    Write-Host "Removed $binDir from user PATH." -ForegroundColor Green
-}
-
-# --- Check for leftover models ----------------------------------------
-$modelsDir = Join-Path $env:USERPROFILE ".agent-forge\models"
-if (Test-Path $modelsDir) {
-    $modelSize = (Get-ChildItem $modelsDir -Recurse -File -ErrorAction SilentlyContinue | Measure-Object -Property Length -Sum).Sum
-    if ($modelSize -and $modelSize -gt 0) {
-        $sizeGB = [math]::Round($modelSize / 1GB, 2)
-        Write-Host "" -ForegroundColor Yellow
-        Write-Host "  NOTE: Image generation models ($sizeGB GB) remain at:" -ForegroundColor Yellow
-        Write-Host "    $modelsDir" -ForegroundColor Yellow
-        Write-Host "  To free disk space, delete this folder manually:" -ForegroundColor Yellow
-        Write-Host "    Remove-Item '$modelsDir' -Recurse -Force" -ForegroundColor Yellow
+        Remove-Item -LiteralPath $Path -Force
+        Write-Host "  removed $([IO.Path]::GetFileName($Path))" -ForegroundColor Green
     }
 }
 
-# --- Clean up empty parent directory ----------------------------------
-$agentForgeDir = Join-Path $env:USERPROFILE ".agent-forge"
-if ((Test-Path $agentForgeDir) -and ((Get-ChildItem $agentForgeDir).Count -eq 0)) {
-    Remove-Item $agentForgeDir -Force
-    Write-Host "Removed empty .agent-forge directory." -ForegroundColor Green
+function Remove-MirroredFiles {
+    param(
+        [Parameter(Mandatory)][string]$SourceDir,
+        [Parameter(Mandatory)][string]$Filter,
+        [Parameter(Mandatory)][string]$DestDir
+    )
+    if (-not (Test-Path $SourceDir)) { return }
+    foreach ($f in Get-ChildItem -Path $SourceDir -Filter $Filter -File -ErrorAction SilentlyContinue) {
+        Remove-OneFile -Path (Join-Path $DestDir $f.Name)
+    }
 }
 
-Write-Host ""
-Write-Host "  IMPORTANT: Reload or restart VS Code to fully remove the Agent Forge sidebar." -ForegroundColor Yellow
+function Remove-SkillTree {
+    param(
+        [Parameter(Mandatory)][string]$SourceRoot,
+        [Parameter(Mandatory)][string]$DestRoot
+    )
+    if (-not (Test-Path $SourceRoot)) { return }
+    foreach ($sd in Get-ChildItem -Path $SourceRoot -Directory) {
+        $target = Join-Path $DestRoot $sd.Name
+        if (Test-Path $target) {
+            if ($DryRun) {
+                Write-Host "  [dry-run] would remove folder: $target" -ForegroundColor DarkGray
+            } else {
+                Remove-Item -LiteralPath $target -Recurse -Force
+                Write-Host "  removed $($sd.Name)/" -ForegroundColor Green
+            }
+        }
+    }
+}
+
+Write-Host "Removing agents..." -ForegroundColor Yellow
+Remove-MirroredFiles -SourceDir (Join-Path $RepoRoot 'agents') -Filter '*.agent.md' -DestDir $PromptsDest
+
+Write-Host "Removing instructions..." -ForegroundColor Yellow
+Remove-MirroredFiles -SourceDir (Join-Path $RepoRoot 'instructions') -Filter '*.instructions.md' -DestDir $PromptsDest
+
+# If a previous installer version copied common.toolsets.jsonc here, remove it.
+Remove-OneFile -Path (Join-Path $PromptsDest 'common.toolsets.jsonc')
+
+Write-Host "Removing skills..." -ForegroundColor Yellow
+Remove-SkillTree -SourceRoot (Join-Path $RepoRoot 'skills') -DestRoot $SkillsDest
+
 Write-Host ""
 Write-Host "=== Uninstallation Complete ===" -ForegroundColor Cyan
+if ($DryRun) {
+    Write-Host "  DRY RUN - no files were removed." -ForegroundColor Yellow
+} else {
+    Write-Host "  Reload VS Code (Ctrl+Shift+P -> 'Developer: Reload Window') to drop cached prompts." -ForegroundColor Yellow
+}
