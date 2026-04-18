@@ -1,14 +1,61 @@
-- This todo file
+# Project Todo
+
+This file is read and updated by `@cto` at the start and end of every user session.
+Items move: Pending -> In Progress (when work starts) -> Implemented (when shipped, with date and commit SHA).
+
+Conventions:
+- One item per bullet. Sub-bullets are acceptable for breakdown.
+- When moving an item to Implemented, append `[YYYY-MM-DD, <commit-sha-or-branch>]`.
+- Never delete items from Implemented - they are the historical log.
+
+================================================================================
+## In Progress
+================================================================================
+
+- [2025-01, feature/roster-orchestration-overhaul] Agent roster orchestration overhaul:
+  - Unified toolsets (all-builtins / orchestrator / devops / knowledge) with all built-ins everywhere
+  - Frontmatter normalization across all 21 agents (tools, user-invocable, disable-model-invocation, agents, handoffs)
+  - Rewrite agent-communication instructions to clarify delegation vs handoffs
+  - CTO intake expanded with KB bootstrap, Todo.txt session open/close, mandatory delegation directive, release proposal
+  - Devops body expanded with monorepo env/scripts/Docker Hub/DO discipline
+  - KE body expanded with periodic self-improvement pass
+  - Todo.txt restructured into Pending / In Progress / Implemented sections
+  - git-workflow instructions: add Review Policy + Release Workflow sections
+
+================================================================================
+## Pending
+================================================================================
+
 - Open and close session updating the Todo file
+  - (Carried forward - covered by CTO Intake / Closeout protocol now in `agents/cto.agent.md`. Verify in practice next session.)
+
 - Auto-turn the knowledge repo if not on upon starting a session.
+  - (Carried forward - covered by CTO Session Bootstrap step 1. Verify in practice next session.)
+
 - Use Knowledge base to self-improve agents.
+  - (Carried forward - covered by KE Periodic Self-Improvement Pass. Schedule first run after this overhaul ships.)
+
 - Start implementation. Be sure to use the correct agent in your team for each task; pass down this directive to the agents you spawn.
-- Always setup dev run and production run scripts globally in the same way: Global .env.[development/production] global run-dev.* and deploy-prod.* scripts that copy relevant variables to all .env files for each of the apps in monorepo.
-  Use of Docker Containers and fully automated deployment, provisioning and seeding. using Docekr Desktop and Digital Ocean and Expo CLIs/EAS and commands.
-- Great. Next, I can see a large number of scripts. I want you to make a plan to:
--- Analyze scripts and do a cleanup, consolidate and get rid of unnecessary scripts.
--- Analyze codebase and compare with global .env.* files to validate that .env.* files have all needed variables.
--- Validate that .env files inside each app in the monorepo gets created correctly and used.
--- Validate that the deply-prod.* scripts would correctly deploy to Digital Ocean creating needed env variables. Each container it's own app. Each container pushed to a global private registry named (unlimited things)
--- Update all documentation and make sure it aligns with our SDLC, if not rework.
--- Images should be pushed to docker hub (made private). Pushed to docker hub but deployed on Digital Ocean. Use the CLI as needed.
+  - (Carried forward - codified as the mandatory delegation directive in CTO Operating Mode and in agent-communication instructions. Audit compliance over the next 3 user requests.)
+
+- Always setup dev run and production run scripts globally in the same way:
+  - Global `.env.development` / `.env.production`
+  - Global `run-dev.*` and `deploy-prod.*` scripts that fan variables out to per-app `.env` files
+  - Docker containers + fully automated deployment, provisioning and seeding
+  - Use Docker Desktop, DigitalOcean, and Expo CLIs/EAS as appropriate
+  - (Carried forward - codified in `agents/devops-engineer.agent.md` "Monorepo Environment & Deployment Discipline". Apply to next greenfield project.)
+
+- Script audit and consolidation pass:
+  - Analyze scripts and do a cleanup, consolidate and remove unnecessary scripts.
+  - Analyze codebase and compare with global `.env.*` files to validate completeness.
+  - Validate that per-app `.env` files inside each monorepo app are created correctly and used.
+  - Validate that `deploy-prod.*` correctly deploys to DigitalOcean creating needed env variables. One container per app. Each container pushed to a global private Docker Hub registry.
+  - Update all documentation and align with SDLC; rework where misaligned.
+  - Images pushed to Docker Hub (private) but deployed on DigitalOcean. Use CLIs as needed.
+  - (Carried forward - checklist codified in `agents/devops-engineer.agent.md` "Script Audit & Consolidation Checklist". Run on the first project that adopts the new layout.)
+
+================================================================================
+## Implemented
+================================================================================
+
+(none yet - entries will be appended here as work ships)

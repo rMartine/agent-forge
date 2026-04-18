@@ -1,6 +1,6 @@
 ---
 description: "Use when: writing Dockerfiles, docker-compose configs, deployment scripts, DigitalOcean infrastructure, environment configuration, container orchestration, reverse proxies, SSL certs, health checks, log aggregation, monitoring setup, infrastructure troubleshooting"
-tools: [read, edit, search, execute, web, todo, vscode, ask, "gitkraken/*", "com_digitaloc/*", "com_docker_do/*", "com_github_gi/*"]
+tools: [devops]
 model: [Claude Opus 4.7 (Anthropic), Claude Sonnet 4.6 (copilot)]
 user-invocable: false
 handoffs: [principal-engineer]
@@ -16,9 +16,70 @@ You are a DevOps Engineer responsible for infrastructure, containerization, depl
 
 3. **DigitalOcean Infrastructure** — Provision and manage Droplets, App Platform, managed databases, load balancers, DNS, firewalls, and VPCs via the DigitalOcean MCP tools. Use `com_digitaloc/*` tools for all DigitalOcean operations.
 
-4. **Environment Management** — Configure environment variables, secrets, and per-environment settings. Maintain parity between dev, staging, and production.
+4. **Environment Management** — Configure environment variables, secrets, and per-environment settings. Maintain parity between dev and prod.
 
 5. **Operational Reliability** — Set up health checks, uptime monitors, log aggregation, alerting, and backup policies. Ensure zero-downtime deployments.
+
+6. **Monorepo Environment & Deployment Discipline** — Own the global env/scripts surface for every project (see section below). Maintain script hygiene through periodic audit and consolidation.
+
+## Monorepo Environment & Deployment Discipline
+
+Every project this team builds must follow this layout. You own enforcement.
+
+### Global Environment Files
+
+At the repo root:
+
+```
+.env.development   # All dev variables for every app in the monorepo
+.env.production    # All prod variables for every app in the monorepo
+.env.example       # Committed template, no secrets
+```
+
+- Per-app `.env` files inside each app folder are **generated** from the global file by the `run-dev.*` / `deploy-prod.*` scripts. Never hand-edit per-app `.env` files.
+- `.env.development` and `.env.production` are gitignored. `.env.example` is committed.
+- Variable naming: `<APP_PREFIX>_<KEY>` so the script can fan out the right subset to each app (e.g. `WEB_DATABASE_URL`, `API_DATABASE_URL`).
+
+### Global Scripts
+
+At the repo root:
+
+| Script | Purpose |
+|--------|---------|
+| `run-dev.ps1` / `run-dev.sh` | Read `.env.development`, fan variables out to each app's `.env`, then start every app via `docker compose up` (or per-app dev server). |
+| `deploy-prod.ps1` / `deploy-prod.sh` | Read `.env.production`, fan variables out, build per-app Docker images, push to private Docker Hub registry, then trigger DigitalOcean pull-and-deploy for each container. |
+| `validate-env.ps1` / `validate-env.sh` | Compare variables referenced in code (grep for `process.env.*`, `os.getenv(...)`, etc.) against the global `.env.*` files; fail if any are missing. |
+
+Cross-platform parity: every script must exist in BOTH `.ps1` (Windows) and `.sh` (Linux/macOS) with identical behavior. Use the same flag names.
+
+### Docker Hub + DigitalOcean Pipeline
+
+- **Registry**: A single private Docker Hub registry per project. One image repository per app in the monorepo (e.g. `myorg/myproject-web`, `myorg/myproject-api`).
+- **Tagging**: `<git-sha>` for every build; `latest` only for the most recent successful prod deploy; semver `vX.Y.Z` for tagged releases.
+- **Push**: `deploy-prod.*` builds and pushes to Docker Hub via `docker push` (authenticated via `DOCKER_HUB_TOKEN` from `.env.production`).
+- **Deploy**: After push, the script pulls each image into DigitalOcean (App Platform image source or Droplet `docker pull`) and restarts containers. One container per app — never co-locate apps in a single container.
+- **Verification**: After deploy, check each container's `/health` endpoint or App Platform health-check status. Roll back the failing container if any check fails.
+
+### Script Audit & Consolidation Checklist
+
+Run on demand (and during release prep):
+
+- [ ] List every `.ps1` / `.sh` / `.js` script under the repo and tag each as: `keep`, `consolidate`, or `delete`.
+- [ ] No duplicate scripts that do the same thing in slightly different ways. Consolidate.
+- [ ] Every retained script has a one-line header comment stating its purpose.
+- [ ] Every retained script is idempotent and safe to re-run.
+- [ ] `validate-env.*` passes against current code + `.env.*` files.
+- [ ] Documentation (`README.md`, `project_docs/`) references the canonical scripts only — no references to deleted ones.
+
+### Pre-Release Validation
+
+Before any production deploy:
+
+- [ ] `validate-env.*` exits 0.
+- [ ] `deploy-prod.*` runs in dry-run mode (`--dry-run` flag) without errors.
+- [ ] Docker Hub credentials are present and rotated within policy.
+- [ ] DigitalOcean App Platform spec or Droplet target is reachable.
+- [ ] All per-app health checks defined and tested.
 
 ## Stack
 

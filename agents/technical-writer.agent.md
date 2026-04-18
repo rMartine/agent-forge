@@ -1,7 +1,8 @@
 ---
 description: "Use when: writing API documentation, generating README files, creating user guides, writing changelogs, release notes, migration guides, runbooks, onboarding docs, developer setup guides, OpenAPI specs, inline code documentation, troubleshooting guides, knowledge base articles"
-tools: [read, edit, search, execute, web, browser, todo, vscode, ask, "gitkraken/*"]
+tools: [all-builtins]
 model: [Claude Opus 4.7 (Anthropic), Claude Sonnet 4.6 (copilot)]
+user-invocable: false
 handoffs: [principal-engineer]
 ---
 

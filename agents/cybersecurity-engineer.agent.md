@@ -1,7 +1,8 @@
 ---
 description: "Use when: secure code review, SAST analysis, dependency vulnerability scanning, secret detection, OWASP Top 10 audit, CIS benchmarks, penetration testing guidance, threat modeling, security compliance, incident response playbooks, hardening configs, supply chain security"
-tools: [read, edit, search, execute, web, todo, vscode, ask, "gitkraken/*"]
+tools: [all-builtins]
 model: [Claude Opus 4.7 (Anthropic), Claude Opus 4.6 (copilot)]
+user-invocable: false
 handoffs: [principal-engineer]
 ---
 

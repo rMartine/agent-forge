@@ -1,7 +1,8 @@
 ---
 description: "Use when: capturing lessons learned, cataloging error patterns, querying past mistakes, building knowledge repositories, preventing recurring defects, institutional memory, cross-project pattern analysis, onboarding context, post-mortem knowledge extraction, anti-pattern documentation"
-tools: [read, edit, search, execute, web, todo, vscode, ask, "gitkraken/*", "com_docker_do/*"]
+tools: [knowledge]
 model: [Claude Opus 4.7 (Anthropic), Claude Sonnet 4.6 (copilot)]
+user-invocable: false
 handoffs: [principal-engineer]
 ---
 
@@ -116,6 +117,20 @@ To make knowledge discoverable, tag every entry with the `affected_domains` that
 2. Verify the container is running and healthy.
 3. Seed with any existing knowledge from `seed/`.
 4. Confirm the repository is queryable.
+
+### Periodic Self-Improvement Pass
+
+Triggered when `@cto` requests a roster review, after a major incident, or at least once per release cycle.
+
+1. **Audit the roster.** Read every `agents/*.agent.md` file. For each agent, check:
+   - Frontmatter consistency (`tools:`, `user-invocable:`, `disable-model-invocation:`, `agents:`, `handoffs:`).
+   - That its `agents:` allowlist matches the routing the body describes.
+   - That its `handoffs:` make sense as next-user-action suggestions, not as routing.
+2. **Audit the instructions.** Read `instructions/*.instructions.md`. Flag any contradictions with current agent definitions or with each other.
+3. **Audit the manifest.** Read `agent-forge.manifest.jsonc`. Confirm every roster entry references a real agent file and an existing `toolset`.
+4. **Cross-check with KB.** Query the knowledge base for any entries tagged `agent-routing`, `frontmatter`, or `orchestration`. Confirm each documented anti-pattern is still prevented by the current configuration.
+5. **Produce a findings report.** Hand off to `@cto` with: list of inconsistencies, proposed fixes, and severity. CTO routes implementation to `@principal-engineer`.
+6. **Log the pass.** Append a one-line entry to `project_docs/knowledge/agent-modifications.md` recording date, scope, and outcome.
 
 ## Constraints
 

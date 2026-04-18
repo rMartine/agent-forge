@@ -13,37 +13,40 @@
   },
 
   // ── Agents ──────────────────────────────────────────────────────────
+  // `toolset` references a key in config/common.toolsets.jsonc.
+  // `model` is null because each agent file declares its own model array
+  // (Anthropic primary, Copilot fallback) in frontmatter.
   "agents": [
-    // Leadership
-    { "id": "cto",                     "file": "agents/cto.agent.md",                     "category": "leadership",    "model": null, "toolset": null },
-    { "id": "principal-engineer",      "file": "agents/principal-engineer.agent.md",       "category": "leadership",    "model": null, "toolset": null },
-    { "id": "project-manager",         "file": "agents/project-manager.agent.md",          "category": "leadership",    "model": null, "toolset": null },
+    // Leadership (orchestrators — get the `agent` tool)
+    { "id": "cto",                     "file": "agents/cto.agent.md",                     "category": "leadership",    "model": null, "toolset": "orchestrator" },
+    { "id": "principal-engineer",      "file": "agents/principal-engineer.agent.md",       "category": "leadership",    "model": null, "toolset": "orchestrator" },
+    { "id": "project-manager",         "file": "agents/project-manager.agent.md",          "category": "leadership",    "model": null, "toolset": "all-builtins" },
 
     // Architecture
-    { "id": "software-architect",      "file": "agents/software-architect.agent.md",       "category": "architecture",  "model": null, "toolset": null },
+    { "id": "software-architect",      "file": "agents/software-architect.agent.md",       "category": "architecture",  "model": null, "toolset": "all-builtins" },
 
     // Engineering
-    { "id": "backend-developer",       "file": "agents/backend-developer.agent.md",        "category": "engineering",   "model": null, "toolset": null },
-    { "id": "frontend-developer",      "file": "agents/frontend-developer.agent.md",       "category": "engineering",   "model": null, "toolset": null },
-    { "id": "database-engineer",       "file": "agents/database-engineer.agent.md",        "category": "engineering",   "model": null, "toolset": null },
-    { "id": "devops-engineer",         "file": "agents/devops-engineer.agent.md",          "category": "engineering",   "model": null, "toolset": null },
-    { "id": "dotnet-engineer",         "file": "agents/dotnet-engineer.agent.md",          "category": "engineering",   "model": null, "toolset": null },
-    { "id": "desktop-app-engineer",    "file": "agents/desktop-app-engineer.agent.md",     "category": "engineering",   "model": null, "toolset": null },
-    { "id": "mobile-engineer",         "file": "agents/mobile-engineer.agent.md",          "category": "engineering",   "model": null, "toolset": null },
-    { "id": "ml-engineer",             "file": "agents/ml-engineer.agent.md",              "category": "engineering",   "model": null, "toolset": null },
-    { "id": "data-scientist",          "file": "agents/data-scientist.agent.md",           "category": "engineering",   "model": null, "toolset": null },
-    { "id": "cybersecurity-engineer",  "file": "agents/cybersecurity-engineer.agent.md",   "category": "engineering",   "model": null, "toolset": null },
-    { "id": "qa-engineer",             "file": "agents/qa-engineer.agent.md",              "category": "engineering",   "model": null, "toolset": null },
+    { "id": "backend-developer",       "file": "agents/backend-developer.agent.md",        "category": "engineering",   "model": null, "toolset": "all-builtins" },
+    { "id": "frontend-developer",      "file": "agents/frontend-developer.agent.md",       "category": "engineering",   "model": null, "toolset": "all-builtins" },
+    { "id": "database-engineer",       "file": "agents/database-engineer.agent.md",        "category": "engineering",   "model": null, "toolset": "all-builtins" },
+    { "id": "devops-engineer",         "file": "agents/devops-engineer.agent.md",          "category": "engineering",   "model": null, "toolset": "devops" },
+    { "id": "dotnet-engineer",         "file": "agents/dotnet-engineer.agent.md",          "category": "engineering",   "model": null, "toolset": "all-builtins" },
+    { "id": "desktop-app-engineer",    "file": "agents/desktop-app-engineer.agent.md",     "category": "engineering",   "model": null, "toolset": "all-builtins" },
+    { "id": "mobile-engineer",         "file": "agents/mobile-engineer.agent.md",          "category": "engineering",   "model": null, "toolset": "all-builtins" },
+    { "id": "ml-engineer",             "file": "agents/ml-engineer.agent.md",              "category": "engineering",   "model": null, "toolset": "all-builtins" },
+    { "id": "data-scientist",          "file": "agents/data-scientist.agent.md",           "category": "engineering",   "model": null, "toolset": "all-builtins" },
+    { "id": "cybersecurity-engineer",  "file": "agents/cybersecurity-engineer.agent.md",   "category": "engineering",   "model": null, "toolset": "all-builtins" },
+    { "id": "qa-engineer",             "file": "agents/qa-engineer.agent.md",              "category": "engineering",   "model": null, "toolset": "all-builtins" },
 
-    // Design
-    { "id": "creative-director",       "file": "agents/creative-director.agent.md",        "category": "design",        "model": null, "toolset": null },
-    { "id": "graphic-designer",        "file": "agents/graphic-designer.agent.md",         "category": "design",        "model": null, "toolset": null },
-    { "id": "ux-engineer",             "file": "agents/ux-engineer.agent.md",              "category": "design",        "model": null, "toolset": null },
+    // Design (creative-director is an orchestrator)
+    { "id": "creative-director",       "file": "agents/creative-director.agent.md",        "category": "design",        "model": null, "toolset": "orchestrator" },
+    { "id": "graphic-designer",        "file": "agents/graphic-designer.agent.md",         "category": "design",        "model": null, "toolset": "all-builtins" },
+    { "id": "ux-engineer",             "file": "agents/ux-engineer.agent.md",              "category": "design",        "model": null, "toolset": "all-builtins" },
 
     // Documentation
-    { "id": "technical-writer",        "file": "agents/technical-writer.agent.md",         "category": "documentation", "model": null, "toolset": null },
-    { "id": "knowledge-engineer",      "file": "agents/knowledge-engineer.agent.md",       "category": "documentation", "model": null, "toolset": null },
-    { "id": "requirements-engineer",   "file": "agents/requirements-engineer.agent.md",    "category": "documentation", "model": null, "toolset": null }
+    { "id": "technical-writer",        "file": "agents/technical-writer.agent.md",         "category": "documentation", "model": null, "toolset": "all-builtins" },
+    { "id": "knowledge-engineer",      "file": "agents/knowledge-engineer.agent.md",       "category": "documentation", "model": null, "toolset": "knowledge" },
+    { "id": "requirements-engineer",   "file": "agents/requirements-engineer.agent.md",    "category": "documentation", "model": null, "toolset": "all-builtins" }
   ],
 
   // ── Instructions ────────────────────────────────────────────────────

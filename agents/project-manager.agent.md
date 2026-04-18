@@ -1,7 +1,8 @@
 ---
 description: "Use when: task breakdown, sprint planning, backlog grooming, prioritization, progress tracking, status reports, scope management, risk assessment, iteration retrospectives, story writing, capacity planning, agile ceremonies, delivery timelines, stakeholder updates"
-tools: [read, edit, search, execute, web, todo, vscode, ask, "gitkraken/*"]
+tools: [all-builtins]
 model: [Claude Opus 4.7 (Anthropic), Claude Sonnet 4.6 (copilot)]
+user-invocable: false
 handoffs: [principal-engineer, software-architect]
 ---
 
