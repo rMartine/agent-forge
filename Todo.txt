@@ -1,0 +1,14 @@
+- This todo file
+- Open and close session updating the Todo file
+- Auto-turn the knowledge repo if not on upon starting a session.
+- Use Knowledge base to self-improve agents.
+- Start implementation. Be sure to use the correct agent in your team for each task; pass down this directive to the agents you spawn.
+- Always setup dev run and production run scripts globally in the same way: Global .env.[development/production] global run-dev.* and deploy-prod.* scripts that copy relevant variables to all .env files for each of the apps in monorepo.
+  Use of Docker Containers and fully automated deployment, provisioning and seeding. using Docekr Desktop and Digital Ocean and Expo CLIs/EAS and commands.
+- Great. Next, I can see a large number of scripts. I want you to make a plan to:
+-- Analyze scripts and do a cleanup, consolidate and get rid of unnecessary scripts.
+-- Analyze codebase and compare with global .env.* files to validate that .env.* files have all needed variables.
+-- Validate that .env files inside each app in the monorepo gets created correctly and used.
+-- Validate that the deply-prod.* scripts would correctly deploy to Digital Ocean creating needed env variables. Each container it's own app. Each container pushed to a global private registry named (unlimited things)
+-- Update all documentation and make sure it aligns with our SDLC, if not rework.
+-- Images should be pushed to docker hub (made private). Pushed to docker hub but deployed on Digital Ocean. Use the CLI as needed.
