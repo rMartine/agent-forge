@@ -12,15 +12,7 @@ Conventions:
 ## In Progress
 ================================================================================
 
-- [2025-01, feature/roster-orchestration-overhaul] Agent roster orchestration overhaul:
-  - Unified toolsets (all-builtins / orchestrator / devops / knowledge) with all built-ins everywhere
-  - Frontmatter normalization across all 21 agents (tools, user-invocable, disable-model-invocation, agents, handoffs)
-  - Rewrite agent-communication instructions to clarify delegation vs handoffs
-  - CTO intake expanded with KB bootstrap, Todo.txt session open/close, mandatory delegation directive, release proposal
-  - Devops body expanded with monorepo env/scripts/Docker Hub/DO discipline
-  - KE body expanded with periodic self-improvement pass
-  - Todo.txt restructured into Pending / In Progress / Implemented sections
-  - git-workflow instructions: add Review Policy + Release Workflow sections
+(none)
 
 ================================================================================
 ## Pending
@@ -58,4 +50,12 @@ Conventions:
 ## Implemented
 ================================================================================
 
-(none yet - entries will be appended here as work ships)
+- [2026-04-17, 2b0fb8c merged into development] Agent roster orchestration overhaul:
+  - Unified toolsets (all-builtins / orchestrator / devops / knowledge) with all built-ins everywhere
+  - Frontmatter normalization across all 21 agents (tools, user-invocable, disable-model-invocation, agents, handoffs)
+  - Rewrote agent-communication instructions to clarify delegation vs handoffs
+  - CTO intake expanded with KB bootstrap, Todo.txt session open/close, mandatory delegation directive, release proposal
+  - Devops body expanded with monorepo env/scripts/Docker Hub/DO discipline
+  - KE body expanded with periodic self-improvement pass
+  - Todo.txt restructured into Pending / In Progress / Implemented sections
+  - git-workflow instructions: added Review Policy + Release Workflow sections
