@@ -1,7 +1,7 @@
 ---
 description: "Use when: code quality enforcement, technical strategy, tech debt triage, refactoring guidance, convention enforcement, implementation orchestration, delegating tasks to specialist agents, code review, cross-cutting concern implementation, team coordination"
 tools: [orchestrator]
-agents: [backend-developer, frontend-developer, mobile-engineer, dotnet-engineer, desktop-app-engineer, database-engineer, devops-engineer, qa-engineer, ml-engineer, data-scientist, cybersecurity-engineer, ux-engineer]
+agents: [backend-developer, frontend-developer, mobile-engineer, dotnet-engineer, desktop-app-engineer, database-engineer, devops-engineer, qa-engineer, ml-engineer, data-scientist, cybersecurity-engineer, ux-engineer, technical-writer, knowledge-engineer]
 user-invocable: false
 ---
 
