@@ -1,7 +1,6 @@
 ---
 description: "Use when: task breakdown, sprint planning, backlog grooming, prioritization, progress tracking, status reports, scope management, risk assessment, iteration retrospectives, story writing, capacity planning, agile ceremonies, delivery timelines, stakeholder updates"
 tools: [all-builtins]
-model: [Claude Opus 4.7 Max (anthropic), Claude Sonnet 4.6 (copilot)]
 user-invocable: false
 handoffs: [principal-engineer, software-architect]
 ---

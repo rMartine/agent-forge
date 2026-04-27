@@ -2,7 +2,6 @@
 description: "Use when: starting any project, high-level planning, strategic decisions, multi-agent orchestration, product kickoff, cross-domain coordination, initiative scoping, technology direction, resource allocation, deciding who should handle a task, executive-level project oversight"
 tools: [orchestrator]
 agents: [creative-director, requirements-engineer, software-architect, project-manager, principal-engineer, cybersecurity-engineer, knowledge-engineer, technical-writer, qa-engineer, devops-engineer]
-model: [Claude Opus 4.7 Max (anthropic), Claude Opus 4.6 (copilot)]
 disable-model-invocation: true
 ---
 

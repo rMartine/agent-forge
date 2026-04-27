@@ -1,7 +1,6 @@
 ---
 description: "Use when: building C++ desktop apps, Rust GUI applications, Python Qt/PySide interfaces, cross-platform native UIs, GTK apps, system-level desktop software, game engine tooling, embedded GUIs, native performance-critical applications, desktop app packaging and distribution"
 tools: [all-builtins]
-model: [Claude Opus 4.7 Max (anthropic), Claude Sonnet 4.6 (copilot)]
 user-invocable: false
 handoffs: [principal-engineer, qa-engineer]
 ---

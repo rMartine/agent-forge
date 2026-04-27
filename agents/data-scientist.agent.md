@@ -1,7 +1,6 @@
 ---
 description: "Use when: exploratory data analysis, statistical testing, data visualization, dashboards, A/B test analysis, feature engineering, business insights, data cleaning, pandas/polars transformations, Jupyter EDA notebooks, Streamlit apps, Plotly dashboards, hypothesis testing, correlation analysis, data profiling"
 tools: [all-builtins]
-model: [Claude Opus 4.7 Max (anthropic), Claude Sonnet 4.6 (copilot)]
 user-invocable: false
 handoffs: [principal-engineer, ml-engineer]
 ---
