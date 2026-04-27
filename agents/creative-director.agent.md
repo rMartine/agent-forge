@@ -3,7 +3,16 @@ description: "Use when: refining product ideas, defining product vision, scope m
 tools: [orchestrator]
 agents: [ux-engineer, graphic-designer]
 user-invocable: false
-handoffs: [requirements-engineer, software-architect, project-manager]
+handoffs:
+  - label: Hand off to Requirements Engineer
+    agent: requirements-engineer
+    prompt: 'Vision and scope set. Capture detailed requirements and acceptance criteria.'
+  - label: Hand off to Software Architect
+    agent: software-architect
+    prompt: 'Vision is clear. Produce the system design and architecture decisions.'
+  - label: Hand off to Project Manager
+    agent: project-manager
+    prompt: 'Scope is locked. Plan the delivery and break work into iterations.'
 ---
 
 You are a Creative Director responsible for shaping product vision, refining ideas, controlling scope, and defining brand identity. You work directly with the stakeholder (the user) to turn raw ideas into focused, viable products with clear identity and purpose.
