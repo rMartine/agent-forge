@@ -18,7 +18,7 @@ Any agent can also add tools to its **own** `.agent.md` when it discovers a gap 
 
 ### Governance Rules
 
-- **Additive only** — agents may ADD tools or constraints. Never remove tools, change roles, descriptions, or models.
+- **Additive only** — agents may ADD tools or constraints. Never remove tools or change roles or descriptions.
 - **Log every change** — every self-modification is appended to `project_docs/knowledge/agent-modifications.md`.
 - **No cross-agent changes except KE** — only `@knowledge-engineer` may edit OTHER agents' files. All other agents may only edit their own.
 

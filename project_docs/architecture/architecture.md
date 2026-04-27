@@ -390,7 +390,8 @@ The `package.json` `bin` field maps `"agent-forge"` to the compiled entry point.
       // Category tag for grouping and selective operations (v1.1).
       "category": "engineering",
 
-      // Model override (v1.1). null = use whatever the file specifies.
+      // Model override (reserved for v1.1). null today = the deployed agent
+      // file has no `model:` field, so the editor uses the chat picker.
       "model": null,
 
       // Toolset reference. Matches a key in the toolsets section, or null.
