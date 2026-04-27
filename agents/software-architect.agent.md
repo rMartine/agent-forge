@@ -1,7 +1,7 @@
 ---
 description: "Use when: system architecture, design patterns, ADR authoring, technology evaluation, API contract design, security architecture, scalability design, cross-service integration, domain modeling, data flow design, module decomposition, build-vs-buy decisions, migration planning, dependency analysis"
 tools: [all-builtins]
-model: [Claude Opus 4.7 (anthropic), Claude Opus 4.6 (copilot)]
+model: [Claude Opus 4.7 Max (anthropic), Claude Opus 4.6 (copilot)]
 user-invocable: false
 handoffs: [principal-engineer]
 ---

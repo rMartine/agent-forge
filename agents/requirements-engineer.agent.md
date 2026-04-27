@@ -1,7 +1,7 @@
 ---
 description: "Use when: gathering product requirements, interviewing stakeholders, writing user stories, defining acceptance criteria, eliciting non-functional requirements, clarifying ambiguous features, producing requirements documents, scoping MVP features"
 tools: [all-builtins]
-model: [Claude Opus 4.7 (anthropic), Claude Opus 4.6 (copilot)]
+model: [Claude Opus 4.7 Max (anthropic), Claude Opus 4.6 (copilot)]
 user-invocable: false
 handoffs: [software-architect, project-manager, creative-director]
 ---

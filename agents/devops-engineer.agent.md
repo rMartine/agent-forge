@@ -1,7 +1,7 @@
 ---
 description: "Use when: writing Dockerfiles, docker-compose configs, deployment scripts, DigitalOcean infrastructure, environment configuration, container orchestration, reverse proxies, SSL certs, health checks, log aggregation, monitoring setup, infrastructure troubleshooting"
 tools: [devops]
-model: [Claude Opus 4.7 (anthropic), Claude Sonnet 4.6 (copilot)]
+model: [Claude Opus 4.7 Max (anthropic), Claude Sonnet 4.6 (copilot)]
 user-invocable: false
 handoffs: [principal-engineer]
 ---

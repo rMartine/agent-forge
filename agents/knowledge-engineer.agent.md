@@ -1,7 +1,7 @@
 ---
 description: "Use when: capturing lessons learned, cataloging error patterns, querying past mistakes, building knowledge repositories, preventing recurring defects, institutional memory, cross-project pattern analysis, onboarding context, post-mortem knowledge extraction, anti-pattern documentation"
 tools: [knowledge]
-model: [Claude Opus 4.7 (anthropic), Claude Sonnet 4.6 (copilot)]
+model: [Claude Opus 4.7 Max (anthropic), Claude Sonnet 4.6 (copilot)]
 user-invocable: false
 handoffs: [principal-engineer]
 ---
