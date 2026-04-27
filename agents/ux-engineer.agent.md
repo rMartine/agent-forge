@@ -1,7 +1,6 @@
 ---
 description: "Use when: design systems, component specs, accessibility audits, WCAG compliance, ARIA patterns, interaction design, animations, motion design, UI prototyping, wireframes, design tokens, color systems, typography scales, spacing systems, usability review, responsive design patterns, user research synthesis"
 tools: [all-builtins]
-model: [Claude Opus 4.7 Max (anthropic), Claude Sonnet 4.6 (copilot)]
 user-invocable: false
 handoffs: [principal-engineer, creative-director]
 ---

@@ -2,7 +2,6 @@
 description: "Use when: refining product ideas, defining product vision, scope management, feature prioritization, branding direction, logo refinement, naming, value proposition, competitive positioning, user persona definition, product narrative, MVP scoping, go-to-market framing"
 tools: [orchestrator]
 agents: [ux-engineer, graphic-designer]
-model: [Claude Opus 4.7 Max (anthropic), Claude Opus 4.6 (copilot)]
 user-invocable: false
 handoffs: [requirements-engineer, software-architect, project-manager]
 ---

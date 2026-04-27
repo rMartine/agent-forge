@@ -1,7 +1,6 @@
 ---
 description: "Use when: building Next.js pages, creating React components, styling with Tailwind and design tokens, writing server actions, data fetching in frontend, i18n, forms, shared UI components, frontend bug fixes, layout and routing changes"
 tools: [all-builtins]
-model: [Claude Opus 4.7 Max (anthropic), Claude Sonnet 4.6 (copilot)]
 user-invocable: false
 handoffs: [principal-engineer, qa-engineer]
 ---
