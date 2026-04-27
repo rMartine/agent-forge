@@ -2,7 +2,6 @@
 description: "Use when: refining product ideas, defining product vision, scope management, feature prioritization, branding direction, logo refinement, naming, value proposition, competitive positioning, user persona definition, product narrative, MVP scoping, go-to-market framing"
 tools: [orchestrator]
 agents: [ux-engineer, graphic-designer]
-user-invocable: false
 handoffs:
   - label: Hand off to Requirements Engineer
     agent: requirements-engineer
