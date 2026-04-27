@@ -1,7 +1,7 @@
 ---
 description: "Use when: training ML models, fine-tuning LLMs, data preprocessing, feature engineering, building inference APIs, Hugging Face pipelines, LangChain agents, Ollama local models, ONNX export, scikit-learn pipelines, PyTorch training loops, TensorFlow models, Jupyter notebooks, AI agent orchestration, prompt engineering, RAG pipelines, embeddings, vector stores"
 tools: [all-builtins]
-model: [Claude Opus 4.7 (anthropic), Claude Opus 4.6 (copilot)]
+model: [Claude Opus 4.7 Max (anthropic), Claude Opus 4.6 (copilot)]
 user-invocable: false
 handoffs: [principal-engineer, qa-engineer]
 ---

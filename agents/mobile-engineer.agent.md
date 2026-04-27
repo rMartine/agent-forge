@@ -1,7 +1,7 @@
 ---
 description: "Use when: building React Native screens, creating Expo modules, mobile navigation, native device APIs, mobile styling, App Store/Play Store builds, mobile performance optimization, mobile-specific bug fixes, push notifications, offline support, mobile auth flows"
 tools: [all-builtins]
-model: [Claude Opus 4.7 (anthropic), Claude Sonnet 4.6 (copilot)]
+model: [Claude Opus 4.7 Max (anthropic), Claude Sonnet 4.6 (copilot)]
 user-invocable: false
 handoffs: [principal-engineer, qa-engineer]
 ---

@@ -1,7 +1,7 @@
 ---
 description: "Use when: building WPF or Avalonia desktop apps, writing XAML views, creating ViewModels, data binding, commands, dependency injection, EF Core data access, MSIX packaging, desktop app performance, WPF styling, Avalonia cross-platform UI, desktop-specific bug fixes"
 tools: [all-builtins]
-model: [Claude Opus 4.7 (anthropic), Claude Sonnet 4.6 (copilot)]
+model: [Claude Opus 4.7 Max (anthropic), Claude Sonnet 4.6 (copilot)]
 user-invocable: false
 handoffs: [principal-engineer, qa-engineer]
 ---

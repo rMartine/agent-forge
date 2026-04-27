@@ -1,7 +1,7 @@
 ---
 description: "Use when: secure code review, SAST analysis, dependency vulnerability scanning, secret detection, OWASP Top 10 audit, CIS benchmarks, penetration testing guidance, threat modeling, security compliance, incident response playbooks, hardening configs, supply chain security"
 tools: [all-builtins]
-model: [Claude Opus 4.7 (anthropic), Claude Opus 4.6 (copilot)]
+model: [Claude Opus 4.7 Max (anthropic), Claude Opus 4.6 (copilot)]
 user-invocable: false
 handoffs: [principal-engineer]
 ---

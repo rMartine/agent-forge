@@ -1,7 +1,7 @@
 ---
 description: "Use when: implementing API endpoints, writing background workers, adding job queues, creating GraphQL types, writing API tests, backend bug fixes, adding queries or mutations, worker handler logic, shared contract schemas, Zod validation schemas, REST or GraphQL API development"
 tools: [all-builtins]
-model: [Claude Opus 4.7 (anthropic), Claude Sonnet 4.6 (copilot)]
+model: [Claude Opus 4.7 Max (anthropic), Claude Sonnet 4.6 (copilot)]
 user-invocable: false
 handoffs: [principal-engineer, qa-engineer]
 ---
