@@ -23,7 +23,7 @@ Single power user managing a large custom Copilot agent ecosystem across one or 
 - A lifecycle manager for agent files (deploy, restore, wipe, status)
 - A Git-backed version control wrapper for the agent ecosystem
 - A sideloaded VS Code extension with a CLI mirror
-- A manifest-driven system that knows what agents exist, their categories, models, and tools
+- A manifest-driven system that knows what agents exist, their categories, tools, and (optionally, v1.1) per-agent models
 
 ## What This Product Is NOT
 

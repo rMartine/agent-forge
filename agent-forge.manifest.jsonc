@@ -14,8 +14,9 @@
 
   // ── Agents ──────────────────────────────────────────────────────────
   // `toolset` references a key in config/common.toolsets.jsonc.
-  // `model` is null because each agent file declares its own model array
-  // (Anthropic primary, Copilot fallback) in frontmatter.
+  // `model` is null: agent files do not declare a model. At runtime, VS Code
+  // uses whichever model + thinking effort is selected in the chat picker.
+  // (Reserved for v1.1 per-agent override.)
   "agents": [
     // Leadership (orchestrators — get the `agent` tool)
     { "id": "cto",                     "file": "agents/cto.agent.md",                     "category": "leadership",    "model": null, "toolset": "orchestrator" },
