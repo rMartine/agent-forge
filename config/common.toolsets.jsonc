@@ -1,17 +1,27 @@
+// Common toolsets shared across all agents.
+//
+// Tool layering: every set includes ALL VS Code built-in tools
+// (read, edit, search, execute, web, browser, todo, vscode, ask) plus the
+// GitKraken MCP tools (gitkraken/*). Higher-tier sets layer on additional
+// capabilities (subagent spawning, MCP tools for cloud/Docker/etc.).
+//
+// Naming convention: <role>-builtins. Agents reference one set in their
+// `tools:` frontmatter — never re-declare tools inline.
 {
-	"universal": {
+	"all-builtins": {
 		"tools": [
 			"read",
 			"edit",
 			"search",
 			"execute",
 			"web",
+			"browser",
 			"todo",
 			"vscode",
 			"ask",
 			"gitkraken/*"
 		],
-		"description": "Full built-in toolset plus GitKraken — assigned to every agent",
+		"description": "All VS Code built-in tools + GitKraken MCP. Default for every non-orchestrator agent.",
 		"icon": "tools"
 	},
 	"orchestrator": {
@@ -21,29 +31,50 @@
 			"search",
 			"execute",
 			"web",
+			"browser",
 			"todo",
 			"vscode",
 			"ask",
 			"agent",
 			"gitkraken/*"
 		],
-		"description": "Universal + sub-agent spawning — for CTO, principal-engineer, creative-director",
+		"description": "All built-ins + GitKraken + `agent` (sub-agent spawning). For CTO, principal-engineer, creative-director.",
 		"icon": "organization"
 	},
-	"browser-capable": {
+	"devops": {
 		"tools": [
 			"read",
 			"edit",
 			"search",
 			"execute",
 			"web",
+			"browser",
 			"todo",
 			"vscode",
 			"ask",
-			"browser",
-			"gitkraken/*"
+			"gitkraken/*",
+			"com_digitaloc/*",
+			"com_docker_do/*",
+			"com_github_gi/*"
 		],
-		"description": "Universal + browser — for agents needing web preview and testing capabilities",
-		"icon": "globe"
+		"description": "All built-ins + GitKraken + DigitalOcean + Docker Desktop + GitHub MCP tools. For devops-engineer.",
+		"icon": "server-environment"
+	},
+	"knowledge": {
+		"tools": [
+			"read",
+			"edit",
+			"search",
+			"execute",
+			"web",
+			"browser",
+			"todo",
+			"vscode",
+			"ask",
+			"gitkraken/*",
+			"com_docker_do/*"
+		],
+		"description": "All built-ins + GitKraken + Docker Desktop MCP (for knowledge-repo container). For knowledge-engineer.",
+		"icon": "book"
 	}
 }

@@ -60,14 +60,14 @@ Open the Command Palette and search for **Agent Forge**:
 
 ## Agent Roster
 
-Agent Forge ships with **21 agents** organized into divisions:
+Agent Forge ships with **21 agents** organized into divisions. All agents use the model selected in the VS Code chat picker (and its Thinking Effort) — the agent files do not pin a model.
 
 ### Leadership
-| Agent | Model | Role |
-|-------|-------|------|
-| CTO | Claude Opus 4.6 | Strategic orchestrator, single entry point for all work |
-| Principal Engineer | Claude Opus 4.6 | Implementation lead, delegates to domain engineers |
-| Project Manager | — | Delivery planning, sprints, backlog tracking |
+| Agent | Role |
+|-------|------|
+| CTO | Strategic orchestrator, single entry point for all work |
+| Principal Engineer | Implementation lead, delegates to domain engineers |
+| Project Manager | Delivery planning, sprints, backlog tracking |
 
 ### Engineering
 | Agent | Specialization |

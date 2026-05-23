@@ -120,8 +120,65 @@ git --version
   3. If the user declines: skip the git operation, log a warning (`⚠️ git not available — skipping version control for this step`), and continue without versioning.
 - **Never auto-install git without explicit user consent.**
 
+## Review Policy
+
+Every branch merged to `development` or `main` requires an agent review from the appropriate reviewer before the merge executes. The reviewer is determined by the branch-type prefix.
+
+### Reviewer Assignment
+
+| Branch prefix       | Primary reviewer          | Secondary (if primary unavailable) |
+|---------------------|---------------------------|-------------------------------------|
+| `feature/*`         | `@principal-engineer`     | `@software-architect`               |
+| `bugfix/*`          | `@principal-engineer`     | `@qa-engineer`                      |
+| `hotfix/*`          | `@principal-engineer`     | `@cto`                              |
+| `chore/*`           | `@principal-engineer`     | —                                   |
+| `docs/*`            | `@technical-writer`       | `@principal-engineer`               |
+| `refactor/*`        | `@software-architect`     | `@principal-engineer`               |
+| `test/*`            | `@qa-engineer`            | `@principal-engineer`               |
+| `infra/*`           | `@devops-engineer`        | `@principal-engineer`               |
+| `security/*`        | `@cybersecurity-engineer` | `@principal-engineer`               |
+| `design/*`          | `@ux-engineer`            | `@creative-director`                |
+| `data/*`            | `@database-engineer`      | `@principal-engineer`               |
+| `ml/*`              | `@ml-engineer`            | `@data-scientist`                   |
+
+### Review Checklist (reviewer runs this before approving the merge)
+
+- [ ] Branch compiles and tests pass locally (or CI green).
+- [ ] Changes match the stated scope of the branch — no scope creep.
+- [ ] No secrets, credentials, or PII in the diff.
+- [ ] Conventional commit messages used throughout.
+- [ ] No commented-out blocks of code left behind.
+- [ ] Documentation updated where behavior changed.
+- [ ] Knowledge base consulted if the branch touches a domain with prior incidents.
+- [ ] If the branch introduces a new anti-pattern risk, file a KB entry via `@knowledge-engineer` before merging.
+
+### Review Outcome
+
+- **Approved** — reviewer merges the branch into `development` with `--no-ff`, deletes the source branch, and posts a one-line summary back to the orchestrator that requested the merge.
+- **Changes requested** — reviewer returns a structured list of required changes to the author agent. Author fixes on the same branch and re-requests review.
+- **Rejected** — reviewer escalates to `@cto` with rationale. Branch is not merged.
+
+## Release Workflow (`development` -> `main`)
+
+Cross-agent process for shipping `development` to production. Always user-approved.
+
+1. **`@cto`** decides a release is due and opens the release workflow.
+2. **`@cto`** delegates to **`@principal-engineer`**: confirm `development` is stable (full test suite green, no open blockers, all in-progress merges complete).
+3. **`@principal-engineer`** returns: go/no-go with a list of merged items since the last release tag.
+4. **`@cto`** delegates to **`@qa-engineer`**: run the release regression checklist on `development`.
+5. **`@qa-engineer`** returns: pass/fail with evidence.
+6. **`@cto`** delegates to **`@devops-engineer`**: run pre-release validation (`validate-env.*`, Docker Hub auth, DO target reachability, health checks defined, `deploy-prod.* --dry-run`).
+7. **`@devops-engineer`** returns: pass/fail with evidence.
+8. **`@cto`** delegates to **`@technical-writer`**: draft release notes from commit log since last tag.
+9. **`@cto`** synthesizes steps 3, 5, 7, 8 into a release proposal (see `agents/cto.agent.md` -> Release Proposal) and presents to user.
+10. **User approves** (mandatory). If the user does not approve, stop.
+11. **`@cto`** (or the designated release owner) executes: tag `development` with the new version -> merge `development` -> `main` with `--no-ff` -> push -> `@devops-engineer` runs `deploy-prod.*` -> verify all per-app health checks.
+
+If any health check fails after deploy, `@devops-engineer` initiates rollback per the rollback plan in the release proposal; `@cto` informs the user and routes remediation.
+
 ## Safety
 
 - Agents **NEVER** merge to `main` without explicit user approval.
 - Agents **NEVER** force-push to `main` or `development`.
 - Agents **NEVER** rewrite history on shared branches (no rebase on `main` or `development`).
+- Agents **NEVER** bypass the Review Policy - every merge to `development` or `main` has a reviewer.
