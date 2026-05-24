@@ -29,8 +29,6 @@ agent-forge/
 │   │   └── SKILL.md
 │   ├── scaffold-project/
 │   │   └── SKILL.md
-│   ├── generate-logo/
-│   │   └── SKILL.md
 │   ├── search-stock-images/
 │   │   └── SKILL.md
 │   └── ...

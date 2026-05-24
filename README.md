@@ -105,7 +105,6 @@ Agent Forge ships with **21 agents** organized into divisions. All agents use th
 |-------|-------------|
 | `scaffold-project` | Scaffold a mono-repo with Docker Compose, scripts, and project docs |
 | `query-knowledge-base` | Search the team's error patterns, anti-patterns, and lessons learned |
-| `generate-logo` | Generate logo concepts using SDXL Lightning (4-step) |
 | `search-stock-images` | Search Unsplash, Pexels, Pixabay for royalty-free images |
 
 ## Image Generation

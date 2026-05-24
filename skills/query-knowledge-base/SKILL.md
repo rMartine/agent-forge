@@ -15,11 +15,13 @@ Search the team's institutional knowledge for relevant error patterns, anti-patt
 - During code review to check for known anti-patterns
 - After a bug fix to see if the pattern is already cataloged
 
+> **Infrastructure note:** Steps 1 (local cache) and 2 (Postgres KB container) are independent. The local cache in `project_docs/knowledge/` is ALWAYS available — just markdown files in the repo. The Postgres KB stack is OPTIONAL: it ships in `knowledge-repo/docker-compose.yml` and only matters if `@knowledge-engineer` has it deployed in the current workspace. If only the local cache exists, do step 1 and skip step 2.
+
 ## Procedure
 
-### 1. Check Local Cache First
+### 1. Check Local Cache First (always available)
 
-Look in `project_docs/knowledge/` for locally cached entries relevant to the query. These are curated entries specific to the current project.
+Look in `project_docs/knowledge/` for locally cached entries relevant to the query. These are curated markdown entries specific to the current project. Use `Grep` over `project_docs/knowledge/**/*.md` for keyword search.
 
 ```
 project_docs/knowledge/
@@ -28,7 +30,9 @@ project_docs/knowledge/
 
 Search by keywords, domain tags, and error messages.
 
-### 2. Query the Knowledge Repository (if available)
+### 2. Query the Knowledge Repository (OPTIONAL — only if Docker stack is up)
+
+First confirm the container is running: `docker ps --filter "name=knowledge-repo"`. If absent, skip this step entirely — do not try to spin it up just for a query.
 
 If the Docker-based PostgreSQL knowledge repository is running, query it for broader cross-project patterns.
 

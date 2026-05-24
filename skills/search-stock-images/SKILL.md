@@ -34,7 +34,7 @@ Search at least two of these free stock platforms for breadth:
 | **Pexels** | `https://www.pexels.com/search/{query}/` | Pexels License (free for commercial use, no attribution required) |
 | **Pixabay** | `https://pixabay.com/images/search/{query}/` | Pixabay Content License (free for commercial use) |
 
-Use the `web` tool to search and the `browser` tool to fetch results from these platforms.
+Use `WebSearch` for keyword searches and `WebFetch` to retrieve search result pages. If a stock platform is JavaScript-heavy (Unsplash often is) and `WebFetch` returns an empty shell, fall back to the Chrome MCP (`mcp__claude-in-chrome__navigate` + `mcp__claude-in-chrome__get_page_text`) which renders JS. Always prefer the cheaper tool first.
 
 ### 3. Collect Results
 
