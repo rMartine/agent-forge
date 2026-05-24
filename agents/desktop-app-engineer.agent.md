@@ -1,5 +1,5 @@
 ---
-description: "Use when: building C++ desktop apps, Rust GUI applications, Python Qt/PySide interfaces, cross-platform native UIs, GTK apps, system-level desktop software, game engine tooling, embedded GUIs, native performance-critical applications, desktop app packaging and distribution"
+description: "Use when: building NON-.NET native desktop applications — C++ with Qt or wxWidgets, Rust with Tauri / egui / Slint / GTK4-rs, Python with PySide6 / PyQt6 / Tkinter, Go with Fyne, GTK / GNOME apps, system-level desktop software, game engine tooling, embedded GUIs, native performance-critical applications, desktop app packaging (DMG, MSI without WiX-from-.NET, AppImage, Flatpak, Snap), cross-platform native UIs that are NOT .NET. For .NET desktop (WPF, Avalonia, MAUI, WinUI 3), route to dotnet-engineer instead."
 tools: [all-builtins]
 user-invocable: false
 handoffs:

@@ -1,5 +1,5 @@
 ---
-description: "Use when: building WPF or Avalonia desktop apps, writing XAML views, creating ViewModels, data binding, commands, dependency injection, EF Core data access, MSIX packaging, desktop app performance, WPF styling, Avalonia cross-platform UI, desktop-specific bug fixes"
+description: "Use when: building .NET applications — WPF, Avalonia, MAUI, WinUI 3, ASP.NET Core APIs, Blazor Server / WebAssembly, gRPC services in .NET, writing XAML views, creating ViewModels, data binding, commands, dependency injection, EF Core data access, MSIX packaging, .NET-specific performance tuning, WPF styling, Avalonia cross-platform UI, ASP.NET middleware, Identity / authn / authz in .NET, .NET-specific bug fixes. This agent owns the FULL .NET stack (desktop + server + web). For cross-platform NATIVE desktop (C++/Qt, Rust/Tauri, Python/PySide6) that is NOT .NET, route to desktop-app-engineer."
 tools: [all-builtins]
 user-invocable: false
 handoffs:

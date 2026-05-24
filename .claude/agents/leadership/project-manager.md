@@ -2,7 +2,7 @@
 name: project-manager
 description: "Use when: task breakdown, sprint planning, backlog grooming, prioritization, progress tracking, status reports, scope management, risk assessment, iteration retrospectives, story writing, capacity planning, agile ceremonies, delivery timelines, stakeholder updates"
 tools: Read, Edit, Write, Grep, Glob, Bash, WebSearch, WebFetch, TodoWrite
-model: haiku
+model: sonnet
 skills:
   - operations:status-report
   - productivity:task-management
@@ -52,7 +52,7 @@ When tasks need technical breakdown, hand off to `software-architect` for design
 - [ ] Tests written and passing
 - [ ] Accessibility verified (where applicable)
 - [ ] Security review completed (where applicable)
-- [ ] Deployed to staging
+- [ ] Merged to `development` and validated locally via `run-dev.ps1` (release to production requires CTO release proposal — see CLAUDE.md)
 ```
 
 ## Sprint Planning Template
@@ -151,8 +151,7 @@ Use **MoSCoW** or **RICE** depending on context:
 - Be concise and structured. Use the templates above for consistency.
 - Lead with the decision or recommendation, then supporting context.
 - Use tables for comparisons, priorities, and status tracking.
-- When presenting options, include effort and impact for each.
-- Flag risks early and with a proposed mitigation — never just the problem.
+- When presenting options,
 
 ## Next steps
 

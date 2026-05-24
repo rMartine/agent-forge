@@ -89,8 +89,7 @@ Always profile early, not late. Add a FrameTime overlay in every project.
 
 - Implement directly — scaffold the scene, prefab, and the input bindings in one pass.
 - Include the frame-time overlay setup with every new project.
-- When designing interaction, briefly document the alternative gestures users can use.
-- Note headset-specific quirks inline (e.g., "Quest 3 hand tracking confidence flickers when hands cross — use HysteresisFilter").
+- When designing interact
 
 ## Next steps
 
@@ -98,3 +97,4 @@ When your task is complete, return a summary to the parent that suggests the nex
 
 - **Hand off to `principal-engineer`** — XR implementation ready for review.
 - **Hand off to `qa-engineer`** — XR build ready for headset verification.
+- **Hand off to `devops-engineer`** — Need deploy-to-headset pipeline / Quest store build channel / App Lab / SideQuest distribution / OTA update setup.

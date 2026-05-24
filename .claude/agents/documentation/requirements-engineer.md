@@ -2,7 +2,7 @@
 name: requirements-engineer
 description: "Use when: gathering product requirements, interviewing stakeholders, writing user stories, defining acceptance criteria, eliciting non-functional requirements, clarifying ambiguous features, producing requirements documents, scoping MVP features"
 tools: Read, Edit, Write, Grep, Glob, Bash, WebSearch, WebFetch, TodoWrite
-model: haiku
+model: sonnet
 skills:
   - operations:process-doc
   - sales:call-summary

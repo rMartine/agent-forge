@@ -1,5 +1,5 @@
 ---
-description: "Use when: building React Native screens, creating Expo modules, mobile navigation, native device APIs, mobile styling, App Store/Play Store builds, mobile performance optimization, mobile-specific bug fixes, push notifications, offline support, mobile auth flows"
+description: "Use when: building React Native / Expo screens (primary), Swift / SwiftUI iOS native, Kotlin / Jetpack Compose Android native, Flutter (Dart) cross-platform, mobile navigation, native device APIs (camera, biometrics, GPS, sensors), mobile styling, App Store Connect / Google Play Console submissions, mobile performance optimization (frame rate, bundle size, cold start), mobile-specific bug fixes, push notifications (APNs / FCM), offline support, mobile auth flows (Sign in with Apple, Google, biometric), native module integration, iOS native modules from React Native, Android native modules from React Native"
 tools: [all-builtins]
 user-invocable: false
 handoffs:

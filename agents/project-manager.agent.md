@@ -55,7 +55,7 @@ When tasks need technical breakdown, hand off to `@software-architect` for desig
 - [ ] Tests written and passing
 - [ ] Accessibility verified (where applicable)
 - [ ] Security review completed (where applicable)
-- [ ] Deployed to staging
+- [ ] Merged to `development` and validated locally via `run-dev.ps1` (release to production requires CTO release proposal — see CLAUDE.md)
 ```
 
 ## Sprint Planning Template

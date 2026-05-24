@@ -18,13 +18,16 @@ const MANIFEST_PATH = join(REPO_ROOT, 'agent-forge.manifest.jsonc');
 
 const ORCHESTRATORS = new Set(['cto', 'principal-engineer', 'creative-director']);
 
-// Model per agent. Orchestrators stay 'inherit'. Mechanical work goes to haiku.
+// Model per agent. Orchestrators stay 'inherit'. Mechanical/formatting work goes to haiku.
+// Reasoning-heavy work (requirements elicitation, RICE scoring, risk analysis)
+// stays on sonnet via DEFAULT_MODEL.
 const MODELS_MAP = {
   'technical-writer': 'haiku',
   'knowledge-engineer': 'haiku',
-  'project-manager': 'haiku',
-  'requirements-engineer': 'haiku',
   'graphic-designer': 'haiku',
+  // NOTE: project-manager and requirements-engineer were on haiku before the
+  // Fase 6 audit. Moved to sonnet (the default) because RICE scoring + risk
+  // reasoning (PM) and ambiguity detection + NFR surfacing (RE) underperform on haiku.
 };
 
 // Skills to preload per agent. Missing/disabled skills are silently skipped.

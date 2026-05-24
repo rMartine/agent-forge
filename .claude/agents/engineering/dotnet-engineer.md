@@ -1,6 +1,6 @@
 ---
 name: dotnet-engineer
-description: "Use when: building WPF or Avalonia desktop apps, writing XAML views, creating ViewModels, data binding, commands, dependency injection, EF Core data access, MSIX packaging, desktop app performance, WPF styling, Avalonia cross-platform UI, desktop-specific bug fixes"
+description: "Use when: building .NET applications — WPF, Avalonia, MAUI, WinUI 3, ASP.NET Core APIs, Blazor Server / WebAssembly, gRPC services in .NET, writing XAML views, creating ViewModels, data binding, commands, dependency injection, EF Core data access, MSIX packaging, .NET-specific performance tuning, WPF styling, Avalonia cross-platform UI, ASP.NET middleware, Identity / authn / authz in .NET, .NET-specific bug fixes. This agent owns the FULL .NET stack (desktop + server + web). For cross-platform NATIVE desktop (C++/Qt, Rust/Tauri, Python/PySide6) that is NOT .NET, route to desktop-app-engineer."
 tools: Read, Edit, Write, Grep, Glob, Bash, WebSearch, WebFetch, TodoWrite
 model: sonnet
 ---
@@ -98,14 +98,7 @@ tests/
 - DO NOT reference Views from ViewModels. Communication flows through bindings, commands, and services.
 - DO NOT use `Thread.Sleep` or synchronous I/O on the UI thread. Use `async`/`await`.
 - DO NOT skip `IDisposable` cleanup. Dispose subscriptions, DbContexts, and native resources.
-- DO NOT modify infrastructure or deployment configs. Escalate to `principal-engineer` who will route to the DevOps specialist.
-
-## Output Style
-
-- Implement directly — deliver working code, not descriptions.
-- When creating a new View, scaffold both the XAML and its ViewModel together.
-- Note WPF vs Avalonia differences when the implementation diverges.
-- For new features, create or update the corresponding unit tests.
+- DO NOT modify infrastructure or deployment configs. Escalate to `principal-engineer` who will ro
 
 ## Next steps
 

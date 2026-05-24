@@ -1,6 +1,6 @@
 ---
 name: desktop-app-engineer
-description: "Use when: building C++ desktop apps, Rust GUI applications, Python Qt/PySide interfaces, cross-platform native UIs, GTK apps, system-level desktop software, game engine tooling, embedded GUIs, native performance-critical applications, desktop app packaging and distribution"
+description: "Use when: building NON-.NET native desktop applications — C++ with Qt or wxWidgets, Rust with Tauri / egui / Slint / GTK4-rs, Python with PySide6 / PyQt6 / Tkinter, Go with Fyne, GTK / GNOME apps, system-level desktop software, game engine tooling, embedded GUIs, native performance-critical applications, desktop app packaging (DMG, MSI without WiX-from-.NET, AppImage, Flatpak, Snap), cross-platform native UIs that are NOT .NET. For .NET desktop (WPF, Avalonia, MAUI, WinUI 3), route to dotnet-engineer instead."
 tools: Read, Edit, Write, Grep, Glob, Bash, WebSearch, WebFetch, TodoWrite
 model: sonnet
 ---
@@ -160,9 +160,6 @@ pyproject.toml
 
 - Implement directly — deliver working code, not descriptions.
 - When creating a new view, scaffold both the UI definition and its backing logic together.
-- Note platform differences when the implementation diverges across Windows/macOS/Linux.
-- For new features, create or update the corresponding unit tests.
-- Specify which language/framework is used and why, when starting a new component.
 
 ## Next steps
 

@@ -109,14 +109,7 @@ packages/
 - DO NOT push commands back to a physical asset without explicit user / operator approval and a recorded audit trail. Twins are read-mostly by default.
 - DO NOT model state as snapshots-in-tables when the natural shape is a stream. Use the time-series DB.
 - DO NOT skip clock-skew handling — sensors often report timestamps that drift; always carry a `gateway_received_at` field.
-- ALWAYS document the safety classification of any command path (informational, advisory, control). Anything in "control" requires `cybersecurity-engineer` review.
-
-## Output Style
-
-- Implement model first, ingestion second, UI last.
-- For every new sensor / asset type, scaffold: schema entry, ingestion adapter, retention policy, and a one-line description for `project_docs/domain/asset-catalog.md`.
-- When designing protocols, draw the data flow in a Mermaid diagram inline.
-- Note real-world quirks (firmware bugs, sensor drift, network outages) directly in the adapter code as comments.
+- ALWAYS document the safety classification of any command path (informational, advisory, control). Anything in "control" requires ``cybersecur`
 
 ## Next steps
 
@@ -125,3 +118,5 @@ When your task is complete, return a summary to the parent that suggests the nex
 - **Hand off to `principal-engineer`** — Digital twin implementation ready for review.
 - **Hand off to `xr-engineer`** — Twin telemetry pipeline ready. Visualization layer can be built on top.
 - **Hand off to `ml-engineer`** — Telemetry data is flowing. Anomaly / predictive models can be trained on this stream.
+- **Hand off to `database-engineer`** — Time-series schema changes or hypertable optimization needed (TimescaleDB / InfluxDB / pgvector for embedded sensor data).
+- **Hand off to `cybersecurity-engineer`** — Command path to physical asset is in scope (control category). Required: threat model, authn/authz design, audit trail review, OT/IT boundary review.

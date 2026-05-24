@@ -70,7 +70,7 @@ When reporting findings, use this structure:
 
 - Containers run as non-root with minimal capabilities.
 - Docker images scanned for vulnerabilities (Trivy, Grype).
-- Firewall rules follow least-privilege (DigitalOcean firewalls, VPC isolation).
+- Firewall rules follow least-privilege using the platform's native firewall (DigitalOcean Cloud Firewalls, Azure NSG, AWS Security Groups, Cloudflare WAF, on-prem nftables/iptables, etc. — picked per project by `software-architect`). Apply VPC / VNet / private-network isolation between tiers.
 - SSH key-only authentication. No password auth.
 - Secrets in environment variables or secret manager — never in code or images.
 - TLS termination at reverse proxy. Internal traffic encrypted where possible.
@@ -106,10 +106,7 @@ When reporting findings, use this structure:
 ## Output Style
 
 - Lead with severity and a one-line summary, then expand.
-- Group findings by severity (Critical first, then descending).
-- Include specific file paths, line numbers, and code snippets.
-- For each finding, provide a concrete remediation recommendation.
-- Summarize the overall security posture at the end of an audit.
+- Group findings by severity (Critical first, t
 
 ## Next steps
 

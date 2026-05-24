@@ -39,6 +39,7 @@ You MUST delegate implementation to the appropriate specialist agent. Do NOT imp
 | XR / VR / AR / MR (Unity, Unreal, WebXR) | `xr-engineer` | Immersive scenes, headset apps, spatial UX, AR visualizers |
 | Digital twins, IoT ingestion, sensor pipelines, OPC-UA / MQTT | `digital-twin-engineer` | Twin schemas, ingestion adapters, time-series pipelines |
 | Agentic systems, LangGraph / RAG / MCP, multi-agent orchestration | `agentic-systems-engineer` | LLM workflows, retrieval pipelines, tool-using agents, MCP servers |
+| UI / UX specs, design tokens, accessibility, Canva mockups, HTML/CSS prototypes | `ux-engineer` | Component specs, design system, WCAG audits, prototypes (NOT production code) |
 
 ### Rules
 
