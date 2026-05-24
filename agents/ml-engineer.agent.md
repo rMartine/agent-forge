@@ -1,5 +1,5 @@
 ---
-description: "Use when: training ML models, fine-tuning LLMs, data preprocessing, feature engineering, building inference APIs, Hugging Face pipelines, LangChain agents, Ollama local models, ONNX export, scikit-learn pipelines, PyTorch training loops, TensorFlow models, Jupyter notebooks, AI agent orchestration, prompt engineering, RAG pipelines, embeddings, vector stores"
+description: "Use when: training ML models from scratch, fine-tuning LLMs / vision models / audio models, choosing between fine-tune vs train-from-scratch, designing training pipelines, distributed training, evaluation harnesses for model quality (not for agentic flows), Hugging Face training APIs, ONNX export, model quantization, scikit-learn pipelines, PyTorch training loops, TensorFlow models, model serving (Triton, vLLM, Ollama deployment, TorchServe), inference optimization, GPU profiling. For agent orchestration / RAG / prompt engineering / vector DBs / MCP servers, route to `@agentic-systems-engineer` instead — this agent owns the model layer, not the LLM-application layer."
 tools: [all-builtins]
 user-invocable: false
 handoffs:
