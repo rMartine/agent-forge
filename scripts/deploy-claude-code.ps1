@@ -1,4 +1,4 @@
-#Requires -Version 5.1
+﻿#Requires -Version 5.1
 
 <#
 .SYNOPSIS
@@ -17,7 +17,7 @@
     the destination that are NOT present in this repo are left alone.
 
     This script REPLACES the Copilot-targeted scripts\install.ps1 for the
-    Claude Code workflow. They can coexist if you still use Copilot — they
+    Claude Code workflow. They can coexist if you still use Copilot - they
     write to different directories.
 
 .PARAMETER DryRun
@@ -28,7 +28,7 @@
 
 .PARAMETER NoClaudeMd
     Skip copying CLAUDE.md to user scope (leave your existing user-scope
-    CLAUDE.md alone — useful if you customize it separately).
+    CLAUDE.md alone - useful if you customize it separately).
 
 .EXAMPLE
     .\scripts\deploy-claude-code.ps1 -DryRun
@@ -123,7 +123,7 @@ if (-not $NoSkills) {
 if (-not $NoClaudeMd) {
     Write-Host "`n[3/3] Copying CLAUDE.md (workspace conventions) ..." -ForegroundColor Cyan
     if (-not (Test-Path $ClaudeMdSrc)) {
-        Write-Warning "CLAUDE.md not found at $ClaudeMdSrc — skipping"
+        Write-Warning "CLAUDE.md not found at $ClaudeMdSrc - skipping"
     } else {
         if ($DryRun) {
             Write-Host "  [dry-run] CLAUDE.md -> $ClaudeMdDest"

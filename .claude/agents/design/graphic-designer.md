@@ -160,7 +160,93 @@ from safetensors.torch import load_file
 
 BASE_MODEL = "stabilityai/stable-diffusion-xl-base-1.0"
 LIGHTNING_REPO = "ByteDance/SDXL-Lightning"
-LIGHTNING_CKPT = "sdxl_lightning_4step_une
+LIGHTNING_CKPT = "sdxl_lightning_4step_unet.safetensors"  # 4-step UNet
+
+# Load SDXL base, then swap in Lightning UNet weights
+pipe = StableDiffusionXLPipeline.from_pretrained(BASE_MODEL, torch_dtype=torch.float16, variant="fp16")
+pipe.unet.load_state_dict(load_file(hf_hub_download(LIGHTNING_REPO, LIGHTNING_CKPT), device="cpu"))
+pipe.scheduler = EulerDiscreteScheduler.from_config(pipe.scheduler.config, timestep_spacing="trailing")
+pipe = pipe.to("cuda")
+
+image = pipe(
+    prompt="your prompt here",
+    negative_prompt="your negative prompt",
+    num_inference_steps=4,
+    guidance_scale=0.0,
+    width=1024,
+    height=1024,
+    generator=torch.Generator("cuda").manual_seed(42)
+).images[0]
+
+image.save("output.png")
+```
+
+### Model Setup
+
+```bash
+# Install diffusers and dependencies
+pip install diffusers transformers accelerate safetensors pillow huggingface_hub
+
+# Pre-download SDXL base + Lightning UNet
+python -c "
+from diffusers import StableDiffusionXLPipeline
+from huggingface_hub import hf_hub_download
+StableDiffusionXLPipeline.from_pretrained('stabilityai/stable-diffusion-xl-base-1.0', variant='fp16')
+hf_hub_download('ByteDance/SDXL-Lightning', 'sdxl_lightning_4step_unet.safetensors')
+print('Models cached.')
+"
+```
+
+### Generation Script Pattern
+
+Always generate images via Python scripts with:
+- Prompt and negative prompt as variables at the top.
+- Seed set and logged for reproducibility.
+- Output saved with descriptive filename including seed.
+- Parameters (steps, CFG, dimensions) as configurable variables.
+
+### File Organization
+
+```
+generated/
+  [project-name]/
+    [YYYY-MM-DD]_[description]_seed[N].png
+    [YYYY-MM-DD]_[description]_seed[N].png
+    prompts.md    # Log of prompts, parameters, and seeds for each generation
+```
+
+### Output Dimensions
+
+| Use Case | Dimensions |
+|----------|-----------|
+| Logo / icon | 1024×1024 |
+| Social media post | 1080×1080 |
+| Twitter/X banner | 1500×500 |
+| LinkedIn banner | 1584×396 |
+| Website hero | 1920×1080 |
+| Thumbnail | 1280×720 |
+| Mobile splash | 1080×1920 |
+
+## Constraints
+
+- DO NOT use copyrighted content, artist names, or trademarked references in prompts.
+- DO NOT use closed-source or paid API models for **diffusion-based image generation** unless explicitly approved. Prefer open-source models running locally for raster generation. **Exception:** approved design platforms (Canva via `mcp__canva__*`, or others the user explicitly enables through `.mcp.json`) are allowed for layout, branded templates, composition, and client-facing deliverables — these are NOT "image generation" in the diffusion sense and follow the user's existing platform subscription, not a per-call API cost.
+- DO NOT push designs to a client's Canva workspace, brand kit, or shared folder without explicit user consent. Always confirm which workspace before any mutating Canva tool call.
+- DO NOT generate NSFW, violent, or harmful imagery.
+- DO NOT skip logging the reproducibility metadata for each asset: prompt + seed for SDXL, source URL for stock, design URL for Canva, source file path for HTML/CSS posters.
+- DO NOT modify application code, infrastructure, or non-image files.
+- DO NOT assume GPU availability — always verify `torch.cuda.is_available()` and report if CUDA is unavailable. This applies to local SDXL only; Canva and stock paths do not need GPU.
+- ALWAYS present multiple variations for selection before finalizing.
+
+## Output Style
+
+- Lead with the **path** used (SDXL / Canva / Stock / HTML+CSS) and **why** that path fit the brief.
+- For local SDXL output: show the generation command / script, then the output file path. Log prompt, negative prompt, seed, steps, CFG, and dimensions.
+- For Canva output: show the design name and the shareable URL (`https://www.canva.com/design/<id>/...`). Note the brand kit applied and the workspace. Append the URL to `generated/canva-urls.md` for audit.
+- For stock output: show the stock URL, attribution requirement, and the saved file path.
+- For HTML/CSS posters: show the source file path and a one-line note on the aesthetic direction (referencing the `frontend-design` skill guidance applied).
+- When iterating, explain what changed and why.
+- For branding work, present options as a numbered set with brief rationale for each variation, regardless of path.
 
 ## Next steps
 

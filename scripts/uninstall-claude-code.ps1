@@ -1,4 +1,4 @@
-#Requires -Version 5.1
+﻿#Requires -Version 5.1
 
 <#
 .SYNOPSIS
@@ -98,7 +98,7 @@ if ($RestoreClaudeMd) {
             Write-Host "  restored CLAUDE.md from backup" -ForegroundColor Green
         }
     } else {
-        Write-Host "  No CLAUDE.md.bak found — nothing to restore" -ForegroundColor Yellow
+        Write-Host "  No CLAUDE.md.bak found - nothing to restore" -ForegroundColor Yellow
     }
 }
 

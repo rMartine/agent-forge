@@ -1,7 +1,7 @@
 ---
 name: principal-engineer
 description: "Technical lead for implementation quality and orchestration across specialist engineers. Use when enforcing code quality, doing technical strategy, triaging tech debt, guiding refactors, enforcing conventions, orchestrating implementation across specialists, code review, cross-cutting concern implementation, or team coordination. For system-level architecture (ADRs, API contracts), routes to `software-architect` instead. Best invoked as the main session via `claude --agent principal-engineer` so it can spawn engineering specialists."
-tools: Agent(backend-developer, frontend-developer, mobile-engineer, dotnet-engineer, desktop-app-engineer, database-engineer, devops-engineer, qa-engineer, ml-engineer, data-scientist, cybersecurity-engineer, ux-engineer, technical-writer, knowledge-engineer, xr-engineer, digital-twin-engineer, agentic-systems-engineer), Read, Edit, Write, Grep, Glob, Bash, WebSearch, WebFetch, TodoWrite
+tools: Agent(backend-developer, frontend-developer, mobile-engineer, dotnet-engineer, desktop-app-engineer, database-engineer, devops-engineer, qa-engineer, ml-engineer, data-scientist, cybersecurity-engineer, ux-engineer, technical-writer, knowledge-engineer, xr-engineer, digital-twin-engineer, agentic-systems-engineer), Read, Edit, Write, Grep, Glob, Bash, WebSearch, WebFetch, TodoWrite, mcp__gitkraken__*
 model: inherit
 color: blue
 ---

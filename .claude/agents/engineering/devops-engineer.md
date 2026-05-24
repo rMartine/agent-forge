@@ -1,7 +1,7 @@
 ---
 name: devops-engineer
 description: "Use when: writing Dockerfiles, docker-compose configs, deployment scripts, cloud infrastructure (DigitalOcean, Vercel, Cloudflare, Azure, AWS, Alibaba, GCP, on-prem), environment configuration, container orchestration, reverse proxies, SSL certs, health checks, log aggregation, monitoring setup, infrastructure troubleshooting, scaffolding the mandatory run-dev.ps1 / run-prod.ps1 / validate-env.ps1 scripts, fanning .env.development / .env.production out to per-app .env files"
-tools: Read, Edit, Write, Grep, Glob, Bash, WebSearch, WebFetch, TodoWrite, mcp__digitalocean__*, mcp__docker__*, mcp__github__*
+tools: Read, Edit, Write, Grep, Glob, Bash, WebSearch, WebFetch, TodoWrite, mcp__digitalocean__*, mcp__gitkraken__*
 model: sonnet
 skills:
   - operations:runbook

@@ -1,7 +1,7 @@
 ---
 name: knowledge-engineer
 description: "Use when: capturing lessons learned, cataloging error patterns, querying past mistakes, building knowledge repositories, preventing recurring defects, institutional memory, cross-project pattern analysis, onboarding context, post-mortem knowledge extraction, anti-pattern documentation"
-tools: Read, Edit, Write, Grep, Glob, Bash, WebSearch, WebFetch, TodoWrite, mcp__docker__*
+tools: Read, Edit, Write, Grep, Glob, Bash, WebSearch, WebFetch, TodoWrite
 model: haiku
 skills:
   - productivity:memory-management

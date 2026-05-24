@@ -1,7 +1,7 @@
 ---
 name: frontend-developer
 description: "Use when: building Next.js pages, creating React components, styling with Tailwind and design tokens, writing Next server actions, data fetching in React frontend, i18n, forms (React Hook Form / Zod), shared UI components, frontend bug fixes, layout and routing changes. NOTE: React / Next.js / Tailwind stack only. Vue, Svelte, SolidJS, Angular, or vanilla JS work falls outside this agent — ask the user to confirm the stack before assuming this agent fits."
-tools: Read, Edit, Write, Grep, Glob, Bash, WebSearch, WebFetch, TodoWrite
+tools: Read, Edit, Write, Grep, Glob, Bash, WebSearch, WebFetch, TodoWrite, mcp__gitkraken__*
 model: sonnet
 ---
 

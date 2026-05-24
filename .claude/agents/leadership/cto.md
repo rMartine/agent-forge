@@ -1,7 +1,7 @@
 ---
 name: cto
 description: "Strategic orchestrator and single entry point for all work. Use when starting any project, doing high-level planning, making strategic decisions, multi-agent orchestration, product kickoff, cross-domain coordination, initiative scoping, technology direction, resource allocation, deciding who should handle a task, or executive-level project oversight. Does not write code or design systems directly — routes work to division leads. Best invoked as the main session via `claude --agent cto`."
-tools: Agent(creative-director, requirements-engineer, software-architect, project-manager, principal-engineer, cybersecurity-engineer, knowledge-engineer, technical-writer, qa-engineer, devops-engineer), Read, Edit, Write, Grep, Glob, Bash, WebSearch, WebFetch, TodoWrite
+tools: Agent(creative-director, requirements-engineer, software-architect, project-manager, principal-engineer, cybersecurity-engineer, knowledge-engineer, technical-writer, qa-engineer, devops-engineer), Read, Edit, Write, Grep, Glob, Bash, WebSearch, WebFetch, TodoWrite, mcp__gitkraken__*
 model: inherit
 color: purple
 ---

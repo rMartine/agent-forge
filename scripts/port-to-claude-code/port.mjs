@@ -18,45 +18,61 @@ const MANIFEST_PATH = join(REPO_ROOT, 'agent-forge.manifest.jsonc');
 
 const ORCHESTRATORS = new Set(['cto', 'principal-engineer', 'creative-director']);
 
-// Model per agent. Orchestrators stay 'inherit'. Mechanical/formatting work goes to haiku.
-// Reasoning-heavy work (requirements elicitation, RICE scoring, risk analysis)
-// stays on sonnet via DEFAULT_MODEL.
+// Model per agent. Orchestrators stay 'inherit'. Mechanical work goes to haiku.
 const MODELS_MAP = {
   'technical-writer': 'haiku',
   'knowledge-engineer': 'haiku',
   'graphic-designer': 'haiku',
-  // NOTE: project-manager and requirements-engineer were on haiku before the
-  // Fase 6 audit. Moved to sonnet (the default) because RICE scoring + risk
-  // reasoning (PM) and ambiguity detection + NFR surfacing (RE) underperform on haiku.
 };
 
 // Skills to preload per agent. Missing/disabled skills are silently skipped.
+// Updated in Tanda 3 (Fase 6 follow-up).
 const SKILLS_MAP = {
-  'technical-writer': ['docx', 'pdf'],
-  'data-scientist': ['xlsx'],
+  'technical-writer': ['docx', 'pdf', 'pptx'],
+  'data-scientist': ['xlsx', 'pdf'],
   'knowledge-engineer': ['productivity:memory-management'],
-  'project-manager': ['operations:status-report', 'productivity:task-management'],
+  'project-manager': ['operations:status-report', 'productivity:task-management', 'operations:capacity-plan'],
   'requirements-engineer': ['operations:process-doc', 'sales:call-summary'],
   'creative-director': ['marketing:brand-review', 'marketing:content-creation'],
-  'software-architect': ['operations:runbook'],
+  'software-architect': ['operations:runbook', 'operations:change-request'],
   'devops-engineer': ['operations:runbook', 'operations:change-request'],
   'graphic-designer': ['pptx', 'frontend-design'],
   'ux-engineer': ['frontend-design'],
+  'cybersecurity-engineer': ['operations:risk-assessment', 'operations:compliance-tracking'],
+  'qa-engineer': ['operations:runbook'],
+  'agentic-systems-engineer': ['skill-creator'],
+  'digital-twin-engineer': ['operations:runbook'],
+  'xr-engineer': ['operations:runbook'],
 };
 
-// MCP tool globs to APPEND to an agent's base toolset. Each entry adds to tools:.
-// Requires that the MCP server is configured in ~/.claude.json or <project>/.mcp.json.
+// MCP tool globs to APPEND to an agent's base toolset.
+// Requires each MCP server be configured in ~/.claude.json (use install-mcps.ps1).
+// Choices (verified May 2026):
+//   - gitkraken  (stdio: gk mcp) - covers GitHub + GitLab + Jira + Azure DevOps + local
+//   - playwright (stdio: npx -y @playwright/mcp@latest) - E2E browser tests for qa
+//   - canva      (http: mcp.canva.com) - graphic-designer + ux-engineer for design
+// Docker INTENTIONALLY omitted: the Docker Desktop MCP Toolkit (BETA) writes to
+// claude_desktop_config.json (chat tab) and does not natively wire up Claude Code's
+// ~/.claude.json. Agents use Bash + docker CLI directly, which works fine for
+// docker compose up/down, build, push, etc. Re-evaluate if Docker MCP gets first-class
+// Claude Code support.
 const MCP_MAP = {
   'graphic-designer': ['mcp__canva__*'],
   'ux-engineer': ['mcp__canva__*'],
+  'backend-developer': ['mcp__gitkraken__*'],
+  'frontend-developer': ['mcp__gitkraken__*'],
+  'cybersecurity-engineer': ['mcp__gitkraken__*'],
+  'qa-engineer': ['mcp__playwright__*'],
+  'software-architect': ['mcp__gitkraken__*'],
 };
 
 const TOOLSET_MAP = {
   'all-builtins': 'Read, Edit, Write, Grep, Glob, Bash, WebSearch, WebFetch, TodoWrite',
+  // devops now uses gitkraken (covers more platforms than github alone)
   'devops':
-    'Read, Edit, Write, Grep, Glob, Bash, WebSearch, WebFetch, TodoWrite, mcp__digitalocean__*, mcp__docker__*, mcp__github__*',
+    'Read, Edit, Write, Grep, Glob, Bash, WebSearch, WebFetch, TodoWrite, mcp__digitalocean__*, mcp__gitkraken__*',
   'knowledge':
-    'Read, Edit, Write, Grep, Glob, Bash, WebSearch, WebFetch, TodoWrite, mcp__docker__*',
+    'Read, Edit, Write, Grep, Glob, Bash, WebSearch, WebFetch, TodoWrite',
   'orchestrator':
     'Read, Edit, Write, Grep, Glob, Bash, WebSearch, WebFetch, TodoWrite, Agent',
 };
