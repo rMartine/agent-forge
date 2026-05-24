@@ -38,6 +38,9 @@
     { "id": "data-scientist",          "file": "agents/data-scientist.agent.md",           "category": "engineering",   "model": null, "toolset": "all-builtins" },
     { "id": "cybersecurity-engineer",  "file": "agents/cybersecurity-engineer.agent.md",   "category": "engineering",   "model": null, "toolset": "all-builtins" },
     { "id": "qa-engineer",             "file": "agents/qa-engineer.agent.md",              "category": "engineering",   "model": null, "toolset": "all-builtins" },
+    { "id": "xr-engineer",             "file": "agents/xr-engineer.agent.md",              "category": "engineering",   "model": null, "toolset": "all-builtins" },
+    { "id": "digital-twin-engineer",   "file": "agents/digital-twin-engineer.agent.md",    "category": "engineering",   "model": null, "toolset": "all-builtins" },
+    { "id": "agentic-systems-engineer","file": "agents/agentic-systems-engineer.agent.md", "category": "engineering",   "model": null, "toolset": "all-builtins" },
 
     // Design (creative-director is an orchestrator)
     { "id": "creative-director",       "file": "agents/creative-director.agent.md",        "category": "design",        "model": null, "toolset": "orchestrator" },
