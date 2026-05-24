@@ -18,19 +18,13 @@ const MANIFEST_PATH = join(REPO_ROOT, 'agent-forge.manifest.jsonc');
 
 const ORCHESTRATORS = new Set(['cto', 'principal-engineer', 'creative-director']);
 
-// Model per agent. Tradeoff: opus = deep reasoning, sonnet = balanced, haiku = fast/cheap.
-// Orchestrators stay 'inherit' so the user's picker choice (typically Opus) flows down.
-// Mechanical/formatting tasks go to haiku. Heavy implementation goes to sonnet.
+// Model per agent. Orchestrators stay 'inherit'. Mechanical work goes to haiku.
 const MODELS_MAP = {
-  // Mechanical / formatting / capture work → haiku
   'technical-writer': 'haiku',
   'knowledge-engineer': 'haiku',
   'project-manager': 'haiku',
   'requirements-engineer': 'haiku',
   'graphic-designer': 'haiku',
-  // Everything else (implementation, analysis, security review, etc.) → sonnet
-  // Orchestrators (cto, principal-engineer, creative-director) and software-architect
-  // default to 'inherit' below (omitted from the map).
 };
 
 // Skills to preload per agent. Missing/disabled skills are silently skipped.
@@ -43,7 +37,15 @@ const SKILLS_MAP = {
   'creative-director': ['marketing:brand-review', 'marketing:content-creation'],
   'software-architect': ['operations:runbook'],
   'devops-engineer': ['operations:runbook', 'operations:change-request'],
-  'graphic-designer': ['pptx'],
+  'graphic-designer': ['pptx', 'frontend-design'],
+  'ux-engineer': ['frontend-design'],
+};
+
+// MCP tool globs to APPEND to an agent's base toolset. Each entry adds to tools:.
+// Requires that the MCP server is configured in ~/.claude.json or <project>/.mcp.json.
+const MCP_MAP = {
+  'graphic-designer': ['mcp__canva__*'],
+  'ux-engineer': ['mcp__canva__*'],
 };
 
 const TOOLSET_MAP = {
@@ -56,7 +58,6 @@ const TOOLSET_MAP = {
     'Read, Edit, Write, Grep, Glob, Bash, WebSearch, WebFetch, TodoWrite, Agent',
 };
 
-// Default model for agents not in MODELS_MAP and not orchestrators.
 const DEFAULT_MODEL = 'sonnet';
 
 const argv = new Set(process.argv.slice(2));
@@ -104,8 +105,11 @@ function convertFrontmatter(id, fm, isOrchestrator) {
     const allowlist = `Agent(${fm.agents.join(', ')})`;
     toolsStr = toolsStr.replace(/\bAgent\b(?!\()/, allowlist);
   }
+  const mcpAdds = MCP_MAP[id];
+  if (mcpAdds && mcpAdds.length > 0) {
+    toolsStr = toolsStr + ', ' + mcpAdds.join(', ');
+  }
   out.tools = toolsStr;
-  // Model resolution: orchestrators + software-architect → inherit; mechanical → haiku; rest → sonnet.
   if (isOrchestrator || id === 'software-architect') {
     out.model = 'inherit';
   } else {

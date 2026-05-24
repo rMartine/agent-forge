@@ -1,0 +1,9 @@
+{
+  "_comment_canva": "Canva remote MCP. First time a session uses mcp__canva__*, Claude Code will prompt OAuth. Authorize with your Canva account once. See https://www.canva.dev/docs/connect/mcp-server/ for details.",
+  "mcpServers": {
+    "canva": {
+      "type": "http",
+      "url": "https://mcp.canva.com/mcp"
+    }
+  }
+}
