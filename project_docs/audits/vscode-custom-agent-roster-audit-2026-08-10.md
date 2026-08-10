@@ -4,7 +4,7 @@
 **Audited commit:** `a959a4d`
 **Audit branch:** `codex/vscode-agent-audit`
 **Target runtime:** GitHub Copilot custom agents in Visual Studio Code
-**Audit status:** Complete; remediation not yet implemented
+**Audit status:** Complete; team-vision and retained-capability redesign documented; remediation not yet implemented
 
 ## 1. Executive assessment
 
@@ -20,6 +20,9 @@ The source inventory is internally consistent: all 24 manifest entries resolve t
 6. Only three user-facing entry points exist. Twenty-one specialists are hidden and depend on correct coordinator behavior.
 7. Several bodies reference capabilities that are not deployed for VS Code: `frontend-design`, `pptx`, `mcp__canva__*`, Claude-in-Chrome tools, and Docker MCP assumptions.
 8. The shared governance layer encourages agents to modify their own definitions and tool access. That is unsafe for a centrally managed user-level roster and makes behavior non-reproducible.
+9. The roster resembles a hierarchical organization more than an executable delivery system. It names specialists well, but it does not consistently define phase ownership, required artifacts, independent gates, approval authority, or measurable team outcomes.
+
+The redesign must **retain Canva, Docker, DigitalOcean, GitHub, and GitKraken**. The corrective action is to replace obsolete aliases and blanket globs with verified, role-scoped read/write surfaces. Capability removal is not recommended; indiscriminate access is.
 
 **Readiness verdict:** `NO-GO` for broad deployment until the P0 items in section 11 are resolved. The roster is suitable for a controlled pilot after those changes and a diagnostics-based smoke test.
 
@@ -139,7 +142,7 @@ Legend: **Picker** means visible in the VS Code agent picker; **Hidden** means `
 |---|---|---|---|---|---|
 | `creative-director` | Product concept, positioning, brand, naming, MVP scope, prioritization, and visual direction. | Picker; Inherit | Delegates to UX/Graphic; handoffs to Requirements, Architect, PM | `orchestrator`; no explicit skills | **Keep, refine.** Its one-level design delegation works when directly selected. Reduce implementation tools, separate strategy from production procedures, and require feasibility evidence before locking scope. |
 | `graphic-designer` | Raster generation, Canva, HTML/CSS posters, stock imagery, branding, mockups, and asset logging. | Hidden; Inherit | Handoffs to UX and Creative | `all-builtins`; uses `search-stock-images`; references missing `frontend-design`, `pptx`, and unavailable `mcp__canva__*` | **Fix before use.** Split image generation, Canva, presentations, and stock workflows into skills. Use VS Code MCP naming (`canva/*`) after provisioning. Use a vision-capable chat model for visual review. |
-| `ux-engineer` | Design systems, accessibility, interaction, prototypes, tokens, usability, responsive behavior, and specifications; avoids production code. | Hidden; Inherit | Handoffs to Principal, Creative, Graphic | `all-builtins`; references missing `frontend-design` and unavailable Canva tools | **Keep, fix capabilities.** Add a verified design/prototype skill and scoped Canva access or remove those promises. Use browser plus prototype/document editing rather than full Git/terminal access. |
+| `ux-engineer` | Design systems, accessibility, interaction, prototypes, tokens, usability, responsive behavior, and specifications; avoids production code. | Hidden; Inherit | Handoffs to Principal, Creative, Graphic | `all-builtins`; references missing `frontend-design` and unavailable Canva tools | **Keep, fix capabilities.** Add a verified design/prototype skill and scoped Canva access. Use browser plus prototype/document editing rather than full Git/terminal access. |
 | `technical-writer` | README, API docs, guides, changelog, runbooks, onboarding, OpenAPI, troubleshooting, and release notes. Must not fix code. | Hidden; Inherit | Handoff to Principal | `all-builtins`; no explicit skills | **Keep.** Use read/search and documentation editing; allow execute only for doc validation. Add source-verification and link-check gates. |
 | `knowledge-engineer` | Institutional memory, KB querying, post-mortems, Docker/Postgres KB management, and roster self-improvement. | Hidden; Inherit | Handoff to Principal | `knowledge`; overlaps global `query-knowledge-base` | **Redesign.** It contains stale “18 of 21” port facts, assumes unprovisioned Docker MCP, and can modify other agents. Split read-only retrieval from curated writes. Replace autonomous edits with maintainer-reviewed patches. |
 | `requirements-engineer` | Interviews, user stories, acceptance criteria, NFRs, dependencies, open questions, and MVP scoping. | Hidden; Inherit | Handoffs to Architect, PM, Creative | `all-builtins`; no explicit skills | **Keep and promote, or merge with product discovery.** Use ask/read/search/web and document edit, not code execution. Add traceability from requirement to validator. |
@@ -172,11 +175,69 @@ Legend: **Picker** means visible in the VS Code agent picker; **Hidden** means `
 - No Go backend role.
 - No non-React web role despite Principal promising broader coverage.
 - No lightweight correctness/maintainability reviewer before specialized QA/security review.
+- No dedicated product-research role; Requirements and UX can cover interviews/usability evidence initially, but the boundary and evidence standard are not explicit.
 - No executable prompt/agent evaluation harness.
 - No owner for VS Code customization diagnostics and deployment verification.
 - No consistent per-agent data-sensitivity classification.
 
 Do not add an agent for every gap. Prefer a skill when the gap is a procedure inside an existing responsibility; add an agent only when it needs a distinct persona, tool boundary, model policy, or independent review perspective.
+
+### 5.4 Team vision and operating model
+
+The roster's strongest future is not a simulated corporate hierarchy. It is a reusable product-delivery system for turning an ambiguous request into an evidence-backed, secure, operable, and documented outcome across software, data/ML, agentic systems, mobile, XR, and digital-twin work.
+
+That vision requires five properties:
+
+1. **Phase ownership:** exactly one accountable role owns the state of each lifecycle phase.
+2. **Specialist composition:** domain experts join only when the work actually needs their boundary, tools, or review perspective.
+3. **Independent assurance:** QA, Security, UX, Architecture, and Operations act early and at gates, not only after implementation.
+4. **Evidence-bearing transitions:** agents hand off artifacts, decisions, risks, and verification results rather than a prose summary alone.
+5. **Human control of consequential actions:** production, cloud-cost, publication, destructive data, security disclosure, and release mutations remain user-approved.
+
+The current roster fits this vision unevenly:
+
+| Team layer | Existing roles | Fit against the full vision | Required refinement |
+|---|---|---|---|
+| Portfolio and governance | CTO | Useful strategic integrator, but currently a bottleneck and an operational side-effect source. | Make CTO read-mostly: classify work, resolve cross-domain tradeoffs, synthesize phase evidence, and present release decisions. Do not require every task to transit CTO. |
+| Product discovery and experience | Creative Director, Requirements Engineer, UX Engineer, Graphic Designer | Covers product framing, acceptance, interaction, brand, and asset production. | Separate product outcome, requirement, interaction, and visual-asset artifacts. Add user-evidence and feasibility gates so vision is not locked before engineering input. |
+| Architecture and delivery control | Software Architect, Principal Engineer, Project Manager | Covers decisions, implementation coordination, and flow management. | Architect owns consequential decisions; Principal owns technical execution; PM owns delivery state. None should silently substitute for another. |
+| Platform implementation | Backend, Frontend, Database, .NET, Desktop, Mobile, DevOps | Broad application/platform coverage with several honest boundaries. | Fix Python/Go/non-React routing gaps; keep DevOps accountable for platform operations rather than application design; require stack-specific build/package evidence. |
+| Data and intelligence | Data Scientist, ML Engineer, Agentic Systems Engineer, Database Engineer | The core analysis → training/serving → agent application chain exists, but ownership contradicts in the ML body. | Data Science owns analysis/experiment evidence; ML owns trained-model lifecycle; Agentic Systems owns tool/retrieval/orchestration applications; Database owns persistent data contracts. |
+| Spatial and operational systems | Digital Twin Engineer, XR Engineer with DevOps, Database, Security | The twin-state versus experience boundary is unusually strong. | Treat control safety, protocol/telemetry correctness, simulation validity, hardware availability, rendering budgets, and device evidence as explicit gates. |
+| Independent assurance | QA Engineer, Cybersecurity Engineer, plus Architecture/UX/domain reviewers | QA and Security exist but are treated too much as late destinations. | Shift review left. Define threat, test, accessibility, operability, and data-quality criteria during requirements/architecture, then verify them independently before release. |
+| Release and operations | DevOps Engineer with CTO, Principal, QA, Security, Writer | The release participants exist, and production approval is already recognized. | DevOps owns release readiness and execution evidence; CTO synthesizes go/no-go; the user approves consequential actions. GitHub and DigitalOcean authority must be enforced outside prompts. |
+| Documentation and learning | Technical Writer, Knowledge Engineer | Good distinction in intent, but Knowledge currently combines retrieval, infrastructure, and roster mutation. | Writer owns audience-facing truth; Knowledge curates sourced, deduplicated operational learning and eval cases. Neither autonomously changes agent policy. |
+
+### 5.5 Lifecycle ownership and exit contracts
+
+`Accountable` means responsible for the phase result. `Independent gate` means a separate review perspective; it should not be the same agent session that authored the artifact when independence matters.
+
+| Lifecycle phase | Accountable agent | Contributors | Independent gate | Required artifact/state | Exit condition |
+|---|---|---|---|---|---|
+| Intent and opportunity | Creative Director | CTO, Requirements, UX, PM | Requirements | Product brief: target user, problem, outcome metric, constraints, assumptions, non-goals | User outcome and decision boundary are explicit; material unknowns are logged |
+| Requirements and acceptance | Requirements Engineer | Creative, UX, PM, Architect, QA, Security | QA + Architect | Traceable requirements, acceptance criteria, NFRs, dependencies, risks, open decisions | Every in-scope outcome is testable; every consequential ambiguity has an owner or approval |
+| Experience design | UX Engineer | Creative, Requirements, Graphic, Frontend/Mobile/XR as relevant | Requirements + QA/accessibility review | User flows, interaction states, prototype, tokens, accessibility and usability evidence | Critical states and failure paths are represented; implementation feasibility and acceptance mapping are confirmed |
+| Visual asset production | Graphic Designer | Creative, UX, Writer | Creative + UX | Source assets, exports, licenses/provenance, size/format variants, asset manifest | Brand direction, accessibility, usage rights, target formats, and approval state are recorded |
+| Architecture and risk | Software Architect | Principal, DevOps, Database, Security, relevant domain specialists | Security + Principal | ADRs, boundaries, data flows, threat/operability constraints, rollback strategy, vertical slices | Consequential decisions and failure modes are documented; implementation is decomposable |
+| Delivery planning | Project Manager | Principal, Requirements, QA, DevOps, Writer | CTO for portfolio conflict only | Ordered backlog, dependencies, owners, definition of done, evidence plan | Each work unit fits an agent context and has inputs, output, reviewer, and acceptance evidence |
+| Implementation | Principal Engineer | Required platform/domain specialists; Writer for changed behavior | QA + appropriate Architecture/Security/UX/domain reviewer | Code/config/data/design artifacts, tests, migrations, docs, exact verification results | Acceptance criteria pass; review findings are resolved or explicitly accepted by the user |
+| Verification | QA Engineer | Principal, Security, UX, domain specialists | Security for security claims; user for material residual risk | Test matrix, failures and fixes, regression evidence, accessibility/performance results, residual risks | Required checks pass with reproducible evidence; blocked hardware/live-service checks are named |
+| Release and operations | DevOps Engineer | CTO, Principal, QA, Security, Writer | CTO synthesis + explicit user approval for production/cost/destructive actions | Release proposal, environment validation, immutable artifact IDs, dry-run, rollback, health checks, release notes | Approval is recorded; deploy and rollback paths are verified; post-release health evidence exists |
+| Learning and improvement | Knowledge Engineer | Incident owner, QA, Writer, PM, all contributing agents | Maintainer review for policy/config changes | Sourced lesson, root cause, prevention, eval case, affected artifacts and versions | Entry is deduplicated and retrievable; proposed agent changes remain reviewed patches |
+
+The lifecycle is not mandatory ceremony for every request. A documentation fix may enter at implementation and proceed directly to verification; a production release uses every relevant gate. The work classification should determine the smallest safe path.
+
+### 5.6 Role refinements that preserve the roster's intent
+
+- CTO becomes a **portfolio, cross-domain decision, and release-synthesis role**, not the universal runtime parent.
+- Principal Engineer becomes the **technical delivery owner** and default entry for implementation, integration, and source-control coordination.
+- Project Manager manages **flow, dependencies, evidence status, and stakeholder visibility**, not technical design or agent micromanagement.
+- Software Architect owns **consequential and cross-cutting decisions**; routine implementation choices stay with Principal and specialists.
+- Creative Director, Requirements Engineer, UX Engineer, and Graphic Designer form a discovery/experience cell with separate outcome, acceptance, interaction, and asset responsibilities.
+- QA and Cybersecurity become **shift-left assurance roles** with early criteria and independent release evidence. QA does not become the generic code reviewer; Security remains audit-first and routes fixes back to engineering.
+- DevOps owns container/platform readiness and deployment execution evidence. It does not own application architecture, product release approval, or every developer's local environment.
+- Technical Writer owns published/documented truth. Knowledge Engineer owns curated reusable evidence and eval inputs, not autonomous roster administration.
+- Domain specialists stay hidden by default. Promote one only when direct invocation is a frequent user workflow that benefits from a distinct tool/model boundary.
 
 ## 6. Handoff and workflow redesign
 
@@ -227,6 +288,26 @@ handoffs:
     send: false
 ```
 
+For repeatable orchestration, represent each transition as a small state record rather than relying on chat history:
+
+```yaml
+work_id: AF-2026-001
+phase: architecture
+source_agent: software-architect
+destination_agent: principal-engineer
+artifact_uris:
+  - project_docs/architecture/ADR-004.md
+decisions: []
+open_questions: []
+acceptance_criteria: []
+evidence: []
+risks: []
+approvals_required: []
+next_action: Implement the approved vertical slice
+```
+
+The runtime does not need a heavyweight multi-agent graph to start. Handoff prompts plus versioned Markdown artifacts are sufficient for the pilot. Add a stateful graph only if evals show that retries, parallel branches, approvals, or long-running resumability cannot be handled reliably with one-level delegation and explicit handoffs.
+
 ## 7. Tool audit
 
 ### 7.1 Existing profiles
@@ -263,6 +344,80 @@ handoffs:
 | `documentation` | Writer | read, search, documentation edit, link/build validation |
 
 Use qualified tool names when a narrow tool is sufficient. Keep broad tool sets only where the role genuinely needs the whole group.
+
+### 7.4 Retained external-capability strategy
+
+Canva, Docker, DigitalOcean, GitHub, and GitKraken remain first-class team capabilities. Distribution follows responsibility and privilege rather than convenience:
+
+- `R` — read, inspect, list, diff, or audit; no external mutation.
+- `W` — scoped create/update within the assigned repository, project, design, or non-production environment.
+- `A` — administrative, deployment, release, destructive, or production mutation; the specific consequential action requires explicit user approval.
+- `—` — capability is not exposed to the agent.
+
+These symbols describe the intended authorization, not merely prompt language. If an MCP server exposes read and write through one wildcard, create separate server aliases, explicit tool allowlists, scoped credentials, or validated wrappers before claiming that the matrix is enforced.
+
+| Capability | Primary operator | Scoped contributors/reviewers | Intended division of responsibility | Mandatory controls |
+|---|---|---|---|---|
+| Canva | Graphic Designer | Creative Director and UX Engineer | Graphic creates/edits/exports brand and campaign assets; UX creates/reviews flows, mockups, and templates; Creative reviews direction, brand consistency, and approvals. | Restrict workspace/design IDs where possible; classify publish/delete/share actions; require confirmation for destructive or externally published changes. |
+| Docker | DevOps Engineer | Principal, Backend, Frontend, Database, .NET, Desktop, Mobile, ML, Data Science, QA, Digital Twin, Agentic Systems, Knowledge; Security read-only | DevOps owns Compose, images, registries, platform lifecycle, and cleanup. Contributors operate only the local stacks their work requires. Knowledge is limited to the KB stack; QA to disposable test stacks; Security audits images/configuration. | Pin repository/Compose project and allowed contexts; disable production Docker contexts for non-DevOps roles; validate mounts and destructive cleanup; require approval for registry publication or data/volume deletion. |
+| DigitalOcean | DevOps Engineer | CTO, Architect, and Security read-only | DevOps provisions and deploys. CTO reads health/cost/release state; Architect reads platform constraints and inventory; Security audits network, firewall, identity, and secret posture. | Separate read-only and mutation credentials/server aliases; bind to the intended team/project; show plan/cost/diff; require user approval for mutation, spend, deployment, or deletion. |
+| GitHub | Principal, PM, DevOps, QA, Security, Writer by workflow | CTO/Architect/specialists read context | Principal manages PR/check integration; PM manages issues/projects; QA attaches test evidence; Security handles scanning/advisory review; DevOps handles releases/registries/deploy integrations; Writer manages release-note/docs workflows. | Use read/collaboration/release scopes; preserve branch protection and reviewer gates; require approval for release, protected-branch, disclosure, or destructive repository changes. |
+| GitKraken | Principal Engineer | Artifact-producing agents use scoped write; CTO, Creative, Security use read-only | GitKraken is the local Git/worktree/history surface. Principal coordinates branches and integration; specialists inspect, stage explicit paths, and commit only their artifacts. | Prefer explicit read/write tool subsets over `gitkraken/*`; deny force-push/history rewrite; protect unrelated work; gate merge/push/delete by repository policy. |
+
+GitKraken and GitHub are complementary, not interchangeable. Use GitKraken for local repository state, branches, diffs, blame, worktrees, staging, and commits. Use GitHub for remote issues, projects, pull requests, checks, security findings, releases, registries, and repository-hosted collaboration. Agents should not call both for the same fact when one authoritative surface is sufficient.
+
+### 7.5 Target capability matrix by agent
+
+This is the recommended maximum exposure for the initial redesign. A narrower project-specific profile is always acceptable.
+
+| Agent | Canva | Docker | DigitalOcean | GitHub | GitKraken |
+|---|:---:|:---:|:---:|:---:|:---:|
+| `cto` | — | — | R | R | R |
+| `principal-engineer` | — | W | — | W | W |
+| `project-manager` | — | — | — | W | W |
+| `software-architect` | — | R | R | R | W |
+| `backend-developer` | — | W | — | R | W |
+| `frontend-developer` | — | W | — | R | W |
+| `database-engineer` | — | W | — | R | W |
+| `devops-engineer` | — | A | A | A | W |
+| `dotnet-engineer` | — | W | — | R | W |
+| `desktop-app-engineer` | — | W | — | R | W |
+| `mobile-engineer` | — | W | — | R | W |
+| `ml-engineer` | — | W | — | R | W |
+| `data-scientist` | — | W | — | R | W |
+| `cybersecurity-engineer` | — | R | R | W | R |
+| `qa-engineer` | — | W | — | W | W |
+| `xr-engineer` | — | — | — | R | W |
+| `digital-twin-engineer` | — | W | — | R | W |
+| `agentic-systems-engineer` | — | W | — | R | W |
+| `creative-director` | W | — | — | — | R |
+| `graphic-designer` | W | — | — | — | W |
+| `ux-engineer` | W | — | — | W | W |
+| `technical-writer` | — | — | — | W | W |
+| `knowledge-engineer` | — | W | — | R | W |
+| `requirements-engineer` | — | — | — | R | W |
+
+Important scope refinements behind the matrix:
+
+- Principal, application specialists, and QA receive Docker write only for named local development/test services. They do not inherit registry, daemon administration, production context, global cleanup, or unrelated-volume authority.
+- Database Docker access is limited to local database/migration fixtures. Knowledge access is limited to the knowledge-base stack. Agentic Systems access is limited to local vector, retrieval, observability, and MCP dependencies.
+- Security's GitHub write means review comments, findings, and approved advisory workflows; it does not permit product-code remediation. QA's GitHub write means checks, test evidence, and defect/PR comments.
+- Creative's Canva write is limited to review, comments, brand direction, and approved template changes; Graphic owns asset production; UX owns interaction/prototype artifacts. Canva administration, deletion, or external publishing is not implied.
+- GitKraken write does not imply permission to merge, push, delete branches, rewrite history, or stage unrelated files. Those operations remain constrained by repository policy and explicit-path staging.
+- DigitalOcean remains intentionally narrow: only DevOps mutates it, and every deployment, cost-bearing, production, or destructive change requires user approval. CTO, Architect, and Security use a distinct read-only surface.
+
+### 7.6 Enforcement design
+
+Implement the matrix in layers:
+
+1. **Frontmatter allowlist:** expose only exact tools or the smallest safe server group for the role.
+2. **MCP/tool surface:** split broad providers into read, collaboration, and admin/deploy surfaces; every tool has typed inputs, timeout, retry behavior, actionable errors, and a side-effect classification.
+3. **Credentials and platform policy:** use read-only tokens, scoped teams/projects, branch protection, cloud IAM, registry roles, and Canva workspace permissions. Never rely on the model to honor a textual permission it can technically bypass.
+4. **Validated wrappers:** where the provider cannot express repository, Compose-project, design, or cloud-project boundaries, validate identifiers and current context before forwarding the action.
+5. **Approval:** require a human confirmation immediately before open-world, destructive, externally published, cost-bearing, protected-branch, release, or production mutations. Include the target, diff/plan, expected effect, and rollback path.
+6. **Trace:** record agent ID, model/prompt version, tool name, normalized arguments with secrets removed, target account/project/repository, result, latency, approval decision, and immutable artifact/commit/deployment ID.
+
+The repository's current four symbolic profiles cannot express this matrix. Replace them with capability overlays such as `github-read`, `github-collab`, `github-release`, `gitkraken-read`, `gitkraken-write`, `docker-local`, `docker-admin`, `digitalocean-read`, `digitalocean-admin`, and `canva-design`, composed onto the role profiles from section 7.3. Use those names only after the corresponding exact VS Code tools are verified.
 
 ## 8. Skill audit
 
@@ -329,30 +484,32 @@ Recommended governance: agents propose configuration patches; a maintainer appro
 1. **Change the user-agent destination** to `%USERPROFILE%\.copilot\agents` and confirm Agent Host discovery there.
 2. **Choose one VS Code identity source.** Prevent `.claude/agents` from shadowing/conflicting with Copilot agents when this repository is opened. Exclude Claude discovery for this workspace, use distinct names, or keep the derivation outside the VS Code workspace.
 3. **Remove mandatory nested orchestration.** Make Principal Engineer a direct implementation entry and transition by handoff. If nesting remains, explicitly enable and test `chat.subagents.allowInvocationsFromSubagents` and document recursion/cost implications.
-4. **Replace legacy MCP assumptions with verified VS Code tools.** Provision through current VS Code MCP configuration, then use `<server-name>/*` only where needed.
-5. **Resolve broken capability promises.** Install or remove `frontend-design`, `pptx`, Canva, Claude-in-Chrome, and Docker MCP references.
+4. **Retain and provision the five required platform capabilities.** Configure verified VS Code surfaces for Canva, Docker, DigitalOcean, GitHub, and GitKraken; replace legacy aliases and blanket globs with the role-scoped matrix in section 7.5.
+5. **Resolve adjacent broken promises without deleting required capability.** Create/install verified `frontend-design` and presentation workflows or retire only those false skill references; replace Claude-in-Chrome terminology; make Canva and Docker references match the actual provisioned surfaces.
 6. **Eliminate autonomous agent self-modification.**
 7. **Run Chat Customization Diagnostics** and require zero agent/skill/instruction errors.
 
 ### P1 — Required for a dependable pilot
 
 1. Introduce least-privilege tool profiles.
-2. Promote phase-specific visible entry points so users can avoid deep routing.
-3. Add explicit `name`, concise `description`, `argument-hint`, and `target: vscode` where appropriate.
-4. Fix role-routing contradictions and stale roster counts.
-5. Rewrite handoffs with artifact and verification context.
-6. Move project policy out of global agent bodies into target-repository instructions.
-7. Split long procedures into progressive skills.
-8. Make destructive scaffold/deployment skills user-invocable-only and retain approvals.
-9. Create an uninstall/rollback path that preserves unrelated user agents and skills.
+2. Adopt the lifecycle accountability and independent-gate model from section 5.5.
+3. Promote phase-specific visible entry points so users can avoid deep routing.
+4. Add explicit `name`, concise `description`, `argument-hint`, and `target: vscode` where appropriate.
+5. Fix role-routing contradictions and stale roster counts.
+6. Rewrite handoffs with artifact, state, approval, and verification context.
+7. Move project policy out of global agent bodies into target-repository instructions.
+8. Split long procedures into progressive skills.
+9. Make destructive scaffold/deployment skills user-invocable-only and retain approvals.
+10. Create an uninstall/rollback path that preserves unrelated user agents and skills.
 
 ### P2 — Quality and scale
 
 1. Add an executable roster-evaluation suite.
 2. Add prompt/model version metadata and source-generated change logs.
 3. Add agent-scoped hooks for deterministic validation where useful.
-4. Measure routing accuracy, task success, tool-call error rate, handoff acceptance, cost, and latency.
-5. Split broad agents only when eval evidence shows quality loss.
+4. Measure routing accuracy, lifecycle exit-contract completeness, independent-gate findings, task success, tool-call error rate, handoff acceptance, cost, and latency.
+5. Evaluate correct tool selection, scoped-argument construction, refusal/approval routing for risky writes, and recovery from missing or permission-denied capabilities.
+6. Split broad agents only when eval evidence shows quality loss.
 
 ## 12. Remediation sequence
 
@@ -361,8 +518,8 @@ Recommended governance: agents propose configuration patches; a maintainer appro
 - update destinations
 - define the canonical VS Code source
 - remove duplicate identities
-- add a current VS Code MCP example
-- validate tool names
+- inventory and provision Canva, Docker, DigitalOcean, GitHub, and GitKraken through current VS Code configuration
+- document the verified server/tool IDs and replace legacy names
 - add dry-run destination and file-count assertions
 
 ### Phase 2 — Make orchestration work by default
@@ -375,18 +532,18 @@ Recommended governance: agents propose configuration patches; a maintainer appro
 
 ### Phase 3 — Reduce capability risk
 
-- apply least-privilege profiles
-- remove unresolved MCP globs
+- apply the role profiles and retained-capability overlays from section 7
+- replace unresolved MCP globs with verified read/write/admin surfaces while retaining all five required capabilities
 - remove self-modification
 - separate project policy from persona
-- add destructive-action approvals and scope checks
+- add tool schemas, timeouts, retries, side-effect labels, scope validation, approval points, and traces
 
 ### Phase 4 — Refine roles and skills
 
 - fix Python/non-React routing gaps
 - fix ML/agentic overlap
 - split procedures into skills
-- install or remove missing design/document skills
+- install/create required design/document skills or retire only unsupported skill references
 - shorten descriptions and bodies
 
 ### Phase 5 — Evaluate and pilot
@@ -396,7 +553,9 @@ Recommended governance: agents propose configuration patches; a maintainer appro
 - test every visible entry
 - invoke every hidden agent through an allowed coordinator
 - exercise every handoff
+- exercise every allowed and denied cell in the capability matrix
 - verify model fallback and unavailable-tool behavior
+- verify approval, refusal, permission-denied, timeout, retry, and partial-failure behavior
 - pilot on a disposable repository before global rollout
 
 ## 13. Deployment acceptance gates
@@ -409,13 +568,16 @@ The redesign is ready only when all gates pass:
 | Discovery | Agent Customizations shows exactly one intended definition per agent name |
 | Destination | User agents resolve from `~/.copilot/agents`; skills from `~/.copilot/skills` |
 | Diagnostics | Zero agent, instruction, and skill load errors |
-| Tools | Every declared built-in/MCP tool is available; unavailable tools are removed or explicitly optional |
+| Tools | Canva, Docker, DigitalOcean, GitHub, and GitKraken are provisioned under verified names; every other declared built-in/MCP tool is available or explicitly optional |
+| Capability boundaries | Every agent matches section 7.5; read-only roles cannot mutate; scoped-write roles cannot cross repository/project/environment boundaries; admin operations require the specified approval |
 | Orchestration | CTO-to-implementation workflow succeeds with nesting disabled |
+| Lifecycle | Each pilot phase produces its required artifact/state and satisfies the exit contract before transition |
 | Hidden workers | Every hidden worker is invoked once by an allowed coordinator |
 | Handoffs | Every button opens the intended agent/prompt without name ambiguity |
 | Models | Direct/subagent selection matches policy and fallback is observed |
 | Safety | Audit-only agents cannot edit product code; production/cloud/destructive actions request approval |
 | Skills | Every referenced skill exists, loads, and respects invocation/approval policy |
+| Traceability | Tool traces capture agent/model/prompt version, sanitized arguments, target, approval, outcome, latency, and immutable result ID |
 | Rollback | Uninstall restores prior state without deleting unrelated customizations |
 | Pilot | Disposable-repo discovery → architecture → implementation → QA completes without tool/routing failures |
 
@@ -427,8 +589,9 @@ Keep the first remediation branch narrow and verifiable:
 2. Add an explicit canonical-source policy for Copilot versus Claude files.
 3. Redesign CTO → Principal as a handoff-driven transition.
 4. Create least-privilege coordinator, implementer, reviewer, design, operations, and documentation profiles.
-5. Remove or mark unresolved MCP and missing-skill references.
-6. Add a static roster validator and VS Code diagnostics/smoke-test checklist.
+5. Add verified Canva, Docker, DigitalOcean, GitHub, and GitKraken overlays with separate read/write/admin surfaces and test the 24-agent matrix.
+6. Replace obsolete MCP aliases and either implement required design/document skills or retire only unsupported skill references.
+7. Add lifecycle handoff templates, a static roster validator, authorization evals, and a VS Code diagnostics/smoke-test checklist.
 
 Do not rewrite all 24 bodies in the same change. Stabilize discovery, tools, and orchestration first; refine roles in coherent groups with evals.
 
