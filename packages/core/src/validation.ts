@@ -109,8 +109,16 @@ export async function validateRoster(
 
   const claudeAgents = path.join(repoPath, '.claude', 'agents');
   if (await exists(claudeAgents)) {
-    const entries = await readdir(claudeAgents);
-    if (entries.length > 0) diagnostics.push(diagnostic('AF002', 'error', '.claude/agents is VS Code-discoverable and must not duplicate the canonical roster', { path: '.claude/agents' }));
+    const pending = [claudeAgents];
+    let duplicateFound = false;
+    while (pending.length > 0 && !duplicateFound) {
+      const current = pending.pop()!;
+      for (const entry of await readdir(current, { withFileTypes: true })) {
+        if (entry.isDirectory()) pending.push(path.join(current, entry.name));
+        else if (entry.name.endsWith('.md')) { duplicateFound = true; break; }
+      }
+    }
+    if (duplicateFound) diagnostics.push(diagnostic('AF002', 'error', '.claude/agents is VS Code-discoverable and must not duplicate the canonical roster', { path: '.claude/agents' }));
   }
   return { valid: !hasErrors(diagnostics), diagnostics };
 }
