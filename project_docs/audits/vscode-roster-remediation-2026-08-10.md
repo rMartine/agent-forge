@@ -100,3 +100,16 @@ The repository is not authorized or proven for broad live deployment until:
 7. The zero-vulnerability npm audit result remains clean in the release environment.
 
 Live deployment, provider installation, push, merge, and publication remain separate explicitly authorized operations.
+
+## Current-machine Doctor result
+
+The final read-only full-profile Doctor correctly returns `ready: false` and blocks deployment:
+
+- roster structure is valid with zero diagnostics;
+- Docker-backed provider commands are detectable;
+- the `code` CLI is not on this process PATH, so CLI version discovery emits `AF010`;
+- GitKraken `gk` is not ready and emits blocking `AF004`;
+- Canva still requires VS Code/OAuth configuration;
+- no exact VS Code MCP tool inventory was supplied, so Canva, GitKraken, Docker admin, GitHub admin, and DigitalOcean admin capabilities remain unresolved.
+
+These are target-profile provisioning conditions, not repository validation failures. The extension-host suite independently passed on VS Code 1.104.

@@ -12,6 +12,7 @@ Completed in codex/vscode-roster-refactor
 
 Required before broad live deployment
 - Configure/authenticate Canva, GitKraken, Docker MCP Toolkit, GitHub, and DigitalOcean in the intended VS Code profile
+- Put the VS Code `code` CLI on PATH for CLI Doctor, or use the extension's VS Code-native version gate
 - Capture the exact installed tool IDs and update candidate mappings where providers expose different names
 - Optionally configure only locally available model profile mappings
 - Run full Doctor and strict Preview with the real VS Code inventory
