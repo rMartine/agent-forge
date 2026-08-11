@@ -11,6 +11,7 @@ const vscodeMcpToolPrefixes: ReadonlyArray<readonly [string, string]> = [
   ['mcp_gitkraken_cli_', 'gitkraken/'],
   ['mcp_canva_mcp_ser_', 'canva/'],
   ['mcp_mcp-digitaloc_', 'digitalocean/'],
+  ['mcp_github_mcp_se_', 'github/'],
   ['mcp_github_', 'github/'],
 ];
 

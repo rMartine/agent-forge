@@ -48,11 +48,13 @@ test('VS Code MCP inventory receives stable provider aliases', () => {
     'mcp_gitkraken_cli_git_commit',
     'mcp_canva_mcp_ser_generate-design',
     'mcp_mcp-digitaloc_apps-list',
+    'mcp_github_mcp_se_merge_pull_request',
     'read',
   ]);
   assert.ok(normalized.includes('gitkraken/git_commit'));
   assert.ok(normalized.includes('canva/generate-design'));
   assert.ok(normalized.includes('digitalocean/apps-list'));
+  assert.ok(normalized.includes('github/merge_pull_request'));
   assert.ok(normalized.includes('mcp_gitkraken_cli_git_commit'));
   assert.ok(normalized.includes('read'));
 });
