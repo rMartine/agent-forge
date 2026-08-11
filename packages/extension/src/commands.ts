@@ -1,188 +1,139 @@
+import * as path from 'node:path';
 import * as vscode from 'vscode';
-import { deploy, restore, wipe, status } from '@agent-forge/core';
+import type { Diagnostic } from '@agent-forge/core';
+import { DeploymentService } from './services/deploymentService';
+import { DiagnosticsService } from './services/diagnosticsService';
+import { createMcpSetupPreview } from './services/mcpSetupService';
 
 export async function resolveRepoPath(): Promise<string | undefined> {
   const config = vscode.workspace.getConfiguration('agentForge');
   let repoPath = config.get<string>('repoPath');
-
   if (!repoPath) {
-    repoPath = await vscode.window.showInputBox({
-      prompt: 'Enter the path to your Agent Forge repository',
-      placeHolder: 'e.g., D:\\Projects\\agent-roster',
-    });
-
-    if (repoPath) {
-      await config.update('repoPath', repoPath, vscode.ConfigurationTarget.Global);
-    }
+    repoPath = await vscode.window.showInputBox({ prompt: 'Enter the Agent Forge repository path', placeHolder: 'D:\\Repositorios\\agent-forge' });
+    if (repoPath) await config.update('repoPath', repoPath, vscode.ConfigurationTarget.Global);
   }
-
   return repoPath || undefined;
 }
 
-export async function handleDeploy(outputChannel: vscode.OutputChannel): Promise<void> {
-  const repoPath = await resolveRepoPath();
-  if (!repoPath) return;
-
-  await vscode.window.withProgress(
-    { location: vscode.ProgressLocation.Notification, title: 'Agent Forge: Deploying...' },
-    async () => {
-      try {
-        const result = await deploy(repoPath);
-        const msg = `Deployed: ${result.deployed}, Skipped: ${result.skipped}, Failed: ${result.failed}`;
-
-        if (result.success) {
-          vscode.window.showInformationMessage(`Agent Forge: Deploy complete. ${msg}`);
-        } else {
-          vscode.window.showWarningMessage(`Agent Forge: Deploy finished with errors. ${msg}`);
-        }
-
-        outputChannel.appendLine(`\n[Deploy] ${new Date().toISOString()}`);
-        for (const detail of result.details) {
-          outputChannel.appendLine(`  ${detail.action}: ${detail.path}`);
-        }
-        for (const error of result.errors) {
-          outputChannel.appendLine(`  ERROR: ${error.path} — ${error.message}`);
-        }
-      } catch (err: unknown) {
-        const e = err as Error & { actionableMessage?: string };
-        vscode.window.showErrorMessage(`Agent Forge: ${e.actionableMessage ?? e.message}`);
-      }
-    },
-  );
+function appendDiagnostics(output: vscode.OutputChannel, diagnostics: Diagnostic[]): void {
+  for (const item of diagnostics) output.appendLine(`${item.severity.toUpperCase()} ${item.code}: ${item.message}${item.path ? ` (${item.path})` : ''}`);
 }
 
-export async function handleRestore(outputChannel: vscode.OutputChannel): Promise<void> {
+async function service(): Promise<DeploymentService | undefined> {
   const repoPath = await resolveRepoPath();
-  if (!repoPath) return;
+  return repoPath ? new DeploymentService(repoPath) : undefined;
+}
 
-  const autoConfirm = vscode.workspace
-    .getConfiguration('agentForge')
-    .get<boolean>('autoConfirm', false);
+export async function handleValidate(output: vscode.OutputChannel, diagnostics: DiagnosticsService): Promise<boolean> {
+  const deployment = await service();
+  if (!deployment) return false;
+  const result = await deployment.validate();
+  output.appendLine(`\n[Validate] ${new Date().toISOString()}`);
+  appendDiagnostics(output, result.diagnostics);
+  diagnostics.publish(deployment.repoPath, result.diagnostics);
+  vscode.window.showInformationMessage(result.valid ? 'Agent Forge: roster validation passed.' : 'Agent Forge: roster validation failed. See Problems and Output.');
+  return result.valid;
+}
 
-  if (!autoConfirm) {
-    const confirm = await vscode.window.showWarningMessage(
-      'Agent Forge: Restore will overwrite local files with the last committed versions. Continue?',
-      { modal: true },
-      'Restore',
-    );
-    if (confirm !== 'Restore') return;
+export async function handleDoctor(output: vscode.OutputChannel, diagnostics: DiagnosticsService): Promise<boolean> {
+  const deployment = await service();
+  if (!deployment) return false;
+  const result = await deployment.doctor();
+  const allDiagnostics = [...result.roster.diagnostics, ...result.mcp.diagnostics];
+  output.appendLine(`\n[Doctor] ${new Date().toISOString()}`);
+  appendDiagnostics(output, allDiagnostics);
+  for (const [name, provider] of Object.entries(result.mcp.providers)) output.appendLine(`${name}: ${provider.ready ? 'ready' : 'not ready'} — ${provider.message}`);
+  output.appendLine(`Resolved tools: ${result.tools.length}; models: ${result.models.length}`);
+  diagnostics.publish(deployment.repoPath, allDiagnostics);
+  vscode.window.showInformationMessage(result.ready ? 'Agent Forge: doctor passed.' : 'Agent Forge: doctor found blocking readiness issues.');
+  return result.ready;
+}
+
+export async function handlePreview(output: vscode.OutputChannel, diagnostics: DiagnosticsService): Promise<void> {
+  const deployment = await service();
+  if (!deployment) return;
+  const plan = await deployment.preview(true);
+  output.appendLine(`\n[Preview ${plan.deploymentId}] ${plan.artifacts.length} rendered files`);
+  appendDiagnostics(output, plan.diagnostics);
+  for (const artifact of plan.artifacts) output.appendLine(`[${artifact.type}] ${artifact.targetPath} ${artifact.sourceHash}`);
+  diagnostics.publish(deployment.repoPath, plan.diagnostics);
+  output.show(true);
+}
+
+export async function handleDeploy(output: vscode.OutputChannel, diagnostics: DiagnosticsService): Promise<void> {
+  const deployment = await service();
+  if (!deployment) return;
+  const plan = await deployment.preview(true);
+  diagnostics.publish(deployment.repoPath, plan.diagnostics);
+  if (plan.diagnostics.some(item => item.severity === 'error')) {
+    appendDiagnostics(output, plan.diagnostics);
+    vscode.window.showErrorMessage('Agent Forge: deployment blocked by validation or capability diagnostics.');
+    return;
   }
-
-  await vscode.window.withProgress(
-    { location: vscode.ProgressLocation.Notification, title: 'Agent Forge: Restoring...' },
-    async () => {
-      try {
-        const result = await restore(repoPath);
-        const msg = `Restored: ${result.restored}, Recreated: ${result.recreated}, Already matching: ${result.alreadyMatching}`;
-
-        if (result.success) {
-          vscode.window.showInformationMessage(`Agent Forge: Restore complete. ${msg}`);
-        } else {
-          vscode.window.showWarningMessage(`Agent Forge: Restore finished with errors. ${msg}`);
-        }
-
-        outputChannel.appendLine(`\n[Restore] ${new Date().toISOString()}`);
-        for (const detail of result.details) {
-          outputChannel.appendLine(`  ${detail.action}: ${detail.path}`);
-        }
-        for (const error of result.errors) {
-          outputChannel.appendLine(`  ERROR: ${error.path} — ${error.message}`);
-        }
-      } catch (err: unknown) {
-        const e = err as Error & { actionableMessage?: string };
-        vscode.window.showErrorMessage(`Agent Forge: ${e.actionableMessage ?? e.message}`);
-      }
-    },
+  const confirm = await vscode.window.showWarningMessage(
+    `Deploy ${plan.artifacts.length} managed files to the VS Code user profile? Unmanaged collisions will be preserved and block deployment.`,
+    { modal: true },
+    'Deploy',
   );
+  if (confirm !== 'Deploy') return;
+  const result = await vscode.window.withProgress({ location: vscode.ProgressLocation.Notification, title: 'Agent Forge: deploying' }, () => deployment.deploy());
+  output.appendLine(`\n[Deploy ${result.deploymentId ?? 'blocked'}] deployed=${result.deployed} skipped=${result.skipped} failed=${result.failed}`);
+  appendDiagnostics(output, result.diagnostics);
+  diagnostics.publish(deployment.repoPath, result.diagnostics);
+  vscode.window.showInformationMessage(result.success ? `Agent Forge: deployment ${result.deploymentId} complete.` : 'Agent Forge: deployment blocked or rolled back.');
 }
 
-export async function handleWipe(outputChannel: vscode.OutputChannel): Promise<void> {
+export async function handleStatus(output: vscode.OutputChannel): Promise<void> {
+  const deployment = await service();
+  if (!deployment) return;
+  const result = await deployment.status();
+  output.appendLine(`\n[Status] ${result.deploymentId ?? 'not deployed'} — ${result.syncState}`);
+  for (const file of result.files) output.appendLine(`${file.state}: ${file.path}`);
+  output.show(true);
+}
+
+export async function handleRollback(output: vscode.OutputChannel, diagnostics: DiagnosticsService): Promise<void> {
+  const deployment = await service();
+  if (!deployment) return;
+  const current = await deployment.status();
+  if (!current.deploymentId) { vscode.window.showInformationMessage('Agent Forge: no active deployment to roll back.'); return; }
+  const confirm = await vscode.window.showWarningMessage(`Roll back managed deployment ${current.deploymentId}? Modified files will be preserved.`, { modal: true }, 'Rollback');
+  if (confirm !== 'Rollback') return;
+  const result = await deployment.rollback(current.deploymentId);
+  appendDiagnostics(output, result.diagnostics);
+  diagnostics.publish(deployment.repoPath, result.diagnostics);
+  vscode.window.showInformationMessage(`Agent Forge: restored ${result.restored}; preserved ${result.skipped}.`);
+}
+
+export async function handleWipe(output: vscode.OutputChannel, diagnostics: DiagnosticsService): Promise<void> {
+  const deployment = await service();
+  if (!deployment) return;
+  const current = await deployment.status();
+  if (!current.deploymentId) { vscode.window.showInformationMessage('Agent Forge: no active deployment to remove.'); return; }
+  const typed = await vscode.window.showInputBox({ prompt: `Type ${current.deploymentId} to remove only unchanged managed files`, ignoreFocusOut: true });
+  if (typed !== current.deploymentId) { vscode.window.showWarningMessage('Agent Forge: wipe cancelled; deployment id did not match.'); return; }
+  const result = await deployment.wipe();
+  appendDiagnostics(output, result.diagnostics);
+  diagnostics.publish(deployment.repoPath, result.diagnostics);
+  vscode.window.showInformationMessage(`Agent Forge: removed/restored ${result.deleted}; preserved ${result.skipped}.`);
+}
+
+export async function handleSetupMcp(output: vscode.OutputChannel): Promise<void> {
   const repoPath = await resolveRepoPath();
   if (!repoPath) return;
-
-  const autoConfirm = vscode.workspace
-    .getConfiguration('agentForge')
-    .get<boolean>('autoConfirm', false);
-
-  if (!autoConfirm) {
-    const confirm = await vscode.window.showWarningMessage(
-      'Agent Forge: Wipe will DELETE all managed files from their target locations. This cannot be undone. Continue?',
-      { modal: true },
-      'Wipe',
-    );
-    if (confirm !== 'Wipe') return;
+  const preview = await createMcpSetupPreview(repoPath);
+  output.appendLine(`\n[MCP Setup Preview] ${new Date().toISOString()}`);
+  for (const [name, provider] of Object.entries(preview.doctor.providers)) {
+    output.appendLine(`${name}: ${provider.ready ? 'ready' : 'not ready'} — ${provider.message}`);
+    output.appendLine(JSON.stringify(preview.catalog.providers[name].configuration));
   }
-
-  await vscode.window.withProgress(
-    { location: vscode.ProgressLocation.Notification, title: 'Agent Forge: Wiping...' },
-    async () => {
-      try {
-        const result = await wipe(repoPath);
-        const msg = `Deleted: ${result.deleted}, Not found: ${result.notFound}`;
-
-        if (result.success) {
-          vscode.window.showInformationMessage(`Agent Forge: Wipe complete. ${msg}`);
-        } else {
-          vscode.window.showWarningMessage(`Agent Forge: Wipe finished with errors. ${msg}`);
-        }
-
-        outputChannel.appendLine(`\n[Wipe] ${new Date().toISOString()}`);
-        for (const detail of result.details) {
-          outputChannel.appendLine(`  ${detail.action}: ${detail.path}`);
-        }
-        for (const error of result.errors) {
-          outputChannel.appendLine(`  ERROR: ${error.path} — ${error.message}`);
-        }
-      } catch (err: unknown) {
-        const e = err as Error & { actionableMessage?: string };
-        vscode.window.showErrorMessage(`Agent Forge: ${e.actionableMessage ?? e.message}`);
-      }
-    },
-  );
+  output.show(true);
+  const choice = await vscode.window.showInformationMessage('Agent Forge generated a provider setup preview. Review it in Output before opening VS Code MCP settings.', 'Open MCP Settings');
+  if (choice === 'Open MCP Settings') await vscode.commands.executeCommand('workbench.action.openSettings', 'mcp');
 }
 
-export async function handleStatus(outputChannel: vscode.OutputChannel): Promise<void> {
-  const repoPath = await resolveRepoPath();
-  if (!repoPath) return;
-
-  await vscode.window.withProgress(
-    { location: vscode.ProgressLocation.Notification, title: 'Agent Forge: Checking status...' },
-    async () => {
-      try {
-        const result = await status(repoPath);
-
-        outputChannel.clear();
-        outputChannel.appendLine(`Agent Forge Status — ${new Date().toISOString()}`);
-        outputChannel.appendLine(`Overall: ${result.syncState}`);
-        outputChannel.appendLine('');
-
-        const sections = [
-          { label: 'Agents', items: result.agents },
-          { label: 'Instructions', items: result.instructions },
-          { label: 'Skills', items: result.skills },
-          { label: 'Toolsets', items: result.toolsets },
-          { label: 'Prompts', items: result.prompts },
-          { label: 'Hooks', items: result.hooks },
-        ];
-
-        for (const section of sections) {
-          if (section.items.length > 0) {
-            outputChannel.appendLine(`${section.label}:`);
-            for (const item of section.items) {
-              outputChannel.appendLine(`  [${item.state}] ${item.path}`);
-            }
-            outputChannel.appendLine('');
-          }
-        }
-
-        outputChannel.show();
-        vscode.window.showInformationMessage(
-          `Agent Forge: ${result.syncState === 'synced' ? 'All files in sync' : 'Some files are out of sync'}. See Output panel for details.`,
-        );
-      } catch (err: unknown) {
-        const e = err as Error & { actionableMessage?: string };
-        vscode.window.showErrorMessage(`Agent Forge: ${e.actionableMessage ?? e.message}`);
-      }
-    },
-  );
+export function openManagedFile(repoPath: string | undefined, item: { fileStatus?: { path: string } }): void {
+  if (!repoPath || !item.fileStatus?.path) return;
+  const filePath = path.isAbsolute(item.fileStatus.path) ? item.fileStatus.path : path.join(repoPath, item.fileStatus.path);
+  void vscode.workspace.openTextDocument(vscode.Uri.file(filePath)).then(document => vscode.window.showTextDocument(document));
 }
