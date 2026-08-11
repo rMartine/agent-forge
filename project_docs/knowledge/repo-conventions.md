@@ -1,29 +1,13 @@
-# Agent Forge — Repo Conventions
+# Repository Conventions
 
-## Structure
-- **Monorepo**: npm workspaces with `packages/core`, `packages/extension`, `packages/cli`
-- **Root config**: `tsconfig.base.json` (ES2022, Node16, strict), `.gitignore`
-- **Roster content**: `agents/`, `instructions/`, `skills/`, `config/` at repo root
-- **Manifest**: `agent-forge.manifest.jsonc` at repo root
-
-## Build Order
-1. `packages/core` (tsc) — must build first, produces `dist/` with declarations
-2. `packages/extension` (esbuild) — bundles to `out/extension.js`
-3. `packages/cli` (tsc) — compiles to `dist/`
-
-## Module System
-- Node16 module resolution, CJS output (no `"type": "module"` in package.json)
-- Relative imports use `.js` extensions per Node16 convention
-- Extension uses esbuild bundling, so imports resolved at build time
-
-## Key Patterns
-- Core is a pure logic library — zero VS Code deps, zero terminal I/O  
-- All core functions are async, return structured result objects
-- Custom errors have `actionableMessage` for user-facing display
-- Path traversal protection in `paths.ts` is mandatory (rejects `..` after normalize)
-- Deploy reads working tree; restore reads git HEAD
-- IDs are unique across agents, instructions, and skills (shared namespace)
-
-## Scripts
-- `scripts/install.ps1` — build + VSIX package + install + CLI setup
-- `scripts/uninstall.ps1` — reverse of install
+- `agents/*.agent.md` is the sole canonical roster.
+- Stable IDs are lowercase kebab-case and match manifest keys and evaluation fixture names.
+- Skills use lowercase matching directories and frontmatter names; detailed material stays one level under `references/`.
+- Automatically deployed instructions declare intentional `applyTo`.
+- The core package is authoritative; CLI, extension, and scripts are adapters.
+- Source agents are never rewritten during model/capability selection.
+- Generated `dist/`, `out/`, coverage, extension test profiles, and deployment fixtures are ignored.
+- Tests use temporary user profiles and never the real `~/.copilot` directory.
+- Production/cloud/push/release/destructive actions require explicit authority.
+- Work occurs on dedicated `codex/*` branches with atomic Conventional Commits.
+- Build with the committed npm lockfile: `npm ci`, `npm run build`, `npm test`.

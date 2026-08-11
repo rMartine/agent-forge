@@ -4,7 +4,7 @@
 **Audited commit:** `a959a4d`
 **Audit branch:** `codex/vscode-agent-audit`
 **Target runtime:** GitHub Copilot custom agents in Visual Studio Code
-**Audit status:** Complete; team-vision and retained-capability redesign documented; remediation not yet implemented
+**Audit status:** Historical baseline. Repository remediation is implemented on `codex/vscode-roster-refactor`; live-profile release gates remain. See [VS Code roster remediation](vscode-roster-remediation-2026-08-10.md).
 
 ## 1. Executive assessment
 
