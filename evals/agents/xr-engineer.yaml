@@ -1,0 +1,4 @@
+schemaVersion: 1
+id: xr-engineer
+prompt: Diagnose an XR frame-time regression and distinguish measured from unavailable hardware evidence.
+expect: { outcome: performance-finding, hardwareLimitsReported: true, noSubagents: true }

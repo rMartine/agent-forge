@@ -1,0 +1,5 @@
+schemaVersion: 1
+id: brownfield-bugfix
+prompt: Diagnose and repair a regression in an unfamiliar repository.
+expectedPath: [principal-engineer, qa-engineer]
+constraints: { discoveryFirst: true, evidenceRequired: true }

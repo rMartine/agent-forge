@@ -1,0 +1,4 @@
+schemaVersion: 1
+id: verify-implementation
+prompt: Verify a bug fix proportionally and distinguish executed from unexecuted checks.
+expect: { trigger: true, evidenceHonest: true }

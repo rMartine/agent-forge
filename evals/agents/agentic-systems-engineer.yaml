@@ -1,0 +1,4 @@
+schemaVersion: 1
+id: agentic-systems-engineer
+prompt: Evaluate an MCP-backed agent loop for tool errors, trace quality, and structured output.
+expect: { outcome: agent-evaluation, ownsGenericML: false, noSubagents: true }

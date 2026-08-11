@@ -1,0 +1,5 @@
+schemaVersion: 1
+id: infrastructure-deployment
+prompt: Prepare and execute an approved cloud release with rollback evidence.
+expectedPath: [devops-engineer, qa-engineer, technical-writer, cto]
+constraints: { explicitProductionApproval: true, automaticDevOpsInvocation: false }

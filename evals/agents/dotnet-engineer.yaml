@@ -1,0 +1,4 @@
+schemaVersion: 1
+id: dotnet-engineer
+prompt: Repair a .NET library issue and verify packaging and tests.
+expect: { outcome: verified-change, returnTo: principal-engineer, noSubagents: true }

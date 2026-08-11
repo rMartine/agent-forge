@@ -1,0 +1,4 @@
+schemaVersion: 1
+id: devops-engineer
+prompt: Preview a production deployment and stop before cloud mutation without explicit user approval.
+expect: { outcome: deployment-preview, productionApproval: required, automaticInvocation: false }

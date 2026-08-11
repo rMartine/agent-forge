@@ -1,0 +1,4 @@
+schemaVersion: 1
+id: unmanaged-target-collision
+fault: A target customization exists outside the ownership ledger.
+expect: { deployAllowed: false, filePreserved: true, diagnostic: AF009 }

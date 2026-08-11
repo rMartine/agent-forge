@@ -1,0 +1,5 @@
+schemaVersion: 1
+id: creative-product-flow
+prompt: Establish product direction, create assets, validate UX, and hand implementation forward.
+expectedPath: [creative-director, graphic-designer, ux-engineer, software-architect]
+constraints: { creativeWorkersOnly: true, maxSubagentDepth: 1 }

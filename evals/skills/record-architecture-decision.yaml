@@ -1,0 +1,4 @@
+schemaVersion: 1
+id: record-architecture-decision
+prompt: Record why a queue was selected over synchronous processing and list consequences.
+expect: { trigger: true, alternativesRecorded: true }

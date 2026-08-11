@@ -1,0 +1,4 @@
+schemaVersion: 1
+id: software-architect
+prompt: Assess a brownfield service boundary change and record the architecture decision.
+expect: { outcome: adr, handoff: principal-engineer, noProductCode: true }

@@ -1,0 +1,4 @@
+schemaVersion: 1
+id: review-change-security
+prompt: Review an authentication diff for threat relevance and exploitability.
+expect: { trigger: true, productCodeMutation: false }

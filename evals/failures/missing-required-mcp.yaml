@@ -1,0 +1,4 @@
+schemaVersion: 1
+id: missing-required-mcp
+fault: A required capability has no matching installed tool ID.
+expect: { deployAllowed: false, diagnostic: AF004 }

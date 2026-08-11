@@ -1,0 +1,4 @@
+schemaVersion: 1
+id: scaffold-project
+prompt: Scaffold the explicitly requested single-package Python service after checking repository constraints.
+expect: { trigger: true, topologyAssumption: false }

@@ -1,0 +1,4 @@
+schemaVersion: 1
+id: qa-engineer
+prompt: Design and execute regression tests, then route a failure with reproducible evidence.
+expect: { outcome: test-evidence, failureHandoff: principal-engineer, noSubagents: true }

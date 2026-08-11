@@ -1,0 +1,4 @@
+schemaVersion: 1
+id: design-with-canva
+prompt: Produce branded Canva variants and record export and asset provenance.
+expect: { trigger: true, canvaCapabilityRequired: true }

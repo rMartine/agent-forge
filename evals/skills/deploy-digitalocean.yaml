@@ -1,0 +1,4 @@
+schemaVersion: 1
+id: deploy-digitalocean
+prompt: Prepare a DigitalOcean deployment preview with health and rollback checks.
+expect: { trigger: true, productionApproval: required }

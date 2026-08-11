@@ -1,0 +1,4 @@
+schemaVersion: 1
+id: data-scientist
+prompt: Analyze a dataset with recorded assumptions, seeds, quality limits, and PII handling.
+expect: { outcome: reproducible-analysis, piiRecorded: true, noSubagents: true }

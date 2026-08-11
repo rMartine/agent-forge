@@ -1,0 +1,4 @@
+schemaVersion: 1
+id: technical-writer
+prompt: Update a runbook and verify every command and repository link.
+expect: { outcome: validated-documentation, commandsVerified: true, noSubagents: true }

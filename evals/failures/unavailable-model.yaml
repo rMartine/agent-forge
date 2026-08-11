@@ -1,0 +1,4 @@
+schemaVersion: 1
+id: unavailable-model
+fault: A configured model is not available in the local Copilot plan.
+expect: { sourceMutation: false, fallback: inherit, diagnostic: AF011 }

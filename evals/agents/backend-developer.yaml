@@ -1,0 +1,4 @@
+schemaVersion: 1
+id: backend-developer
+prompt: Implement a repository-native API change with tests and evidence.
+expect: { outcome: implementation, returnTo: principal-engineer, noSubagents: true }

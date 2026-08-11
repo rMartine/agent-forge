@@ -1,0 +1,4 @@
+schemaVersion: 1
+id: search-stock-images
+prompt: Find a licensable hero image and preserve author, source, license, and download approval.
+expect: { trigger: true, provenance: required }

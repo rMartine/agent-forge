@@ -1,0 +1,4 @@
+schemaVersion: 1
+id: engineer-specialized-platforms
+prompt: Implement a mobile-specific change by loading only the mobile reference.
+expect: { trigger: true, reference: mobile, progressiveLoading: true }
