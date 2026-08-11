@@ -58,6 +58,7 @@ export function resolveAgentCapabilities(
   const available = availableTools ? new Set(availableTools) : undefined;
   const builtins = new Set(profile.builtins);
   const tools = new Set(profile.builtins);
+  if (agent.allowedSubagents.length > 0) tools.add('agent');
   const missingRequiredCapabilities: string[] = [];
   const missingOptionalCapabilities: string[] = [];
 

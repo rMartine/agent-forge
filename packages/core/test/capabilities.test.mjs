@@ -58,3 +58,9 @@ test('VS Code MCP inventory receives stable provider aliases', () => {
   assert.ok(normalized.includes('mcp_gitkraken_cli_git_commit'));
   assert.ok(normalized.includes('read'));
 });
+
+test('an explicit subagent allow-list grants the agent tool', () => {
+  const coordinator = { ...agent, allowedSubagents: ['worker'], requiredCapabilities: [], optionalCapabilities: [] };
+  const result = resolveAgentCapabilities(coordinator, catalog, []);
+  assert.ok(result.tools.includes('agent'));
+});
