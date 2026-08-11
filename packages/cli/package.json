@@ -5,7 +5,8 @@
     "agent-forge": "./dist/index.js"
   },
   "scripts": {
-    "build": "tsc"
+    "build": "tsc",
+    "test": "npm run build && node --test test/*.test.mjs"
   },
   "dependencies": {
     "@agent-forge/core": "*",
