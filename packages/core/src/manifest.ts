@@ -1,195 +1,98 @@
 import { readFile } from 'node:fs/promises';
 import * as path from 'node:path';
 import { parse, printParseErrorCode } from 'jsonc-parser';
-import type { Manifest } from './types.js';
-import {
-  ManifestNotFoundError,
-  ManifestParseError,
-  ManifestValidationError,
-} from './errors.js';
+import type { AgentManifestEntry, DeploymentManifestV2, ModelProfile } from './types.js';
+import { ManifestNotFoundError, ManifestParseError, ManifestValidationError } from './errors.js';
 
 const MANIFEST_FILENAME = 'agent-forge.manifest.jsonc';
+const MODEL_PROFILES = new Set<ModelProfile>(['inherit', 'reasoning', 'coding', 'creative', 'balanced']);
 
-export async function loadManifest(repoPath: string): Promise<Manifest> {
-  const manifestPath = path.join(repoPath, MANIFEST_FILENAME);
-
-  let content: string;
-  try {
-    content = await readFile(manifestPath, 'utf-8');
-  } catch (err: unknown) {
-    if ((err as NodeJS.ErrnoException).code === 'ENOENT') {
-      throw new ManifestNotFoundError(manifestPath);
-    }
-    throw err;
+function nonEmpty(value: unknown, field: string): asserts value is string {
+  if (typeof value !== 'string' || value.trim().length === 0) {
+    throw new ManifestValidationError(`${field} must be a non-empty string`);
   }
-
-  const errors: import('jsonc-parser').ParseError[] = [];
-  const raw = parse(content, errors, { allowTrailingComma: true });
-
-  if (errors.length > 0) {
-    const first = errors[0];
-    const line = content.substring(0, first.offset).split('\n').length;
-    throw new ManifestParseError(printParseErrorCode(first.error), line);
-  }
-
-  return validateManifest(raw);
 }
 
-export function validateManifest(raw: unknown): Manifest {
-  if (raw === null || raw === undefined || typeof raw !== 'object') {
-    throw new ManifestValidationError('Manifest must be a JSON object');
+function stringArray(value: unknown, field: string): asserts value is string[] {
+  if (!Array.isArray(value) || value.some(item => typeof item !== 'string')) {
+    throw new ManifestValidationError(`${field} must be an array of strings`);
   }
+}
 
-  const obj = raw as Record<string, unknown>;
-
-  // --- version --------------------------------------------------------
-  if (obj.version !== '1.0') {
-    throw new ManifestValidationError('Field "version" must be "1.0"');
+function validateAgent(id: string, raw: unknown): asserts raw is AgentManifestEntry {
+  if (!raw || typeof raw !== 'object') throw new ManifestValidationError(`agents.${id} must be an object`);
+  const agent = raw as Record<string, unknown>;
+  nonEmpty(agent.id, `agents.${id}.id`);
+  if (agent.id !== id) throw new ManifestValidationError(`agents.${id}.id must equal its map key`);
+  nonEmpty(agent.source, `agents.${id}.source`);
+  if (agent.visibility !== 'entry' && agent.visibility !== 'worker') {
+    throw new ManifestValidationError(`agents.${id}.visibility must be entry or worker`);
   }
-
-  // --- editor ---------------------------------------------------------
-  if (obj.editor !== 'vscode') {
-    throw new ManifestValidationError('Field "editor" must be "vscode"');
+  nonEmpty(agent.capabilityProfile, `agents.${id}.capabilityProfile`);
+  if (!MODEL_PROFILES.has(agent.modelProfile as ModelProfile)) {
+    throw new ManifestValidationError(`agents.${id}.modelProfile is invalid`);
   }
-
-  // --- targets --------------------------------------------------------
-  if (!obj.targets || typeof obj.targets !== 'object') {
-    throw new ManifestValidationError('Field "targets" is required and must be an object');
+  for (const key of ['requiredSkills', 'optionalSkills', 'allowedSubagents', 'handoffs', 'requiredCapabilities', 'optionalCapabilities']) {
+    stringArray(agent[key], `agents.${id}.${key}`);
   }
+}
 
-  const targets = obj.targets as Record<string, unknown>;
-  if (typeof targets.prompts !== 'string' || targets.prompts.length === 0) {
-    throw new ManifestValidationError('Field "targets.prompts" must be a non-empty string');
+export async function loadJsonc<T>(filePath: string): Promise<T> {
+  const content = await readFile(filePath, 'utf8');
+  const errors: import('jsonc-parser').ParseError[] = [];
+  const parsed = parse(content, errors, { allowTrailingComma: true });
+  if (errors.length > 0) {
+    const first = errors[0];
+    const line = content.slice(0, first.offset).split('\n').length;
+    throw new ManifestParseError(printParseErrorCode(first.error), line);
   }
-  if (typeof targets.skills !== 'string' || targets.skills.length === 0) {
-    throw new ManifestValidationError('Field "targets.skills" must be a non-empty string');
+  return parsed as T;
+}
+
+export async function loadManifest(repoPath: string): Promise<DeploymentManifestV2> {
+  const manifestPath = path.join(repoPath, MANIFEST_FILENAME);
+  try {
+    return validateManifest(await loadJsonc<unknown>(manifestPath));
+  } catch (error: unknown) {
+    if ((error as NodeJS.ErrnoException).code === 'ENOENT') throw new ManifestNotFoundError(manifestPath);
+    throw error;
   }
+}
 
-  // --- uniqueness across all entry types ------------------------------
-  const allIds = new Set<string>();
-
-  function requireUniqueId(id: string, context: string): void {
-    if (allIds.has(id)) {
-      throw new ManifestValidationError(`Duplicate id "${id}" found in ${context}`);
-    }
-    allIds.add(id);
+export function validateManifest(raw: unknown): DeploymentManifestV2 {
+  if (!raw || typeof raw !== 'object') throw new ManifestValidationError('Manifest must be an object');
+  const manifest = raw as Record<string, unknown>;
+  if (manifest.schemaVersion !== 2) throw new ManifestValidationError('schemaVersion must be 2');
+  if (manifest.platform !== 'vscode') throw new ManifestValidationError('platform must be vscode');
+  if (manifest.scope !== 'user') throw new ManifestValidationError('scope must be user');
+  if (!manifest.targets || typeof manifest.targets !== 'object') throw new ManifestValidationError('targets is required');
+  const targets = manifest.targets as Record<string, unknown>;
+  for (const key of ['agents', 'instructions', 'skills', 'hooks', 'state']) nonEmpty(targets[key], `targets.${key}`);
+  for (const key of ['capabilityCatalog', 'modelProfiles', 'mcpProviders']) nonEmpty(manifest[key], key);
+  if (!manifest.agents || typeof manifest.agents !== 'object' || Array.isArray(manifest.agents)) {
+    throw new ManifestValidationError('agents must be an object keyed by stable agent id');
   }
-
-  // --- agents ---------------------------------------------------------
-  if (obj.agents !== undefined && obj.agents !== null) {
-    if (!Array.isArray(obj.agents)) {
-      throw new ManifestValidationError('Field "agents" must be an array');
-    }
-    for (let i = 0; i < obj.agents.length; i++) {
-      const a = obj.agents[i];
-      if (!a || typeof a !== 'object') {
-        throw new ManifestValidationError(`agents[${i}] must be an object`);
-      }
-      if (typeof a.id !== 'string' || a.id.length === 0) {
-        throw new ManifestValidationError(`agents[${i}].id must be a non-empty string`);
-      }
-      if (typeof a.file !== 'string' || a.file.length === 0) {
-        throw new ManifestValidationError(`agents[${i}].file must be a non-empty string`);
-      }
-      requireUniqueId(a.id, `agents[${i}]`);
-    }
-  }
-
-  // --- instructions ---------------------------------------------------
-  if (obj.instructions !== undefined && obj.instructions !== null) {
-    if (!Array.isArray(obj.instructions)) {
-      throw new ManifestValidationError('Field "instructions" must be an array');
-    }
-    for (let i = 0; i < obj.instructions.length; i++) {
-      const inst = obj.instructions[i];
-      if (!inst || typeof inst !== 'object') {
-        throw new ManifestValidationError(`instructions[${i}] must be an object`);
-      }
-      if (typeof inst.id !== 'string' || inst.id.length === 0) {
-        throw new ManifestValidationError(`instructions[${i}].id must be a non-empty string`);
-      }
-      if (typeof inst.file !== 'string' || inst.file.length === 0) {
-        throw new ManifestValidationError(`instructions[${i}].file must be a non-empty string`);
-      }
-      requireUniqueId(inst.id, `instructions[${i}]`);
+  const agents = manifest.agents as Record<string, unknown>;
+  for (const [id, agent] of Object.entries(agents)) validateAgent(id, agent);
+  const ids = new Set(Object.keys(agents));
+  for (const [id, rawAgent] of Object.entries(agents)) {
+    const agent = rawAgent as AgentManifestEntry;
+    for (const target of [...agent.allowedSubagents, ...agent.handoffs]) {
+      if (!ids.has(target)) throw new ManifestValidationError(`Agent ${id} references unknown agent ${target}`);
     }
   }
-
-  // --- skills ---------------------------------------------------------
-  if (obj.skills !== undefined && obj.skills !== null) {
-    if (!Array.isArray(obj.skills)) {
-      throw new ManifestValidationError('Field "skills" must be an array');
-    }
-    for (let i = 0; i < obj.skills.length; i++) {
-      const s = obj.skills[i];
-      if (!s || typeof s !== 'object') {
-        throw new ManifestValidationError(`skills[${i}] must be an object`);
-      }
-      if (typeof s.id !== 'string' || s.id.length === 0) {
-        throw new ManifestValidationError(`skills[${i}].id must be a non-empty string`);
-      }
-      if (typeof s.dir !== 'string' || s.dir.length === 0) {
-        throw new ManifestValidationError(`skills[${i}].dir must be a non-empty string`);
-      }
-      requireUniqueId(s.id, `skills[${i}]`);
+  for (const collection of ['instructions', 'skills', 'hooks'] as const) {
+    const value = manifest[collection];
+    if (!Array.isArray(value)) throw new ManifestValidationError(`${collection} must be an array`);
+    const seen = new Set<string>();
+    for (const [index, item] of value.entries()) {
+      if (!item || typeof item !== 'object') throw new ManifestValidationError(`${collection}[${index}] must be an object`);
+      const entry = item as Record<string, unknown>;
+      nonEmpty(entry.id, `${collection}[${index}].id`);
+      nonEmpty(entry.source, `${collection}[${index}].source`);
+      if (seen.has(entry.id)) throw new ManifestValidationError(`Duplicate ${collection} id ${entry.id}`);
+      seen.add(entry.id);
     }
   }
-
-  // --- toolsets -------------------------------------------------------
-  if (obj.toolsets !== undefined && obj.toolsets !== null) {
-    if (typeof obj.toolsets !== 'object') {
-      throw new ManifestValidationError('Field "toolsets" must be an object');
-    }
-    const ts = obj.toolsets as Record<string, unknown>;
-    if (typeof ts.file !== 'string' || ts.file.length === 0) {
-      throw new ManifestValidationError('Field "toolsets.file" must be a non-empty string');
-    }
-  }
-
-  // --- prompts --------------------------------------------------------
-  if (obj.prompts !== undefined && obj.prompts !== null) {
-    if (!Array.isArray(obj.prompts)) {
-      throw new ManifestValidationError('Field "prompts" must be an array');
-    }
-    for (let i = 0; i < obj.prompts.length; i++) {
-      const p = obj.prompts[i];
-      if (!p || typeof p !== 'object') {
-        throw new ManifestValidationError(`prompts[${i}] must be an object`);
-      }
-      if (typeof p.id !== 'string' || p.id.length === 0) {
-        throw new ManifestValidationError(`prompts[${i}].id must be a non-empty string`);
-      }
-      if (typeof p.file !== 'string' || p.file.length === 0) {
-        throw new ManifestValidationError(`prompts[${i}].file must be a non-empty string`);
-      }
-      requireUniqueId(p.id, `prompts[${i}]`);
-    }
-  }
-
-  // --- hooks ----------------------------------------------------------
-  if (obj.hooks !== undefined && obj.hooks !== null) {
-    if (!Array.isArray(obj.hooks)) {
-      throw new ManifestValidationError('Field "hooks" must be an array');
-    }
-    for (let i = 0; i < obj.hooks.length; i++) {
-      const h = obj.hooks[i];
-      if (!h || typeof h !== 'object') {
-        throw new ManifestValidationError(`hooks[${i}] must be an object`);
-      }
-      if (typeof h.id !== 'string' || h.id.length === 0) {
-        throw new ManifestValidationError(`hooks[${i}].id must be a non-empty string`);
-      }
-      if (typeof h.file !== 'string' || h.file.length === 0) {
-        throw new ManifestValidationError(`hooks[${i}].file must be a non-empty string`);
-      }
-      requireUniqueId(h.id, `hooks[${i}]`);
-    }
-    if (obj.hooks.length > 0) {
-      if (typeof targets.hooks !== 'string' || targets.hooks.length === 0) {
-        throw new ManifestValidationError('Field "targets.hooks" must be a non-empty string when hooks are defined');
-      }
-    }
-  }
-
-  return raw as Manifest;
+  return raw as DeploymentManifestV2;
 }

@@ -1,0 +1,16 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "type": "object",
+  "required": ["goal", "scope", "constraints", "inputs", "decisions", "files", "verification", "risks", "nextAction"],
+  "properties": {
+    "goal": { "type": "string", "minLength": 1 },
+    "scope": { "type": "string" },
+    "constraints": { "type": "array", "items": { "type": "string" } },
+    "inputs": { "type": "array", "items": { "type": "string" } },
+    "decisions": { "type": "array", "items": { "type": "string" } },
+    "files": { "type": "array", "items": { "type": "string" } },
+    "verification": { "type": "array", "items": { "type": "string" } },
+    "risks": { "type": "array", "items": { "type": "string" } },
+    "nextAction": { "type": "string" }
+  }
+}

@@ -10,7 +10,8 @@
     "build": "npm run build -w packages/core && npm run build -w packages/extension && npm run build -w packages/cli",
     "build:core": "npm run build -w packages/core",
     "build:extension": "npm run build -w packages/extension",
-    "build:cli": "npm run build -w packages/cli"
+    "build:cli": "npm run build -w packages/cli",
+    "test": "npm test -w packages/core"
   },
   "devDependencies": {
     "typescript": "~5.4.0"
