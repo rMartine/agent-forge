@@ -2,7 +2,7 @@ import assert from 'node:assert/strict';
 import path from 'node:path';
 import test from 'node:test';
 import { fileURLToPath } from 'node:url';
-import { loadCapabilityCatalog, loadManifest, validateRoster } from '../dist/index.js';
+import { createDeploymentPlan, loadCapabilityCatalog, loadManifest, validateRoster } from '../dist/index.js';
 
 const repo = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..', '..', '..');
 
@@ -13,4 +13,9 @@ test('canonical roster passes structural validation', async () => {
   assert.equal(result.valid, true, JSON.stringify(result.diagnostics));
   assert.equal(Object.keys(manifest.agents).length, 24);
   assert.equal(Object.values(manifest.agents).filter(item => item.visibility === 'entry').length, 9);
+});
+
+test('strict full preview blocks unavailable required capabilities', async () => {
+  const plan = await createDeploymentPlan(repo, { availableTools: [], availableModels: [], strictCapabilities: true });
+  assert.equal(plan.diagnostics.some(item => item.code === 'AF004' && item.severity === 'error'), true);
 });

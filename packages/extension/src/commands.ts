@@ -39,7 +39,7 @@ export async function handleDoctor(output: vscode.OutputChannel, diagnostics: Di
   const deployment = await service();
   if (!deployment) return false;
   const result = await deployment.doctor();
-  const allDiagnostics = [...result.roster.diagnostics, ...result.mcp.diagnostics];
+  const allDiagnostics = [...result.roster.diagnostics, ...result.mcp.diagnostics, ...result.preview.diagnostics];
   output.appendLine(`\n[Doctor] ${new Date().toISOString()}`);
   appendDiagnostics(output, allDiagnostics);
   for (const [name, provider] of Object.entries(result.mcp.providers)) output.appendLine(`${name}: ${provider.ready ? 'ready' : 'not ready'} — ${provider.message}`);

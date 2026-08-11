@@ -19,8 +19,3 @@ export function confirm(message: string): Promise<boolean> {
     resolve(answer.trim().toLowerCase() === 'y');
   }));
 }
-
-export function environmentList(name: string): string[] {
-  const value = process.env[name];
-  return value ? value.split(',').map(item => item.trim()).filter(Boolean) : [];
-}

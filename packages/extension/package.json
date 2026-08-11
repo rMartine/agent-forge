@@ -8,42 +8,140 @@
   "engines": {
     "vscode": "^1.104.0"
   },
-  "categories": ["Other"],
-  "activationEvents": ["onView:agentForge.dashboard", "onView:agentForge.roster"],
+  "categories": [
+    "Other"
+  ],
+  "activationEvents": [
+    "onView:agentForge.dashboard",
+    "onView:agentForge.roster"
+  ],
   "main": "./out/extension.js",
   "contributes": {
     "viewsContainers": {
-      "activitybar": [{ "id": "agent-forge", "title": "Agent Forge", "icon": "media/agent-forge.svg" }]
+      "activitybar": [
+        {
+          "id": "agent-forge",
+          "title": "Agent Forge",
+          "icon": "media/agent-forge.svg"
+        }
+      ]
     },
     "views": {
       "agent-forge": [
-        { "id": "agentForge.dashboard", "name": "Dashboard", "type": "webview" },
-        { "id": "agentForge.roster", "name": "Managed Deployment", "when": "agentForge.repoConfigured" }
+        {
+          "id": "agentForge.dashboard",
+          "name": "Dashboard",
+          "type": "webview"
+        },
+        {
+          "id": "agentForge.roster",
+          "name": "Managed Deployment",
+          "when": "agentForge.repoConfigured"
+        }
       ]
     },
     "commands": [
-      { "command": "agentForge.validate", "title": "Validate Roster", "icon": "$(check-all)", "category": "Agent Forge" },
-      { "command": "agentForge.doctor", "title": "Doctor", "icon": "$(stethoscope)", "category": "Agent Forge" },
-      { "command": "agentForge.preview", "title": "Preview Deployment", "icon": "$(preview)", "category": "Agent Forge" },
-      { "command": "agentForge.deploy", "title": "Deploy", "icon": "$(cloud-upload)", "category": "Agent Forge" },
-      { "command": "agentForge.status", "title": "Status", "icon": "$(info)", "category": "Agent Forge" },
-      { "command": "agentForge.rollback", "title": "Rollback", "icon": "$(history)", "category": "Agent Forge" },
-      { "command": "agentForge.wipe", "title": "Wipe Managed Deployment", "icon": "$(trash)", "category": "Agent Forge" },
-      { "command": "agentForge.setupMcp", "title": "MCP Setup", "icon": "$(plug)", "category": "Agent Forge" },
-      { "command": "agentForge.refresh", "title": "Refresh", "icon": "$(refresh)", "category": "Agent Forge" },
-      { "command": "agentForge.setRepoPath", "title": "Set Repository Path", "category": "Agent Forge" },
-      { "command": "agentForge.openFile", "title": "Open Managed File", "icon": "$(go-to-file)", "category": "Agent Forge" },
-      { "command": "agentForge.openSettings", "title": "Open Settings", "icon": "$(gear)", "category": "Agent Forge" }
+      {
+        "command": "agentForge.validate",
+        "title": "Validate Roster",
+        "icon": "$(check-all)",
+        "category": "Agent Forge"
+      },
+      {
+        "command": "agentForge.doctor",
+        "title": "Doctor",
+        "icon": "$(stethoscope)",
+        "category": "Agent Forge"
+      },
+      {
+        "command": "agentForge.preview",
+        "title": "Preview Deployment",
+        "icon": "$(preview)",
+        "category": "Agent Forge"
+      },
+      {
+        "command": "agentForge.deploy",
+        "title": "Deploy",
+        "icon": "$(cloud-upload)",
+        "category": "Agent Forge"
+      },
+      {
+        "command": "agentForge.status",
+        "title": "Status",
+        "icon": "$(info)",
+        "category": "Agent Forge"
+      },
+      {
+        "command": "agentForge.rollback",
+        "title": "Rollback",
+        "icon": "$(history)",
+        "category": "Agent Forge"
+      },
+      {
+        "command": "agentForge.wipe",
+        "title": "Wipe Managed Deployment",
+        "icon": "$(trash)",
+        "category": "Agent Forge"
+      },
+      {
+        "command": "agentForge.setupMcp",
+        "title": "MCP Setup",
+        "icon": "$(plug)",
+        "category": "Agent Forge"
+      },
+      {
+        "command": "agentForge.refresh",
+        "title": "Refresh",
+        "icon": "$(refresh)",
+        "category": "Agent Forge"
+      },
+      {
+        "command": "agentForge.setRepoPath",
+        "title": "Set Repository Path",
+        "category": "Agent Forge"
+      },
+      {
+        "command": "agentForge.openFile",
+        "title": "Open Managed File",
+        "icon": "$(go-to-file)",
+        "category": "Agent Forge"
+      },
+      {
+        "command": "agentForge.openSettings",
+        "title": "Open Settings",
+        "icon": "$(gear)",
+        "category": "Agent Forge"
+      }
     ],
     "menus": {
       "view/title": [
-        { "command": "agentForge.validate", "when": "view == agentForge.roster", "group": "navigation@1" },
-        { "command": "agentForge.preview", "when": "view == agentForge.roster", "group": "navigation@2" },
-        { "command": "agentForge.deploy", "when": "view == agentForge.roster", "group": "navigation@3" },
-        { "command": "agentForge.refresh", "when": "view == agentForge.roster", "group": "navigation@4" }
+        {
+          "command": "agentForge.validate",
+          "when": "view == agentForge.roster",
+          "group": "navigation@1"
+        },
+        {
+          "command": "agentForge.preview",
+          "when": "view == agentForge.roster",
+          "group": "navigation@2"
+        },
+        {
+          "command": "agentForge.deploy",
+          "when": "view == agentForge.roster",
+          "group": "navigation@3"
+        },
+        {
+          "command": "agentForge.refresh",
+          "when": "view == agentForge.roster",
+          "group": "navigation@4"
+        }
       ],
       "view/item/context": [
-        { "command": "agentForge.openFile", "when": "view == agentForge.roster && viewItem == entry", "group": "inline" }
+        {
+          "command": "agentForge.openFile",
+          "when": "view == agentForge.roster && viewItem == entry",
+          "group": "inline"
+        }
       ]
     },
     "configuration": {
@@ -56,13 +154,17 @@
         },
         "agentForge.availableToolIds": {
           "type": "array",
-          "items": { "type": "string" },
+          "items": {
+            "type": "string"
+          },
           "default": [],
           "description": "Additional exact MCP tool IDs validated outside the VS Code Language Model API"
         },
         "agentForge.availableModelIds": {
           "type": "array",
-          "items": { "type": "string" },
+          "items": {
+            "type": "string"
+          },
           "default": [],
           "description": "Additional locally available Copilot model IDs"
         }
@@ -70,13 +172,18 @@
     }
   },
   "scripts": {
-    "build": "esbuild src/extension.ts --bundle --outfile=out/extension.js --external:vscode --format=cjs --platform=node",
+    "build": "esbuild src/extension.ts --bundle --outfile=out/extension.js --external:vscode --format=cjs --platform=node --main-fields=module,main",
+    "build:test-host": "tsc -p tsconfig.test.json",
     "test": "node --test test/*.test.mjs",
-    "watch": "esbuild src/extension.ts --bundle --outfile=out/extension.js --external:vscode --format=cjs --platform=node --watch"
+    "test:host": "npm run build && npm run build:test-host && node out/test/test/runTest.js",
+    "watch": "esbuild src/extension.ts --bundle --outfile=out/extension.js --external:vscode --format=cjs --platform=node --main-fields=module,main --watch"
   },
-  "dependencies": { "@agent-forge/core": "*" },
+  "dependencies": {
+    "@agent-forge/core": "*"
+  },
   "devDependencies": {
     "@types/vscode": "^1.104.0",
-    "esbuild": "^0.20.0"
+    "@vscode/test-electron": "^3.1.0",
+    "esbuild": "^0.28.2"
   }
 }

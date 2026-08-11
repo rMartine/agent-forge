@@ -1,11 +1,46 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://agent-forge.local/schemas/capability-catalog.schema.json",
   "type": "object",
+  "additionalProperties": false,
   "required": ["version", "providers", "capabilities", "profiles"],
   "properties": {
     "version": { "const": 1 },
-    "providers": { "type": "object" },
-    "capabilities": { "type": "object" },
-    "profiles": { "type": "object" }
-  }
+    "providers": {
+      "type": "object",
+      "additionalProperties": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["toolPatterns"],
+        "properties": { "toolPatterns": { "$ref": "#/$defs/strings" } }
+      }
+    },
+    "capabilities": {
+      "type": "object",
+      "additionalProperties": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["access", "tools"],
+        "properties": {
+          "access": { "enum": ["read", "write", "admin"] },
+          "provider": { "type": "string", "minLength": 1 },
+          "tools": { "$ref": "#/$defs/strings" }
+        }
+      }
+    },
+    "profiles": {
+      "type": "object",
+      "additionalProperties": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["builtins", "required", "optional"],
+        "properties": {
+          "builtins": { "$ref": "#/$defs/strings" },
+          "required": { "$ref": "#/$defs/strings" },
+          "optional": { "$ref": "#/$defs/strings" }
+        }
+      }
+    }
+  },
+  "$defs": { "strings": { "type": "array", "items": { "type": "string", "minLength": 1 }, "uniqueItems": true } }
 }

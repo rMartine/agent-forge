@@ -65,6 +65,9 @@ export async function createDeploymentPlan(
     const sourcePath = resolveRepoFilePath(repoPath, agent.source);
     const runtime = resolveAgentCapabilities(agent, catalog, options.availableTools);
     runtime.model = resolveAgentModel(agent, models, options.availableModels);
+    if ((models.profiles[agent.modelProfile] ?? []).length > 0 && !runtime.model) {
+      diagnostics.push(diagnostic('AF011', 'warning', `Configured ${agent.modelProfile} models are unavailable; deployment will inherit the current model`, { agentId: agent.id }));
+    }
     for (const capability of runtime.missingRequiredCapabilities) {
       diagnostics.push(diagnostic('AF004', options.strictCapabilities ? 'error' : 'warning', `Required capability "${capability}" is unavailable`, { agentId: agent.id }));
     }

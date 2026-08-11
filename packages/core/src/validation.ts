@@ -1,5 +1,6 @@
 import { access, readFile, readdir } from 'node:fs/promises';
 import * as path from 'node:path';
+import { parseDocument } from 'yaml';
 import type { CapabilityCatalog, DeploymentManifestV2, Diagnostic, ValidationResult } from './types.js';
 import { diagnostic, hasErrors } from './diagnostics.js';
 import { resolveRepoFilePath } from './paths.js';
@@ -8,12 +9,20 @@ async function exists(filePath: string): Promise<boolean> {
   try { await access(filePath); return true; } catch { return false; }
 }
 
-function frontmatter(content: string): string | undefined {
-  return content.match(/^---\r?\n([\s\S]*?)\r?\n---/)?.[1];
+interface ParsedFrontmatter { source?: string; data?: Record<string, unknown>; error?: string; }
+
+function frontmatter(content: string): ParsedFrontmatter {
+  const source = content.match(/^---\r?\n([\s\S]*?)\r?\n---/)?.[1];
+  if (!source) return { error: 'Missing YAML frontmatter fence' };
+  const document = parseDocument(source, { strict: true, uniqueKeys: true });
+  if (document.errors.length > 0) return { source, error: document.errors.map(item => item.message).join('; ') };
+  const data = document.toJS();
+  if (!data || typeof data !== 'object' || Array.isArray(data)) return { source, error: 'Frontmatter must be a YAML mapping' };
+  return { source, data: data as Record<string, unknown> };
 }
 
-function frontmatterValue(source: string, key: string): string | undefined {
-  return source.match(new RegExp(`^${key}:\\s*(.+)$`, 'm'))?.[1].trim();
+function stringList(value: unknown): string[] | undefined {
+  return Array.isArray(value) && value.every(item => typeof item === 'string') ? value : undefined;
 }
 
 function graphHasCycle(manifest: DeploymentManifestV2): boolean {
@@ -44,6 +53,11 @@ export async function validateRoster(
     diagnostics.push(diagnostic('AF007', 'error', 'Only creative-director and principal-engineer may delegate'));
   }
   if (graphHasCycle(manifest)) diagnostics.push(diagnostic('AF007', 'error', 'The subagent graph contains a cycle'));
+  for (const agent of Object.values(manifest.agents)) {
+    if (agent.allowedSubagents.some(target => manifest.agents[target].allowedSubagents.length > 0)) {
+      diagnostics.push(diagnostic('AF007', 'error', `Agent ${agent.id} requires subagent nesting depth greater than one`, { agentId: agent.id }));
+    }
+  }
 
   const seenNames = new Set<string>();
   for (const agent of Object.values(manifest.agents)) {
@@ -53,16 +67,43 @@ export async function validateRoster(
       continue;
     }
     const content = await readFile(sourcePath, 'utf8');
-    const yaml = frontmatter(content);
-    if (!yaml) {
-      diagnostics.push(diagnostic('AF001', 'error', 'Agent is missing YAML frontmatter', { path: agent.source, agentId: agent.id }));
+    const parsed = frontmatter(content);
+    if (!parsed.data) {
+      diagnostics.push(diagnostic('AF001', 'error', `Invalid agent frontmatter: ${parsed.error}`, { path: agent.source, agentId: agent.id }));
       continue;
     }
-    const name = frontmatterValue(yaml, 'name') ?? agent.id;
+    const name = typeof parsed.data.name === 'string' ? parsed.data.name : agent.id;
+    if (name !== agent.id) diagnostics.push(diagnostic('AF001', 'error', `Agent frontmatter name must equal stable id "${agent.id}"`, { path: agent.source, agentId: agent.id }));
     if (seenNames.has(name)) diagnostics.push(diagnostic('AF002', 'error', `Duplicate agent name "${name}"`, { path: agent.source }));
     seenNames.add(name);
-    if (/agents:\s*\[\s*["']?\*["']?\s*\]/m.test(yaml)) {
+    const tools = stringList(parsed.data.tools);
+    const sourceAgents = stringList(parsed.data.agents);
+    if (!tools || !sourceAgents) diagnostics.push(diagnostic('AF001', 'error', 'Agent tools and agents must be string arrays', { path: agent.source, agentId: agent.id }));
+    if ((tools?.includes('agent') ?? false) !== (agent.allowedSubagents.length > 0)) {
+      diagnostics.push(diagnostic('AF007', 'error', 'The agent tool and explicit subagent allowlist must be enabled together', { path: agent.source, agentId: agent.id }));
+    }
+    if (sourceAgents?.includes('*')) {
       diagnostics.push(diagnostic('AF007', 'error', 'Wildcard subagent access is forbidden', { path: agent.source, agentId: agent.id }));
+    }
+    if (sourceAgents && sourceAgents.slice().sort().join(',') !== agent.allowedSubagents.slice().sort().join(',')) {
+      diagnostics.push(diagnostic('AF003', 'error', 'Agent frontmatter subagents differ from the manifest allowlist', { path: agent.source, agentId: agent.id }));
+    }
+    const sourceHandoffs = Array.isArray(parsed.data.handoffs) ? parsed.data.handoffs : [];
+    const handoffTargets: string[] = [];
+    for (const item of sourceHandoffs) {
+      if (!item || typeof item !== 'object' || typeof (item as Record<string, unknown>).agent !== 'string') {
+        diagnostics.push(diagnostic('AF003', 'error', 'Agent handoff must be a mapping with an agent target', { path: agent.source, agentId: agent.id }));
+        continue;
+      }
+      const handoff = item as Record<string, unknown>;
+      handoffTargets.push(handoff.agent as string);
+      if (handoff.send !== false) diagnostics.push(diagnostic('AF003', 'error', 'All handoffs must declare send: false', { path: agent.source, agentId: agent.id }));
+    }
+    if (handoffTargets.slice().sort().join(',') !== agent.handoffs.slice().sort().join(',')) {
+      diagnostics.push(diagnostic('AF003', 'error', 'Agent frontmatter handoffs differ from the manifest', { path: agent.source, agentId: agent.id }));
+    }
+    if (parsed.data['user-invocable'] !== (agent.visibility === 'entry')) {
+      diagnostics.push(diagnostic('AF001', 'error', 'Agent user-invocable must match manifest visibility', { path: agent.source, agentId: agent.id }));
     }
     if (/autonomous(?:ly)?\s+(?:edit|modify|rewrite).{0,80}(?:agent|skill|manifest|governance)/is.test(content)) {
       diagnostics.push(diagnostic('AF008', 'error', 'Agent contains an autonomous self-modification policy', { path: agent.source, agentId: agent.id }));
@@ -85,13 +126,14 @@ export async function validateRoster(
       continue;
     }
     const content = await readFile(skillFile, 'utf8');
-    const yaml = frontmatter(content);
-    if (!yaml || frontmatterValue(yaml, 'name') !== skill.id || path.basename(root) !== skill.id) {
+    const parsed = frontmatter(content);
+    if (!parsed.data || parsed.data.name !== skill.id || path.basename(root) !== skill.id) {
       diagnostics.push(diagnostic('AF005', 'error', 'Skill name, directory, and manifest id must match', { path: skill.source }));
     }
-    if (!yaml || !frontmatterValue(yaml, 'description')) {
+    if (!parsed.data || typeof parsed.data.description !== 'string' || parsed.data.description.trim().length === 0) {
       diagnostics.push(diagnostic('AF005', 'error', 'Skill requires a trigger-complete description', { path: skill.source }));
     }
+    if (content.split(/\r?\n/).length > 500) diagnostics.push(diagnostic('AF005', 'error', 'SKILL.md must stay below 500 lines', { path: skill.source }));
   }
 
   for (const instruction of manifest.instructions) {
@@ -101,15 +143,16 @@ export async function validateRoster(
       continue;
     }
     const content = await readFile(sourcePath, 'utf8');
-    const yaml = frontmatter(content);
-    if (!yaml || !frontmatterValue(yaml, 'applyTo')) {
+    const parsed = frontmatter(content);
+    if (!parsed.data || typeof parsed.data.applyTo !== 'string' || parsed.data.applyTo.trim().length === 0) {
       diagnostics.push(diagnostic('AF006', 'error', 'Automatically deployed instruction requires applyTo', { path: instruction.source }));
     }
   }
 
-  const claudeAgents = path.join(repoPath, '.claude', 'agents');
-  if (await exists(claudeAgents)) {
-    const pending = [claudeAgents];
+  for (const discoverable of ['.claude/agents', '.github/agents']) {
+    const root = path.join(repoPath, ...discoverable.split('/'));
+    if (!(await exists(root))) continue;
+    const pending = [root];
     let duplicateFound = false;
     while (pending.length > 0 && !duplicateFound) {
       const current = pending.pop()!;
@@ -118,7 +161,7 @@ export async function validateRoster(
         else if (entry.name.endsWith('.md')) { duplicateFound = true; break; }
       }
     }
-    if (duplicateFound) diagnostics.push(diagnostic('AF002', 'error', '.claude/agents is VS Code-discoverable and must not duplicate the canonical roster', { path: '.claude/agents' }));
+    if (duplicateFound) diagnostics.push(diagnostic('AF002', 'error', `${discoverable} is VS Code-discoverable and must not duplicate the canonical roster`, { path: discoverable }));
   }
   return { valid: !hasErrors(diagnostics), diagnostics };
 }

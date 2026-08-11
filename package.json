@@ -14,7 +14,8 @@
     "test": "npm test -w packages/core && npm test -w packages/cli && npm test -w packages/extension",
     "test:core": "npm test -w packages/core",
     "test:cli": "npm test -w packages/cli",
-    "test:extension": "npm test -w packages/extension"
+    "test:extension": "npm test -w packages/extension",
+    "test:extension-host": "npm run test:host -w packages/extension"
   },
   "devDependencies": {
     "typescript": "~5.4.0"

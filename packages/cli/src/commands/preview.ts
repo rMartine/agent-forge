@@ -1,6 +1,6 @@
 import type { Command } from 'commander';
-import { createDeploymentPlan } from '@agent-forge/core';
-import { environmentList, printDiagnostics, repoPath } from '../output.js';
+import { createDeploymentPlan, discoverVsCodeEnvironment } from '@agent-forge/core';
+import { printDiagnostics, repoPath } from '../output.js';
 
 export function registerPreview(program: Command): void {
   program.command('preview').description('Render an immutable deployment preview without writing the user profile')
@@ -10,9 +10,15 @@ export function registerPreview(program: Command): void {
     .action(async options => {
       if (options.scope !== 'user') throw new Error('Only user scope is supported.');
       if (options.profile !== 'full') throw new Error('Only the full capability profile is currently supported.');
+      const environment = await discoverVsCodeEnvironment();
+      if (!environment.supported) {
+        printDiagnostics(environment.diagnostics);
+        process.exitCode = 1;
+        return;
+      }
       const plan = await createDeploymentPlan(repoPath(program), {
-        availableTools: environmentList('AGENT_FORGE_AVAILABLE_TOOLS'),
-        availableModels: environmentList('AGENT_FORGE_AVAILABLE_MODELS'),
+        availableTools: environment.availableTools,
+        availableModels: environment.availableModels,
         strictCapabilities: true,
       });
       const safePlan = { ...plan, artifacts: plan.artifacts.map(({ content: _content, ...item }) => item) };

@@ -1,6 +1,6 @@
 import type { Command } from 'commander';
-import { deploy } from '@agent-forge/core';
-import { environmentList, printDiagnostics, repoPath } from '../output.js';
+import { deploy, discoverVsCodeEnvironment } from '@agent-forge/core';
+import { printDiagnostics, repoPath } from '../output.js';
 
 export function registerDeploy(program: Command): void {
   program.command('deploy').description('Validate and atomically deploy to the VS Code user profile')
@@ -9,9 +9,15 @@ export function registerDeploy(program: Command): void {
     .action(async options => {
       if (options.scope !== 'user') throw new Error('Only user scope is supported.');
       if (options.profile !== 'full') throw new Error('Only the full capability profile is currently supported.');
+      const environment = await discoverVsCodeEnvironment();
+      if (!environment.supported) {
+        printDiagnostics(environment.diagnostics);
+        process.exitCode = 1;
+        return;
+      }
       const result = await deploy(repoPath(program), {
-        availableTools: environmentList('AGENT_FORGE_AVAILABLE_TOOLS'),
-        availableModels: environmentList('AGENT_FORGE_AVAILABLE_MODELS'),
+        availableTools: environment.availableTools,
+        availableModels: environment.availableModels,
         strictCapabilities: true,
       });
       printDiagnostics(result.diagnostics);

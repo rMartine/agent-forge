@@ -2,7 +2,8 @@
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "$id": "https://agent-forge.local/schemas/agent-forge-manifest.schema.json",
   "type": "object",
-  "required": ["schemaVersion", "platform", "scope", "targets", "agents", "instructions", "skills", "hooks"],
+  "additionalProperties": false,
+  "required": ["schemaVersion", "platform", "scope", "targets", "capabilityCatalog", "modelProfiles", "mcpProviders", "agents", "instructions", "skills", "hooks"],
   "properties": {
     "schemaVersion": { "const": 2 },
     "platform": { "const": "vscode" },
@@ -19,9 +20,43 @@
         "state": { "type": "string", "minLength": 1 }
       }
     },
-    "agents": { "type": "object", "minProperties": 1 },
-    "instructions": { "type": "array" },
-    "skills": { "type": "array" },
-    "hooks": { "type": "array" }
+    "capabilityCatalog": { "type": "string", "minLength": 1 },
+    "modelProfiles": { "type": "string", "minLength": 1 },
+    "mcpProviders": { "type": "string", "minLength": 1 },
+    "agents": { "type": "object", "minProperties": 1, "additionalProperties": { "$ref": "#/$defs/agent" } },
+    "instructions": { "type": "array", "items": { "$ref": "#/$defs/artifact" } },
+    "skills": { "type": "array", "items": { "$ref": "#/$defs/artifact" } },
+    "hooks": { "type": "array", "items": { "$ref": "#/$defs/artifact" } }
+  },
+  "$defs": {
+    "identifier": { "type": "string", "pattern": "^[a-z0-9]+(?:-[a-z0-9]+)*$" },
+    "stringArray": { "type": "array", "items": { "type": "string", "minLength": 1 }, "uniqueItems": true },
+    "artifact": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["id", "source"],
+      "properties": {
+        "id": { "$ref": "#/$defs/identifier" },
+        "source": { "type": "string", "minLength": 1 }
+      }
+    },
+    "agent": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["id", "source", "visibility", "capabilityProfile", "modelProfile", "requiredSkills", "optionalSkills", "allowedSubagents", "handoffs", "requiredCapabilities", "optionalCapabilities"],
+      "properties": {
+        "id": { "$ref": "#/$defs/identifier" },
+        "source": { "type": "string", "pattern": "^agents/.+\\.agent\\.md$" },
+        "visibility": { "enum": ["entry", "worker"] },
+        "capabilityProfile": { "$ref": "#/$defs/identifier" },
+        "modelProfile": { "enum": ["inherit", "reasoning", "coding", "creative", "balanced"] },
+        "requiredSkills": { "$ref": "#/$defs/stringArray" },
+        "optionalSkills": { "$ref": "#/$defs/stringArray" },
+        "allowedSubagents": { "$ref": "#/$defs/stringArray" },
+        "handoffs": { "$ref": "#/$defs/stringArray" },
+        "requiredCapabilities": { "$ref": "#/$defs/stringArray" },
+        "optionalCapabilities": { "$ref": "#/$defs/stringArray" }
+      }
+    }
   }
 }

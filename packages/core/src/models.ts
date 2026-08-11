@@ -5,6 +5,11 @@ import { resolveRepoFilePath } from './paths.js';
 export async function loadModelPolicy(repoPath: string, relativePath: string): Promise<ModelPolicy> {
   const policy = await loadJsonc<ModelPolicy>(resolveRepoFilePath(repoPath, relativePath));
   if (policy.version !== 1 || !policy.profiles) throw new Error('Invalid model profile configuration');
+  for (const [profile, models] of Object.entries(policy.profiles)) {
+    if (!Array.isArray(models) || models.some(model => typeof model !== 'string' || model.trim().length === 0)) {
+      throw new Error(`Invalid model list for profile ${profile}`);
+    }
+  }
   return policy;
 }
 

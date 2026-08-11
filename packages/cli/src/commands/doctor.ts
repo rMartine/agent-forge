@@ -1,5 +1,5 @@
 import type { Command } from 'commander';
-import { doctorMcp, loadCapabilityCatalog, loadManifest, loadMcpProviders, validateRoster } from '@agent-forge/core';
+import { createDeploymentPlan, discoverVsCodeEnvironment, doctorMcp, loadCapabilityCatalog, loadManifest, loadMcpProviders, validateRoster } from '@agent-forge/core';
 import { printDiagnostics, repoPath } from '../output.js';
 
 export function registerDoctor(program: Command): void {
@@ -12,10 +12,12 @@ export function registerDoctor(program: Command): void {
       const manifest = await loadManifest(repo);
       const roster = await validateRoster(repo, manifest, await loadCapabilityCatalog(repo, manifest.capabilityCatalog));
       const mcp = await doctorMcp(await loadMcpProviders(repo, manifest.mcpProviders));
-      const result = { ready: roster.valid && mcp.ready, roster, mcp };
+      const environment = await discoverVsCodeEnvironment();
+      const preview = await createDeploymentPlan(repo, { availableTools: environment.availableTools, availableModels: environment.availableModels, strictCapabilities: true });
+      const result = { ready: roster.valid && mcp.ready && environment.supported && !preview.diagnostics.some(item => item.severity === 'error'), roster, mcp, environment, previewDiagnostics: preview.diagnostics };
       if (options.json) console.log(JSON.stringify(result, null, 2));
       else {
-        printDiagnostics([...roster.diagnostics, ...mcp.diagnostics]);
+        printDiagnostics([...roster.diagnostics, ...mcp.diagnostics, ...environment.diagnostics, ...preview.diagnostics]);
         for (const [name, provider] of Object.entries(mcp.providers)) console.log(`${name}: ${provider.ready ? 'ready' : 'not ready'} — ${provider.message}`);
       }
       if (!result.ready) process.exitCode = 1;

@@ -26,7 +26,10 @@ export class DeploymentService {
     const manifest = await loadManifest(this.repoPath);
     const roster = await validateRoster(this.repoPath, manifest, await loadCapabilityCatalog(this.repoPath, manifest.capabilityCatalog));
     const mcp = await doctorMcp(await loadMcpProviders(this.repoPath, manifest.mcpProviders));
-    return { ready: roster.valid && mcp.ready, roster, mcp, tools: discoverAvailableToolIds(), models: await discoverAvailableModelIds() };
+    const tools = discoverAvailableToolIds();
+    const models = await discoverAvailableModelIds();
+    const preview = await createDeploymentPlan(this.repoPath, { availableTools: tools, availableModels: models, strictCapabilities: true });
+    return { ready: roster.valid && mcp.ready && !preview.diagnostics.some(item => item.severity === 'error'), roster, mcp, preview, tools, models };
   }
 
   async preview(strictCapabilities = true): Promise<DeploymentPlan> {

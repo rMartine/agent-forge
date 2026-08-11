@@ -1,6 +1,6 @@
 {
   "name": "@agent-forge/core",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
   "scripts": {
@@ -9,7 +9,7 @@
   },
   "dependencies": {
     "jsonc-parser": "^3.2.0",
-    "simple-git": "^3.22.0"
+    "yaml": "^2.9.0"
   },
   "devDependencies": {
     "@types/node": "^20.0.0"
