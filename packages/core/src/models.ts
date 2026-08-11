@@ -21,3 +21,11 @@ export function resolveAgentModel(
   if (resolved.length === 0) return undefined;
   return resolved.length === 1 ? resolved[0] : resolved;
 }
+
+export function resolveModelPolicy(
+  agents: Record<string, AgentManifestEntry>,
+  policy: ModelPolicy,
+  availableModels: Iterable<string>,
+): Record<string, string | string[] | undefined> {
+  return Object.fromEntries(Object.values(agents).map(agent => [agent.id, resolveAgentModel(agent, policy, availableModels)]));
+}

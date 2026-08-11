@@ -2,6 +2,7 @@ export type * from './types.js';
 export * from './errors.js';
 export * from './hash.js';
 export * from './paths.js';
+export * from './environment.js';
 export * from './manifest.js';
 export * from './diagnostics.js';
 export * from './capabilities.js';

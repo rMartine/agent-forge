@@ -113,3 +113,32 @@ export interface StatusResult {
   syncState: 'synced' | 'out-of-sync' | 'not-deployed';
   diagnostics: Diagnostic[];
 }
+
+export interface VsCodeEnvironment {
+  supported: boolean;
+  version?: string;
+  userProfile: string;
+  availableTools: string[];
+  availableModels: string[];
+  targets: DeploymentTargets;
+  diagnostics: Diagnostic[];
+}
+
+export interface McpSetupChange {
+  provider: string;
+  action: 'add' | 'manual';
+  cliPayload?: Record<string, unknown>;
+  message: string;
+}
+
+export interface McpSetupPlan {
+  changes: McpSetupChange[];
+  diagnostics: Diagnostic[];
+}
+
+export interface McpSetupResult {
+  success: boolean;
+  applied: string[];
+  skipped: string[];
+  diagnostics: Diagnostic[];
+}

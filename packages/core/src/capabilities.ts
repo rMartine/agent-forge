@@ -55,3 +55,11 @@ export function resolveAgentCapabilities(
   for (const name of [...profile.optional, ...agent.optionalCapabilities]) addCapability(name, false);
   return { tools: [...tools], missingRequiredCapabilities, missingOptionalCapabilities };
 }
+
+export function resolveCapabilityCatalog(
+  agents: Record<string, AgentManifestEntry>,
+  catalog: CapabilityCatalog,
+  availableTools: Iterable<string>,
+): Record<string, ResolvedAgentRuntime> {
+  return Object.fromEntries(Object.values(agents).map(agent => [agent.id, resolveAgentCapabilities(agent, catalog, availableTools)]));
+}

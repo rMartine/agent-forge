@@ -30,3 +30,5 @@ export async function status(repoPath: string): Promise<StatusResult> {
     diagnostics: syncState === 'synced' ? [] : [diagnostic('AF012', 'warning', 'One or more managed artifacts differ from the deployment ledger')],
   };
 }
+
+export const getDeploymentStatus = status;

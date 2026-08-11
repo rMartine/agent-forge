@@ -3,7 +3,7 @@ import * as vscode from 'vscode';
 import type { Diagnostic } from '@agent-forge/core';
 import { DeploymentService } from './services/deploymentService';
 import { DiagnosticsService } from './services/diagnosticsService';
-import { createMcpSetupPreview } from './services/mcpSetupService';
+import { applyMcpSetupPreview, createMcpSetupPreview } from './services/mcpSetupService';
 
 export async function resolveRepoPath(): Promise<string | undefined> {
   const config = vscode.workspace.getConfiguration('agentForge');
@@ -128,8 +128,22 @@ export async function handleSetupMcp(output: vscode.OutputChannel): Promise<void
     output.appendLine(JSON.stringify(preview.catalog.providers[name].configuration));
   }
   output.show(true);
-  const choice = await vscode.window.showInformationMessage('Agent Forge generated a provider setup preview. Review it in Output before opening VS Code MCP settings.', 'Open MCP Settings');
-  if (choice === 'Open MCP Settings') await vscode.commands.executeCommand('workbench.action.openSettings', 'mcp');
+  const addable = preview.plan.changes.filter(change => change.action === 'add').map(change => change.provider);
+  const choice = await vscode.window.showWarningMessage(
+    `Review the MCP preview in Output. Add these providers to the VS Code user profile: ${addable.join(', ')}?`,
+    { modal: true },
+    'Apply MCP Setup',
+    'Open MCP Settings',
+  );
+  if (choice === 'Open MCP Settings') {
+    await vscode.commands.executeCommand('workbench.action.openSettings', 'mcp');
+  } else if (choice === 'Apply MCP Setup') {
+    const result = await applyMcpSetupPreview(preview, addable);
+    appendDiagnostics(output, result.diagnostics);
+    vscode.window.showInformationMessage(result.success
+      ? `Agent Forge: added ${result.applied.join(', ') || 'no'} MCP providers. Review trust and OAuth prompts in VS Code.`
+      : 'Agent Forge: MCP setup failed. See Output.');
+  }
 }
 
 export function openManagedFile(repoPath: string | undefined, item: { fileStatus?: { path: string } }): void {
