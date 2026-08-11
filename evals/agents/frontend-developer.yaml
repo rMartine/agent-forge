@@ -1,0 +1,4 @@
+schemaVersion: 1
+id: frontend-developer
+prompt: Implement an accessible UI change in the framework discovered in the repository.
+expect: { outcome: implementation, accessibility: required, noFrameworkAssumption: true }

@@ -1,0 +1,37 @@
+{
+  "version": 1,
+  "providers": {
+    "canva": { "toolPatterns": ["canva/*"] },
+    "docker": { "toolPatterns": ["execute"] },
+    "digitalocean": { "toolPatterns": ["digitalocean/*"] },
+    "github": { "toolPatterns": ["github/*"] },
+    "gitkraken": { "toolPatterns": ["gitkraken/*"] }
+  },
+  "capabilities": {
+    "canva-write": { "access": "write", "provider": "canva", "tools": ["canva/*"], "requiredTools": ["canva/*"] },
+    "gitkraken-read": { "access": "read", "provider": "gitkraken", "tools": ["gitkraken/git_status", "gitkraken/git_log_or_diff", "gitkraken/repository_get_file_content"] },
+    "gitkraken-write": { "access": "write", "provider": "gitkraken", "tools": ["gitkraken/git_status", "gitkraken/git_log_or_diff", "gitkraken/repository_get_file_content", "gitkraken/git_add", "gitkraken/git_commit"], "requiredTools": ["gitkraken/git_add", "gitkraken/git_commit"] },
+    "github-read": { "access": "read", "provider": "github", "tools": ["github/get_file_contents", "github/list_issues", "github/pull_request_read"], "requiredTools": ["github/get_file_contents", "github/list_issues", "github/pull_request_read"] },
+    "github-write": { "access": "write", "provider": "github", "tools": ["github/get_file_contents", "github/list_issues", "github/pull_request_read", "github/issue_write", "github/add_issue_comment"], "requiredTools": ["github/get_file_contents", "github/list_issues", "github/pull_request_read", "github/issue_write", "github/add_issue_comment"] },
+    "github-admin": { "access": "admin", "provider": "github", "tools": ["github/get_file_contents", "github/list_issues", "github/pull_request_read", "github/issue_write", "github/add_issue_comment", "github/create_pull_request", "github/merge_pull_request"], "requiredTools": ["github/get_file_contents", "github/list_issues", "github/pull_request_read", "github/issue_write", "github/add_issue_comment", "github/create_pull_request", "github/merge_pull_request"] },
+    "docker-read": { "access": "read", "tools": ["execute"], "requiredTools": ["execute"] },
+    "docker-write": { "access": "write", "tools": ["execute"], "requiredTools": ["execute"] },
+    "docker-admin": { "access": "admin", "tools": ["execute"], "requiredTools": ["execute"] },
+    "digitalocean-read": { "access": "read", "provider": "digitalocean", "tools": ["digitalocean/apps-list", "digitalocean/apps-get-info"], "requiredTools": ["digitalocean/apps-list", "digitalocean/apps-get-info"] },
+    "digitalocean-admin": { "access": "admin", "provider": "digitalocean", "tools": ["digitalocean/apps-list", "digitalocean/apps-get-info", "digitalocean/apps-create-app-from-spec", "digitalocean/apps-update"], "requiredTools": ["digitalocean/apps-list", "digitalocean/apps-get-info", "digitalocean/apps-create-app-from-spec", "digitalocean/apps-update"] }
+  },
+  "profiles": {
+    "strategy-read": { "builtins": ["read", "search"], "required": [], "optional": [] },
+    "requirements-docs": { "builtins": ["read", "search", "edit"], "required": [], "optional": [] },
+    "architecture-review": { "builtins": ["read", "search", "edit"], "required": [], "optional": [] },
+    "planning": { "builtins": ["read", "search", "edit"], "required": [], "optional": [] },
+    "implementation": { "builtins": ["read", "search", "edit", "execute"], "required": [], "optional": [] },
+    "verification": { "builtins": ["read", "search", "edit", "execute"], "required": [], "optional": [] },
+    "security-review": { "builtins": ["read", "search", "execute"], "required": [], "optional": [] },
+    "operations-admin": { "builtins": ["read", "search", "edit", "execute"], "required": [], "optional": [] },
+    "creative-coordination": { "builtins": ["read", "search", "agent"], "required": [], "optional": [] },
+    "design-production": { "builtins": ["read", "search", "edit"], "required": [], "optional": [] },
+    "documentation": { "builtins": ["read", "search", "edit", "execute"], "required": [], "optional": [] },
+    "knowledge-curation": { "builtins": ["read", "search", "edit", "execute"], "required": [], "optional": [] }
+  }
+}

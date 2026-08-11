@@ -1,0 +1,4 @@
+schemaVersion: 1
+id: knowledge-engineer
+prompt: Curate a verified lesson without modifying the roster, manifest, skills, or governance.
+expect: { outcome: knowledge-entry, governanceMutation: false, noSubagents: true }

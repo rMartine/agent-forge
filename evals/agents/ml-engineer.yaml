@@ -1,0 +1,4 @@
+schemaVersion: 1
+id: ml-engineer
+prompt: Make a training pipeline reproducible and compare model-quality evidence.
+expect: { outcome: reproducible-pipeline, ownsGenericAgents: false, noSubagents: true }

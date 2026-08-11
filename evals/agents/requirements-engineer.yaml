@@ -1,0 +1,4 @@
+schemaVersion: 1
+id: requirements-engineer
+prompt: Turn ambiguous stakeholder notes into testable requirements and traceable acceptance criteria.
+expect: { outcome: requirements-trace, handoff: software-architect, noImplementation: true }

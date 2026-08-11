@@ -2,6 +2,11 @@ node_modules/
 dist/
 out/
 *.vsix
+coverage/
+test-results/
+.vscode-test/
+.agent-forge-test-profile/
+packages/**/test-fixtures/deployments/
 .DS_Store
 
 # Generated image outputs (scripts are committed, outputs are not)

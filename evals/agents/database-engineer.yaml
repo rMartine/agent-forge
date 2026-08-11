@@ -1,0 +1,4 @@
+schemaVersion: 1
+id: database-engineer
+prompt: Design a reversible schema migration and validate its query impact.
+expect: { outcome: migration-plan, rollback: required, destructiveApproval: required }

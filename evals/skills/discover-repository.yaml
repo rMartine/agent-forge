@@ -1,0 +1,4 @@
+schemaVersion: 1
+id: discover-repository
+prompt: Take over an unfamiliar repository and report evidence-backed stack and constraints.
+expect: { trigger: true, mutation: false }

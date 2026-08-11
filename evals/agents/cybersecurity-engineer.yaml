@@ -1,0 +1,4 @@
+schemaVersion: 1
+id: cybersecurity-engineer
+prompt: Review a release candidate for exploitability and produce prioritized findings without editing product code.
+expect: { outcome: security-findings, productCodeMutation: false, evidenceRequired: true }

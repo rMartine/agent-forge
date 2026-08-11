@@ -1,12 +1,12 @@
 {
   "name": "agent-forge",
   "displayName": "Agent Forge",
-  "description": "Deploy, restore, wipe, and check status of your AI agent roster",
-  "version": "0.1.0",
+  "description": "Validate and atomically deploy a VS Code custom-agent roster",
+  "version": "0.2.0",
   "publisher": "agent-forge",
   "icon": "media/agent-forge-icon.png",
   "engines": {
-    "vscode": "^1.85.0"
+    "vscode": "^1.104.0"
   },
   "categories": [
     "Other"
@@ -35,12 +35,30 @@
         },
         {
           "id": "agentForge.roster",
-          "name": "Roster",
+          "name": "Managed Deployment",
           "when": "agentForge.repoConfigured"
         }
       ]
     },
     "commands": [
+      {
+        "command": "agentForge.validate",
+        "title": "Validate Roster",
+        "icon": "$(check-all)",
+        "category": "Agent Forge"
+      },
+      {
+        "command": "agentForge.doctor",
+        "title": "Doctor",
+        "icon": "$(stethoscope)",
+        "category": "Agent Forge"
+      },
+      {
+        "command": "agentForge.preview",
+        "title": "Preview Deployment",
+        "icon": "$(preview)",
+        "category": "Agent Forge"
+      },
       {
         "command": "agentForge.deploy",
         "title": "Deploy",
@@ -48,21 +66,27 @@
         "category": "Agent Forge"
       },
       {
-        "command": "agentForge.restore",
-        "title": "Restore",
+        "command": "agentForge.status",
+        "title": "Status",
+        "icon": "$(info)",
+        "category": "Agent Forge"
+      },
+      {
+        "command": "agentForge.rollback",
+        "title": "Rollback",
         "icon": "$(history)",
         "category": "Agent Forge"
       },
       {
         "command": "agentForge.wipe",
-        "title": "Wipe",
+        "title": "Wipe Managed Deployment",
         "icon": "$(trash)",
         "category": "Agent Forge"
       },
       {
-        "command": "agentForge.status",
-        "title": "Status",
-        "icon": "$(info)",
+        "command": "agentForge.setupMcp",
+        "title": "MCP Setup",
+        "icon": "$(plug)",
         "category": "Agent Forge"
       },
       {
@@ -78,19 +102,8 @@
       },
       {
         "command": "agentForge.openFile",
-        "title": "Open File",
+        "title": "Open Managed File",
         "icon": "$(go-to-file)",
-        "category": "Agent Forge"
-      },
-      {
-        "command": "agentForge.enableSubAgents",
-        "title": "Enable Sub-Agent Nesting",
-        "category": "Agent Forge"
-      },
-      {
-        "command": "agentForge.selectImageModel",
-        "title": "Select Image Model",
-        "icon": "$(device-camera)",
         "category": "Agent Forge"
       },
       {
@@ -102,17 +115,33 @@
     ],
     "menus": {
       "view/title": [
-        { "command": "agentForge.deploy", "when": "view == agentForge.roster", "group": "navigation@1" },
-        { "command": "agentForge.restore", "when": "view == agentForge.roster", "group": "navigation@2" },
-        { "command": "agentForge.wipe", "when": "view == agentForge.roster", "group": "navigation@3" },
-        { "command": "agentForge.refresh", "when": "view == agentForge.roster", "group": "navigation@4" },
-        { "command": "agentForge.status", "when": "view == agentForge.roster", "group": "navigation@5" },
-        { "command": "agentForge.selectImageModel", "when": "view == agentForge.roster", "group": "navigation@6" },
-        { "command": "agentForge.enableSubAgents", "when": "view == agentForge.roster", "group": "1_settings@1" },
-        { "command": "agentForge.openSettings", "when": "view == agentForge.roster", "group": "1_settings@2" }
+        {
+          "command": "agentForge.validate",
+          "when": "view == agentForge.roster",
+          "group": "navigation@1"
+        },
+        {
+          "command": "agentForge.preview",
+          "when": "view == agentForge.roster",
+          "group": "navigation@2"
+        },
+        {
+          "command": "agentForge.deploy",
+          "when": "view == agentForge.roster",
+          "group": "navigation@3"
+        },
+        {
+          "command": "agentForge.refresh",
+          "when": "view == agentForge.roster",
+          "group": "navigation@4"
+        }
       ],
       "view/item/context": [
-        { "command": "agentForge.openFile", "when": "view == agentForge.roster && viewItem == entry", "group": "inline" }
+        {
+          "command": "agentForge.openFile",
+          "when": "view == agentForge.roster && viewItem == entry",
+          "group": "inline"
+        }
       ]
     },
     "configuration": {
@@ -121,35 +150,40 @@
         "agentForge.repoPath": {
           "type": "string",
           "default": "",
-          "description": "Absolute path to the roster Git repository"
+          "description": "Absolute path to the canonical Agent Forge repository"
         },
-        "agentForge.autoConfirm": {
-          "type": "boolean",
-          "default": false,
-          "description": "Skip confirmation for destructive operations"
+        "agentForge.availableToolIds": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "default": [],
+          "description": "Additional exact MCP tool IDs validated outside the VS Code Language Model API"
         },
-        "agentForge.imageModelStoragePath": {
-          "type": "string",
-          "default": "",
-          "description": "Absolute path where image generation models are stored. Defaults to ~/.agent-forge/models if empty. Used by the graphic-designer agent."
-        },
-        "agentForge.generatedAssetsPath": {
-          "type": "string",
-          "default": "",
-          "description": "Absolute path where the graphic-designer stores generated and downloaded assets (logos, stock images, mockups). Defaults to the project's generated/ folder if empty."
+        "agentForge.availableModelIds": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "default": [],
+          "description": "Additional locally available Copilot model IDs"
         }
       }
     }
   },
   "scripts": {
-    "build": "esbuild src/extension.ts --bundle --outfile=out/extension.js --external:vscode --format=cjs --platform=node",
-    "watch": "esbuild src/extension.ts --bundle --outfile=out/extension.js --external:vscode --format=cjs --platform=node --watch"
+    "build": "esbuild src/extension.ts --bundle --outfile=out/extension.js --external:vscode --format=cjs --platform=node --main-fields=module,main",
+    "build:test-host": "tsc -p tsconfig.test.json",
+    "test": "node --test test/*.test.mjs",
+    "test:host": "npm run build && npm run build:test-host && node out/test/test/runTest.js",
+    "watch": "esbuild src/extension.ts --bundle --outfile=out/extension.js --external:vscode --format=cjs --platform=node --main-fields=module,main --watch"
   },
   "dependencies": {
     "@agent-forge/core": "*"
   },
   "devDependencies": {
-    "@types/vscode": "^1.85.0",
-    "esbuild": "^0.20.0"
+    "@types/vscode": "^1.104.0",
+    "@vscode/test-electron": "^3.1.0",
+    "esbuild": "^0.28.2"
   }
 }

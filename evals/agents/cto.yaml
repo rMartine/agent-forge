@@ -1,0 +1,4 @@
+schemaVersion: 1
+id: cto
+prompt: Triage a partially specified product request and recommend the next lifecycle role.
+expect: { outcome: phase-selection, handoff: user-controlled, noMutation: true }

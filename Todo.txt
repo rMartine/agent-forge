@@ -1,61 +1,22 @@
-# Project Todo
+Agent Forge remaining release gates — 2026-08-10
 
-This file is read and updated by `@cto` at the start and end of every user session.
-Items move: Pending -> In Progress (when work starts) -> Implemented (when shipped, with date and commit SHA).
+Completed in codex/vscode-roster-refactor
+- Manifest v2, schemas, current user-profile targets, ownership ledger, atomic deploy, rollback, managed wipe
+- 24 canonical VS Code agents; nine entries; depth-one orchestration; shared handoff contract
+- 17 skills plus specialist references and six scoped instructions
+- Exact capability/model resolution and approved VS Code MCP setup flow
+- CLI and extension adapters with diagnostics and deployment preview
+- Claude identity and conversion removal
+- Package safety tests and agent/skill/lifecycle/failure evaluation fixtures
+- Current architecture, requirements, and remediation documentation
 
-Conventions:
-- One item per bullet. Sub-bullets are acceptable for breakdown.
-- When moving an item to Implemented, append `[YYYY-MM-DD, <commit-sha-or-branch>]`.
-- Never delete items from Implemented - they are the historical log.
-
-================================================================================
-## In Progress
-================================================================================
-
-(none)
-
-================================================================================
-## Pending
-================================================================================
-
-- Open and close session updating the Todo file
-  - (Carried forward - covered by CTO Intake / Closeout protocol now in `agents/cto.agent.md`. Verify in practice next session.)
-
-- Auto-turn the knowledge repo if not on upon starting a session.
-  - (Carried forward - covered by CTO Session Bootstrap step 1. Verify in practice next session.)
-
-- Use Knowledge base to self-improve agents.
-  - (Carried forward - covered by KE Periodic Self-Improvement Pass. Schedule first run after this overhaul ships.)
-
-- Start implementation. Be sure to use the correct agent in your team for each task; pass down this directive to the agents you spawn.
-  - (Carried forward - codified as the mandatory delegation directive in CTO Operating Mode and in agent-communication instructions. Audit compliance over the next 3 user requests.)
-
-- Always setup dev run and production run scripts globally in the same way:
-  - Global `.env.development` / `.env.production`
-  - Global `run-dev.*` and `deploy-prod.*` scripts that fan variables out to per-app `.env` files
-  - Docker containers + fully automated deployment, provisioning and seeding
-  - Use Docker Desktop, DigitalOcean, and Expo CLIs/EAS as appropriate
-  - (Carried forward - codified in `agents/devops-engineer.agent.md` "Monorepo Environment & Deployment Discipline". Apply to next greenfield project.)
-
-- Script audit and consolidation pass:
-  - Analyze scripts and do a cleanup, consolidate and remove unnecessary scripts.
-  - Analyze codebase and compare with global `.env.*` files to validate completeness.
-  - Validate that per-app `.env` files inside each monorepo app are created correctly and used.
-  - Validate that `deploy-prod.*` correctly deploys to DigitalOcean creating needed env variables. One container per app. Each container pushed to a global private Docker Hub registry.
-  - Update all documentation and align with SDLC; rework where misaligned.
-  - Images pushed to Docker Hub (private) but deployed on DigitalOcean. Use CLIs as needed.
-  - (Carried forward - checklist codified in `agents/devops-engineer.agent.md` "Script Audit & Consolidation Checklist". Run on the first project that adopts the new layout.)
-
-================================================================================
-## Implemented
-================================================================================
-
-- [2026-04-17, 2b0fb8c merged into development] Agent roster orchestration overhaul:
-  - Unified toolsets (all-builtins / orchestrator / devops / knowledge) with all built-ins everywhere
-  - Frontmatter normalization across all 21 agents (tools, user-invocable, disable-model-invocation, agents, handoffs)
-  - Rewrote agent-communication instructions to clarify delegation vs handoffs
-  - CTO intake expanded with KB bootstrap, Todo.txt session open/close, mandatory delegation directive, release proposal
-  - Devops body expanded with monorepo env/scripts/Docker Hub/DO discipline
-  - KE body expanded with periodic self-improvement pass
-  - Todo.txt restructured into Pending / In Progress / Implemented sections
-  - git-workflow instructions: added Review Policy + Release Workflow sections
+Required before broad live deployment
+- Configure/authenticate Canva, GitKraken, Docker MCP Toolkit, GitHub, and DigitalOcean in the intended VS Code profile
+- Put the VS Code `code` CLI on PATH for CLI Doctor, or use the extension's VS Code-native version gate
+- Capture the exact installed tool IDs and update candidate mappings where providers expose different names
+- Optionally configure only locally available model profile mappings
+- Run full Doctor and strict Preview with the real VS Code inventory
+- Install into an isolated VS Code profile and confirm zero Chat customization diagnostics
+- Execute the five lifecycle evaluations and seven failure-mode evaluations against the installed roster
+- Keep `npm audit` at zero findings; the unused vulnerable Git dependency and old bundler were removed/upgraded
+- Authorize any live user-profile deployment, provider installation, push, merge, or publication separately

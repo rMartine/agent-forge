@@ -1,0 +1,25 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://agent-forge.local/schemas/handoff-contract.schema.json",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["goal", "expectedOutcome", "inScope", "outOfScope", "constraints", "requiredApprovals", "artifactsReviewed", "decisions", "files", "verification", "risks", "assumptions", "unresolvedFindings", "nextAction", "nextRole"],
+  "properties": {
+    "goal": { "type": "string", "minLength": 1 },
+    "expectedOutcome": { "type": "string", "minLength": 1 },
+    "inScope": { "$ref": "#/$defs/strings" },
+    "outOfScope": { "$ref": "#/$defs/strings" },
+    "constraints": { "$ref": "#/$defs/strings" },
+    "requiredApprovals": { "$ref": "#/$defs/strings" },
+    "artifactsReviewed": { "$ref": "#/$defs/strings" },
+    "decisions": { "$ref": "#/$defs/strings" },
+    "files": { "$ref": "#/$defs/strings" },
+    "verification": { "$ref": "#/$defs/strings" },
+    "risks": { "$ref": "#/$defs/strings" },
+    "assumptions": { "$ref": "#/$defs/strings" },
+    "unresolvedFindings": { "$ref": "#/$defs/strings" },
+    "nextAction": { "type": "string", "minLength": 1 },
+    "nextRole": { "type": "string", "minLength": 1 }
+  },
+  "$defs": { "strings": { "type": "array", "items": { "type": "string" } } }
+}

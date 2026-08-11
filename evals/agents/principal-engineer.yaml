@@ -1,0 +1,4 @@
+schemaVersion: 1
+id: principal-engineer
+prompt: Coordinate a cross-stack implementation using only named first-level workers.
+expect: { outcome: integrated-change, depth: 1, evidenceRequired: true }

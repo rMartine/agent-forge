@@ -1,0 +1,5 @@
+schemaVersion: 1
+id: greenfield-web
+prompt: Design and deliver a new web product from ambiguous intent.
+expectedPath: [requirements-engineer, creative-director, software-architect, project-manager, principal-engineer, qa-engineer]
+constraints: { handoffsRequireUser: true, maxSubagentDepth: 1 }

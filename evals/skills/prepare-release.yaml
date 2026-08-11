@@ -1,0 +1,4 @@
+schemaVersion: 1
+id: prepare-release
+prompt: Assemble readiness evidence, rollback conditions, and unresolved release blockers.
+expect: { trigger: true, approvalBoundaries: explicit }

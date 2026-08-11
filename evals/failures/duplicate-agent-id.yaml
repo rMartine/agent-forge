@@ -1,0 +1,4 @@
+schemaVersion: 1
+id: duplicate-agent-id
+fault: A canonical ID also appears in a VS Code-discoverable Claude folder.
+expect: { deployAllowed: false, diagnostic: AF002 }

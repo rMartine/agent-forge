@@ -1,123 +1,69 @@
 # Agent Forge
 
-A VS Code extension + CLI that manages the lifecycle of a GitHub Copilot custom agent ecosystem. Agents, instructions, skills, toolset configs, prompts, and hooks are stored in a Git repo and deployed to their OS-specific target folders with a single command.
+Agent Forge is a VS Code-only roster and deployment system for 24 GitHub Copilot custom agents. The repository is the canonical source; the core package validates, renders, previews, atomically installs, audits, rolls back, and removes only its own managed files.
 
-## Prerequisites
+## Runtime contract
 
-- **Node.js** 18+
-- **VS Code** 1.85+
-- **Git** (recommended; versioning features are skipped if unavailable)
-- **Python 3.11+** with PyTorch + CUDA (recommended; required for image generation via `diffusers`)
-- **Docker Desktop** (recommended; required for the knowledge base repository)
+- Agents: `~/.copilot/agents`
+- Skills: `~/.copilot/skills`
+- Instructions: `~/.copilot/instructions`
+- Optional hooks: `~/.copilot/hooks`
+- Ownership ledger and backups: `~/.agent-forge`
+- Minimum VS Code: 1.104.0
 
-> **Note:** Ollama image generation is macOS-only as of Jan 2026. On Windows/Linux the extension uses Python `diffusers` as the primary image generation runtime.
+The roster has nine visible lifecycle entries and fifteen hidden workers. Only Creative Director and Principal Engineer may invoke explicitly named first-level workers. All cross-phase handoffs use `send: false`, so the user controls the transition. No workflow requires nested subagents.
 
-## Install
+## Build and verify
 
 ```powershell
-git clone <your-repo-url> agent-forge
-cd agent-forge
-.\scripts\install.ps1
+npm ci
+npm run build
+npm test
+node packages/cli/dist/index.js --repo . validate --strict --target vscode
 ```
 
-The install script builds all packages, packages the extension as a VSIX, installs it into VS Code, and links the CLI globally.
+Full preview and deployment require exact locally available MCP tool IDs. Supply inventories as comma-separated environment variables or configure them through the extension:
 
-> **Antivirus note:** During installation, `npx` downloads `@vscode/vsce` (Microsoft's official extension packaging tool) to build the VSIX. Some heuristic-based antivirus engines (e.g., `CMD:Heur.BZC.ZFV.Boxter`) may flag this as suspicious because it downloads and executes a package at runtime. This is a **false positive**. If your antivirus blocks the install, add the `agent-forge` repository folder to your AV exclusion list and re-run the script.
-
-## CLI Usage
-
-All commands accept `--repo <path>` (defaults to cwd) and `-y` to skip confirmation prompts.
-
-```
-agent-forge deploy      # Deploy roster files to target OS folders
-agent-forge restore     # Overwrite local files with repo state
-agent-forge wipe        # Delete all managed files from target folders
-agent-forge status      # Show sync status (repo vs. local)
+```powershell
+$env:AGENT_FORGE_AVAILABLE_TOOLS = 'gitkraken/git_status,gitkraken/git_add_or_commit,canva/design_create'
+$env:AGENT_FORGE_AVAILABLE_MODELS = 'locally-available-model-id'
+node packages/cli/dist/index.js --repo . doctor --profile full
+node packages/cli/dist/index.js --repo . preview --scope user --profile full
+node packages/cli/dist/index.js --repo . deploy --scope user --profile full
 ```
 
-## VS Code Extension
+Deployment remains blocked when required capabilities are absent. Empty model mappings intentionally inherit the current Copilot selection.
 
-Open the Command Palette and search for **Agent Forge**:
+## CLI
 
-| Command | Description |
-|---------|-------------|
-| Agent Forge: Deploy | Deploy roster to target folders |
-| Agent Forge: Restore | Restore local files from repo |
-| Agent Forge: Wipe | Remove all managed files |
-| Agent Forge: Status | Show sync status |
-| Agent Forge: Set Repository Path | Configure the roster repo location |
-| Agent Forge: Enable Sub-Agent Nesting | Allow agents to invoke other agents |
-| Agent Forge: Select Image Model | Auto-detect GPU and configure the image generation model |
+```text
+agent-forge validate --strict --target vscode [--json]
+agent-forge doctor --profile full [--json]
+agent-forge preview --scope user --profile full [--json]
+agent-forge deploy --scope user --profile full
+agent-forge status [--json]
+agent-forge rollback [--deployment <id>]
+agent-forge wipe --managed-only --confirm <deployment-id>
+agent-forge mcp setup [--provider <name>] [--preview-only]
+```
 
-### Settings
+`restore` is a deprecated alias for rollback for one release. There is no `-y`, `--yes`, or extension `autoConfirm` path.
 
-| Setting | Type | Default | Description |
-|---------|------|---------|-------------|
-| `agentForge.repoPath` | string | `""` | Absolute path to the roster Git repository |
-| `agentForge.autoConfirm` | boolean | `false` | Skip confirmation for destructive operations |
-| `agentForge.imageModelStoragePath` | string | `""` | Where image models are stored (default: `~/.agent-forge/models`) |
-| `agentForge.generatedAssetsPath` | string | `""` | Where the graphic-designer saves generated/downloaded assets (default: project `generated/` folder) |
+## MCP setup
 
-## Agent Roster
+Canva, GitKraken, and Docker have direct VS Code `servers` configurations. GitHub and DigitalOcean are enabled through the configured Docker MCP Toolkit surface. `mcp setup` previews each change, requests approval per direct provider, and uses VS Code's official `--add-mcp` merge interface. It never writes Claude configuration or secret values.
 
-Agent Forge ships with **21 agents** organized into divisions. All agents use the model selected in the VS Code chat picker (and its Thinking Effort) — the agent files do not pin a model.
+## Repository layout
 
-### Leadership
-| Agent | Role |
-|-------|------|
-| CTO | Strategic orchestrator, single entry point for all work |
-| Principal Engineer | Implementation lead, delegates to domain engineers |
-| Project Manager | Delivery planning, sprints, backlog tracking |
+- `agents/`: the only canonical agent definitions
+- `skills/`: progressively loaded Agent Skills and one-level references
+- `instructions/`: automatically applied safety and quality policies
+- `config/`: capability, model, and MCP provider catalogs
+- `schemas/`: deployment and handoff contracts
+- `packages/core/`: authoritative validation and transaction engine
+- `packages/cli/`: thin command adapter
+- `packages/extension/`: thin VS Code UI and diagnostics adapter
+- `evals/`: role, skill, lifecycle, and failure fixtures
+- `project_docs/`: architecture, requirements, audit, and remediation evidence
 
-### Engineering
-| Agent | Specialization |
-|-------|---------------|
-| Backend Developer | Node.js, TypeScript APIs, databases |
-| Frontend Developer | React, Next.js, Tailwind, web UIs |
-| Database Engineer | PostgreSQL, schema design, migrations |
-| DevOps Engineer | Docker, CI/CD, infrastructure |
-| .NET Engineer | WPF, Avalonia, C#, .NET desktop apps |
-| Desktop App Engineer | C++/Qt, Rust/Tauri, Python/PySide6 native apps |
-| Mobile Engineer | React Native, Flutter, mobile platforms |
-| ML Engineer | Machine learning pipelines, model training |
-| Data Scientist | Data analysis, statistical modeling |
-| Cybersecurity Engineer | Security audits, vulnerability scanning |
-| QA Engineer | Testing strategy, test coverage |
-
-### Design
-| Agent | Specialization |
-|-------|---------------|
-| Creative Director | Product vision, branding, naming |
-| Graphic Designer | Image generation (SDXL Lightning), stock image search, branding assets |
-| UX Engineer | User experience, design systems, accessibility |
-
-### Documentation
-| Agent | Specialization |
-|-------|---------------|
-| Technical Writer | API docs, README, changelog, runbooks |
-| Knowledge Engineer | Institutional memory, error pattern catalog |
-| Requirements Engineer | User stories, acceptance criteria |
-| Software Architect | System design, ADRs, API contracts |
-
-## Skills
-
-| Skill | Description |
-|-------|-------------|
-| `scaffold-project` | Scaffold a mono-repo with Docker Compose, scripts, and project docs |
-| `query-knowledge-base` | Search the team's error patterns, anti-patterns, and lessons learned |
-| `search-stock-images` | Search Unsplash, Pexels, Pixabay for royalty-free images |
-
-## Image Generation
-
-The graphic-designer agent uses **SDXL Lightning** (ByteDance) for fast, high-quality image generation:
-
-- **Runtime**: Python `diffusers` (Windows/Linux), Ollama (macOS only)
-- **Model**: Auto-selected by GPU VRAM — SDXL Lightning (6GB+), SD 1.5 (4GB+), CPU fallback
-- **Storage**: Models stored at `agentForge.imageModelStoragePath` (default: `~/.agent-forge/models`)
-- **Assets**: Generated images saved to `agentForge.generatedAssetsPath` (default: project `generated/` folder)
-
-Run `Agent Forge: Select Image Model` from the command palette to detect your GPU and download the appropriate model.
-
-## Documentation
-
-See [`project_docs/`](project_docs/) for detailed requirements, architecture, and knowledge base.
+See [architecture](project_docs/architecture/architecture.md), [build and install](project_docs/requirements/build-and-install.md), and the [remediation report](project_docs/audits/vscode-roster-remediation-2026-08-10.md).

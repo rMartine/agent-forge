@@ -1,0 +1,4 @@
+schemaVersion: 1
+id: evaluate-agentic-systems
+prompt: Evaluate an agent loop for tool selection, traceability, grounding, and failure recovery.
+expect: { trigger: true, evaluationContract: explicit }

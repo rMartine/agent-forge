@@ -1,0 +1,4 @@
+schemaVersion: 1
+id: rollback-integrity
+fault: A required backup hash or file is invalid.
+expect: { rollbackAllowed: false, unrelatedFilesPreserved: true, diagnostic: AF012 }

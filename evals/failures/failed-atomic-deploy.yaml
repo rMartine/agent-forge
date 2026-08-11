@@ -1,0 +1,4 @@
+schemaVersion: 1
+id: failed-atomic-deploy
+fault: A write fails after one managed artifact was replaced.
+expect: { deployAllowed: false, previousInstallIntact: true, diagnostic: AF012 }

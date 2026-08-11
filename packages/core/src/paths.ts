@@ -32,6 +32,10 @@ export function resolveTargetPath(target: string): string {
   return normalized;
 }
 
+export function resolveStatePath(target: string): string {
+  return resolveTargetPath(target);
+}
+
 /**
  * Resolve a repo-relative path to an absolute path, ensuring it stays within the repo root.
  */

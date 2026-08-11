@@ -1,0 +1,4 @@
+schemaVersion: 1
+id: creative-director
+prompt: Establish visual direction and delegate production work without invoking another coordinator.
+expect: { outcome: creative-brief, allowedWorkers: [graphic-designer, ux-engineer], depth: 1 }

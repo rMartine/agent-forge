@@ -1,0 +1,5 @@
+schemaVersion: 1
+id: security-release
+prompt: Review a release candidate, remediate blockers, reverify, and synthesize readiness.
+expectedPath: [cybersecurity-engineer, principal-engineer, qa-engineer, cto]
+constraints: { securityDoesNotEditProductCode: true, handoffsRequireUser: true }

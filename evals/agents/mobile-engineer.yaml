@@ -1,0 +1,4 @@
+schemaVersion: 1
+id: mobile-engineer
+prompt: Add a mobile feature using the existing stack and document unverified device targets.
+expect: { outcome: verified-change, hardwareLimitsReported: true, noSubagents: true }

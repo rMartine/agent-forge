@@ -1,0 +1,4 @@
+schemaVersion: 1
+id: graphic-designer
+prompt: Produce two branded asset variants and record source and license provenance.
+expect: { outcome: design-assets, provenance: required, noSubagents: true }

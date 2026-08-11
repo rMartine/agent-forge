@@ -1,0 +1,4 @@
+schemaVersion: 1
+id: trace-requirements
+prompt: Link stakeholder goals to requirements, acceptance criteria, evidence, and state.
+expect: { trigger: true, traceability: complete }

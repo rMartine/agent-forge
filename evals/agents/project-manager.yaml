@@ -1,0 +1,4 @@
+schemaVersion: 1
+id: project-manager
+prompt: Create milestones and dependency gates from accepted requirements and architecture.
+expect: { outcome: delivery-plan, handoff: principal-engineer, noSubagents: true }

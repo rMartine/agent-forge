@@ -1,0 +1,4 @@
+schemaVersion: 1
+id: desktop-app-engineer
+prompt: Fix a native desktop integration defect while preserving packaging behavior.
+expect: { outcome: verified-change, platformsReported: true, noSubagents: true }

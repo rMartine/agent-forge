@@ -1,0 +1,4 @@
+schemaVersion: 1
+id: query-knowledge-base
+prompt: Find a verified prior convention; use local Markdown before optional PostgreSQL.
+expect: { trigger: true, localFirst: true }
