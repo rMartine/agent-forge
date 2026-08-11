@@ -40,7 +40,12 @@ export interface CapabilityProfile { builtins: string[]; required: string[]; opt
 export interface CapabilityCatalog {
   version: 1;
   providers: Record<string, { toolPatterns: string[] }>;
-  capabilities: Record<string, { access: CapabilityAccess; provider?: string; tools: string[] }>;
+  capabilities: Record<string, {
+    access: CapabilityAccess;
+    provider?: string;
+    tools: string[];
+    requiredTools?: string[];
+  }>;
   profiles: Record<string, CapabilityProfile>;
 }
 export interface ModelPolicy { version: 1; profiles: Record<ModelProfile, string[]>; }

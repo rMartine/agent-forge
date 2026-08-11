@@ -1,4 +1,5 @@
 import { execFile } from 'node:child_process';
+import * as path from 'node:path';
 import { promisify } from 'node:util';
 import type { Diagnostic, McpSetupPlan, McpSetupResult } from './types.js';
 import { diagnostic } from './diagnostics.js';
@@ -6,6 +7,13 @@ import { loadJsonc } from './manifest.js';
 import { resolveRepoFilePath } from './paths.js';
 
 const execFileAsync = promisify(execFile);
+
+function resolveProviderCommand(command: string): string {
+  if (process.platform === 'win32' && command === 'gk' && process.env.LOCALAPPDATA) {
+    return path.join(process.env.LOCALAPPDATA, 'GitKrakenCLI', 'gk.exe');
+  }
+  return command;
+}
 
 export interface McpProviderDefinition {
   requiredForFull: boolean;
@@ -33,7 +41,7 @@ export async function doctorMcp(catalog: McpProviderCatalog): Promise<McpDoctorR
   const providers: McpDoctorResult['providers'] = {};
   const diagnostics: Diagnostic[] = [];
   for (const [name, provider] of Object.entries(catalog.providers)) {
-    const command = provider.detection.command;
+    const command = provider.detection.command ? resolveProviderCommand(provider.detection.command) : undefined;
     if (!command) {
       providers[name] = { ready: false, message: 'Manual VS Code/OAuth configuration required' };
       if (provider.requiredForFull) diagnostics.push(diagnostic('AF004', 'warning', `${name} requires manual configuration`));
@@ -59,7 +67,8 @@ export function createMcpSetupPlan(catalog: McpProviderCatalog, providerName?: s
     diagnostics.push(diagnostic('AF004', 'error', `Unknown MCP provider "${providerName}"`));
   }
   const changes = selected.map(([provider, definition]) => {
-    const config = definition.configuration;
+    const config = { ...definition.configuration };
+    if (typeof config.command === 'string') config.command = resolveProviderCommand(config.command);
     const canAdd = typeof config.command === 'string' || typeof config.url === 'string';
     if (!canAdd) {
       diagnostics.push(diagnostic('AF004', 'warning', `${provider} is supplied by another configured provider and requires manual enablement`));

@@ -23,3 +23,22 @@ test('capability resolution includes only available exact tools', () => {
   assert.deepEqual(result.missingRequiredCapabilities, []);
   assert.deepEqual(result.missingOptionalCapabilities, ['cloud-read']);
 });
+
+test('write capability requires every access-gating tool', () => {
+  const writeAgent = { ...agent, requiredCapabilities: ['repo-write'], optionalCapabilities: [] };
+  const writeCatalog = {
+    ...catalog,
+    capabilities: {
+      'repo-write': {
+        access: 'write',
+        tools: ['git/status', 'git/add', 'git/commit'],
+        requiredTools: ['git/add', 'git/commit'],
+      },
+    },
+  };
+  const blocked = resolveAgentCapabilities(writeAgent, writeCatalog, ['git/status', 'git/add']);
+  assert.deepEqual(blocked.missingRequiredCapabilities, ['repo-write']);
+  const ready = resolveAgentCapabilities(writeAgent, writeCatalog, ['git/status', 'git/add', 'git/commit']);
+  assert.deepEqual(ready.missingRequiredCapabilities, []);
+  assert.deepEqual(ready.tools, ['read', 'edit', 'git/status', 'git/add', 'git/commit']);
+});

@@ -3,8 +3,8 @@
   "providers": {
     "canva": { "requiredForFull": true, "detection": {}, "configuration": { "type": "http", "url": "https://mcp.canva.com/mcp" }, "notes": "Complete OAuth in VS Code." },
     "gitkraken": { "requiredForFull": true, "detection": { "command": "gk", "args": ["mcp", "--list-tools"] }, "configuration": { "type": "stdio", "command": "gk", "args": ["mcp"] } },
-    "docker": { "requiredForFull": true, "detection": { "command": "docker", "args": ["mcp", "gateway", "run", "--help"] }, "configuration": { "type": "stdio", "command": "docker", "args": ["mcp", "gateway", "run"] } },
-    "github": { "requiredForFull": true, "detection": { "command": "docker", "args": ["mcp", "server", "list"] }, "configuration": { "provider": "docker-mcp-toolkit" } },
-    "digitalocean": { "requiredForFull": true, "detection": { "command": "docker", "args": ["mcp", "server", "list"] }, "configuration": { "provider": "docker-mcp-toolkit" } }
+    "docker": { "requiredForFull": true, "detection": { "command": "docker", "args": ["version"] }, "configuration": { "provider": "vscode-execute" }, "notes": "Docker operations use VS Code's execute tool and retain terminal approval prompts; Docker MCP Toolkit can be configured separately for third-party servers." },
+    "github": { "requiredForFull": true, "detection": {}, "configuration": { "type": "http", "url": "https://api.githubcopilot.com/mcp" }, "notes": "Authenticate with the GitHub identity used by Copilot in VS Code." },
+    "digitalocean": { "requiredForFull": true, "detection": {}, "configuration": { "type": "http", "url": "https://apps.mcp.digitalocean.com/mcp", "headers": { "Authorization": "Bearer ${env:DIGITALOCEAN_API_TOKEN}" } }, "notes": "Set DIGITALOCEAN_API_TOKEN outside VS Code or replace the environment reference with a VS Code secret input." }
   }
 }

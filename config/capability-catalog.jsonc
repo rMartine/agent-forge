@@ -2,23 +2,23 @@
   "version": 1,
   "providers": {
     "canva": { "toolPatterns": ["canva/*"] },
-    "docker": { "toolPatterns": ["docker/*", "com_docker_do/*"] },
-    "digitalocean": { "toolPatterns": ["digitalocean/*", "com_digitaloc/*"] },
-    "github": { "toolPatterns": ["github/*", "com_github_gi/*"] },
+    "docker": { "toolPatterns": ["execute"] },
+    "digitalocean": { "toolPatterns": ["digitalocean/*"] },
+    "github": { "toolPatterns": ["github/*"] },
     "gitkraken": { "toolPatterns": ["gitkraken/*"] }
   },
   "capabilities": {
-    "canva-write": { "access": "write", "provider": "canva", "tools": ["canva/*"] },
+    "canva-write": { "access": "write", "provider": "canva", "tools": ["canva/*"], "requiredTools": ["canva/*"] },
     "gitkraken-read": { "access": "read", "provider": "gitkraken", "tools": ["gitkraken/git_status", "gitkraken/git_log_or_diff", "gitkraken/repository_get_file_content"] },
-    "gitkraken-write": { "access": "write", "provider": "gitkraken", "tools": ["gitkraken/git_status", "gitkraken/git_log_or_diff", "gitkraken/repository_get_file_content", "gitkraken/git_add_or_commit"] },
-    "github-read": { "access": "read", "provider": "github", "tools": ["github/get_file_contents", "github/list_issues", "github/get_pull_request"] },
-    "github-write": { "access": "write", "provider": "github", "tools": ["github/get_file_contents", "github/list_issues", "github/get_pull_request", "github/create_issue", "github/add_issue_comment"] },
-    "github-admin": { "access": "admin", "provider": "github", "tools": ["github/get_file_contents", "github/list_issues", "github/get_pull_request", "github/create_issue", "github/add_issue_comment", "github/create_pull_request", "github/merge_pull_request"] },
-    "docker-read": { "access": "read", "provider": "docker", "tools": ["docker/containers-list", "docker/logs-get", "docker/images-list"] },
-    "docker-write": { "access": "write", "provider": "docker", "tools": ["docker/containers-list", "docker/logs-get", "docker/images-list", "docker/compose-build", "docker/compose-up"] },
-    "docker-admin": { "access": "admin", "provider": "docker", "tools": ["docker/containers-list", "docker/logs-get", "docker/images-list", "docker/compose-build", "docker/compose-up", "docker/compose-down", "docker/container-stop"] },
-    "digitalocean-read": { "access": "read", "provider": "digitalocean", "tools": ["digitalocean/account-get", "digitalocean/apps-list", "digitalocean/app-get"] },
-    "digitalocean-admin": { "access": "admin", "provider": "digitalocean", "tools": ["digitalocean/account-get", "digitalocean/apps-list", "digitalocean/app-get", "digitalocean/app-create-deployment", "digitalocean/app-update"] }
+    "gitkraken-write": { "access": "write", "provider": "gitkraken", "tools": ["gitkraken/git_status", "gitkraken/git_log_or_diff", "gitkraken/repository_get_file_content", "gitkraken/git_add", "gitkraken/git_commit"], "requiredTools": ["gitkraken/git_add", "gitkraken/git_commit"] },
+    "github-read": { "access": "read", "provider": "github", "tools": ["github/get_file_contents", "github/list_issues", "github/pull_request_read"], "requiredTools": ["github/get_file_contents", "github/list_issues", "github/pull_request_read"] },
+    "github-write": { "access": "write", "provider": "github", "tools": ["github/get_file_contents", "github/list_issues", "github/pull_request_read", "github/issue_write", "github/add_issue_comment"], "requiredTools": ["github/get_file_contents", "github/list_issues", "github/pull_request_read", "github/issue_write", "github/add_issue_comment"] },
+    "github-admin": { "access": "admin", "provider": "github", "tools": ["github/get_file_contents", "github/list_issues", "github/pull_request_read", "github/issue_write", "github/add_issue_comment", "github/create_pull_request", "github/merge_pull_request"], "requiredTools": ["github/get_file_contents", "github/list_issues", "github/pull_request_read", "github/issue_write", "github/add_issue_comment", "github/create_pull_request", "github/merge_pull_request"] },
+    "docker-read": { "access": "read", "tools": ["execute"], "requiredTools": ["execute"] },
+    "docker-write": { "access": "write", "tools": ["execute"], "requiredTools": ["execute"] },
+    "docker-admin": { "access": "admin", "tools": ["execute"], "requiredTools": ["execute"] },
+    "digitalocean-read": { "access": "read", "provider": "digitalocean", "tools": ["digitalocean/list_apps", "digitalocean/get_app"], "requiredTools": ["digitalocean/list_apps", "digitalocean/get_app"] },
+    "digitalocean-admin": { "access": "admin", "provider": "digitalocean", "tools": ["digitalocean/list_apps", "digitalocean/get_app", "digitalocean/create_deployment", "digitalocean/update_app"], "requiredTools": ["digitalocean/list_apps", "digitalocean/get_app", "digitalocean/create_deployment", "digitalocean/update_app"] }
   },
   "profiles": {
     "strategy-read": { "builtins": ["read", "search"], "required": [], "optional": [] },

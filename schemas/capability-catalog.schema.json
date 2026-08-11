@@ -24,7 +24,8 @@
         "properties": {
           "access": { "enum": ["read", "write", "admin"] },
           "provider": { "type": "string", "minLength": 1 },
-          "tools": { "$ref": "#/$defs/strings" }
+          "tools": { "$ref": "#/$defs/strings" },
+          "requiredTools": { "$ref": "#/$defs/strings" }
         }
       }
     },

@@ -15,7 +15,8 @@ export async function loadCapabilityCatalog(repoPath: string, relativePath: stri
   return catalog;
 }
 
-function matchesTool(available: Set<string> | undefined, tool: string): boolean {
+function matchesTool(available: Set<string> | undefined, builtins: Set<string>, tool: string): boolean {
+  if (builtins.has(tool)) return true;
   if (!available) return true;
   if (available.has(tool)) return true;
   if (tool.endsWith('/*')) {
@@ -33,6 +34,7 @@ export function resolveAgentCapabilities(
   const profile = catalog.profiles[agent.capabilityProfile];
   if (!profile) throw new Error(`Unknown capability profile "${agent.capabilityProfile}" for ${agent.id}`);
   const available = availableTools ? new Set(availableTools) : undefined;
+  const builtins = new Set(profile.builtins);
   const tools = new Set(profile.builtins);
   const missingRequiredCapabilities: string[] = [];
   const missingOptionalCapabilities: string[] = [];
@@ -43,7 +45,12 @@ export function resolveAgentCapabilities(
       (required ? missingRequiredCapabilities : missingOptionalCapabilities).push(name);
       return;
     }
-    const matched = capability.tools.filter(tool => matchesTool(available, tool));
+    const missingRequiredTools = (capability.requiredTools ?? []).filter(tool => !matchesTool(available, builtins, tool));
+    if (missingRequiredTools.length > 0) {
+      (required ? missingRequiredCapabilities : missingOptionalCapabilities).push(name);
+      return;
+    }
+    const matched = capability.tools.filter(tool => matchesTool(available, builtins, tool));
     if (matched.length === 0) {
       (required ? missingRequiredCapabilities : missingOptionalCapabilities).push(name);
       return;
