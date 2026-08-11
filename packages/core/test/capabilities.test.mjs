@@ -1,6 +1,6 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import { resolveAgentCapabilities } from '../dist/index.js';
+import { normalizeVsCodeToolIds, resolveAgentCapabilities } from '../dist/index.js';
 
 const agent = {
   id: 'worker', source: 'worker', visibility: 'worker', capabilityProfile: 'implementation',
@@ -41,4 +41,18 @@ test('write capability requires every access-gating tool', () => {
   const ready = resolveAgentCapabilities(writeAgent, writeCatalog, ['git/status', 'git/add', 'git/commit']);
   assert.deepEqual(ready.missingRequiredCapabilities, []);
   assert.deepEqual(ready.tools, ['read', 'edit', 'git/status', 'git/add', 'git/commit']);
+});
+
+test('VS Code MCP inventory receives stable provider aliases', () => {
+  const normalized = normalizeVsCodeToolIds([
+    'mcp_gitkraken_cli_git_commit',
+    'mcp_canva_mcp_ser_generate-design',
+    'mcp_mcp-digitaloc_apps-list',
+    'read',
+  ]);
+  assert.ok(normalized.includes('gitkraken/git_commit'));
+  assert.ok(normalized.includes('canva/generate-design'));
+  assert.ok(normalized.includes('digitalocean/apps-list'));
+  assert.ok(normalized.includes('mcp_gitkraken_cli_git_commit'));
+  assert.ok(normalized.includes('read'));
 });

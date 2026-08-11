@@ -17,8 +17,8 @@
     "docker-read": { "access": "read", "tools": ["execute"], "requiredTools": ["execute"] },
     "docker-write": { "access": "write", "tools": ["execute"], "requiredTools": ["execute"] },
     "docker-admin": { "access": "admin", "tools": ["execute"], "requiredTools": ["execute"] },
-    "digitalocean-read": { "access": "read", "provider": "digitalocean", "tools": ["digitalocean/list_apps", "digitalocean/get_app"], "requiredTools": ["digitalocean/list_apps", "digitalocean/get_app"] },
-    "digitalocean-admin": { "access": "admin", "provider": "digitalocean", "tools": ["digitalocean/list_apps", "digitalocean/get_app", "digitalocean/create_deployment", "digitalocean/update_app"], "requiredTools": ["digitalocean/list_apps", "digitalocean/get_app", "digitalocean/create_deployment", "digitalocean/update_app"] }
+    "digitalocean-read": { "access": "read", "provider": "digitalocean", "tools": ["digitalocean/apps-list", "digitalocean/apps-get-info"], "requiredTools": ["digitalocean/apps-list", "digitalocean/apps-get-info"] },
+    "digitalocean-admin": { "access": "admin", "provider": "digitalocean", "tools": ["digitalocean/apps-list", "digitalocean/apps-get-info", "digitalocean/apps-create-app-from-spec", "digitalocean/apps-update"], "requiredTools": ["digitalocean/apps-list", "digitalocean/apps-get-info", "digitalocean/apps-create-app-from-spec", "digitalocean/apps-update"] }
   },
   "profiles": {
     "strategy-read": { "builtins": ["read", "search"], "required": [], "optional": [] },
