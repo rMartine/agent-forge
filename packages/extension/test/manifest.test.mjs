@@ -4,10 +4,10 @@ import test from 'node:test';
 
 const manifest = JSON.parse(await readFile(new URL('../package.json', import.meta.url), 'utf8'));
 
-test('extension exposes safe VS Code deployment commands', () => {
+test('extension exposes safe dual-runtime deployment commands', () => {
   assert.equal(manifest.engines.vscode, '^1.104.0');
   const commands = manifest.contributes.commands.map(entry => entry.command);
-  for (const command of ['agentForge.validate', 'agentForge.doctor', 'agentForge.preview', 'agentForge.deploy', 'agentForge.rollback', 'agentForge.setupMcp']) {
+  for (const command of ['agentForge.validate', 'agentForge.doctor', 'agentForge.preview', 'agentForge.deploy', 'agentForge.cleanup', 'agentForge.rollback', 'agentForge.setupMcp', 'agentForge.codexDoctor', 'agentForge.codexPreview', 'agentForge.codexDeploy', 'agentForge.codexCleanup', 'agentForge.codexStatus', 'agentForge.codexRollback']) {
     assert.ok(commands.includes(command));
   }
   assert.ok(!commands.includes('agentForge.enableSubAgents'));

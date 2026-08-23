@@ -1,7 +1,7 @@
 {
   "name": "agent-forge",
   "displayName": "Agent Forge",
-  "description": "Validate and atomically deploy a VS Code custom-agent roster",
+  "description": "Validate and atomically deploy Agent Forge rosters for VS Code Copilot and OpenAI Codex",
   "version": "0.2.0",
   "publisher": "agent-forge",
   "icon": "media/agent-forge-icon.png",
@@ -69,6 +69,48 @@
         "command": "agentForge.status",
         "title": "Status",
         "icon": "$(info)",
+        "category": "Agent Forge"
+      },
+      {
+        "command": "agentForge.cleanup",
+        "title": "Cleanup Managed Customizations",
+        "icon": "$(clear-all)",
+        "category": "Agent Forge"
+      },
+      {
+        "command": "agentForge.codexDoctor",
+        "title": "Codex Doctor",
+        "icon": "$(stethoscope)",
+        "category": "Agent Forge"
+      },
+      {
+        "command": "agentForge.codexPreview",
+        "title": "Preview Codex Deployment",
+        "icon": "$(preview)",
+        "category": "Agent Forge"
+      },
+      {
+        "command": "agentForge.codexDeploy",
+        "title": "Deploy Codex Roster",
+        "icon": "$(cloud-upload)",
+        "category": "Agent Forge"
+      },
+      {
+        "command": "agentForge.codexCleanup",
+        "title": "Cleanup Codex Managed Files",
+        "icon": "$(clear-all)",
+        "category": "Agent Forge"
+      },
+      {
+        "command": "agentForge.codexStatus",
+        "title": "Codex Deployment Status",
+        "icon": "$(info)",
+        "category": "Agent Forge"
+      },
+      {
+        "command": "agentForge.codexRollback",
+        "title": "Rollback Codex Deployment",
+        "icon": "$(history)",
         "category": "Agent Forge"
       },
       {

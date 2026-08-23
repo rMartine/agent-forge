@@ -3,6 +3,7 @@ import * as path from 'node:path';
 import * as vscode from 'vscode';
 import {
   handleDeploy,
+  handleCleanup,
   handleDoctor,
   handlePreview,
   handleRollback,
@@ -22,8 +23,10 @@ function repoPath(): string | undefined {
 
 function updateContext(sidebar: SidebarViewProvider, readiness?: string): void {
   const configured = repoPath();
+  const codexDetected = Boolean(vscode.extensions.getExtension('openai.chatgpt'));
   void vscode.commands.executeCommand('setContext', 'agentForge.repoConfigured', Boolean(configured));
-  sidebar.updateState({ repoConfigured: Boolean(configured), repoPath: configured, readiness });
+  void vscode.commands.executeCommand('setContext', 'agentForge.codexDetected', codexDetected);
+  sidebar.updateState({ repoConfigured: Boolean(configured), repoPath: configured, readiness, codexDetected });
 }
 
 function supportedVersion(): boolean {
@@ -56,8 +59,15 @@ export async function activate(context: vscode.ExtensionContext): Promise<void> 
     vscode.commands.registerCommand('agentForge.preview', () => handlePreview(output, diagnostics)),
     vscode.commands.registerCommand('agentForge.deploy', async () => { await handleDeploy(output, diagnostics); roster.refresh(); }),
     vscode.commands.registerCommand('agentForge.status', () => handleStatus(output)),
-    vscode.commands.registerCommand('agentForge.rollback', async () => { await handleRollback(output, diagnostics); roster.refresh(); }),
-    vscode.commands.registerCommand('agentForge.wipe', async () => { await handleWipe(output, diagnostics); roster.refresh(); }),
+    vscode.commands.registerCommand('agentForge.cleanup', async () => { await handleCleanup(output, diagnostics, 'all'); roster.refresh(); }),
+    vscode.commands.registerCommand('agentForge.rollback', async () => { await handleRollback(output, diagnostics, 'vscode'); roster.refresh(); }),
+    vscode.commands.registerCommand('agentForge.wipe', async () => { await handleWipe(output, diagnostics, 'vscode'); roster.refresh(); }),
+    vscode.commands.registerCommand('agentForge.codexDoctor', async () => { await handleDoctor(output, diagnostics, 'codex'); roster.refresh(); }),
+    vscode.commands.registerCommand('agentForge.codexPreview', () => handlePreview(output, diagnostics, 'codex')),
+    vscode.commands.registerCommand('agentForge.codexDeploy', async () => { await handleDeploy(output, diagnostics, 'codex'); roster.refresh(); }),
+    vscode.commands.registerCommand('agentForge.codexCleanup', async () => { await handleCleanup(output, diagnostics, 'codex'); roster.refresh(); }),
+    vscode.commands.registerCommand('agentForge.codexStatus', () => handleStatus(output, 'codex')),
+    vscode.commands.registerCommand('agentForge.codexRollback', async () => { await handleRollback(output, diagnostics, 'codex'); roster.refresh(); }),
     vscode.commands.registerCommand('agentForge.setupMcp', () => handleSetupMcp(output)),
     vscode.commands.registerCommand('agentForge.refresh', () => roster.refresh()),
     vscode.commands.registerCommand('agentForge.setRepoPath', async () => {
