@@ -8,7 +8,7 @@ description: Inspect, build, run, diagnose, and stop local Docker or Docker Comp
 1. Verify Docker engine readiness, context, compose files, project name, volumes, and intended environment.
 2. Prefer read-only inspection before build or lifecycle changes.
 3. Preserve named volumes and databases unless deletion is explicitly authorized.
-4. Build with the repository command and report the exact image or service.
+4. Use only Docker capabilities available in the active runtime; build with the repository command and report the exact image or service.
 5. Start only scoped services, then verify health checks, ports, and logs.
 6. Never expose secrets in commands or output.
 7. Treat registry push, production context, pruning, volume removal, and destructive teardown as approval-gated.

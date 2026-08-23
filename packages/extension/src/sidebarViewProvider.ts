@@ -4,6 +4,7 @@ export interface DashboardState {
   repoConfigured: boolean;
   repoPath?: string;
   readiness?: string;
+  codexDetected?: boolean;
 }
 
 export class SidebarViewProvider implements vscode.WebviewViewProvider {
@@ -38,8 +39,15 @@ export class SidebarViewProvider implements vscode.WebviewViewProvider {
       <button data-command="agentForge.preview">Preview deployment</button>
       <button class="primary" data-command="agentForge.deploy">Deploy to user profile</button>
       <button data-command="agentForge.status">Deployment status</button>
+      <button data-command="agentForge.cleanup">Managed cleanup</button>
       <button data-command="agentForge.rollback">Rollback deployment</button>
       <button data-command="agentForge.setupMcp">MCP setup</button>
+      <button data-command="agentForge.codexDoctor">Codex Doctor</button>
+      <button data-command="agentForge.codexPreview">Preview Codex deployment</button>
+      <button class="primary" data-command="agentForge.codexDeploy">Deploy Codex roster</button>
+      <button data-command="agentForge.codexStatus">Codex status</button>
+      <button data-command="agentForge.codexCleanup">Codex managed cleanup</button>
+      <button data-command="agentForge.codexRollback">Codex rollback</button>
       <button class="danger" data-command="agentForge.wipe">Wipe managed deployment</button>` : `
       <button class="primary" data-command="agentForge.setRepoPath">Set repository path</button>`;
 
@@ -59,7 +67,7 @@ export class SidebarViewProvider implements vscode.WebviewViewProvider {
         button.danger{border:1px solid var(--vscode-inputValidation-errorBorder)}
       </style></head><body>
       <h2>Agent Forge</h2>
-      <div class="status"><strong>Repository</strong><br>${path}<br><br><strong>Readiness</strong><br>${readiness}</div>
+      <div class="status"><strong>Repository</strong><br>${path}<br><br><strong>Readiness</strong><br>${readiness}<br><br><strong>OpenAI Codex extension</strong><br>${this.state.codexDetected ? 'Detected' : 'Not detected'}</div>
       ${actionButtons}
       <button data-command="agentForge.setRepoPath">Change repository</button>
       <button data-command="agentForge.openSettings">Open settings</button>

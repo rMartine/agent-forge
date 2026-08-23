@@ -1,0 +1,4 @@
+schemaVersion: 1
+id: duplicate-skill-name
+fault: A personal Codex skill uses an Agent Forge bundle deployment name.
+expect: { deployAllowed: false, diagnostic: AF002 }

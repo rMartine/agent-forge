@@ -9,6 +9,6 @@ description: Prepare and perform explicitly approved DigitalOcean application de
 2. Inspect current deployment health and configuration before mutation.
 3. Verify image or commit provenance, required environment-variable names, database compatibility, and rollback target.
 4. Show the intended change and request explicit deployment approval.
-5. Deploy through the configured DigitalOcean capability.
+5. Deploy through a validated DigitalOcean capability available in the active runtime; do not assume a named MCP tool or provider.
 6. Monitor phase, ingress, health checks, and application smoke tests.
 7. Roll back on the documented trigger and record the deployment evidence.

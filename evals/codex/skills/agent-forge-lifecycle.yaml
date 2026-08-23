@@ -1,0 +1,5 @@
+schemaVersion: 1
+id: agent-forge-lifecycle
+runtime: codex
+prompt: Discover a brownfield repository, trace the requested outcome, record a decision, plan delivery, and prepare a result envelope.
+expect: { trigger: true, progressiveDisclosure: true, externalMutation: false }

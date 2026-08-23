@@ -9,11 +9,12 @@ import { registerValidate } from './commands/validate.js';
 import { registerDoctor } from './commands/doctor.js';
 import { registerPreview } from './commands/preview.js';
 import { registerSetupMcp } from './commands/setupMcp.js';
+import { registerCleanup } from './commands/cleanup.js';
 
 const program = new Command()
   .name('agent-forge')
   .version('0.2.0')
-  .description('Validate and deploy the Agent Forge VS Code custom-agent roster')
+  .description('Validate and deploy Agent Forge customizations for VS Code Copilot and OpenAI Codex')
   .option('--repo <path>', 'Path to the Agent Forge repository', process.cwd());
 
 registerValidate(program);
@@ -24,6 +25,7 @@ registerStatus(program);
 registerRollback(program);
 registerRestore(program);
 registerWipe(program);
+registerCleanup(program);
 registerSetupMcp(program);
 program.parseAsync().catch(error => {
   console.error(error instanceof Error ? error.message : String(error));

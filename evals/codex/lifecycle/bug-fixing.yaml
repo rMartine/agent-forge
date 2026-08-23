@@ -1,0 +1,5 @@
+schemaVersion: 1
+id: codex-bug-fixing
+prompt: Fix a brownfield regression with a focused implementation worker and QA evidence.
+expectedAgents: [principal-engineer, qa-engineer]
+constraints: { noNestedDelegation: true, evidenceRequired: true }

@@ -1,12 +1,20 @@
 import { access, readFile, readdir } from 'node:fs/promises';
 import * as path from 'node:path';
 import { parseDocument } from 'yaml';
-import type { CapabilityCatalog, DeploymentManifestV2, Diagnostic, ValidationResult } from './types.js';
+import type { CapabilityCatalog, DeploymentManifestV3, Diagnostic, RuntimeSelection, ValidationResult } from './types.js';
 import { diagnostic, hasErrors } from './diagnostics.js';
 import { resolveRepoFilePath } from './paths.js';
+import { parseCodexToml, renderCodexAgent } from './renderCodex.js';
+import { codexSkillMap } from './skillBundles.js';
+import { loadJsonc } from './manifest.js';
 
 async function exists(filePath: string): Promise<boolean> {
   try { await access(filePath); return true; } catch { return false; }
+}
+
+async function containsEntries(directory: string): Promise<boolean> {
+  try { return (await readdir(directory, { withFileTypes: true })).some(item => item.isFile() || item.isDirectory()); }
+  catch { return false; }
 }
 
 interface ParsedFrontmatter { source?: string; data?: Record<string, unknown>; error?: string; }
@@ -25,7 +33,7 @@ function stringList(value: unknown): string[] | undefined {
   return Array.isArray(value) && value.every(item => typeof item === 'string') ? value : undefined;
 }
 
-function graphHasCycle(manifest: DeploymentManifestV2): boolean {
+function graphHasCycle(manifest: DeploymentManifestV3): boolean {
   const visiting = new Set<string>();
   const visited = new Set<string>();
   const visit = (id: string): boolean => {
@@ -42,8 +50,9 @@ function graphHasCycle(manifest: DeploymentManifestV2): boolean {
 
 export async function validateRoster(
   repoPath: string,
-  manifest: DeploymentManifestV2,
+  manifest: DeploymentManifestV3,
   catalog?: CapabilityCatalog,
+  options: { target?: RuntimeSelection; env?: NodeJS.ProcessEnv } = {},
 ): Promise<ValidationResult> {
   const diagnostics: Diagnostic[] = [];
   const visible = Object.values(manifest.agents).filter(agent => agent.visibility === 'entry');
@@ -162,6 +171,92 @@ export async function validateRoster(
       }
     }
     if (duplicateFound) diagnostics.push(diagnostic('AF002', 'error', `${discoverable} is VS Code-discoverable and must not duplicate the canonical roster`, { path: discoverable }));
+  }
+
+  const workspaceSettings = path.join(repoPath, '.vscode', 'settings.json');
+  if (await exists(workspaceSettings)) {
+    try {
+      const settings = await loadJsonc<Record<string, unknown>>(workspaceSettings);
+      for (const key of ['chat.agentFilesLocations', 'chat.agentSkillsLocations', 'chat.instructionsFilesLocations']) {
+        const locations = settings[key];
+        if (!locations || typeof locations !== 'object') continue;
+        for (const [location, enabled] of Object.entries(locations as Record<string, unknown>)) {
+          if (enabled === true && await containsEntries(path.resolve(repoPath, location))) {
+            diagnostics.push(diagnostic('AF002', 'error', `${key} rediscovers canonical or deployed Agent Forge customizations`, { path: workspaceSettings }));
+          }
+        }
+      }
+    } catch (error: unknown) {
+      diagnostics.push(diagnostic('AF002', 'error', `Unable to inspect workspace customization discovery: ${(error as Error).message}`, { path: workspaceSettings }));
+    }
+  }
+
+  const targets = options.target === 'all' ? ['vscode', 'codex'] : [options.target ?? 'vscode'];
+  if (targets.includes('codex')) {
+    const codexAgents = Object.values(manifest.codex.agents);
+    const readOnly = codexAgents.filter(agent => agent.sandboxMode === 'read-only').map(agent => agent.id).sort();
+    if (codexAgents.length !== 16) diagnostics.push(diagnostic('AF001', 'error', `Expected 16 Codex agents, found ${codexAgents.length}`));
+    if (readOnly.join(',') !== 'cybersecurity-engineer,software-architect') {
+      diagnostics.push(diagnostic('AF001', 'error', 'Only software-architect and cybersecurity-engineer may use the Codex read-only sandbox'));
+    }
+    let mapping: Map<string, string> | undefined;
+    try { mapping = codexSkillMap(manifest); }
+    catch (error: unknown) { diagnostics.push(diagnostic('AF005', 'error', (error as Error).message)); }
+    if (Object.keys(manifest.codex.skillBundles).length !== 5) diagnostics.push(diagnostic('AF005', 'error', 'Codex must expose exactly five Agent Forge skill bundles'));
+    if (mapping) {
+      for (const agent of codexAgents) {
+        try {
+          const source = manifest.agents[agent.sourceAgent];
+          const rendered = renderCodexAgent(await readFile(resolveRepoFilePath(repoPath, source.source), 'utf8'), agent, manifest);
+          const parsed = parseCodexToml(rendered);
+          const keys = Object.keys(parsed).sort();
+          if (keys.join(',') !== 'description,developer_instructions,name,sandbox_mode') {
+            diagnostics.push(diagnostic('AF001', 'error', 'Codex TOML contains unsupported or Copilot-only fields', { agentId: agent.id }));
+          }
+          if (!/do not[\s\S]{0,120}spawn subagents/i.test(String(parsed.developer_instructions))) {
+            diagnostics.push(diagnostic('AF007', 'error', 'Codex custom agents must not require delegation', { agentId: agent.id }));
+          }
+        } catch (error: unknown) {
+          diagnostics.push(diagnostic('AF001', 'error', `Invalid Codex agent rendering: ${(error as Error).message}`, { agentId: agent.id }));
+        }
+      }
+    }
+    const env = options.env ?? process.env;
+    const userProfile = env.USERPROFILE || env.HOME;
+    const duplicateLocations = [path.join(repoPath, '.codex', 'agents')];
+    if (userProfile) duplicateLocations.push(path.join(repoPath, '.agents', 'skills'), path.join(repoPath, '.codex', 'skills'));
+    for (const location of duplicateLocations) {
+      if (!(await exists(location))) continue;
+      const entries = await readdir(location, { withFileTypes: true });
+      if (entries.some(entry => entry.isFile() || entry.isDirectory())) {
+        diagnostics.push(diagnostic('AF002', 'error', 'Project-scoped Codex agents or Agent Forge skill copies would duplicate the managed user roster', { path: location }));
+      }
+    }
+    if (userProfile) {
+      const legacyPrompts = path.join(userProfile, 'AppData', 'Roaming', 'Code', 'User', 'prompts');
+      if (await containsEntries(legacyPrompts)) diagnostics.push(diagnostic('AF002', 'error', 'Legacy VS Code prompt files may duplicate the managed roster', { path: legacyPrompts }));
+      const personalSkills = path.join(userProfile, '.codex', 'skills');
+      if (await exists(personalSkills)) {
+        const names = new Set((await readdir(personalSkills, { withFileTypes: true })).filter(item => item.isDirectory()).map(item => item.name));
+        for (const bundle of Object.values(manifest.codex.skillBundles)) {
+          if (names.has(bundle.deploymentName)) diagnostics.push(diagnostic('AF002', 'error', `Personal Codex skill duplicates managed bundle ${bundle.deploymentName}`, { path: path.join(personalSkills, bundle.deploymentName) }));
+        }
+      }
+      let current = path.resolve(repoPath);
+      const globalManagedSkills = path.resolve(userProfile, '.agents', 'skills').toLowerCase();
+      while (true) {
+        const candidate = path.join(current, '.agents', 'skills');
+        if (path.resolve(candidate).toLowerCase() !== globalManagedSkills && await containsEntries(candidate)) {
+          const names = new Set((await readdir(candidate, { withFileTypes: true })).filter(item => item.isDirectory()).map(item => item.name));
+          for (const bundle of Object.values(manifest.codex.skillBundles)) {
+            if (names.has(bundle.deploymentName)) diagnostics.push(diagnostic('AF002', 'error', `Repository-chain skill duplicates managed bundle ${bundle.deploymentName}`, { path: path.join(candidate, bundle.deploymentName) }));
+          }
+        }
+        const parent = path.dirname(current);
+        if (parent === current) break;
+        current = parent;
+      }
+    }
   }
   return { valid: !hasErrors(diagnostics), diagnostics };
 }

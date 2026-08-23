@@ -1,13 +1,12 @@
 import * as path from 'node:path';
 import * as vscode from 'vscode';
-import { status, type ArtifactType, type FileStatus, type StatusResult } from '@agent-forge/core';
-
-const GROUPS: Array<{ type: ArtifactType; label: string }> = [
-  { type: 'agent', label: 'Agents' },
-  { type: 'skill', label: 'Skills' },
-  { type: 'instruction', label: 'Instructions' },
-  { type: 'hook', label: 'Hooks' },
-];
+import {
+  getDeploymentStatus,
+  loadManifest,
+  type DeploymentManifestV3,
+  type FileStatus,
+  type RuntimeStatusResult,
+} from '@agent-forge/core';
 
 function iconForState(state: FileStatus['state']): vscode.ThemeIcon {
   if (state === 'synced') return new vscode.ThemeIcon('check', new vscode.ThemeColor('testing.iconPassed'));
@@ -16,25 +15,22 @@ function iconForState(state: FileStatus['state']): vscode.ThemeIcon {
   return new vscode.ThemeIcon('close', new vscode.ThemeColor('testing.iconFailed'));
 }
 
-export class RosterItem extends vscode.TreeItem {
-  public artifactType?: ArtifactType;
+type GroupKey = 'vscode-managed' | 'codex-managed' | 'codex-roster' | 'codex-skills';
 
+export class RosterItem extends vscode.TreeItem {
   constructor(
     public readonly itemType: 'group' | 'entry' | 'status',
     label: string,
     public readonly fileStatus?: FileStatus,
+    public readonly groupKey?: GroupKey,
   ) {
     super(label, itemType === 'group' ? vscode.TreeItemCollapsibleState.Collapsed : vscode.TreeItemCollapsibleState.None);
     this.contextValue = itemType;
     if (fileStatus) {
       this.description = fileStatus.state;
-      this.tooltip = `${fileStatus.path} — ${fileStatus.state}`;
+      this.tooltip = fileStatus.path + ' — ' + fileStatus.state;
       this.iconPath = iconForState(fileStatus.state);
-      this.command = {
-        command: 'agentForge.openFile',
-        title: 'Open managed file',
-        arguments: [this],
-      };
+      this.command = { command: 'agentForge.openFile', title: 'Open managed file', arguments: [this] };
     }
   }
 }
@@ -42,12 +38,14 @@ export class RosterItem extends vscode.TreeItem {
 export class RosterTreeViewProvider implements vscode.TreeDataProvider<RosterItem>, vscode.Disposable {
   private readonly changeEmitter = new vscode.EventEmitter<RosterItem | undefined | void>();
   readonly onDidChangeTreeData = this.changeEmitter.event;
-  private result?: StatusResult;
+  private result?: RuntimeStatusResult;
+  private manifest?: DeploymentManifestV3;
 
   constructor(private readonly getRepoPath: () => string | undefined) {}
 
   refresh(): void {
     this.result = undefined;
+    this.manifest = undefined;
     this.changeEmitter.fire();
   }
 
@@ -56,32 +54,51 @@ export class RosterTreeViewProvider implements vscode.TreeDataProvider<RosterIte
   async getChildren(element?: RosterItem): Promise<RosterItem[]> {
     const repoPath = this.getRepoPath();
     if (!repoPath) return [];
-    if (!this.result) {
-      try { this.result = await status(repoPath); } catch { return []; }
-    }
+    try {
+      this.result ??= await getDeploymentStatus(repoPath, { target: 'all' });
+      this.manifest ??= await loadManifest(repoPath);
+    } catch { return []; }
 
     if (!element) {
-      const deployment = new RosterItem('status', `Deployment: ${this.result.deploymentId ?? 'not deployed'}`);
-      deployment.description = this.result.syncState;
-      deployment.iconPath = this.result.syncState === 'synced'
-        ? new vscode.ThemeIcon('check', new vscode.ThemeColor('testing.iconPassed'))
-        : new vscode.ThemeIcon('info');
-      const groups = GROUPS.map(({ type, label }) => {
-        const items = this.result!.files.filter(item => item.type === type);
-        const group = new RosterItem('group', `${label} (${items.length})`);
-        group.artifactType = type;
-        group.iconPath = items.every(item => item.state === 'synced')
-          ? new vscode.ThemeIcon('check', new vscode.ThemeColor('testing.iconPassed'))
-          : new vscode.ThemeIcon('warning', new vscode.ThemeColor('testing.iconQueued'));
-        return group;
+      const statuses = (['vscode', 'codex'] as const).map(runtime => {
+        const current = this.result!.targets[runtime];
+        const item = new RosterItem('status', runtime + ': ' + (current?.deploymentId ?? 'not deployed'));
+        item.description = current?.syncState ?? 'not-deployed';
+        item.iconPath = current?.syncState === 'synced' ? new vscode.ThemeIcon('check', new vscode.ThemeColor('testing.iconPassed')) : new vscode.ThemeIcon('info');
+        return item;
       });
-      return [deployment, ...groups];
+      const vscodeCount = this.result.targets.vscode?.files.length ?? 0;
+      const codexCount = this.result.targets.codex?.files.length ?? 0;
+      return [
+        ...statuses,
+        new RosterItem('group', 'VS Code managed files (' + vscodeCount + ')', undefined, 'vscode-managed'),
+        new RosterItem('group', 'Codex managed files (' + codexCount + ')', undefined, 'codex-managed'),
+        new RosterItem('group', 'Codex roster (16)', undefined, 'codex-roster'),
+        new RosterItem('group', 'Codex skill bundles (5)', undefined, 'codex-skills'),
+      ];
     }
 
-    if (element.itemType === 'group' && element.artifactType) {
-      return this.result.files
-        .filter(item => item.type === element.artifactType)
-        .map(item => new RosterItem('entry', path.basename(item.path), item));
+    if (element.groupKey === 'vscode-managed' || element.groupKey === 'codex-managed') {
+      const runtime = element.groupKey.startsWith('vscode') ? 'vscode' : 'codex';
+      return (this.result.targets[runtime]?.files ?? []).map(item => new RosterItem('entry', path.basename(item.path), item));
+    }
+    if (element.groupKey === 'codex-roster') {
+      return Object.values(this.manifest.codex.agents).map(agent => {
+        const item = new RosterItem('entry', agent.id);
+        item.description = agent.sandboxMode + ' · model inherit';
+        item.tooltip = 'Bundles: ' + agent.requiredSkillBundles.join(', ');
+        item.iconPath = new vscode.ThemeIcon(agent.sandboxMode === 'read-only' ? 'lock' : 'edit');
+        return item;
+      });
+    }
+    if (element.groupKey === 'codex-skills') {
+      return Object.values(this.manifest.codex.skillBundles).map(bundle => {
+        const item = new RosterItem('entry', bundle.deploymentName);
+        item.description = bundle.componentSkills.length + ' workflows';
+        item.tooltip = bundle.description;
+        item.iconPath = new vscode.ThemeIcon('book');
+        return item;
+      });
     }
     return [];
   }

@@ -1,0 +1,4 @@
+schemaVersion: 1
+id: missing-bundle-reference
+fault: A Codex agent references an undeclared skill bundle.
+expect: { deployAllowed: false, diagnostic: AF005 }

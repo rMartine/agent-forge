@@ -1,5 +1,5 @@
 import { access } from 'node:fs/promises';
-import type { FileStatus, StatusResult } from './types.js';
+import type { FileStatus, RuntimeSelection, RuntimeStatusResult, RuntimeTarget, StatusResult } from './types.js';
 import { diagnostic } from './diagnostics.js';
 import { hashFile } from './hash.js';
 import { loadManifest } from './manifest.js';
@@ -10,25 +10,39 @@ async function exists(filePath: string): Promise<boolean> {
   try { await access(filePath); return true; } catch { return false; }
 }
 
-export async function status(repoPath: string): Promise<StatusResult> {
+async function runtimeStatus(repoPath: string, runtime: RuntimeTarget): Promise<StatusResult> {
   const manifest = await loadManifest(repoPath);
-  const statePath = resolveStatePath(manifest.targets.state);
-  const state = await loadDeploymentState(statePath);
-  const active = state.deployments.find(item => item.id === state.activeDeploymentId);
-  if (!active) return { syncState: 'not-deployed', files: [], diagnostics: [] };
+  const state = await loadDeploymentState(resolveStatePath(manifest.targets.state));
+  const activeId = state.activeDeployments[runtime];
+  const active = state.deployments.find(item => item.id === activeId && item.runtime === runtime);
+  if (!active) return { runtime, syncState: 'not-deployed', files: [], diagnostics: [] };
   const files: FileStatus[] = [];
   for (const item of active.artifacts) {
     let fileState: FileStatus['state'] = 'missing';
     if (await exists(item.targetPath)) fileState = await hashFile(item.targetPath) === item.deployedHash ? 'synced' : 'modified';
-    files.push({ id: item.id, path: item.targetPath, type: item.type, state: fileState });
+    files.push({ id: item.id, path: item.targetPath, type: item.type, runtime, state: fileState });
   }
   const syncState = files.every(item => item.state === 'synced') ? 'synced' : 'out-of-sync';
   return {
+    runtime,
     deploymentId: active.id,
     syncState,
     files,
-    diagnostics: syncState === 'synced' ? [] : [diagnostic('AF012', 'warning', 'One or more managed artifacts differ from the deployment ledger')],
+    diagnostics: syncState === 'synced' ? [] : [diagnostic('AF012', 'warning', 'One or more ' + runtime + ' managed artifacts differ from the deployment ledger')],
   };
 }
 
-export const getDeploymentStatus = status;
+export function status(repoPath: string, runtime: RuntimeTarget = 'vscode'): Promise<StatusResult> {
+  return runtimeStatus(repoPath, runtime);
+}
+
+export async function getDeploymentStatus(repoPath: string, options: { target?: RuntimeSelection } = {}): Promise<RuntimeStatusResult> {
+  const targets: RuntimeTarget[] = options.target === 'all' ? ['vscode', 'codex'] : [options.target ?? 'vscode'];
+  const result: RuntimeStatusResult = { targets: {}, diagnostics: [] };
+  for (const runtime of targets) {
+    const current = await runtimeStatus(repoPath, runtime);
+    result.targets[runtime] = current;
+    result.diagnostics.push(...current.diagnostics);
+  }
+  return result;
+}

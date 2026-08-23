@@ -1,0 +1,5 @@
+schemaVersion: 1
+id: desktop-app-engineer
+runtime: codex
+prompt: Repair a desktop packaging integration and verify the target artifact.
+expect: { sandbox: workspace-write, model: inherit, noDelegation: true }

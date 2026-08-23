@@ -8,7 +8,7 @@ import { applyDeploymentPlan, hashBuffer, rollbackDeployment } from '../dist/ind
 test('rollback restores the unmanaged baseline that was backed up', async () => {
   const root = await mkdtemp(path.join(os.tmpdir(), 'agent-forge-rollback-'));
   try {
-    const target = path.join(root, 'profile', 'agent.md');
+    const target = path.join(root, '.copilot', 'agents', 'agent.md');
     const state = path.join(root, 'state.json');
     await mkdir(path.dirname(target), { recursive: true });
     await writeFile(target, 'baseline', { flag: 'wx' });

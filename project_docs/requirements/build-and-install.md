@@ -3,36 +3,68 @@
 ## Prerequisites
 
 - Node.js 20+ and npm
-- VS Code 1.104+
-- GitHub Copilot access
-- Required provider CLIs/authentication for the chosen full capability profile
+- VS Code 1.104+ with GitHub Copilot for the Copilot target
+- OpenAI Codex IDE extension (`openai.chatgpt`) for the Codex target
+- provider authentication only for capability families required by the selected VS Code profile
 
-## Reproducible build
+Codex agents inherit the user's model, MCP, permissions, sandbox, and approval policy. Agent Forge does not provision Codex MCP servers.
+
+## Reproducible verification
 
 ```powershell
 npm ci
 npm run build
 npm test
-npx tsc --noEmit -p packages/extension/tsconfig.json
 npm run test:extension-host
+node packages/cli/dist/index.js --repo . validate --strict --target all
 ```
 
-`npm ci` is authoritative for the committed `package-lock.json`. The build produces core/CLI `dist` and extension `out`; these outputs are ignored and never committed.
+`npm ci` is authoritative for `package-lock.json`. Core and CLI `dist`, extension `out`, isolated profiles, and deployment fixtures are ignored. Tests inject temporary `USERPROFILE` and never write real `.copilot`, `.codex`, or `.agents` directories.
 
-The host suite downloads/caches VS Code 1.104 and launches it with isolated user data. It does not deploy to the real Copilot profile.
-
-## Readiness and preview
+## Doctor and immutable preview
 
 ```powershell
-node packages/cli/dist/index.js --repo . validate --strict --target vscode
-node packages/cli/dist/index.js --repo . doctor --profile full
-node packages/cli/dist/index.js --repo . preview --scope user --profile full
+node packages/cli/dist/index.js --repo . doctor --target codex
+node packages/cli/dist/index.js --repo . doctor --target all --profile full
+node packages/cli/dist/index.js --repo . preview --target all --scope user --profile full
 ```
 
-The full profile requires exact available tool IDs through the extension or `AGENT_FORGE_AVAILABLE_TOOLS`. Models may be listed through `AGENT_FORGE_AVAILABLE_MODELS`; absent valid mappings inherit.
+Preview persists `~/.agent-forge/plans/<id>.json` with exact rendered bytes and hashes. It may contain no secrets. A plan with error diagnostics remains non-deployable.
+
+VS Code full readiness requires exact installed tool IDs via the extension or `AGENT_FORGE_AVAILABLE_TOOLS`. Optional model mappings use `AGENT_FORGE_AVAILABLE_MODELS`; an unavailable mapping falls back to inheritance.
 
 ## Install
 
-`scripts/install.ps1` runs `npm ci`, build, validate, doctor, and preview. It changes the VS Code user profile only with `-Deploy` and a second typed `DEPLOY` confirmation. `-UsePrebuilt` is accepted only when the CLI artifact already exists.
+```powershell
+node packages/cli/dist/index.js --repo . deploy --target all --plan <id> --confirm <id>
+node packages/cli/dist/index.js --repo . status --target all
+```
 
-No command in verification or tests touches the real `~/.copilot` profile. Repository implementation does not authorize publishing the extension, pushing, provider installation, or a live roster deployment.
+The plan and confirmation IDs must match. Apply loads the persisted plan and never renders again. A grouped failure restores both runtimes and leaves the previous ledger active.
+
+`scripts/install.ps1 -Target all` performs dependency install, build, validate, doctor, and preview. `-Deploy` prompts for the exact generated plan ID. `-UsePrebuilt` is accepted only when the compiled CLI exists.
+
+## Cleanup, rollback, and wipe
+
+```powershell
+agent-forge cleanup --target all --managed-only
+agent-forge cleanup --target all --managed-only --plan <cleanup-id> --confirm <cleanup-id>
+agent-forge rollback --target codex --deployment <id>
+agent-forge wipe --target vscode --managed-only --confirm <active-id>
+```
+
+Cleanup considers stale ledger-owned files only. Rollback and wipe compare current content hashes and preserve modified or unmanaged customizations.
+
+## Live profile verification
+
+Before approval:
+
+1. hash `~/.codex/AGENTS.md` and `~/.codex/config.toml`;
+2. inventory existing `~/.codex/skills`, `~/.codex/agents`, and `~/.agents/skills`;
+3. inspect all plan cleanup actions;
+4. apply the exact confirmed plan;
+5. verify 24 Copilot agents, 16 Codex agents, and five prefixed Codex bundles;
+6. verify state reports both runtimes synchronized;
+7. confirm the protected hashes and personal skill inventory are unchanged.
+
+Publishing the extension, pushing Git branches, provider installation, cloud mutation, or deletion of unmanaged files requires separate authorization.

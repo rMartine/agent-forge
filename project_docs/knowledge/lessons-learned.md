@@ -4,9 +4,9 @@
 
 The original hierarchy required nested subagent invocation even though VS Code disables it by default. Lifecycle handoffs and depth-one worker invocation now work without that setting.
 
-## File-format portability can create duplicate identities
+## Discovery scope, not file format alone, creates duplicate identities
 
-VS Code discovers `.claude/agents`; keeping parallel Copilot and Claude definitions caused overlapping names and divergent policy. A single canonical VS Code roster is safer and easier to evaluate.
+VS Code discovers `.claude/agents`, workspace overrides can rediscover canonical sources, and Codex walks project/user customization locations. Canonical source directories must not also be runtime discovery roots when global deployment is active.
 
 ## Prompt restrictions are not authorization
 
@@ -23,3 +23,19 @@ The knowledge workflow previously implied a mandatory PostgreSQL container. Loca
 ## Source and deployed configuration have different lifecycles
 
 Tool/model availability varies by VS Code profile and Copilot plan. Runtime overlays belong on rendered copies so local selection can change without dirtying the repository.
+
+## Cross-runtime reuse needs compilation, not copied prompts
+
+Copilot Markdown frontmatter encodes tools, handoffs, visibility, and subagent invocation that do not belong in Codex TOML. A dedicated renderer can preserve role knowledge while discarding runtime-only controls and enforcing Codex no-delegation overlays.
+
+## Progressive skill packaging controls context cost
+
+Seventeen useful source workflows would consume too much Codex skill-description budget as independent entries. Five trigger-complete bundles preserve specialization while references load only when the task requires them.
+
+## Immutable preview must contain the bytes being approved
+
+A preview ID is meaningful only if apply reads the exact persisted content and hashes. Regenerating after confirmation creates a time-of-check/time-of-use gap and makes grouped rollback evidence unreliable.
+
+## State migration is a transaction
+
+Inferring legacy ownership is safe only when every old target proves its runtime. Back up the v1 ledger, reject ambiguous paths, and persist v2 only after the profile transaction succeeds.

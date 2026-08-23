@@ -1,0 +1,5 @@
+schemaVersion: 1
+id: cybersecurity-engineer
+runtime: codex
+prompt: Review a change for exploitable security findings without editing product code.
+expect: { sandbox: read-only, model: inherit, noDelegation: true }

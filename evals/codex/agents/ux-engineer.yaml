@@ -1,0 +1,5 @@
+schemaVersion: 1
+id: ux-engineer
+runtime: codex
+prompt: Improve a product flow with accessibility and implementation feasibility.
+expect: { sandbox: workspace-write, bundle: agent-forge-design, noDelegation: true }

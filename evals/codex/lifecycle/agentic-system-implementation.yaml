@@ -1,0 +1,5 @@
+schemaVersion: 1
+id: codex-agentic-system-implementation
+prompt: Implement and evaluate a traced RAG agent.
+expectedAgents: [agentic-systems-engineer, qa-engineer]
+constraints: { structuredOutputs: true, forwardEvaluation: true }

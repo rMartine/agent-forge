@@ -6,6 +6,7 @@ Inspect VS Code MCP provider readiness through Agent Forge.
 .DESCRIPTION
 This wrapper never writes Claude configuration or secrets. Review the merge-safe
 VS Code provider preview, then approve changes through the CLI or extension UI.
+Codex MCP configuration is inherited and is never modified by Agent Forge.
 #>
 
 [CmdletBinding()]

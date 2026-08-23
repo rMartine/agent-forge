@@ -27,3 +27,11 @@ test('lifecycle and failure-mode release fixtures are complete', async () => {
   assert.equal((await ids(path.join(repo, 'evals', 'lifecycle'))).length, 5);
   assert.equal((await ids(path.join(repo, 'evals', 'failures'))).length, 7);
 });
+
+test('Codex agents, bundles, lifecycle, and failure evaluations are complete', async () => {
+  const manifest = await loadManifest(repo);
+  assert.deepEqual((await ids(path.join(repo, 'evals', 'codex', 'agents'))).sort(), Object.keys(manifest.codex.agents).sort());
+  assert.deepEqual((await ids(path.join(repo, 'evals', 'codex', 'skills'))).sort(), Object.keys(manifest.codex.skillBundles).sort());
+  assert.equal((await ids(path.join(repo, 'evals', 'codex', 'lifecycle'))).length, 6);
+  assert.equal((await ids(path.join(repo, 'evals', 'codex', 'failures'))).length, 7);
+});

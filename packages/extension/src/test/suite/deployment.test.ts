@@ -9,9 +9,10 @@ export async function runDeploymentTests(): Promise<void> {
   const repo = path.resolve(extensionPath, '..', '..');
   const source = path.join(repo, 'agents', 'graphic-designer.agent.md');
   const before = await readFile(source, 'utf8');
-  const plan = await new DeploymentService(repo).preview(true);
+  const plan = await new DeploymentService(repo).preview('codex', true);
   const after = await readFile(source, 'utf8');
   assert.equal(before, after, 'Preview must not rewrite source agents');
-  assert.equal(plan.artifacts.filter(item => item.type === 'agent').length, 24);
-  assert.ok(plan.diagnostics.some(item => item.code === 'AF004'), 'Isolated host should report unresolved required capabilities');
+  assert.equal(plan.artifacts.filter(item => item.type === 'agent').length, 16);
+  assert.equal(plan.artifacts.filter(item => item.type === 'skill' && path.basename(item.targetPath) === 'SKILL.md').length, 5);
+  assert.equal(plan.diagnostics.some(item => item.severity === 'error'), false);
 }

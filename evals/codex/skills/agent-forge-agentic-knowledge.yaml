@@ -1,0 +1,5 @@
+schemaVersion: 1
+id: agent-forge-agentic-knowledge
+runtime: codex
+prompt: Evaluate an agentic RAG flow and retrieve only verified reusable knowledge.
+expect: { trigger: true, progressiveDisclosure: true, evidenceRequired: true }

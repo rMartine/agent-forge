@@ -1,0 +1,5 @@
+schemaVersion: 1
+id: frontend-developer
+runtime: codex
+prompt: Implement an accessible UI change in the repository's current framework.
+expect: { sandbox: workspace-write, model: inherit, noDelegation: true }

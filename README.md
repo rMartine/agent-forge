@@ -1,17 +1,17 @@
 # Agent Forge
 
-Agent Forge is a VS Code-only roster and deployment system for 24 GitHub Copilot custom agents. The repository is the canonical source; the core package validates, renders, previews, atomically installs, audits, rolls back, and removes only its own managed files.
+Agent Forge is a dual-runtime customization compiler and ownership-aware deployment system. One canonical set of 24 Markdown agents serves GitHub Copilot in VS Code; a focused 16-agent OpenAI Codex roster and five progressively disclosed Codex skill bundles are generated from those same sources.
 
 ## Runtime contract
 
-- Agents: `~/.copilot/agents`
-- Skills: `~/.copilot/skills`
-- Instructions: `~/.copilot/instructions`
-- Optional hooks: `~/.copilot/hooks`
-- Ownership ledger and backups: `~/.agent-forge`
-- Minimum VS Code: 1.104.0
+| Runtime | Agents | Skills | Additional artifacts |
+|---|---|---|---|
+| VS Code Copilot | `~/.copilot/agents` (24) | `~/.copilot/skills` (17 modules) | `~/.copilot/instructions`, optional hooks |
+| OpenAI Codex | `~/.codex/agents` (16 TOML files) | `~/.agents/skills/agent-forge-*` (5 bundles) | inherits model, MCP, permissions, and approval policy |
 
-The roster has nine visible lifecycle entries and fifteen hidden workers. Only Creative Director and Principal Engineer may invoke explicitly named first-level workers. All cross-phase handoffs use `send: false`, so the user controls the transition. No workflow requires nested subagents.
+Ownership state, immutable plans, transaction backups, and rollback material live under `~/.agent-forge`. Agent Forge never writes `~/.codex/config.toml`, `~/.codex/AGENTS.md`, or personal `~/.codex/skills`.
+
+The Copilot roster retains nine visible lifecycle agents and fifteen hidden workers. The Codex roster is a bounded specialist set: Software Architect and Cybersecurity Engineer are read-only; the other fourteen are workspace-write. Codex custom agents never delegate. The primary Codex agent retains lifecycle routing and invokes a named specialist only when useful.
 
 ## Build and verify
 
@@ -19,51 +19,64 @@ The roster has nine visible lifecycle entries and fifteen hidden workers. Only C
 npm ci
 npm run build
 npm test
-node packages/cli/dist/index.js --repo . validate --strict --target vscode
+npm run test:extension-host
+node packages/cli/dist/index.js --repo . validate --strict --target all
 ```
 
-Full preview and deployment require exact locally available MCP tool IDs. Supply inventories as comma-separated environment variables or configure them through the extension:
+All filesystem tests use temporary profiles. Build output, test profiles, user customizations, secrets, and deployment mirrors are not committed.
+
+## Immutable deployment workflow
 
 ```powershell
-$env:AGENT_FORGE_AVAILABLE_TOOLS = 'gitkraken/git_status,gitkraken/git_add_or_commit,canva/design_create'
-$env:AGENT_FORGE_AVAILABLE_MODELS = 'locally-available-model-id'
-node packages/cli/dist/index.js --repo . doctor --profile full
-node packages/cli/dist/index.js --repo . preview --scope user --profile full
-node packages/cli/dist/index.js --repo . deploy --scope user --profile full
+# Diagnose one or both runtimes.
+agent-forge doctor --target codex
+agent-forge doctor --target all --profile full
+
+# Persist a content-bearing immutable plan.
+agent-forge preview --target all --scope user --profile full
+
+# Apply exactly that plan; both values must match the preview ID.
+agent-forge deploy --target all --plan <id> --confirm <id>
+
+agent-forge status --target all --json
 ```
 
-Deployment remains blocked when required capabilities are absent. Empty model mappings intentionally inherit the current Copilot selection.
+VS Code full-profile preview requires exact, locally available capability IDs. Codex inherits the user's active integrations and reports missing capability families without editing MCP configuration. Empty model profiles intentionally inherit the active model.
 
-## CLI
+Managed cleanup is also plan-driven:
 
-```text
-agent-forge validate --strict --target vscode [--json]
-agent-forge doctor --profile full [--json]
-agent-forge preview --scope user --profile full [--json]
-agent-forge deploy --scope user --profile full
-agent-forge status [--json]
-agent-forge rollback [--deployment <id>]
-agent-forge wipe --managed-only --confirm <deployment-id>
-agent-forge mcp setup [--provider <name>] [--preview-only]
+```powershell
+agent-forge cleanup --target all --managed-only
+agent-forge cleanup --target all --managed-only --plan <cleanup-id> --confirm <cleanup-id>
+agent-forge rollback --target codex --deployment <id>
+agent-forge wipe --target codex --managed-only --confirm <active-deployment-id>
 ```
 
-`restore` is a deprecated alias for rollback for one release. There is no `-y`, `--yes`, or extension `autoConfirm` path.
+There is no `-y`, `--yes`, `autoConfirm`, force-push, automatic provider installation, or unmanaged deletion path. `restore` remains a deprecated VS Code rollback alias for one release.
 
-## MCP setup
+## Codex roster and bundles
 
-Canva, GitKraken, and Docker have direct VS Code `servers` configurations. GitHub and DigitalOcean are enabled through the configured Docker MCP Toolkit surface. `mcp setup` previews each change, requests approval per direct provider, and uses VS Code's official `--add-mcp` merge interface. It never writes Claude configuration or secret values.
+The 16 Codex agents are Software Architect, Principal Engineer, Backend Developer, Frontend Developer, Database Engineer, .NET Engineer, Desktop App Engineer, Mobile Engineer, ML Engineer, Agentic Systems Engineer, Digital Twin Engineer, QA Engineer, Cybersecurity Engineer, DevOps Engineer, UX Engineer, and Technical Writer.
+
+The five deployed skills are:
+
+- `agent-forge-lifecycle`
+- `agent-forge-engineering`
+- `agent-forge-security-operations`
+- `agent-forge-design`
+- `agent-forge-agentic-knowledge`
+
+The remaining canonical workflows stay available through these bundles and the primary Codex agent. No project-scoped Codex copies are generated.
 
 ## Repository layout
 
-- `agents/`: the only canonical agent definitions
-- `skills/`: progressively loaded Agent Skills and one-level references
-- `instructions/`: automatically applied safety and quality policies
-- `config/`: capability, model, and MCP provider catalogs
-- `schemas/`: deployment and handoff contracts
-- `packages/core/`: authoritative validation and transaction engine
-- `packages/cli/`: thin command adapter
-- `packages/extension/`: thin VS Code UI and diagnostics adapter
-- `evals/`: role, skill, lifecycle, and failure fixtures
-- `project_docs/`: architecture, requirements, audit, and remediation evidence
+- `agents/`: only canonical agent definitions
+- `skills/`: canonical, runtime-neutral workflow modules and one-level references
+- `instructions/`: Copilot automatic instructions
+- `config/`, `schemas/`: capability, model, provider, manifest, and handoff contracts
+- `packages/core/`: authoritative renderer, validator, plan, transaction, state, and cleanup engine
+- `packages/cli/`, `packages/extension/`, `scripts/`: thin adapters
+- `evals/`: Copilot and Codex role, skill, lifecycle, and failure fixtures
+- `project_docs/`: architecture, requirements, audits, and delivery evidence
 
-See [architecture](project_docs/architecture/architecture.md), [build and install](project_docs/requirements/build-and-install.md), and the [remediation report](project_docs/audits/vscode-roster-remediation-2026-08-10.md).
+See [architecture](project_docs/architecture/architecture.md), [build and install](project_docs/requirements/build-and-install.md), and the [Codex remediation report](project_docs/audits/codex-ide-integration-remediation-2026-08-23.md).

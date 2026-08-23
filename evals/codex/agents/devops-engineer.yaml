@@ -1,0 +1,5 @@
+schemaVersion: 1
+id: devops-engineer
+runtime: codex
+prompt: Diagnose a local container failure without deploying or pushing.
+expect: { sandbox: workspace-write, approvalForExternalMutation: true, noDelegation: true }

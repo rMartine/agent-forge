@@ -1,0 +1,5 @@
+schemaVersion: 1
+id: digital-twin-engineer
+runtime: codex
+prompt: Implement telemetry synchronization while keeping control actions approval-gated.
+expect: { sandbox: workspace-write, approvalForControl: true, noDelegation: true }

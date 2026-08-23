@@ -12,7 +12,9 @@ Use -Deploy to request the separately confirmed user-profile deployment.
 [CmdletBinding()]
 param(
     [switch]$UsePrebuilt,
-    [switch]$Deploy
+    [switch]$Deploy,
+    [ValidateSet('vscode', 'codex', 'all')]
+    [string]$Target = 'all'
 )
 
 $ErrorActionPreference = 'Stop'
@@ -30,20 +32,22 @@ try {
         throw "Prebuilt CLI not found: $Cli"
     }
 
-    & node $Cli --repo $RepoRoot validate --strict --target vscode
+    & node $Cli --repo $RepoRoot validate --strict --target $Target
     if ($LASTEXITCODE -ne 0) { throw 'Roster validation failed.' }
-    & node $Cli --repo $RepoRoot doctor --profile full
+    & node $Cli --repo $RepoRoot doctor --profile full --target $Target
     if ($LASTEXITCODE -ne 0) { throw 'Capability doctor failed. Resolve provider diagnostics before deployment.' }
-    & node $Cli --repo $RepoRoot preview --scope user --profile full
+    $previewJson = & node $Cli --repo $RepoRoot preview --scope user --profile full --target $Target --json
     if ($LASTEXITCODE -ne 0) { throw 'Deployment preview failed.' }
+    $preview = $previewJson | ConvertFrom-Json
+    Write-Host "Immutable plan: $($preview.deploymentId)" -ForegroundColor Cyan
 
     if ($Deploy) {
-        $approval = Read-Host 'Type DEPLOY to install the previewed roster into the VS Code user profile'
-        if ($approval -ne 'DEPLOY') { throw 'Deployment confirmation did not match.' }
-        & node $Cli --repo $RepoRoot deploy --scope user --profile full
+        $approval = Read-Host "Type $($preview.deploymentId) to apply this exact user-profile plan"
+        if ($approval -ne $preview.deploymentId) { throw 'Deployment confirmation did not match.' }
+        & node $Cli --repo $RepoRoot deploy --target $Target --plan $preview.deploymentId --confirm $approval
         if ($LASTEXITCODE -ne 0) { throw 'Deployment failed.' }
     } else {
-        Write-Host 'Build and preview complete. Re-run with -Deploy after all readiness gates pass.' -ForegroundColor Green
+        Write-Host 'Build and preview complete. Re-run with -Deploy and the same target after all readiness gates pass.' -ForegroundColor Green
     }
 } finally {
     Pop-Location

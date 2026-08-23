@@ -2,7 +2,7 @@
 
 ## Prompts
 
-Agent Forge v2 does not manage prompt files. `prompts/.gitkeep` and the obsolete shared prompts target were removed. Agents, instructions, and skills have distinct current VS Code user locations.
+Agent Forge does not manage legacy prompt files. `prompts/.gitkeep` and the obsolete shared prompts target were removed. Copilot agents, instructions, and skills have distinct user locations; Codex agents and bundles have separate runtime targets.
 
 Adding prompts later requires a manifest schema revision, a dedicated current VS Code prompt target, ownership coverage, collision tests, and diagnostics. It must not reuse a legacy `%APPDATA%/Code/User/prompts` abstraction.
 

@@ -1,0 +1,5 @@
+schemaVersion: 1
+id: mobile-engineer
+runtime: codex
+prompt: Implement a mobile navigation change with platform-aware verification.
+expect: { sandbox: workspace-write, model: inherit, noDelegation: true }
