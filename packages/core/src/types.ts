@@ -1,4 +1,7 @@
 export type DeploymentScope = 'user';
+export type RuntimeTarget = 'vscode' | 'codex';
+export type RuntimeSelection = RuntimeTarget | 'all';
+export type CodexSandboxMode = 'read-only' | 'workspace-write';
 export type ModelProfile = 'inherit' | 'reasoning' | 'coding' | 'creative' | 'balanced';
 export type AgentVisibility = 'entry' | 'worker';
 export type CapabilityAccess = 'read' | 'write' | 'admin';
@@ -22,11 +25,37 @@ export interface AgentManifestEntry {
 export interface FileArtifactEntry { id: string; source: string; }
 export interface DeploymentTargets { agents: string; instructions: string; skills: string; hooks: string; state: string; }
 
-export interface DeploymentManifestV2 {
-  schemaVersion: 2;
-  platform: 'vscode';
+export interface RuntimeDeploymentTargets {
+  vscode: Omit<DeploymentTargets, 'state'>;
+  codex: { agents: string; skills: string };
+  state: string;
+}
+
+export interface CodexAgentManifestEntry {
+  id: string;
+  sourceAgent: string;
+  sandboxMode: CodexSandboxMode;
+  modelProfile: ModelProfile;
+  requiredSkillBundles: string[];
+  instructionOverlay: string;
+  requiredCapabilities: string[];
+  optionalCapabilities: string[];
+}
+
+export interface CodexSkillBundleEntry {
+  id: string;
+  deploymentName: string;
+  entrypoint: string;
+  description: string;
+  componentSkills: string[];
+  flattenedReferences: string[];
+}
+
+export interface DeploymentManifestV3 {
+  schemaVersion: 3;
+  platforms: RuntimeTarget[];
   scope: DeploymentScope;
-  targets: DeploymentTargets;
+  targets: RuntimeDeploymentTargets;
   capabilityCatalog: string;
   modelProfiles: string;
   mcpProviders: string;
@@ -34,7 +63,14 @@ export interface DeploymentManifestV2 {
   instructions: FileArtifactEntry[];
   skills: FileArtifactEntry[];
   hooks: FileArtifactEntry[];
+  codex: {
+    agents: Record<string, CodexAgentManifestEntry>;
+    skillBundles: Record<string, CodexSkillBundleEntry>;
+  };
 }
+
+/** @deprecated Use DeploymentManifestV3. */
+export type DeploymentManifestV2 = DeploymentManifestV3;
 
 export interface CapabilityProfile { builtins: string[]; required: string[]; optional: string[]; }
 export interface CapabilityCatalog {
@@ -67,6 +103,7 @@ export interface ResolvedAgentRuntime {
 export interface DeploymentArtifact {
   id: string;
   type: ArtifactType;
+  runtime: RuntimeTarget;
   sourcePath: string;
   targetPath: string;
   content?: Buffer;
@@ -76,7 +113,25 @@ export interface DeploymentPlan {
   deploymentId: string;
   repoPath: string;
   createdAt: string;
+  targets: RuntimeTarget[];
+  sourceCommit?: string;
   artifacts: DeploymentArtifact[];
+  cleanupActions: CleanupAction[];
+  diagnostics: Diagnostic[];
+}
+export interface CleanupAction {
+  runtime: RuntimeTarget;
+  targetPath: string;
+  expectedHash: string;
+  type: ArtifactType;
+  reason: 'stale-managed';
+}
+export interface CleanupPlan {
+  planId: string;
+  repoPath: string;
+  createdAt: string;
+  targets: RuntimeTarget[];
+  actions: CleanupAction[];
   diagnostics: Diagnostic[];
 }
 export interface ManagedArtifactState {
@@ -86,9 +141,16 @@ export interface ManagedArtifactState {
   deployedHash: string;
   backupPath?: string;
   existedBefore: boolean;
+  runtime: RuntimeTarget;
 }
-export interface DeploymentRecord { id: string; createdAt: string; repoPath: string; artifacts: ManagedArtifactState[]; }
-export interface DeploymentState { schemaVersion: 1; activeDeploymentId?: string; deployments: DeploymentRecord[]; }
+export interface RuntimeDeploymentRecord { id: string; runtime: RuntimeTarget; createdAt: string; repoPath: string; sourceCommit?: string; artifacts: ManagedArtifactState[]; removedArtifacts?: ManagedArtifactState[]; }
+export type DeploymentRecord = RuntimeDeploymentRecord;
+export interface DeploymentStateV2 {
+  schemaVersion: 2;
+  activeDeployments: Partial<Record<RuntimeTarget, string>>;
+  deployments: RuntimeDeploymentRecord[];
+}
+export type DeploymentState = DeploymentStateV2;
 export interface FileOperationDetail { path: string; action: string; type: ArtifactType; }
 export interface OperationError { path: string; message: string; }
 export interface OperationResult {
@@ -110,12 +172,19 @@ export interface FileStatus {
   id: string;
   path: string;
   type: ArtifactType;
+  runtime: RuntimeTarget;
   state: 'synced' | 'modified' | 'missing' | 'unmanaged';
 }
 export interface StatusResult {
   deploymentId?: string;
+  runtime?: RuntimeTarget;
   files: FileStatus[];
   syncState: 'synced' | 'out-of-sync' | 'not-deployed';
+  diagnostics: Diagnostic[];
+}
+
+export interface RuntimeStatusResult {
+  targets: Partial<Record<RuntimeTarget, StatusResult>>;
   diagnostics: Diagnostic[];
 }
 
@@ -126,6 +195,17 @@ export interface VsCodeEnvironment {
   availableTools: string[];
   availableModels: string[];
   targets: DeploymentTargets;
+  diagnostics: Diagnostic[];
+}
+
+export interface CodexEnvironment {
+  supported: boolean;
+  version?: string;
+  userProfile: string;
+  codexHome: string;
+  agentsTarget: string;
+  skillsTarget: string;
+  integrationDetected: boolean;
   diagnostics: Diagnostic[];
 }
 

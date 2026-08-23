@@ -3,59 +3,92 @@
   "$id": "https://agent-forge.local/schemas/agent-forge-manifest.schema.json",
   "type": "object",
   "additionalProperties": false,
-  "required": ["schemaVersion", "platform", "scope", "targets", "capabilityCatalog", "modelProfiles", "mcpProviders", "agents", "instructions", "skills", "hooks"],
+  "required": ["schemaVersion", "platforms", "scope", "targets", "capabilityCatalog", "modelProfiles", "mcpProviders", "agents", "instructions", "skills", "hooks", "codex"],
   "properties": {
-    "schemaVersion": { "const": 2 },
-    "platform": { "const": "vscode" },
+    "schemaVersion": { "const": 3 },
+    "platforms": { "type": "array", "const": ["vscode", "codex"] },
     "scope": { "const": "user" },
     "targets": {
       "type": "object",
-      "required": ["agents", "instructions", "skills", "hooks", "state"],
       "additionalProperties": false,
+      "required": ["vscode", "codex", "state"],
       "properties": {
-        "agents": { "type": "string", "minLength": 1 },
-        "instructions": { "type": "string", "minLength": 1 },
-        "skills": { "type": "string", "minLength": 1 },
-        "hooks": { "type": "string", "minLength": 1 },
+        "vscode": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["agents", "instructions", "skills", "hooks"],
+          "properties": {
+            "agents": { "type": "string", "minLength": 1 },
+            "instructions": { "type": "string", "minLength": 1 },
+            "skills": { "type": "string", "minLength": 1 },
+            "hooks": { "type": "string", "minLength": 1 }
+          }
+        },
+        "codex": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["agents", "skills"],
+          "properties": {
+            "agents": { "type": "string", "minLength": 1 },
+            "skills": { "type": "string", "minLength": 1 }
+          }
+        },
         "state": { "type": "string", "minLength": 1 }
       }
     },
     "capabilityCatalog": { "type": "string", "minLength": 1 },
     "modelProfiles": { "type": "string", "minLength": 1 },
     "mcpProviders": { "type": "string", "minLength": 1 },
-    "agents": { "type": "object", "minProperties": 1, "additionalProperties": { "$ref": "#/$defs/agent" } },
+    "agents": { "type": "object", "minProperties": 24, "maxProperties": 24, "additionalProperties": { "$ref": "#/$defs/agent" } },
     "instructions": { "type": "array", "items": { "$ref": "#/$defs/artifact" } },
-    "skills": { "type": "array", "items": { "$ref": "#/$defs/artifact" } },
-    "hooks": { "type": "array", "items": { "$ref": "#/$defs/artifact" } }
+    "skills": { "type": "array", "minItems": 17, "items": { "$ref": "#/$defs/artifact" } },
+    "hooks": { "type": "array", "items": { "$ref": "#/$defs/artifact" } },
+    "codex": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["agents", "skillBundles"],
+      "properties": {
+        "agents": { "type": "object", "minProperties": 16, "maxProperties": 16, "additionalProperties": { "$ref": "#/$defs/codexAgent" } },
+        "skillBundles": { "type": "object", "minProperties": 5, "maxProperties": 5, "additionalProperties": { "$ref": "#/$defs/codexBundle" } }
+      }
+    }
   },
   "$defs": {
     "identifier": { "type": "string", "pattern": "^[a-z0-9]+(?:-[a-z0-9]+)*$" },
     "stringArray": { "type": "array", "items": { "type": "string", "minLength": 1 }, "uniqueItems": true },
     "artifact": {
-      "type": "object",
-      "additionalProperties": false,
-      "required": ["id", "source"],
-      "properties": {
-        "id": { "$ref": "#/$defs/identifier" },
-        "source": { "type": "string", "minLength": 1 }
-      }
+      "type": "object", "additionalProperties": false, "required": ["id", "source"],
+      "properties": { "id": { "$ref": "#/$defs/identifier" }, "source": { "type": "string", "minLength": 1 } }
     },
     "agent": {
-      "type": "object",
-      "additionalProperties": false,
+      "type": "object", "additionalProperties": false,
       "required": ["id", "source", "visibility", "capabilityProfile", "modelProfile", "requiredSkills", "optionalSkills", "allowedSubagents", "handoffs", "requiredCapabilities", "optionalCapabilities"],
       "properties": {
-        "id": { "$ref": "#/$defs/identifier" },
-        "source": { "type": "string", "pattern": "^agents/.+\\.agent\\.md$" },
-        "visibility": { "enum": ["entry", "worker"] },
-        "capabilityProfile": { "$ref": "#/$defs/identifier" },
+        "id": { "$ref": "#/$defs/identifier" }, "source": { "type": "string", "pattern": "^agents/.+\\.agent\\.md$" },
+        "visibility": { "enum": ["entry", "worker"] }, "capabilityProfile": { "$ref": "#/$defs/identifier" },
         "modelProfile": { "enum": ["inherit", "reasoning", "coding", "creative", "balanced"] },
-        "requiredSkills": { "$ref": "#/$defs/stringArray" },
-        "optionalSkills": { "$ref": "#/$defs/stringArray" },
-        "allowedSubagents": { "$ref": "#/$defs/stringArray" },
-        "handoffs": { "$ref": "#/$defs/stringArray" },
-        "requiredCapabilities": { "$ref": "#/$defs/stringArray" },
-        "optionalCapabilities": { "$ref": "#/$defs/stringArray" }
+        "requiredSkills": { "$ref": "#/$defs/stringArray" }, "optionalSkills": { "$ref": "#/$defs/stringArray" },
+        "allowedSubagents": { "$ref": "#/$defs/stringArray" }, "handoffs": { "$ref": "#/$defs/stringArray" },
+        "requiredCapabilities": { "$ref": "#/$defs/stringArray" }, "optionalCapabilities": { "$ref": "#/$defs/stringArray" }
+      }
+    },
+    "codexAgent": {
+      "type": "object", "additionalProperties": false,
+      "required": ["id", "sourceAgent", "sandboxMode", "modelProfile", "requiredSkillBundles", "instructionOverlay", "requiredCapabilities", "optionalCapabilities"],
+      "properties": {
+        "id": { "$ref": "#/$defs/identifier" }, "sourceAgent": { "$ref": "#/$defs/identifier" },
+        "sandboxMode": { "enum": ["read-only", "workspace-write"] }, "modelProfile": { "const": "inherit" },
+        "requiredSkillBundles": { "$ref": "#/$defs/stringArray" }, "instructionOverlay": { "type": "string" },
+        "requiredCapabilities": { "$ref": "#/$defs/stringArray" }, "optionalCapabilities": { "$ref": "#/$defs/stringArray" }
+      }
+    },
+    "codexBundle": {
+      "type": "object", "additionalProperties": false,
+      "required": ["id", "deploymentName", "entrypoint", "description", "componentSkills", "flattenedReferences"],
+      "properties": {
+        "id": { "$ref": "#/$defs/identifier" }, "deploymentName": { "type": "string", "pattern": "^agent-forge-[a-z0-9-]+$" },
+        "entrypoint": { "const": "SKILL.md" }, "description": { "type": "string", "minLength": 1, "maxLength": 1024 },
+        "componentSkills": { "$ref": "#/$defs/stringArray" }, "flattenedReferences": { "$ref": "#/$defs/stringArray" }
       }
     }
   }

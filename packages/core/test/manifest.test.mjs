@@ -1,42 +1,28 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import { validateManifest } from '../dist/index.js';
+import path from 'node:path';
+import { fileURLToPath } from 'node:url';
+import { loadManifest, validateManifest } from '../dist/index.js';
 
-test('manifest v2 validates the VS Code user deployment contract', () => {
-  const manifest = validateManifest({
-    schemaVersion: 2,
-    platform: 'vscode',
-    scope: 'user',
-    targets: { agents: 'a', instructions: 'i', skills: 's', hooks: 'h', state: 'state' },
-    capabilityCatalog: 'capabilities',
-    modelProfiles: 'models',
-    mcpProviders: 'mcp',
-    agents: {
-      worker: {
-        id: 'worker', source: 'agents/worker.agent.md', visibility: 'worker',
-        capabilityProfile: 'implementation', modelProfile: 'coding',
-        requiredSkills: [], optionalSkills: [], allowedSubagents: [], handoffs: [],
-        requiredCapabilities: [], optionalCapabilities: [],
-      },
-    },
-    instructions: [], skills: [], hooks: [],
-  });
-  assert.equal(manifest.schemaVersion, 2);
-  assert.equal(manifest.targets.agents, 'a');
+const repo = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..', '..', '..');
+
+test('manifest v3 validates the dual-runtime user deployment contract', async () => {
+  const manifest = await loadManifest(repo);
+  assert.equal(manifest.schemaVersion, 3);
+  assert.deepEqual(manifest.platforms, ['vscode', 'codex']);
+  assert.equal(Object.keys(manifest.agents).length, 24);
+  assert.equal(Object.keys(manifest.codex.agents).length, 16);
+  assert.equal(Object.keys(manifest.codex.skillBundles).length, 5);
+  assert.match(manifest.targets.vscode.agents, /\.copilot\/agents$/);
+  assert.match(manifest.targets.codex.agents, /\.codex\/agents$/);
 });
 
-test('manifest rejects broken agent references', () => {
-  assert.throws(() => validateManifest({
-    schemaVersion: 2, platform: 'vscode', scope: 'user',
-    targets: { agents: 'a', instructions: 'i', skills: 's', hooks: 'h', state: 'state' },
-    capabilityCatalog: 'capabilities', modelProfiles: 'models', mcpProviders: 'mcp',
-    agents: {
-      lead: {
-        id: 'lead', source: 'lead', visibility: 'entry', capabilityProfile: 'p',
-        modelProfile: 'inherit', requiredSkills: [], optionalSkills: [],
-        allowedSubagents: ['missing'], handoffs: [], requiredCapabilities: [], optionalCapabilities: [],
-      },
-    },
-    instructions: [], skills: [], hooks: [],
-  }), /unknown agent/);
+test('manifest v2 is rejected rather than silently deployed', () => {
+  assert.throws(() => validateManifest({ schemaVersion: 2, platform: 'vscode' }), /schemaVersion must be 3/);
+});
+
+test('manifest rejects broken Codex source references', async () => {
+  const manifest = structuredClone(await loadManifest(repo));
+  manifest.codex.agents['backend-developer'].sourceAgent = 'missing';
+  assert.throws(() => validateManifest(manifest), /sourceAgent is unknown/);
 });

@@ -1,12 +1,18 @@
 {
-  "schemaVersion": 2,
-  "platform": "vscode",
+  "schemaVersion": 3,
+  "platforms": ["vscode", "codex"],
   "scope": "user",
   "targets": {
-    "agents": "%USERPROFILE%/.copilot/agents",
-    "instructions": "%USERPROFILE%/.copilot/instructions",
-    "skills": "%USERPROFILE%/.copilot/skills",
-    "hooks": "%USERPROFILE%/.copilot/hooks",
+    "vscode": {
+      "agents": "%USERPROFILE%/.copilot/agents",
+      "instructions": "%USERPROFILE%/.copilot/instructions",
+      "skills": "%USERPROFILE%/.copilot/skills",
+      "hooks": "%USERPROFILE%/.copilot/hooks"
+    },
+    "codex": {
+      "agents": "%USERPROFILE%/.codex/agents",
+      "skills": "%USERPROFILE%/.agents/skills"
+    },
     "state": "%USERPROFILE%/.agent-forge/state.json"
   },
   "capabilityCatalog": "config/capability-catalog.jsonc",
@@ -65,5 +71,32 @@
     { "id": "evaluate-agentic-systems", "source": "skills/evaluate-agentic-systems" },
     { "id": "engineer-specialized-platforms", "source": "skills/engineer-specialized-platforms" }
   ],
-  "hooks": []
+  "hooks": [],
+  "codex": {
+    "agents": {
+      "software-architect": { "id": "software-architect", "sourceAgent": "software-architect", "sandboxMode": "read-only", "modelProfile": "inherit", "requiredSkillBundles": ["agent-forge-lifecycle", "agent-forge-security-operations"], "instructionOverlay": "Review architecture and technical risk without modifying files. Do not delegate or spawn subagents.", "requiredCapabilities": [], "optionalCapabilities": [] },
+      "principal-engineer": { "id": "principal-engineer", "sourceAgent": "principal-engineer", "sandboxMode": "workspace-write", "modelProfile": "inherit", "requiredSkillBundles": ["agent-forge-lifecycle", "agent-forge-engineering", "agent-forge-security-operations"], "instructionOverlay": "Act as a bounded implementation and integration worker. Do not delegate, route, or spawn subagents; return the completed result and evidence to the parent agent.", "requiredCapabilities": [], "optionalCapabilities": [] },
+      "backend-developer": { "id": "backend-developer", "sourceAgent": "backend-developer", "sandboxMode": "workspace-write", "modelProfile": "inherit", "requiredSkillBundles": ["agent-forge-engineering"], "instructionOverlay": "Do not delegate or spawn subagents.", "requiredCapabilities": [], "optionalCapabilities": [] },
+      "frontend-developer": { "id": "frontend-developer", "sourceAgent": "frontend-developer", "sandboxMode": "workspace-write", "modelProfile": "inherit", "requiredSkillBundles": ["agent-forge-engineering"], "instructionOverlay": "Do not delegate or spawn subagents.", "requiredCapabilities": [], "optionalCapabilities": [] },
+      "database-engineer": { "id": "database-engineer", "sourceAgent": "database-engineer", "sandboxMode": "workspace-write", "modelProfile": "inherit", "requiredSkillBundles": ["agent-forge-engineering", "agent-forge-security-operations"], "instructionOverlay": "Do not delegate or spawn subagents. Require approval for destructive migrations and production changes.", "requiredCapabilities": [], "optionalCapabilities": [] },
+      "dotnet-engineer": { "id": "dotnet-engineer", "sourceAgent": "dotnet-engineer", "sandboxMode": "workspace-write", "modelProfile": "inherit", "requiredSkillBundles": ["agent-forge-engineering"], "instructionOverlay": "Do not delegate or spawn subagents.", "requiredCapabilities": [], "optionalCapabilities": [] },
+      "desktop-app-engineer": { "id": "desktop-app-engineer", "sourceAgent": "desktop-app-engineer", "sandboxMode": "workspace-write", "modelProfile": "inherit", "requiredSkillBundles": ["agent-forge-engineering"], "instructionOverlay": "Do not delegate or spawn subagents.", "requiredCapabilities": [], "optionalCapabilities": [] },
+      "mobile-engineer": { "id": "mobile-engineer", "sourceAgent": "mobile-engineer", "sandboxMode": "workspace-write", "modelProfile": "inherit", "requiredSkillBundles": ["agent-forge-engineering"], "instructionOverlay": "Do not delegate or spawn subagents.", "requiredCapabilities": [], "optionalCapabilities": [] },
+      "ml-engineer": { "id": "ml-engineer", "sourceAgent": "ml-engineer", "sandboxMode": "workspace-write", "modelProfile": "inherit", "requiredSkillBundles": ["agent-forge-engineering"], "instructionOverlay": "Use the bundled ML and data-science guidance. Do not delegate or spawn subagents.", "requiredCapabilities": [], "optionalCapabilities": [] },
+      "agentic-systems-engineer": { "id": "agentic-systems-engineer", "sourceAgent": "agentic-systems-engineer", "sandboxMode": "workspace-write", "modelProfile": "inherit", "requiredSkillBundles": ["agent-forge-agentic-knowledge", "agent-forge-engineering"], "instructionOverlay": "Do not delegate or spawn subagents.", "requiredCapabilities": [], "optionalCapabilities": [] },
+      "digital-twin-engineer": { "id": "digital-twin-engineer", "sourceAgent": "digital-twin-engineer", "sandboxMode": "workspace-write", "modelProfile": "inherit", "requiredSkillBundles": ["agent-forge-engineering", "agent-forge-security-operations"], "instructionOverlay": "Use the bundled XR and digital-twin guidance. Do not delegate or spawn subagents; require approval for control actions.", "requiredCapabilities": [], "optionalCapabilities": [] },
+      "qa-engineer": { "id": "qa-engineer", "sourceAgent": "qa-engineer", "sandboxMode": "workspace-write", "modelProfile": "inherit", "requiredSkillBundles": ["agent-forge-engineering"], "instructionOverlay": "Implement and run verification within scope. Do not delegate or spawn subagents.", "requiredCapabilities": [], "optionalCapabilities": [] },
+      "cybersecurity-engineer": { "id": "cybersecurity-engineer", "sourceAgent": "cybersecurity-engineer", "sandboxMode": "read-only", "modelProfile": "inherit", "requiredSkillBundles": ["agent-forge-security-operations"], "instructionOverlay": "Perform a read-only security review and report findings; do not modify product code, delegate, or spawn subagents.", "requiredCapabilities": [], "optionalCapabilities": [] },
+      "devops-engineer": { "id": "devops-engineer", "sourceAgent": "devops-engineer", "sandboxMode": "workspace-write", "modelProfile": "inherit", "requiredSkillBundles": ["agent-forge-security-operations", "agent-forge-lifecycle"], "instructionOverlay": "Do not delegate or spawn subagents. Cloud, production, push, release, and destructive operations require explicit user approval.", "requiredCapabilities": [], "optionalCapabilities": [] },
+      "ux-engineer": { "id": "ux-engineer", "sourceAgent": "ux-engineer", "sandboxMode": "workspace-write", "modelProfile": "inherit", "requiredSkillBundles": ["agent-forge-design", "agent-forge-engineering"], "instructionOverlay": "Use the design bundle for visual production. Do not delegate or spawn subagents.", "requiredCapabilities": [], "optionalCapabilities": [] },
+      "technical-writer": { "id": "technical-writer", "sourceAgent": "technical-writer", "sandboxMode": "workspace-write", "modelProfile": "inherit", "requiredSkillBundles": ["agent-forge-lifecycle", "agent-forge-engineering"], "instructionOverlay": "Validate documentation commands and links. Do not delegate or spawn subagents.", "requiredCapabilities": [], "optionalCapabilities": [] }
+    },
+    "skillBundles": {
+      "agent-forge-lifecycle": { "id": "agent-forge-lifecycle", "deploymentName": "agent-forge-lifecycle", "entrypoint": "SKILL.md", "description": "Agent Forge lifecycle workflow for repository discovery, requirements, architecture decisions, delivery planning, handoffs, scaffolding, release preparation, and primary-agent routing.", "componentSkills": ["discover-repository", "trace-requirements", "record-architecture-decision", "plan-delivery", "compose-agent-handoff", "scaffold-project", "prepare-release"], "flattenedReferences": [] },
+      "agent-forge-engineering": { "id": "agent-forge-engineering", "deploymentName": "agent-forge-engineering", "entrypoint": "SKILL.md", "description": "Agent Forge engineering workflow for implementation verification and backend, frontend, database, .NET, desktop, mobile, ML/data, XR, and digital-twin specialization.", "componentSkills": ["verify-implementation", "engineer-specialized-platforms"], "flattenedReferences": ["backend", "frontend", "database", "dotnet", "desktop", "mobile", "ml-data", "xr", "digital-twin"] },
+      "agent-forge-security-operations": { "id": "agent-forge-security-operations", "deploymentName": "agent-forge-security-operations", "entrypoint": "SKILL.md", "description": "Agent Forge security and operations workflow for change review, Docker, DigitalOcean, GitHub, GitKraken, and approval-gated release or infrastructure work.", "componentSkills": ["review-change-security", "operate-docker", "deploy-digitalocean", "manage-github-gitkraken"], "flattenedReferences": [] },
+      "agent-forge-design": { "id": "agent-forge-design", "deploymentName": "agent-forge-design", "entrypoint": "SKILL.md", "description": "Agent Forge design workflow for UX, Canva production, asset variants, accessibility, and stock-image license and provenance checks.", "componentSkills": ["design-with-canva", "search-stock-images"], "flattenedReferences": [] },
+      "agent-forge-agentic-knowledge": { "id": "agent-forge-agentic-knowledge", "deploymentName": "agent-forge-agentic-knowledge", "entrypoint": "SKILL.md", "description": "Agent Forge workflow for agentic-system evaluation, RAG and MCP quality, trace analysis, and evidence-based knowledge retrieval and curation.", "componentSkills": ["evaluate-agentic-systems", "query-knowledge-base"], "flattenedReferences": ["postgres"] }
+    }
+  }
 }
