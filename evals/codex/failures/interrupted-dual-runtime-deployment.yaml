@@ -1,0 +1,4 @@
+schemaVersion: 1
+id: interrupted-dual-runtime-deployment
+fault: Codex installation fails after Copilot files were replaced.
+expect: { deployAllowed: false, diagnostic: AF012, earlierRuntimeRolledBack: true }

@@ -1,0 +1,5 @@
+schemaVersion: 1
+id: backend-developer
+runtime: codex
+prompt: Implement a repository-native API change with tests.
+expect: { sandbox: workspace-write, model: inherit, noDelegation: true }

@@ -1,0 +1,4 @@
+schemaVersion: 1
+id: malformed-toml
+fault: A rendered custom-agent TOML document cannot be parsed.
+expect: { deployAllowed: false, diagnostic: AF001 }

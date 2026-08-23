@@ -1,0 +1,5 @@
+schemaVersion: 1
+id: qa-engineer
+runtime: codex
+prompt: Add regression coverage, execute it, and report exact evidence.
+expect: { sandbox: workspace-write, model: inherit, noDelegation: true }

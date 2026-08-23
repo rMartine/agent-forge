@@ -1,0 +1,5 @@
+schemaVersion: 1
+id: principal-engineer
+runtime: codex
+prompt: Implement and integrate a bounded cross-layer change, then return verification evidence.
+expect: { sandbox: workspace-write, model: inherit, noDelegation: true }

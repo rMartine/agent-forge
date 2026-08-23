@@ -1,0 +1,5 @@
+schemaVersion: 1
+id: agent-forge-engineering
+runtime: codex
+prompt: Select the relevant platform reference, implement a bounded change, and verify it.
+expect: { trigger: true, progressiveDisclosure: true, evidenceRequired: true }

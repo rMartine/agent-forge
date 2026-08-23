@@ -1,0 +1,5 @@
+schemaVersion: 1
+id: software-architect
+runtime: codex
+prompt: Review a proposed service boundary and identify technical risks without editing files.
+expect: { sandbox: read-only, model: inherit, noDelegation: true }

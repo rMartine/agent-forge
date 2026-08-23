@@ -1,0 +1,4 @@
+schemaVersion: 1
+id: duplicate-codex-name
+fault: A selected Codex ID also appears in project .codex/agents.
+expect: { deployAllowed: false, diagnostic: AF002 }

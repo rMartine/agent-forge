@@ -1,0 +1,5 @@
+schemaVersion: 1
+id: codex-infrastructure-work
+prompt: Diagnose local infrastructure and propose a DigitalOcean change.
+expectedAgents: [devops-engineer]
+constraints: { cloudMutationWithoutApproval: false, rollbackRequired: true }

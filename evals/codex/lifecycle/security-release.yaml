@@ -1,0 +1,5 @@
+schemaVersion: 1
+id: codex-security-release
+prompt: Review release risk, verify fixes, and prepare approval-gated operations.
+expectedAgents: [cybersecurity-engineer, qa-engineer, devops-engineer]
+constraints: { securityReadOnly: true, explicitReleaseApproval: true }

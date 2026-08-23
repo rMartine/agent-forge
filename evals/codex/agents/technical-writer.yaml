@@ -1,0 +1,5 @@
+schemaVersion: 1
+id: technical-writer
+runtime: codex
+prompt: Update a runbook and validate every command and link.
+expect: { sandbox: workspace-write, model: inherit, noDelegation: true }

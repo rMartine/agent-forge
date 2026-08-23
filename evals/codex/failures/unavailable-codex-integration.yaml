@@ -1,0 +1,4 @@
+schemaVersion: 1
+id: unavailable-codex-integration
+fault: The Codex IDE integration is unavailable.
+expect: { deployAllowed: false, diagnostic: AF010 }

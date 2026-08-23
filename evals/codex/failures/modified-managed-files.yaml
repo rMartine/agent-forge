@@ -1,0 +1,4 @@
+schemaVersion: 1
+id: modified-managed-files
+fault: A ledger-owned Codex agent was changed after deployment.
+expect: { deployAllowed: false, diagnostic: AF012, preserved: true }

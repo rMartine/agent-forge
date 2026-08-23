@@ -1,0 +1,5 @@
+schemaVersion: 1
+id: codex-product-design
+prompt: Refine a product flow and prepare implementable visual guidance.
+expectedAgents: [ux-engineer, frontend-developer]
+constraints: { accessibilityRequired: true, provenanceRequired: true }

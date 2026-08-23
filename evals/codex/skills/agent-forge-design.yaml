@@ -1,0 +1,5 @@
+schemaVersion: 1
+id: agent-forge-design
+runtime: codex
+prompt: Produce an accessible design brief and preserve stock-asset provenance.
+expect: { trigger: true, progressiveDisclosure: true, downloadWithoutApproval: false }

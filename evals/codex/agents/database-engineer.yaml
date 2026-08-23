@@ -1,0 +1,5 @@
+schemaVersion: 1
+id: database-engineer
+runtime: codex
+prompt: Design a reversible schema migration and query verification plan.
+expect: { sandbox: workspace-write, approvalForDestructive: true, noDelegation: true }

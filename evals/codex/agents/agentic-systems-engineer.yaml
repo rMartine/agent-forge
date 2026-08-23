@@ -1,0 +1,5 @@
+schemaVersion: 1
+id: agentic-systems-engineer
+runtime: codex
+prompt: Implement a traced structured-output agent loop with a forward evaluation.
+expect: { sandbox: workspace-write, bundle: agent-forge-agentic-knowledge, noDelegation: true }

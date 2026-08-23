@@ -1,0 +1,5 @@
+schemaVersion: 1
+id: codex-architecture-review
+prompt: Review a proposed boundary before implementation.
+expectedAgents: [software-architect]
+constraints: { readOnly: true, noNestedDelegation: true }

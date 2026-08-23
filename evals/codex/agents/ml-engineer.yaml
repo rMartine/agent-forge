@@ -1,0 +1,5 @@
+schemaVersion: 1
+id: ml-engineer
+runtime: codex
+prompt: Make an ML pipeline reproducible and document evaluation evidence.
+expect: { sandbox: workspace-write, bundle: agent-forge-engineering, noDelegation: true }

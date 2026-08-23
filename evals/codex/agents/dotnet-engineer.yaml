@@ -1,0 +1,5 @@
+schemaVersion: 1
+id: dotnet-engineer
+runtime: codex
+prompt: Implement and test a .NET library change using repository conventions.
+expect: { sandbox: workspace-write, model: inherit, noDelegation: true }
