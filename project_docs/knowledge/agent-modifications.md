@@ -14,3 +14,13 @@
 - Prohibited autonomous edits to roster definitions, skills, manifest, tools, and governance.
 
 Canonical role source is now exclusively `agents/*.agent.md`. Rendered runtime overlays are never written back to source.
+
+## 2026-08-23 Codex IDE integration
+
+- Preserved the 24 canonical IDs and selected 16 bounded Codex specialist agents.
+- Kept Software Architect and Cybersecurity Engineer read-only; other Codex specialists use workspace-write.
+- Removed delegation from every rendered Codex custom agent and kept lifecycle routing with the primary Codex agent.
+- Rewrote individual source-skill references to five prefixed, progressively disclosed Codex bundles.
+- Discarded Copilot-only tools, handoffs, visibility, invocation, and model fields during TOML rendering.
+- Kept model, MCP, permissions, approvals, global `AGENTS.md`, and personal skills user-owned.
+- Added runtime-separated duplicate detection, immutable deployment plans, state v2, and grouped rollback.

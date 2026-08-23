@@ -3,14 +3,20 @@ import * as path from 'node:path';
 
 const SCAFFOLD_DIRS = ['agents', 'instructions', 'skills', 'config', 'hooks', 'schemas', 'project_docs'];
 const STARTER_MANIFEST = `{
-  "schemaVersion": 2,
-  "platform": "vscode",
+  "schemaVersion": 3,
+  "platforms": ["vscode", "codex"],
   "scope": "user",
   "targets": {
-    "agents": "%USERPROFILE%/.copilot/agents",
-    "instructions": "%USERPROFILE%/.copilot/instructions",
-    "skills": "%USERPROFILE%/.copilot/skills",
-    "hooks": "%USERPROFILE%/.copilot/hooks",
+    "vscode": {
+      "agents": "%USERPROFILE%/.copilot/agents",
+      "instructions": "%USERPROFILE%/.copilot/instructions",
+      "skills": "%USERPROFILE%/.copilot/skills",
+      "hooks": "%USERPROFILE%/.copilot/hooks"
+    },
+    "codex": {
+      "agents": "%USERPROFILE%/.codex/agents",
+      "skills": "%USERPROFILE%/.agents/skills"
+    },
     "state": "%USERPROFILE%/.agent-forge/state.json"
   },
   "capabilityCatalog": "config/capability-catalog.jsonc",
@@ -19,7 +25,8 @@ const STARTER_MANIFEST = `{
   "agents": {},
   "instructions": [],
   "skills": [],
-  "hooks": []
+  "hooks": [],
+  "codex": { "agents": {}, "skillBundles": {} }
 }
 `;
 

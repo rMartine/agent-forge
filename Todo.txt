@@ -1,22 +1,23 @@
-Agent Forge remaining release gates — 2026-08-10
+Agent Forge release gates — 2026-08-23
 
-Completed in codex/vscode-roster-refactor
-- Manifest v2, schemas, current user-profile targets, ownership ledger, atomic deploy, rollback, managed wipe
-- 24 canonical VS Code agents; nine entries; depth-one orchestration; shared handoff contract
-- 17 skills plus specialist references and six scoped instructions
-- Exact capability/model resolution and approved VS Code MCP setup flow
-- CLI and extension adapters with diagnostics and deployment preview
-- Claude identity and conversion removal
-- Package safety tests and agent/skill/lifecycle/failure evaluation fixtures
-- Current architecture, requirements, and remediation documentation
+Completed on codex/codex-ide-integration
+- Manifest v3 dual-runtime contract with 24 canonical agents and a focused 16-agent Codex selection
+- Native Codex TOML rendering with inherited model/MCP/permission policy and exact sandbox modes
+- Five progressively disclosed agent-forge-* Codex skill bundles generated from 17 canonical modules
+- State schema v2, guarded v1 migration, immutable content-bearing plans, grouped atomic transactions
+- Target-aware CLI, extension, status, rollback, managed cleanup, wipe, and PowerShell adapters
+- Duplicate discovery across Copilot, workspace, legacy VS Code, Codex agent, and skill locations
+- Codex agent, bundle, lifecycle, failure, transaction, migration, and confirmation tests
+- Dual-runtime architecture, requirements, contributor guidance, and remediation audit
 
-Required before broad live deployment
-- Configure/authenticate Canva, GitKraken, Docker MCP Toolkit, GitHub, and DigitalOcean in the intended VS Code profile
-- Put the VS Code `code` CLI on PATH for CLI Doctor, or use the extension's VS Code-native version gate
-- Capture the exact installed tool IDs and update candidate mappings where providers expose different names
-- Optionally configure only locally available model profile mappings
-- Run full Doctor and strict Preview with the real VS Code inventory
-- Install into an isolated VS Code profile and confirm zero Chat customization diagnostics
-- Execute the five lifecycle evaluations and seven failure-mode evaluations against the installed roster
-- Keep `npm audit` at zero findings; the unused vulnerable Git dependency and old bundler were removed/upgraded
-- Authorize any live user-profile deployment, provider installation, push, merge, or publication separately
+Required before broad release
+- Complete the exact live --target all preview and verify it contains no unmanaged deletion
+- Preserve hashes for global Codex AGENTS.md and config.toml and the personal .codex/skills inventory
+- Apply the confirmed plan and verify 24 Copilot agents, 16 Codex agents, and five prefixed bundles
+- Confirm both runtime ledgers are synchronized and Copilot reports no duplicate/customization diagnostics
+- Complete Codex IDE smoke delegation to Software Architect, QA Engineer, and Cybersecurity Engineer
+- Run the extension-host suite in the isolated VS Code profile
+- Merge locally to development only after every gate passes
+
+Out of scope without separate authorization
+- Push branches, publish the extension, edit Codex MCP configuration, mutate cloud resources, or delete unmanaged user customizations

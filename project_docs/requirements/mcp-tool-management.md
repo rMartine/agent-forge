@@ -1,5 +1,7 @@
 # MCP and Capability Management
 
+This policy applies to the VS Code Copilot target. Codex custom agents inherit the user's existing MCP configuration; Agent Forge Doctor reports missing families but never edits `~/.codex/config.toml` or secrets.
+
 ## Providers
 
 Logical provider names remain stable: `canva`, `gitkraken`, `docker`, `github`, and `digitalocean`. Direct provider definitions use current VS Code `servers` entries. GitHub and DigitalOcean may be supplied through Docker MCP Toolkit and are therefore diagnosed as manual provider enablement rather than emitted as invalid standalone servers.

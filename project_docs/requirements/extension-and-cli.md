@@ -1,35 +1,35 @@
 # Extension and CLI Requirements
 
-Both adapters import `@agent-forge/core`; neither implements rendering, ownership, transaction, or rollback logic independently.
+Both adapters import `@agent-forge/core`; neither owns rendering, collision policy, state migration, transaction, rollback, or cleanup behavior.
 
 ## CLI surface
 
 ```text
-validate --strict --target vscode
-doctor --profile full [--json]
-preview --scope user --profile full
-deploy --scope user --profile full
-status [--json]
-rollback [--deployment <id>]
-wipe --managed-only --confirm <deployment-id>
+validate --strict --target vscode|codex|all [--json]
+doctor --target vscode|codex|all --profile full [--json]
+preview --target vscode|codex|all --scope user --profile full [--json]
+deploy --target vscode|codex|all --plan <id> --confirm <id>
+status --target vscode|codex|all [--json]
+cleanup --target vscode|codex|all --managed-only [--plan <id> --confirm <id>]
+rollback --target vscode|codex [--deployment <id>]
+wipe --target vscode|codex --managed-only --confirm <active-id>
 mcp setup [--provider <name>] [--preview-only]
 ```
 
-`restore` warns and delegates to rollback for one compatibility release. Destructive operations have no noninteractive bypass.
+`preview` persists a content-bearing plan; JSON output omits rendered bytes. `deploy` loads and applies the exact plan. Calling cleanup without a plan creates and persists its immutable preview; the second invocation applies only when plan and confirmation IDs match.
+
+`restore` remains a deprecated VS Code rollback alias for one compatibility release. There is no noninteractive destructive bypass.
 
 ## Extension surface
 
-The extension requires VS Code `^1.104.0` and exposes Validate, Doctor, Preview, Deploy, Status, Rollback, Wipe, MCP Setup, and Refresh. It publishes core diagnostics into the Problems collection and shows managed file state in the roster tree.
+The extension requires VS Code `^1.104.0`, detects `openai.chatgpt`, and provides:
 
-The extension:
+- dual-runtime Validate, Doctor, Preview, Deploy, Status, Cleanup, and managed file views;
+- Codex-specific Doctor, Preview, Deploy, Status, Cleanup, and Rollback commands;
+- VS Code rollback, managed wipe, and MCP setup;
+- Problems diagnostics from core;
+- a Codex roster view showing 16 selections, sandbox mode, inherited model policy, required bundles, and five bundle entries.
 
-- resolves VS Code Language Model tool names and available chat models;
-- accepts explicit additional exact tool/model IDs in settings;
-- previews before deployment;
-- uses modal or typed confirmation for mutations;
-- never enables nested subagents;
-- never downloads models or Python packages;
-- never rewrites source agent files;
-- has no `autoConfirm` setting.
+Profile mutations require the exact immutable plan/deployment ID typed by the user. Codex deployment is blocked when `openai.chatgpt` is unavailable. MCP setup remains VS Code-only.
 
-Core diagnostics remain authoritative even when a VS Code diagnostics API is unavailable.
+The extension never enables nested subagents, downloads models or Python packages, rewrites source agents, changes Codex MCP configuration, modifies global `AGENTS.md`, or exposes `autoConfirm`.

@@ -10,6 +10,8 @@
 
 **Broad live deployment:** Pending real-profile capability and customization gates
 
+> Dual-runtime follow-up: the Copilot remediation remains intact and is now compiled alongside a focused Codex IDE roster. See [Codex IDE integration remediation](codex-ide-integration-remediation-2026-08-23.md). Cross-runtime IDs are intentionally separate; workspace discovery overrides are removed to prevent duplicate Copilot discovery.
+
 ## Outcome
 
 Agent Forge is now a VS Code-only custom-agent compiler and ownership-aware deployment system. The P0 repository defects in runtime paths, duplicate identity, required nesting, source mutation, divergent installers, and destructive lifecycle behavior are remediated. Broad deployment is still deliberately blocked until the target VS Code profile supplies the five required capability families and reports zero customization errors.

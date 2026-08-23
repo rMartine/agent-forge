@@ -2,32 +2,46 @@
 
 ## Validate
 
-`validateRoster()` checks manifest v2, 24 unique identities, exactly nine entries, explicit depth-one delegation, handoff references, skill structure, instruction `applyTo`, duplicate discoverable definitions, and unsafe self-modification language. Error diagnostics block deployment.
+`validateRoster(repo, { target })` validates manifest v3, all 24 canonical agents, the selected runtime contract, skill structure, instructions, delegation depth, Codex sandbox policy, TOML rendering, bundle references, and discoverable duplicates. Error diagnostics block planning or apply.
 
-## Discover and resolve
+Duplicate discovery covers Copilot user targets and collision ownership, workspace discovery settings, `.github/agents`, `.claude/agents`, legacy VS Code prompts, project `.codex/agents`, repository-chain `.agents/skills`, and legacy/personal `.codex/skills`. The same stable ID in Copilot and Codex is valid.
 
-`discoverVsCodeEnvironment()` verifies VS Code 1.104+, resolves user targets, and accepts exact available tool and model inventories. Capability and model policy resolution operates on deployed copies only. Required missing tools produce `AF004`; unavailable configured models inherit unless a required model policy is introduced.
+## Discover
+
+`discoverRuntimeEnvironment(target)` routes to VS Code or Codex discovery. VS Code verifies 1.104+ and exact tool/model inventories. Codex resolves `CODEX_HOME` or `~/.codex`, the `~/.agents/skills` target, and integration readiness without modifying configuration.
 
 ## Preview
 
-`createDeploymentPlan()` renders all artifacts and hashes the exact bytes that would be installed. Preview is immutable and performs no user-profile mutation. The same plan contract is consumed by deployment.
+`createDeploymentPlan(repo, { target })` renders the exact selected artifacts, records source commit and hashes, detects collisions and modified managed targets, and includes stale managed cleanup actions. `saveDeploymentPlan()` stores rendered bytes. Apply consumes that stored plan; it does not regenerate.
+
+`createCleanupPlan()` contains only unchanged, stale, ledger-owned paths. Unmanaged duplicates are diagnostics, never cleanup actions.
 
 ## Deploy
 
-`applyDeploymentPlan()` refuses errors and unmanaged collisions, writes temporary sibling files, uses atomic replacement, backs up only replaced managed targets, and records source/deployed hashes in `~/.agent-forge/state.json`. A failed transaction restores every file touched by that transaction.
+`applyDeploymentPlan()`:
 
-## Status
+1. rejects any error diagnostic;
+2. preflights every runtime and every cleanup action;
+3. backs up all touched paths under the deployment ID;
+4. writes sibling temporary files and renames them;
+5. removes stale managed files only after hash verification;
+6. rolls back all earlier runtime changes on failure;
+7. writes state v2 only after the grouped transaction succeeds.
 
-`getDeploymentStatus()` compares current target hashes with the active ownership ledger and reports `synced`, `out-of-sync`, or `not-deployed`.
+## State migration
 
-## Rollback
+State v1 is inferred as VS Code only when every owned path is under `.copilot`. Any ambiguous path fails with `AF012`. The v1 ledger is copied to `state.v1.backup.json` before state v2 is persisted.
 
-`rollbackDeployment()` restores the selected recorded deployment's prior managed state. Modified or missing current files are preserved and diagnosed. Rollback never reads arbitrary content from Git `HEAD`.
+State v2 tracks independent active deployments for `vscode` and `codex`, runtime-tagged artifacts, exact deployed hashes, source commit, and backups.
 
-## Wipe
+## Status, rollback, cleanup, and wipe
 
-`removeManagedDeployment()` removes or restores only files whose current hashes still match the active ledger. Modified and unmanaged files survive. CLI wipe requires `--managed-only` and the exact active deployment ID.
+`getDeploymentStatus(repo, { target })` reports each runtime independently.
+
+`rollbackDeployment(state, runtime, id)` restores the prior version for that runtime and restores stale files removed by the selected deployment. Modified current files are preserved.
+
+`applyCleanupPlan()` applies only an exact immutable cleanup plan and updates the active ledger. `removeManagedDeployment(state, runtime)` removes/restores only unchanged managed files. Neither operation deletes unmanaged content.
 
 ## Approval boundaries
 
-Production, cloud, release, push, provider installation, rollback, and wipe operations require explicit user confirmation. No auto-confirm setting or flag exists.
+Immutable plan ID confirmation is required for deploy and cleanup; active deployment ID confirmation is required for wipe and extension rollback. Production, cloud, release, push, provider installation, downloads, and destructive operations require the user's separate approval. No auto-confirm flag or setting exists.

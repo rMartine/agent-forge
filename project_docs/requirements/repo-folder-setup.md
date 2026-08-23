@@ -7,8 +7,8 @@ The optional core `scaffoldRepo()` operation creates a neutral starter structure
 Required canonical directories for this repository are:
 
 ```text
-agents/        canonical VS Code custom agents
-skills/        Agent Skills
+agents/        canonical cross-runtime agent sources
+skills/        canonical runtime-neutral workflow modules
 instructions/  scoped instruction files
 config/        capability/model/provider catalogs
 schemas/       JSON contracts
@@ -18,4 +18,4 @@ packages/      core, CLI, extension
 project_docs/  requirements, architecture, audits, knowledge
 ```
 
-Development-only source discovery is configured in `.vscode/settings.json`; installed user artifacts are always resolved from manifest targets.
+Canonical source discovery is intentionally not configured in `.vscode/settings.json`; installed user artifacts are resolved only from manifest targets. Scaffolding generates `AGENTS.md`, Copilot instructions, or both only from explicit runtime intent.
