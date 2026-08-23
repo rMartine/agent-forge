@@ -10,5 +10,5 @@ description: Perform safe Git history, staging, commit, branch, issue, pull-requ
 3. Review the staged diff, run whitespace checks, and scan for secrets and generated artifacts.
 4. Use coherent Conventional Commits unless the repository defines a stricter convention.
 5. Treat push, merge, PR creation, release, branch deletion, and force operations as separately authorized external actions.
-6. Prefer read-only GitKraken and GitHub tools for discovery.
+6. Prefer read-only source-control capabilities for discovery and use GitKraken or GitHub integrations only when they are actually available.
 7. Never rewrite published history or force-push.
