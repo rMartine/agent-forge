@@ -10,14 +10,17 @@ Completed on codex/codex-ide-integration
 - Codex agent, bundle, lifecycle, failure, transaction, migration, and confirmation tests
 - Dual-runtime architecture, requirements, contributor guidance, and remediation audit
 
-Required before broad release
-- Complete the exact live --target all preview and verify it contains no unmanaged deletion
-- Preserve hashes for global Codex AGENTS.md and config.toml and the personal .codex/skills inventory
-- Apply the confirmed plan and verify 24 Copilot agents, 16 Codex agents, and five prefixed bundles
-- Confirm both runtime ledgers are synchronized and Copilot reports no duplicate/customization diagnostics
-- Complete Codex IDE smoke delegation to Software Architect, QA Engineer, and Cybersecurity Engineer
-- Run the extension-host suite in the isolated VS Code profile
-- Merge locally to development only after every gate passes
+Completed release gates
+- Inspected immutable target-all plan 2026-08-23T21-29-41-905Z-f6bab6; it contained no unmanaged deletion, diagnostics, duplicate targets, or forbidden paths
+- Preserved the global Codex AGENTS.md and config.toml hashes and all 54 personal .codex/skills
+- Applied the exact plan and verified 24 unique Copilot agents, 16 Codex agents, and five prefixed bundles
+- Confirmed both runtime ledgers are synchronized and strict dual-runtime validation reports no diagnostics
+- Completed fresh-process Codex smoke delegation to Software Architect, QA Engineer, and Cybersecurity Engineer
+- Passed npm ci, build, all package tests, PowerShell AST parsing, and the isolated VS Code 1.104.0 extension-host suite
+- Archived 26 unmanaged legacy VS Code prompt duplicates in a recoverable profile backup
+
+Final integration gate
+- Merge locally to development with --no-ff after committing this deployment evidence
 
 Out of scope without separate authorization
 - Push branches, publish the extension, edit Codex MCP configuration, mutate cloud resources, or delete unmanaged user customizations

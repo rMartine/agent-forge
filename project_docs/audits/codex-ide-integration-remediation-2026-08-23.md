@@ -84,10 +84,23 @@ Canonical source skills remain independently deployable to Copilot. Codex bundle
 
 ## Verification evidence
 
-- Core build and 33 tests pass, including manifest v3, native TOML, 16/5 output, duplicate discovery, state migration, grouped rollback, immutable plan round-trip, collision, and modified-file preservation.
+- Core build and 34 tests pass, including manifest v3, native TOML, 16/5 output, duplicate discovery, state migration, grouped rollback, immutable plan round-trip, collision, modified-file preservation, and Windows line-ending stability.
 - CLI build and seven tests pass, including target selection and destructive confirmation enforcement.
-- Extension build, test-host TypeScript compilation, and extension manifest tests pass.
+- Extension build, test-host TypeScript compilation, extension manifest tests, and the isolated VS Code 1.104.0 extension-host suite pass.
 - PowerShell wrappers pass AST parsing.
 - Evaluation coverage exists for all 24 Copilot agents, all 17 source skills, all 16 Codex agents, all five bundles, six Codex lifecycles, and seven Codex failure modes.
 
-Live deployment evidence is appended only after an exact `--target all` plan is inspected and applied. Publishing, pushing, provider configuration, and unmanaged cleanup remain out of scope.
+## Live deployment evidence
+
+- Immutable plan: `2026-08-23T21-29-41-905Z-f6bab6` at source commit `3f1a89c9773356c82f0e8024f8beefcaea321aa2`.
+- The plan contained 105 artifacts: 57 Copilot artifacts and 48 Codex artifacts. It contained zero cleanup actions, diagnostics, duplicate targets, forbidden paths, or rendered-content hash mismatches.
+- Pre-apply comparison found 51 byte-identical Copilot artifacts, six intentionally refined Copilot skill entrypoints, and 48 new Codex artifacts.
+- Apply changed or created 54 files, skipped the 51 byte-identical files, and reported zero failures.
+- Post-apply verification found zero plan-to-profile hash mismatches. Both `vscode` and `codex` state-v2 active deployment pointers reference the immutable plan and report `synced`.
+- Copilot has 24 agent files and 24 unique IDs. Codex has 16 TOML agents, exactly two read-only agents, 14 workspace-write agents, no model pins, and only the four native fields.
+- `.agents/skills` contains only the five prefixed Agent Forge bundles. All 54 pre-existing personal `.codex/skills` remain present.
+- Global `AGENTS.md` remains SHA-256 `1FD06962B2AF7BE360FB7096E5D9F52C67DBDFBD7BBFCE02B6360B9A6D42C831`; `config.toml` remains SHA-256 `9BC44B27A543DE9DDE36E9FCF303166EF0EB4C3670EC1FC7C263480E1B643C6A`.
+- Twenty-six unmanaged legacy VS Code prompt artifacts were moved to the recoverable archive `.agent-forge/legacy-prompts-backup/2026-08-23-dual-runtime-refactor`; the live legacy prompt directory is empty.
+- A fresh Codex v0.149.0 read-only process detected all five bundles and successfully invoked `software-architect`, `qa-engineer`, and `cybersecurity-engineer`. Pre-existing MCP shutdown warnings were observed, but no MCP or secret configuration was changed.
+
+Publishing, pushing, provider configuration, and deletion of unmanaged user customizations remain out of scope.
