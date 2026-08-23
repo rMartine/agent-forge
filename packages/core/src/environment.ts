@@ -3,7 +3,8 @@ import * as os from 'node:os';
 import * as path from 'node:path';
 import { promisify } from 'node:util';
 import { diagnostic } from './diagnostics.js';
-import type { DeploymentTargets, VsCodeEnvironment } from './types.js';
+import type { DeploymentTargets, RuntimeTarget, VsCodeEnvironment } from './types.js';
+import { discoverCodexEnvironment } from './codex.js';
 
 const execFileAsync = promisify(execFile);
 
@@ -53,4 +54,11 @@ export async function discoverVsCodeEnvironment(options: {
     targets,
     diagnostics,
   };
+}
+
+export async function discoverRuntimeEnvironment(target: RuntimeTarget, options: {
+  codeCommand?: string;
+  env?: NodeJS.ProcessEnv;
+} = {}) {
+  return target === 'vscode' ? discoverVsCodeEnvironment(options) : discoverCodexEnvironment({ env: options.env });
 }

@@ -64,3 +64,48 @@ test('unmanaged target collision blocks deployment without overwriting it', asyn
     assert.equal(result.diagnostics.some(item => item.code === 'AF009'), true);
   } finally { await rm(root, { recursive: true, force: true }); }
 });
+
+test('grouped dual-runtime failure rolls back the earlier runtime', async () => {
+  const root = await mkdtemp(path.join(os.tmpdir(), 'agent-forge-grouped-'));
+  try {
+    const vscodeTarget = path.join(root, '.copilot', 'agents', 'one.md');
+    const blockingParent = path.join(root, 'blocking-parent');
+    await writeFile(blockingParent, 'not a directory');
+    const one = Buffer.from('one');
+    const two = Buffer.from('two');
+    const result = await applyDeploymentPlan({
+      deploymentId: 'grouped', repoPath: root, createdAt: new Date().toISOString(), targets: ['vscode', 'codex'],
+      diagnostics: [], cleanupActions: [],
+      artifacts: [
+        { runtime: 'vscode', id: 'one', type: 'agent', sourcePath: 'one', targetPath: vscodeTarget, content: one, sourceHash: hashBuffer(one) },
+        { runtime: 'codex', id: 'two', type: 'agent', sourcePath: 'two', targetPath: path.join(blockingParent, 'two.toml'), content: two, sourceHash: hashBuffer(two) },
+      ],
+    }, path.join(root, 'state.json'));
+    assert.equal(result.success, false);
+    await assert.rejects(access(vscodeTarget), /ENOENT/);
+  } finally { await rm(root, { recursive: true, force: true }); }
+});
+
+test('redeployment blocks a modified managed file', async () => {
+  const root = await mkdtemp(path.join(os.tmpdir(), 'agent-forge-modified-'));
+  try {
+    const target = path.join(root, '.codex', 'agents', 'worker.toml');
+    const state = path.join(root, 'state.json');
+    const first = Buffer.from('first');
+    const plan = {
+      deploymentId: 'first', repoPath: root, createdAt: new Date().toISOString(), targets: ['codex'],
+      diagnostics: [], cleanupActions: [],
+      artifacts: [{ runtime: 'codex', id: 'worker', type: 'agent', sourcePath: 'source', targetPath: target, content: first, sourceHash: hashBuffer(first) }],
+    };
+    assert.equal((await applyDeploymentPlan(plan, state)).success, true);
+    await writeFile(target, 'user change');
+    const second = Buffer.from('second');
+    const result = await applyDeploymentPlan({
+      ...plan, deploymentId: 'second',
+      artifacts: [{ ...plan.artifacts[0], content: second, sourceHash: hashBuffer(second) }],
+    }, state);
+    assert.equal(result.success, false);
+    assert.equal(result.diagnostics.some(item => item.code === 'AF012'), true);
+    assert.equal(await readFile(target, 'utf8'), 'user change');
+  } finally { await rm(root, { recursive: true, force: true }); }
+});

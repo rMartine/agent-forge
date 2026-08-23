@@ -15,7 +15,7 @@ test('deployment ledger records the complete rendered hash', async () => {
       { id: 'item', type: 'instruction', sourcePath: 'source', targetPath: target, content, sourceHash: hashBuffer(content) },
     ] }, statePath);
     const state = await loadDeploymentState(statePath);
-    assert.equal(state.activeDeploymentId, 'status-id');
+    assert.equal(state.activeDeployments.vscode, 'status-id');
     assert.equal(state.deployments[0].artifacts[0].deployedHash, hashBuffer(content));
     await writeFile(target, 'user change');
     assert.equal(await readFile(target, 'utf8'), 'user change');
