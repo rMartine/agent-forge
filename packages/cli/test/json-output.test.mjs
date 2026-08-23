@@ -14,3 +14,9 @@ test('validate JSON output is machine-readable', () => {
   assert.equal(parsed.valid, true);
   assert.deepEqual(parsed.diagnostics, []);
 });
+
+test('Codex validation JSON reports the focused roster as valid', () => {
+  const result = spawnSync(process.execPath, [path.join(packageRoot, 'dist', 'index.js'), '--repo', repo, 'validate', '--strict', '--target', 'codex', '--json'], { encoding: 'utf8' });
+  assert.equal(result.status, 0, result.stderr || result.stdout);
+  assert.equal(JSON.parse(result.stdout).valid, true);
+});

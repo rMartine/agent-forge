@@ -7,7 +7,7 @@ export function registerRestore(program: Command): void {
     .action(async () => {
       console.warn('restore is deprecated; use rollback.');
       if (!await confirm('Roll back the active Agent Forge deployment?')) return;
-      const result = await restore(repoPath(program));
+      const result = await restore(repoPath(program), undefined, 'vscode');
       printDiagnostics(result.diagnostics);
       if (!result.success) process.exitCode = 1;
     });
