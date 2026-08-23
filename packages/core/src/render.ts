@@ -31,5 +31,6 @@ export function renderAgent(
   );
   const model = runtime.model;
   frontmatter = replaceScalar(frontmatter, 'model', model ? (Array.isArray(model) ? yamlArray(model) : JSON.stringify(model)) : undefined);
-  return `---\n${frontmatter.trim()}\n---\n${source.slice(match[0].length)}`;
+  const normalized = `---\n${frontmatter.trim()}\n---\n${source.slice(match[0].length)}`.replace(/\r\n/g, '\n');
+  return normalized.endsWith('\n') ? `${normalized.slice(0, -1)}\r\n` : normalized;
 }

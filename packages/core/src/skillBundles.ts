@@ -4,7 +4,7 @@ import type { CodexSkillBundleEntry, DeploymentManifestV3 } from './types.js';
 import { resolveRepoFilePath } from './paths.js';
 
 function stripFrontmatter(source: string): string {
-  return source.replace(/^---\r?\n[\s\S]*?\r?\n---\r?\n?/, '').trim();
+  return source.replace(/^---\r?\n[\s\S]*?\r?\n---\r?\n?/, '').trim().replace(/\r\n/g, '\n');
 }
 
 export function codexSkillMap(manifest: DeploymentManifestV3): Map<string, string> {
@@ -61,7 +61,7 @@ export async function renderCodexSkillBundle(
         if (!entry.isFile()) continue;
         const sourcePath = path.join(referencesPath, entry.name);
         const targetName = `${skillId}--${entry.name}`;
-        let reference = await readFile(sourcePath, 'utf8');
+        let reference = (await readFile(sourcePath, 'utf8')).replace(/\r\n/g, '\n');
         reference = rewriteCodexSkillReferences(reference, mapping);
         files.push({ relativePath: path.join('references', targetName), sourcePath, content: Buffer.from(reference) });
       }

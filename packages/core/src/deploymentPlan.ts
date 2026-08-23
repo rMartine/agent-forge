@@ -66,6 +66,11 @@ function artifact(
   return { runtime, id, type, sourcePath, targetPath, content, sourceHash: hashBuffer(content) };
 }
 
+async function readNormalizedText(filePath: string): Promise<Buffer> {
+  const normalized = (await readFile(filePath, 'utf8')).replace(/\r\n/g, '\n');
+  return Buffer.from(normalized.endsWith('\n') ? `${normalized.slice(0, -1)}\r\n` : normalized);
+}
+
 async function sourceCommit(repoPath: string): Promise<string | undefined> {
   try {
     const result = await execFileAsync('git', ['rev-parse', 'HEAD'], { cwd: repoPath, windowsHide: true, timeout: 5_000 });
@@ -110,17 +115,17 @@ export async function createDeploymentPlan(
 
     for (const instruction of manifest.instructions) {
       const sourcePath = resolveRepoFilePath(repoPath, instruction.source);
-      artifacts.push(artifact('vscode', instruction.id, 'instruction', sourcePath, path.join(instructionTarget, path.basename(sourcePath)), await readFile(sourcePath)));
+      artifacts.push(artifact('vscode', instruction.id, 'instruction', sourcePath, path.join(instructionTarget, path.basename(sourcePath)), await readNormalizedText(sourcePath)));
     }
     for (const hook of manifest.hooks) {
       const sourcePath = resolveRepoFilePath(repoPath, hook.source);
-      artifacts.push(artifact('vscode', hook.id, 'hook', sourcePath, path.join(hookTarget, path.basename(sourcePath)), await readFile(sourcePath)));
+      artifacts.push(artifact('vscode', hook.id, 'hook', sourcePath, path.join(hookTarget, path.basename(sourcePath)), await readNormalizedText(sourcePath)));
     }
     for (const skill of manifest.skills) {
       const sourceRoot = resolveRepoFilePath(repoPath, skill.source);
       for (const sourcePath of await collectFiles(sourceRoot)) {
         const relative = path.relative(sourceRoot, sourcePath);
-        artifacts.push(artifact('vscode', `${skill.id}/${relative.replaceAll('\\', '/')}`, 'skill', sourcePath, path.join(skillTarget, skill.id, relative), await readFile(sourcePath)));
+        artifacts.push(artifact('vscode', `${skill.id}/${relative.replaceAll('\\', '/')}`, 'skill', sourcePath, path.join(skillTarget, skill.id, relative), await readNormalizedText(sourcePath)));
       }
     }
   }

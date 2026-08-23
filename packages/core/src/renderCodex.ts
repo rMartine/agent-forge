@@ -18,7 +18,7 @@ function parseSource(source: string): { name: string; description: string; body:
   if (document.errors.length > 0) throw new Error(document.errors.map(item => item.message).join('; '));
   const data = document.toJS() as Record<string, unknown>;
   if (typeof data.name !== 'string' || typeof data.description !== 'string') throw new Error('Canonical agent requires name and description');
-  return { name: data.name, description: data.description, body: source.slice(match[0].length).trim() };
+  return { name: data.name, description: data.description, body: source.slice(match[0].length).trim().replace(/\r\n/g, '\n') };
 }
 
 export function renderCodexAgent(

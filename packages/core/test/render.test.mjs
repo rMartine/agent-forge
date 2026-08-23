@@ -24,6 +24,18 @@ test('render injects tools and visibility without mutating body', () => {
   assert.doesNotMatch(rendered, /^model:/m);
 });
 
+test('VS Code rendering is byte-stable across Windows line endings', () => {
+  const source = '---\r\nname: worker\r\ndescription: Test\r\ntools: []\r\n---\r\n# Worker\r\nBody\r\n';
+  const agent = {
+    id: 'worker', source: 'worker', visibility: 'worker', capabilityProfile: 'implementation',
+    modelProfile: 'coding', requiredSkills: [], optionalSkills: [], allowedSubagents: [], handoffs: [],
+    requiredCapabilities: [], optionalCapabilities: [],
+  };
+  const rendered = renderAgent(source, agent, { tools: ['read'], missingRequiredCapabilities: [], missingOptionalCapabilities: [] });
+  assert.equal((rendered.match(/\r\n/g) ?? []).length, 1);
+  assert.equal(rendered.endsWith('\r\n'), true);
+});
+
 test('Codex renderer emits only native fields and inherited model policy', async () => {
   const manifest = await loadManifest(repo);
   const entry = manifest.codex.agents['software-architect'];
