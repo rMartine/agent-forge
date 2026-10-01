@@ -15,6 +15,8 @@ The Copilot roster retains nine visible lifecycle agents and fifteen hidden work
 
 ## Build and verify
 
+Los siguientes comandos son la secuencia documentada para preparar y realizar la verificación completa del proyecto desde su raíz. El asistente debe usar las actividades que correspondan al cambio autorizado y a las condiciones vigentes de integración o lanzamiento. La existencia de esta secuencia no exige instalar dependencias ni ejecutar todos sus comandos para cada edición o commit.
+
 ```powershell
 npm ci
 npm run build

@@ -86,7 +86,7 @@ Prompt restrictions are not an authorization boundary. Provider OAuth/scopes, Co
 - Software Architect and Cybersecurity Engineer are Codex read-only.
 - Other Codex specialists are workspace-write and inherit parent policy.
 - Codex custom agents cannot delegate.
-- Cloud, production, push, release, downloads, control actions, and destructive operations remain approval-gated.
+- Cuando una acción de nube, producción, publicación remota, lanzamiento, descarga, control de un servicio o eliminación tenga efectos externos, el asistente debe comprobar que la autorización vigente cubre esa acción y su destino, y respetar los permisos y las políticas de la plataforma. Debe solicitar aprobación sólo cuando falte una autorización requerida para la acción concreta; no debe tratar una autorización suficiente ya vigente como si hubiera caducado por avanzar al siguiente paso.
 - Agent Forge never edits Codex MCP configuration or stores secret values.
 
 ## Release gates

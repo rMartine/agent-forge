@@ -11,7 +11,7 @@ Logical provider names remain stable: `canva`, `gitkraken`, `docker`, `github`, 
 1. Load `config/mcp-providers.jsonc`.
 2. Detect command readiness and manual/OAuth requirements.
 3. Produce a provider-by-provider preview.
-4. Request explicit approval for each addable provider.
+4. Para cada proveedor que pueda añadirse, el asistente debe comprobar que la autorización vigente de Roberto cubre añadir ese proveedor y su destino. Si ya lo cubre, continúa conforme al protocolo de la herramienta; si no, solicita aprobación explícita para ese proveedor antes de añadirlo. Las interacciones de confianza o autenticación que la interfaz exija deben respetarse y no equivalen por sí solas a una nueva autorización del encargo.
 5. Merge via the official `code --add-mcp` interface.
 6. Leave trust and OAuth prompts to VS Code.
 7. Refresh the tool inventory through VS Code or configured exact IDs.

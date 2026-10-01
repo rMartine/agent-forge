@@ -8,7 +8,7 @@
 - Hash-based ownership; unmanaged and modified files are preserved.
 - Backups and state are isolated under `~/.agent-forge`.
 - No secret values, credentials, real environment files, or provider tokens in source/state.
-- No autonomous roster, skill, tool, manifest, or governance self-modification.
+- La ejecución de Agent Forge no debe modificar por iniciativa propia el conjunto de agentes, los procedimientos reutilizables, las herramientas, el manifiesto ni las instrucciones que gobiernan el producto. Esta condición describe el comportamiento del producto; no impide al asistente realizar cambios de mantenimiento en esas fuentes cuando formen parte de un encargo autorizado de Roberto. Un encargo de mantenimiento no autoriza por sí mismo una operación de instalación en el entorno personal.
 
 ## Compatibility
 
