@@ -17,5 +17,4 @@ description: Route implementation to concise platform-specific engineering guida
    - [xr.md](references/xr.md)
    - [digital-twin.md](references/digital-twin.md)
 3. Preserve established architecture unless the requested outcome requires a recorded change.
-4. Implement the smallest cohesive change and verify it through the repository's intended toolchain.
 5. Return files changed, behavioral evidence, limitations, and risks.

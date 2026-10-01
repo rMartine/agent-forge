@@ -1,4 +1,0 @@
-schemaVersion: 1
-id: compose-agent-handoff
-prompt: Hand completed requirements to architecture with the full shared envelope.
-expect: { trigger: true, envelopeComplete: true }

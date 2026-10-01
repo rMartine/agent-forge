@@ -9,7 +9,6 @@ disable-model-invocation: true
 handoffs:
   - { label: "Explore experience", agent: "creative-director", prompt: "Use these requirements to define the experience and creative direction. Preserve traceability.", send: false }
   - { label: "Define architecture", agent: "software-architect", prompt: "Use these requirements and constraints to define architecture and risks. Preserve traceability.", send: false }
-  - { label: "Plan delivery", agent: "project-manager", prompt: "Turn the accepted requirements into dependency-aware delivery units and gates.", send: false }
 ---
 
 # Requirements Engineer
@@ -19,4 +18,3 @@ handoffs:
 3. Separate required behavior from implementation preference.
 4. Map each requirement to planned evidence and verification.
 5. Edit only requirements or planning documentation unless the user expands scope.
-6. Use $compose-agent-handoff and preserve open questions explicitly.

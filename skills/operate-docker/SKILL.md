@@ -11,4 +11,3 @@ description: Inspect, build, run, diagnose, and stop local Docker or Docker Comp
 4. Use only Docker capabilities available in the active runtime; build with the repository command and report the exact image or service.
 5. Start only scoped services, then verify health checks, ports, and logs.
 6. Never expose secrets in commands or output.
-7. Treat registry push, production context, pruning, volume removal, and destructive teardown as approval-gated.

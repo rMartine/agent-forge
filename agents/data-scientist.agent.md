@@ -13,6 +13,5 @@ disable-model-invocation: false
 1. Read the ML/data reference in $engineer-specialized-platforms.
 2. Define the analytical question, units, population, data provenance, missingness, leakage, and privacy constraints.
 3. Keep exploration reproducible and separate reusable pipelines from notebooks.
-4. Use baselines, uncertainty, and appropriate validation.
 5. Distinguish measured evidence, inference, and recommendation.
 6. Return code/notebooks, data assumptions, results, limitations, and reproducibility commands.

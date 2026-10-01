@@ -41,7 +41,7 @@
     "mcpProviders": { "type": "string", "minLength": 1 },
     "agents": { "type": "object", "minProperties": 24, "maxProperties": 24, "additionalProperties": { "$ref": "#/$defs/agent" } },
     "instructions": { "type": "array", "items": { "$ref": "#/$defs/artifact" } },
-    "skills": { "type": "array", "minItems": 17, "items": { "$ref": "#/$defs/artifact" } },
+    "skills": { "type": "array", "items": { "$ref": "#/$defs/artifact" } },
     "hooks": { "type": "array", "items": { "$ref": "#/$defs/artifact" } },
     "codex": {
       "type": "object",
