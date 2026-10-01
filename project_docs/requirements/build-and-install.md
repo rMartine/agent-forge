@@ -11,6 +11,8 @@ Codex agents inherit the user's model, MCP, permissions, sandbox, and approval p
 
 ## Reproducible verification
 
+Los siguientes comandos son la secuencia documentada para preparar y realizar la verificación completa del proyecto desde su raíz. El asistente debe usar las actividades que correspondan al cambio autorizado y a las condiciones vigentes de integración o lanzamiento. La existencia de esta secuencia no exige instalar dependencias ni ejecutar todos sus comandos para cada edición o commit.
+
 ```powershell
 npm ci
 npm run build
@@ -57,14 +59,16 @@ Cleanup considers stale ledger-owned files only. Rollback and wipe compare curre
 
 ## Live profile verification
 
-Before approval:
+Este procedimiento documenta una instalación sobre un perfil real; no es una preparación obligatoria para mantener el repositorio. El asistente debe contar con autorización vigente para aplicar el plan concreto y respetar la interacción que exija la herramienta. Los pasos 1 a 3 se realizan antes de aplicar; el paso 4 sólo se realiza cuando la operación está autorizada; los pasos 5 a 7 son observaciones posteriores.
 
-1. hash `~/.codex/AGENTS.md` and `~/.codex/config.toml`;
-2. inventory existing `~/.codex/skills`, `~/.codex/agents`, and `~/.agents/skills`;
-3. inspect all plan cleanup actions;
-4. apply the exact confirmed plan;
-5. verify 24 Copilot agents, 16 Codex agents, and five prefixed Codex bundles;
-6. verify state reports both runtimes synchronized;
-7. confirm the protected hashes and personal skill inventory are unchanged.
+1. Antes de aplicar, el asistente calcula los hashes de ~/.codex/AGENTS.md y ~/.codex/config.toml.
+2. Antes de aplicar, el asistente obtiene el inventario existente de ~/.codex/skills, ~/.codex/agents y ~/.agents/skills.
+3. Antes de aplicar, el asistente inspecciona todas las acciones de limpieza del plan.
+4. Cuando la autorización vigente cubra la aplicación del plan concreto y se haya cumplido el protocolo de la herramienta, el asistente aplica exactamente ese plan confirmado.
+5. Después de aplicar, el asistente verifica 24 agentes Copilot, 16 agentes Codex y cinco paquetes Codex con prefijo.
+6. Después de aplicar, el asistente observa si el estado informa que ambos entornos están sincronizados, conforme al plan aplicado y la operación autorizada.
+7. Después de aplicar, el asistente confirma que los hashes protegidos y el inventario de procedimientos personales no cambiaron.
 
-Publishing the extension, pushing Git branches, provider installation, cloud mutation, or deletion of unmanaged files requires separate authorization.
+Si la autorización no cubre aplicar el plan, la preparación no debe incluir esa aplicación. Autorizar una instalación no autoriza por sí mismo otras operaciones externas ni la eliminación de archivos no administrados; el asistente debe comprobar si el encargo incluye expresamente esas otras acciones.
+
+Antes de publicar la extensión, publicar ramas de Git, instalar proveedores, modificar recursos de nube o eliminar archivos no administrados, el asistente debe comprobar que Roberto autorizó expresamente esa acción, sus efectos y su destino. Si la autorización vigente ya los cubre, no debe pedirla de nuevo. Si no los cubre, debe solicitar únicamente la autorización pendiente antes de realizar esa acción. La autorización de una instalación de Agent Forge no autoriza por sí misma las otras acciones de esta enumeración.

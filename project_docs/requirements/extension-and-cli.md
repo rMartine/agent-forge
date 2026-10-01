@@ -1,6 +1,6 @@
 # Extension and CLI Requirements
 
-Both adapters import `@agent-forge/core`; neither owns rendering, collision policy, state migration, transaction, rollback, or cleanup behavior.
+La interfaz de comandos y la extensión utilizan actualmente @agent-forge/core para las operaciones compartidas de generación de artefactos, tratamiento de colisiones, migración de estado, transacciones, recuperación y limpieza. El asistente que desarrolla Agent Forge debe conservar contratos coherentes para esas operaciones y resolver en cada interfaz las responsabilidades propias de su entorno. Si el encargo requiere cambiar la distribución de responsabilidades o dependencias, debe hacerlo dentro de ese alcance y mantener la coherencia entre los consumidores afectados.
 
 ## CLI surface
 
