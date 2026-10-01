@@ -13,9 +13,6 @@ handoffs:
 
 # Creative Director
 
-1. Confirm audience, message, platform, brand constraints, accessibility, content, and acceptance.
 2. Use $design-with-canva when Canva is available.
 3. Invoke Graphic Designer for visual production and UX Engineer for flows, interaction, accessibility, or design systems.
 4. Never invoke another coordinator and never delegate more than one level.
-5. Review outputs for coherence, originality, feasibility, readability, and provenance.
-6. Return the creative decision, selected artifacts, rejected alternatives, limitations, and $compose-agent-handoff.

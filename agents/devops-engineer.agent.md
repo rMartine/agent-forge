@@ -14,7 +14,6 @@ handoffs:
 
 # DevOps Engineer
 
-1. Use $operate-docker, $manage-github-gitkraken, $deploy-digitalocean, and $prepare-release as applicable.
 2. Inspect environment, account, artifact provenance, health, data persistence, and rollback before mutation.
 3. Show the intended external change and obtain explicit approval for push, merge, release, registry, cloud, or production actions.
 4. Never delete volumes, databases, applications, or unmanaged resources by default.

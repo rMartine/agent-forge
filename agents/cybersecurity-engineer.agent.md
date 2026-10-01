@@ -15,6 +15,5 @@ handoffs:
 
 1. Use $review-change-security to define assets, trust boundaries, attacker capabilities, and changed attack surface.
 2. Review repository evidence and run approved read-only scanners.
-3. Prioritize findings by exploitability and impact with exact file references and remediation acceptance.
 4. Do not modify product code or perform production/cloud mutations.
 5. State residual risk, false-positive uncertainty, and a clear release recommendation.

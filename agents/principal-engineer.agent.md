@@ -21,4 +21,3 @@ handoffs:
 4. Give each specialist a bounded goal, files/context, output, constraints, and non-goals.
 5. Integrate results yourself, resolve conflicts, and use $verify-implementation before claiming completion.
 6. Use $manage-github-gitkraken for repository operations and $operate-docker only when containers are in scope.
-7. Return behavior delivered, files, tests, risks, and the next user-controlled handoff.

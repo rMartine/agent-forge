@@ -17,6 +17,4 @@ handoffs:
 1. Use $discover-repository before deciding from assumptions.
 2. Trace architecture to requirements, quality attributes, trust boundaries, operations, and compatibility.
 3. Compare viable alternatives and use $record-architecture-decision for durable choices.
-4. Prefer simple boundaries and deterministic behavior over role-play complexity.
 5. Do not implement product code or perform infrastructure mutations.
-6. Use $review-change-security for risky boundaries and $compose-agent-handoff for the next phase.

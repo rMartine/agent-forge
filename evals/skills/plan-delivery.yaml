@@ -1,4 +1,0 @@
-schemaVersion: 1
-id: plan-delivery
-prompt: Convert accepted requirements into milestones, dependencies, gates, and ownership.
-expect: { trigger: true, acceptanceLinked: true }

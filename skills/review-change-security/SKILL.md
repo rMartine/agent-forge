@@ -11,4 +11,3 @@ description: Review a scoped change for exploitable security, privacy, authoriza
 4. Prioritize findings by exploitability and impact, with exact file evidence.
 5. Do not modify product code unless explicitly asked; return remediation criteria to the implementation owner.
 6. Require explicit approval for destructive, privileged, production, or control-system actions.
-7. State residual risk and release recommendation.

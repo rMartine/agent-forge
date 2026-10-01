@@ -11,4 +11,3 @@ description: Find and document usable royalty-free stock imagery with source, au
 4. Return at most eight curated candidates with page URL, author, platform, license, and intended use.
 5. Verify licensing on the source page and flag identifiable people, logos, watermarks, or uncertain model releases.
 6. Download only after user approval.
-7. Save approved assets under the project-generated asset directory and record provenance beside them.

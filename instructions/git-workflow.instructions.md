@@ -9,5 +9,3 @@ applyTo: "**"
 - Do not implement directly on main, master, or development.
 - Preserve unrelated work and stage explicit paths or hunks.
 - Before committing, review the staged diff, run `git diff --cached --check`, and scan for secrets, credentials, logs, caches, dependencies, and generated output.
-- Use coherent Conventional Commits unless the repository defines a stricter convention.
-- Push, merge, pull request, release, branch deletion, rebase, and history rewrite require the authority applicable to that repository. Never force-push by default.

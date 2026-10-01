@@ -11,4 +11,3 @@ description: Prepare and perform explicitly approved DigitalOcean application de
 4. Show the intended change and request explicit deployment approval.
 5. Deploy through a validated DigitalOcean capability available in the active runtime; do not assume a named MCP tool or provider.
 6. Monitor phase, ingress, health checks, and application smoke tests.
-7. Roll back on the documented trigger and record the deployment evidence.
