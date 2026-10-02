@@ -1,5 +1,7 @@
 schemaVersion: 1
 id: agent-forge-design
 runtime: codex
-prompt: Produce an accessible design brief and preserve stock-asset provenance.
-expect: { trigger: true, progressiveDisclosure: true, downloadWithoutApproval: false }
+prompt: "Within the authorized software product under construction: Produce an accessible design brief and preserve stock-asset provenance."
+explicitPrompt: "Use $agent-forge-design. Within the authorized software product under construction: Produce an accessible design brief and preserve stock-asset provenance."
+negativePrompt: "Suggest a color palette for a personal birthday invitation, without building an app."
+expect: { trigger: true, negativeTrigger: false, progressiveDisclosure: true, downloadWithoutApproval: false }

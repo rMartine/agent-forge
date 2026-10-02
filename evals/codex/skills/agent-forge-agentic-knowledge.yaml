@@ -1,5 +1,7 @@
 schemaVersion: 1
 id: agent-forge-agentic-knowledge
 runtime: codex
-prompt: Evaluate an agentic RAG flow and retrieve only verified reusable knowledge.
-expect: { trigger: true, progressiveDisclosure: true, evidenceRequired: true }
+prompt: "Within the authorized software product under construction: Evaluate an agentic RAG flow and retrieve only verified reusable knowledge."
+explicitPrompt: "Use $agent-forge-agentic-knowledge. Within the authorized software product under construction: Evaluate an agentic RAG flow and retrieve only verified reusable knowledge."
+negativePrompt: "Summarize RAG research papers for an independent literature note."
+expect: { trigger: true, negativeTrigger: false, progressiveDisclosure: true, evidenceRequired: true }

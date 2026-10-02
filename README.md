@@ -79,7 +79,7 @@ The six external skills and their licenses, immutable sources, resource lists, e
 
 Native `SubagentStart` and `SubagentStop` handlers match each specialist's agent type. `Stop` accounts for the primary result; `Interrupt` and `SessionEnd` close the temporary session record. Hooks are inactive unless the primary skill registers the actual session and project. Missing evidence allows at most one continuation per scope and never authorizes external deployment. Read-only specialists return evidence to the primary agent, which records it. Hooks check that evidence is present and structurally valid; the primary agent evaluates whether the product actually works.
 
-New or changed hook commands require Codex's native trust review in `/hooks`. Agent Forge installs the reviewed entries and preserves foreign entries, but does not bypass or manufacture trust. Open fresh client sessions after deployment. CLI or synthetic hook tests do not substitute for observation in both clients.
+New or changed hook commands require Codex's native trust review through `/hooks` in the Codex CLI using the same profile. Availability of that command in Desktop or the IDE interface is not assumed. Agent Forge installs the reviewed entries and preserves foreign entries, but does not bypass or manufacture trust. Open fresh client sessions after deployment. CLI or synthetic hook tests do not substitute for observation in both clients.
 
 ## Repository layout
 
