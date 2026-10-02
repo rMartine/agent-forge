@@ -1,13 +1,13 @@
 # Agent Forge
 
-Agent Forge is a dual-runtime customization compiler and ownership-aware deployment system. One canonical set of 24 Markdown agents serves GitHub Copilot in VS Code; a focused 16-agent OpenAI Codex roster and five progressively disclosed Codex skill bundles are generated from those same sources.
+Agent Forge compiles and deploys customizations for GitHub Copilot and OpenAI Codex while tracking the files and hook entries it owns. The current Codex design provides 16 specialists, a primary-agent skill for directing software product development, five workflow bundles and six reviewed external skills. Counts describe this release; validation checks consistency rather than a fixed roster size.
 
 ## Runtime contract
 
 | Runtime | Agents | Skills | Additional artifacts |
 |---|---|---|---|
-| VS Code Copilot | `~/.copilot/agents` (24) | `~/.copilot/skills` (17 modules) | `~/.copilot/instructions`, optional hooks |
-| OpenAI Codex | `~/.codex/agents` (16 TOML files) | `~/.agents/skills/agent-forge-*` (5 bundles) | inherits model, MCP, permissions, and approval policy |
+| VS Code Copilot | `~/.copilot/agents` (24) | `~/.copilot/skills` (13 declared modules) | `~/.copilot/instructions`, optional hooks |
+| Codex Desktop and Codex extension for VS Code | `~/.codex/agents` (16 TOML files) | `~/.agents/skills/agent-forge-*` (12 skills) | managed groups in `~/.codex/hooks.json`; inherits model, MCP, permissions and approval policy |
 
 Ownership state, immutable plans, transaction backups, and rollback material live under `~/.agent-forge`. Agent Forge never writes `~/.codex/config.toml`, `~/.codex/AGENTS.md`, or personal `~/.codex/skills`.
 
@@ -20,12 +20,15 @@ Los siguientes comandos son la secuencia documentada para preparar y realizar la
 ```powershell
 npm ci
 npm run build
+npm run prepare:skills
 npm test
 npm run test:extension-host
 node packages/cli/dist/index.js --repo . validate --strict --target all
 ```
 
 All filesystem tests use temporary profiles. Build output, test profiles, user customizations, secrets, and deployment mirrors are not committed.
+
+`prepare:skills` downloads only the reviewed, commit-pinned resources declared in `config/external-skills.json`, verifies their SHA-256 hashes and checks the exact adaptations. It writes an ignored repository cache, not the user profile. Subsequent preview and deployment can operate offline. A clean checkout needs this preparation before tests that render the complete installation.
 
 ## Immutable deployment workflow
 
@@ -35,10 +38,10 @@ agent-forge doctor --target codex
 agent-forge doctor --target all --profile full
 
 # Persist a content-bearing immutable plan.
-agent-forge preview --target all --scope user --profile full
+agent-forge preview --target codex --scope user --download-skills
 
 # Apply exactly that plan; both values must match the preview ID.
-agent-forge deploy --target all --plan <id> --confirm <id>
+agent-forge deploy --target codex --plan <id> --confirm <id>
 
 agent-forge status --target all --json
 ```
@@ -60,7 +63,7 @@ There is no `-y`, `--yes`, `autoConfirm`, force-push, automatic provider install
 
 The 16 Codex agents are Software Architect, Principal Engineer, Backend Developer, Frontend Developer, Database Engineer, .NET Engineer, Desktop App Engineer, Mobile Engineer, ML Engineer, Agentic Systems Engineer, Digital Twin Engineer, QA Engineer, Cybersecurity Engineer, DevOps Engineer, UX Engineer, and Technical Writer.
 
-The five deployed skills are:
+The five internal workflow bundles are:
 
 - `agent-forge-lifecycle`
 - `agent-forge-engineering`
@@ -69,6 +72,14 @@ The five deployed skills are:
 - `agent-forge-agentic-knowledge`
 
 The remaining canonical workflows stay available through these bundles and the primary Codex agent. No project-scoped Codex copies are generated.
+
+`agent-forge-build-software-products` activates only for an authorized product build and the engineering needed to deliver it. The principal agent in the conversation remains responsible for requirements, technical decisions, delegation, integration and verification. The `principal-engineer` specialist performs a bounded implementation or integration assignment; it does not replace that responsibility.
+
+The six external skills and their licenses, immutable sources, resource lists, exact adaptations and agent assignments are recorded in [the selection report](project_docs/audits/codex-skill-selection.md). The complete role and hook matrix is in [the Codex design](project_docs/architecture/codex-product-agents.md).
+
+Native `SubagentStart` and `SubagentStop` handlers match each specialist's agent type. `Stop` accounts for the primary result; `Interrupt` and `SessionEnd` close the temporary session record. Hooks are inactive unless the primary skill registers the actual session and project. Missing evidence allows at most one continuation per scope and never authorizes external deployment. Read-only specialists return evidence to the primary agent, which records it. Hooks check that evidence is present and structurally valid; the primary agent evaluates whether the product actually works.
+
+New or changed hook commands require Codex's native trust review in `/hooks`. Agent Forge installs the reviewed entries and preserves foreign entries, but does not bypass or manufacture trust. Open fresh client sessions after deployment. CLI or synthetic hook tests do not substitute for observation in both clients.
 
 ## Repository layout
 

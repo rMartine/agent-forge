@@ -1,0 +1,1222 @@
+{
+  "version": 1,
+  "skills": [
+    {
+      "id": "frontend-design",
+      "deploymentName": "agent-forge-frontend-design",
+      "directoryUrl": "https://www.skills.sh/anthropics/skills/frontend-design",
+      "repositoryUrl": "https://github.com/anthropics/skills",
+      "revision": "8a1541c4a3ffa5a20a5a91de0dcf3f0bab1d1ef4",
+      "sourceDirectory": "skills/frontend-design",
+      "license": "Apache-2.0",
+      "licensePath": "skills/frontend-design/LICENSE.txt",
+      "files": [
+        {
+          "path": "LICENSE.txt",
+          "repositoryPath": "skills/frontend-design/LICENSE.txt",
+          "sha256": "0d542e0c8804e39aa7f37eb00da5a762149dc682d7829451287e11b938e94594"
+        },
+        {
+          "path": "SKILL.md",
+          "repositoryPath": "skills/frontend-design/SKILL.md",
+          "sha256": "d91970639e9f5c37682ac7ab60094d35f1c7c1f38d731bd56396563aee10c1d3"
+        }
+      ],
+      "agentIds": [
+        "frontend-developer",
+        "ux-engineer"
+      ],
+      "description": "Use only while building an authorized software product that needs a new or revised interface, to develop its visual design and user-facing copy.",
+      "adaptations": [
+        {
+          "path": "SKILL.md",
+          "find": "Approach this as the design lead at a design studio known for giving every client a distinct visual identity that is not mistaken for anyone else's. This client has already rejected proposals that felt cliché or templated, and is paying for a distinctive point of view: make deliberate, opinionated choices about palette, typography, and layout that are specific to this brief, and take aesthetic risk if justified.\n\n## Ground your designs in the subject matter\n\nIf the brief does not identify what the product or subject matter is, identify it yourself before designing, and confirm with the client. You can come up with one concrete subject, the design's audience, and the design's primary job, as a proposal. If there's any information in your memory about the client's preferences or context about what they're building, use that as a hint. The subject's industry, subject matter, materials, and vernacular are where distinctive visual choices come from — a design for a toy for girls aged 8–11 will be very aesthetically different from a dashboard for financial analysts. Build with the brief's real content and subject matter throughout.\n\n",
+          "replace": "Develop deliberate visual choices that fit the actual product brief, audience, content, and existing design system. Do not invent customer history, preferences, rejected proposals, or budget. Inspect the available product requirements first. Ask Roberto only when a missing product or business decision materially changes the result; resolve routine design choices using the evidence and existing authorization.\n\n",
+          "reason": "Remove fictional client history and mandatory confirmation before routine design work."
+        }
+      ],
+      "adaptation": "Agent Forge scopes activation to authorized software-product work and applies the exact, reviewed substitutions recorded below. Original bytes, file hashes, licenses, and attribution remain available."
+    },
+    {
+      "id": "playwright-cli",
+      "deploymentName": "agent-forge-playwright-cli",
+      "directoryUrl": "https://www.skills.sh/microsoft/playwright-cli/playwright-cli",
+      "repositoryUrl": "https://github.com/microsoft/playwright-cli",
+      "revision": "b85c7a736bb473bf55b584e54a09ffa698d6d871",
+      "sourceDirectory": "skills/playwright-cli",
+      "license": "Apache-2.0",
+      "licensePath": "LICENSE",
+      "files": [
+        {
+          "path": "SKILL.md",
+          "repositoryPath": "skills/playwright-cli/SKILL.md",
+          "sha256": "9bba755285a4c9ad72a4a41b9c7baef6fb516d329c0b44ed0573715f4479b906"
+        },
+        {
+          "path": "references/element-attributes.md",
+          "repositoryPath": "skills/playwright-cli/references/element-attributes.md",
+          "sha256": "bf19aa4671e0a50a0fefa9c790f39124e803060eefe395042b723c29fcb7faa2"
+        },
+        {
+          "path": "references/playwright-tests.md",
+          "repositoryPath": "skills/playwright-cli/references/playwright-tests.md",
+          "sha256": "c5b0719fef2cfdff50bd744051b2f9afc119775db4b48e9b2882c1cf3886797c"
+        },
+        {
+          "path": "references/pr-attachments.md",
+          "repositoryPath": "skills/playwright-cli/references/pr-attachments.md",
+          "sha256": "24b118e74598be72e73e24fe223d295b9099c85b1860a7c8f6e5690c9038fa2a"
+        },
+        {
+          "path": "references/request-mocking.md",
+          "repositoryPath": "skills/playwright-cli/references/request-mocking.md",
+          "sha256": "54e801c9663fc2b6d68ceb058cb1c360724c2499f42acc7852a68e83e5b5f37c"
+        },
+        {
+          "path": "references/running-code.md",
+          "repositoryPath": "skills/playwright-cli/references/running-code.md",
+          "sha256": "3029569ed6ddaeffc0b87badde967efdc2973b1677f078830098146eb3b78ebe"
+        },
+        {
+          "path": "references/session-management.md",
+          "repositoryPath": "skills/playwright-cli/references/session-management.md",
+          "sha256": "a4f16271f95d3eec7bc56e659d8adbb8f6ad7d603a6fa15efdcdd071a50c6ce3"
+        },
+        {
+          "path": "references/storage-state.md",
+          "repositoryPath": "skills/playwright-cli/references/storage-state.md",
+          "sha256": "9ac47f9ae4a1aedcd2077f8ac9ab1ba6bee1962cb83ff51adcd36fb6d83b5ec6"
+        },
+        {
+          "path": "references/test-generation.md",
+          "repositoryPath": "skills/playwright-cli/references/test-generation.md",
+          "sha256": "27ecb11ef647999bd7486695bb1aacc3682097e6bb5742804cb6c8769c2b5364"
+        },
+        {
+          "path": "references/tracing.md",
+          "repositoryPath": "skills/playwright-cli/references/tracing.md",
+          "sha256": "ef73e71bee792e341df9cd4f60529c929ade48b538ac76e033f4f20843e8dbda"
+        },
+        {
+          "path": "references/video-recording.md",
+          "repositoryPath": "skills/playwright-cli/references/video-recording.md",
+          "sha256": "1c800b897824cb54394c34265d8ebffdbb530adfc8d612c5d798b667a1799f48"
+        },
+        {
+          "path": "LICENSE",
+          "repositoryPath": "LICENSE",
+          "sha256": "9a7110fc2d2f964038e5dc49128f908f29f47a574c961cba16085914e879cbda"
+        }
+      ],
+      "agentIds": [
+        "qa-engineer"
+      ],
+      "description": "Use only to verify browser behavior and author or debug browser tests for the software product being built, using an already available Playwright installation and an isolated task session.",
+      "adaptations": [
+        {
+          "path": "SKILL.md",
+          "find": "allowed-tools: Bash(playwright-cli:*) Bash(npx playwright:*) Bash(npx --no-install playwright:*)\n",
+          "replace": "",
+          "reason": "Remove platform-specific tool grants; this skill does not change Codex permissions."
+        },
+        {
+          "path": "SKILL.md",
+          "find": "playwright-cli run-code \"async page => await page.context().grantPermissions(['geolocation'])\"",
+          "replace": "playwright-cli run-code \"async page => await page.title()\"",
+          "reason": "Replace permission-changing example with read-only inspection."
+        },
+        {
+          "path": "SKILL.md",
+          "find": "# Delete user data for the default session\nplaywright-cli delete-data",
+          "replace": "# Clean up only the named browser session created for this task\nplaywright-cli -s=mysession close",
+          "reason": "Remove unscoped browser profile deletion."
+        },
+        {
+          "path": "SKILL.md",
+          "find": "playwright-cli -s=mysession delete-data  # delete user data for persistent session",
+          "replace": "playwright-cli -s=mysession detach  # use this only for a session attached by this task",
+          "reason": "Preserve persisted browser data."
+        },
+        {
+          "path": "SKILL.md",
+          "find": "# Close all browsers\nplaywright-cli close-all\n# Forcefully kill all browser processes\nplaywright-cli kill-all",
+          "replace": "# Close only the session owned by this task\nplaywright-cli -s=mysession close",
+          "reason": "Preserve unrelated browser processes."
+        },
+        {
+          "path": "SKILL.md",
+          "find": "## Raw output\n\nThe global `--raw` option strips page status, generated code, and snapshot sections from the output, returning only the result value. Use it to pipe command output into other tools. Commands that don't produce output return nothing.\n\n```bash\nplaywright-cli --raw eval \"JSON.stringify(performance.timing)\" | jq '.loadEventEnd - .navigationStart'\nplaywright-cli --raw eval \"JSON.stringify([...document.querySelectorAll('a')].map(a => a.href))\" > links.json\nplaywright-cli --raw snapshot > before.yml\nplaywright-cli click e5\nplaywright-cli --raw snapshot > after.yml\ndiff before.yml after.yml\nTOKEN=$(playwright-cli --raw cookie-get session_id)\nplaywright-cli --raw localstorage-get theme\n```\n\nFor structured output wrapping every reply as JSON, pass --json\n```bash\nplaywright-cli list --json\n```\n\n",
+          "replace": "## Raw output\n\nThe global `--raw` option returns only the command result. Do not read or print real session tokens as a diagnostic shortcut. Quote URLs and JSON arguments for the active shell; on Windows use PowerShell syntax and a `.cmd` executable when appropriate.\n\n```bash\nplaywright-cli --raw eval \"document.title\"\nplaywright-cli list --json\n```\n\n",
+          "reason": "Remove shell-specific token extraction example and preserve ordinary inspection."
+        },
+        {
+          "path": "SKILL.md",
+          "find": "## Installation\n\nPackage installation and custom `npm` scripts may require separate approval.\n\nIf global `playwright-cli` command is not available, try a local version via `npx playwright cli`:\n\n```bash\nnpx --no-install playwright --version\n```\n\nWhen local version is available, use `npx playwright cli` in all commands. Otherwise, install `playwright-cli` as a global command:\n\n```bash\nnpm install -g @playwright/cli@latest\n```\n\n",
+          "replace": "## Tool availability\n\nVerify the actual browser-automation executable before using the examples. On Windows, inspect `Get-Command playwright-cli.cmd, playwright-cli -ErrorAction SilentlyContinue` and the project-local `node_modules/.bin/playwright-cli.cmd`; on other systems inspect `command -v playwright-cli` and `node_modules/.bin/playwright-cli`. Invoke the resolved executable with `--help` and confirm that it lists browser commands such as `open`, `snapshot`, and `click`. Use that verified executable for the examples below.\n\nA successful `playwright --version` only identifies the Playwright test runner; it does not prove that `playwright-cli` exists. If a project offers browser automation through another command, verify that exact command and its help before choosing it. Do not substitute the test runner for this CLI by assumption.\n\nUse an existing compatible installation. Do not install global packages or silently switch to latest versions. If browser automation is unavailable, use the authorized project test mechanism or report the concrete missing dependency to the coordinator. Adding a project dependency must be necessary for the authorized implementation and follow the project package manager and lockfile.\n\n",
+          "reason": "Verify the actual playwright-cli executable and browser commands; the Playwright test runner version is insufficient, and no global installation is implied."
+        },
+        {
+          "path": "SKILL.md",
+          "find": "## Attaching screenshots and videos to pull requests\n\n`gh` 2.99+ uploads local images and videos with the repeatable `--attach` flag on `gh pr create`, `gh pr comment` and `gh issue comment`. Attach a screenshot or a short video when it saves the reviewer a checkout: a UI fix, a before/after pair, a new user-facing flow, or the failure state in a bug report.\n\n```bash\nplaywright-cli screenshot --filename=settings-after.png\ngh pr comment 123 --body \"Settings page after the fix.\" --attach ./settings-after.png\n```\n\nSee [references/pr-attachments.md](references/pr-attachments.md) for alt text, inline references, size limits and attaching test artifacts from CI.\n\n",
+          "replace": "## Attaching screenshots and videos to pull requests\n\nCapture evidence locally. Publish images, videos, pull requests, or comments only when that specific external action is explicitly authorized; the product-building assignment alone does not authorize messaging other people. See [references/pr-attachments.md](references/pr-attachments.md) for command syntax when publication is authorized.\n\n",
+          "reason": "Remove unconditional instructions to send external comments or publish evidence."
+        },
+        {
+          "path": "SKILL.md",
+          "find": "# open new browser\nplaywright-cli open",
+          "replace": "# Open a named browser session for the product task; use Chrome unless requested otherwise\nplaywright-cli -s=mysession open --browser=chrome",
+          "reason": "Make the quick start use an isolated named Chrome session."
+        },
+        {
+          "path": "SKILL.md",
+          "find": "# Prefer this when a mobile layout is acceptable: mobile pages are usually\n# lighter, so snapshots are smaller and cheaper.",
+          "replace": "# Use mobile emulation when mobile behavior is among the product requirements.",
+          "reason": "Do not change viewport coverage to reduce cost."
+        },
+        {
+          "path": "references/session-management.md",
+          "find": "## Browser Session Commands\n\n```bash\n# List all browser sessions\nplaywright-cli list\n\n# Stop a browser session (close the browser)\nplaywright-cli close                # stop the default browser\nplaywright-cli -s=mysession close   # stop a named browser\n\n# Stop all browser sessions\nplaywright-cli close-all\n\n# Forcefully kill all daemon processes (for stale/zombie processes)\nplaywright-cli kill-all\n\n# Delete browser session user data (profile directory)\nplaywright-cli delete-data                # delete default browser data\nplaywright-cli -s=mysession delete-data   # delete named browser data\n```\n\n",
+          "replace": "## Browser Session Commands\n\n```bash\nplaywright-cli list\n# Close only the session created by this task\nplaywright-cli -s=mysession close\n# Detach only if this task attached to an existing browser\nplaywright-cli -s=mysession detach\n```\n\nDo not stop all browsers, forcefully terminate unrelated processes, or delete a persistent user profile. Diagnose a hung task session before requesting any destructive recovery.\n\n",
+          "reason": "Remove broad process termination and browser data deletion."
+        },
+        {
+          "path": "references/session-management.md",
+          "find": "### Concurrent Scraping\n\n```bash\n#!/bin/bash\n# Scrape multiple sites concurrently\n\n# Start all browsers\nplaywright-cli -s=site1 open https://site1.com &\nplaywright-cli -s=site2 open https://site2.com &\nplaywright-cli -s=site3 open https://site3.com &\nwait\n\n# Take snapshots from each\nplaywright-cli -s=site1 snapshot\nplaywright-cli -s=site2 snapshot\nplaywright-cli -s=site3 snapshot\n\n# Cleanup\nplaywright-cli close-all\n```\n\n",
+          "replace": "### Concurrent product checks\n\nCreate a distinct named browser session for each independent authorized product check. Close those exact sessions after collecting results. Use the shell syntax supported by the host; on Windows use PowerShell commands instead of copying Bash background-process syntax.\n\n",
+          "reason": "Remove broad scraping and cleanup example outside the product verification scope."
+        },
+        {
+          "path": "references/session-management.md",
+          "find": "Connect to a running Chrome or Edge instance by its channel name. The browser must have remote debugging enabled — navigate to `chrome://inspect/#remote-debugging` in the target browser and check \"Allow remote debugging for this browser instance\".",
+          "replace": "Attach only when the user authorized using that existing browser and remote debugging is already available. Do not enable debugging or change browser permissions. Otherwise open a separate named Chrome test session.",
+          "reason": "Remove instruction to enable remote debugging on a personal browser."
+        },
+        {
+          "path": "references/session-management.md",
+          "find": "### 2. Always Clean Up\n\n```bash\n# Stop browsers when done\nplaywright-cli -s=auth close\nplaywright-cli -s=scrape close\n\n# Or stop all at once\nplaywright-cli close-all\n\n# If browsers become unresponsive or zombie processes remain\nplaywright-cli kill-all\n```\n\n### 3. Delete Stale Browser Data\n\n```bash\n# Remove old browser data to free disk space\nplaywright-cli -s=oldsession delete-data\n```\n",
+          "replace": "### 2. Clean Up Task Sessions\n\nClose the specific named sessions created for this task, or detach from sessions attached by this task. Preserve other sessions and persistent data. If cleanup fails, report the exact session and error; do not issue broad process termination or profile deletion.\n",
+          "reason": "Prevent blanket cleanup and unsolicited profile deletion."
+        },
+        {
+          "path": "references/test-generation.md",
+          "find": "If there is no Playwright install, bootstrap one and let the user pick the defaults:\n\n```bash\nnpm init playwright@latest\n```\n\n",
+          "replace": "If no Playwright installation is available, use the authorized project test mechanism or report the missing dependency. Create a local project dependency only when covered by the implementation authorization and the existing package manager and lockfile; do not run interactive bootstrapping or install latest versions by default.\n\n",
+          "reason": "Remove automatic interactive bootstrap and unnecessary user choice of routine defaults."
+        },
+        {
+          "path": "references/test-generation.md",
+          "find": "Walk the scenario's `Steps:` one by one with `playwright-cli`, treating the spec as the plan and the live app as the source of truth. If a step is vague (\"click the button\" — which button?), references an element that no longer exists, or contradicts the app's actual behaviour, use your judgement: update the spec to match what the app really does, then keep going. Editing the spec mid-generation is expected.",
+          "replace": "Walk the agreed scenario steps one by one with `playwright-cli`. Use the product requirements and accepted test expectations as the expected behavior; the live app is observed behavior. Repair stale selectors or clarify an equivalent interaction from evidence, but do not rewrite expected outcomes to match a regression. Report unresolved product-intent differences to the coordinator.",
+          "reason": "Prevent tests from silently changing acceptance criteria to match current defects."
+        },
+        {
+          "path": "references/test-generation.md",
+          "find": "- **Fix changed user-visible steps, inputs, order, or expected outcomes** that the spec describes → update the spec to match reality. Keep the scenario id and file path stable; only the step / expect lines change.",
+          "replace": "- **Fix changed user-visible behavior** → check the authorized requirements. Update expected outcomes only when an accepted product change supports them; otherwise repair the regression.",
+          "reason": "Preserve agreed product behavior during test repair."
+        },
+        {
+          "path": "references/test-generation.md",
+          "find": "- **Unclear whether the app change is intentional** (spec is stale) **or a regression** (test was right, app is wrong) → **stop and ask the user**. Provide:",
+          "replace": "- **Unclear whether the app change is intentional** → inspect the authorized requirements and change history, then return the unresolved decision to the coordinator. The coordinator asks Roberto only if an important product decision remains. Provide:",
+          "reason": "Keep coordination and routine technical decisions with the main agent."
+        },
+        {
+          "path": "references/test-generation.md",
+          "find": "Only after the user answers, either update the spec (intentional change) or file/flag the test as covering a bug (regression).",
+          "replace": "After the intended behavior is established from evidence or the necessary product decision, either update the spec for the authorized change or fix the regression within the task scope.",
+          "reason": "Remove unnecessary mandatory human confirmation for confirmed regressions."
+        },
+        {
+          "path": "references/test-generation.md",
+          "find": "- If after thorough investigation you are confident the test is correct but the app is wrong *and* the user has confirmed it's a bug: mark the test `test.fixme(...)` with a comment pointing at the user's decision or issue link. Never silently skip.",
+          "replace": "- If the test is correct and the app is wrong, preserve the failing test and return the defect with reproduction evidence. Fix it within the authorized ownership, or let the coordinator assign the fix. Do not silently skip or mark a required test as successful.",
+          "reason": "Preserve failing acceptance tests until the implementation is corrected."
+        },
+        {
+          "path": "references/pr-attachments.md",
+          "find": "Attach visual evidence when it saves the reviewer a checkout: a screenshot of a UI fix, a before/after pair, a short video of a new user-facing flow, or the failure state when filing a bug. Skip it for refactors, backend-only changes and anything the diff already shows.",
+          "replace": "Prepare visual evidence when it helps verify the product. Publish it only if the specific pull request, upload, or comment action is explicitly authorized. Keep local evidence when publication is not authorized.",
+          "reason": "Constrain external publication to explicit authorization."
+        },
+        {
+          "path": "references/pr-attachments.md",
+          "find": "## From CI\n\nAttach the screenshots and videos Playwright Test already saves under `test-results` (`screenshot: 'only-on-failure'`, `video: 'retain-on-failure'`) with the same command:\n\n```yaml\npermissions:\n  pull-requests: write\nsteps:\n  - run: npx playwright test\n  - name: Attach failure screenshots and videos to the PR\n    if: failure() && github.event_name == 'pull_request'\n    env:\n      GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}\n    run: |\n      files=$(find test-results -name '*.png' -o -name '*.webm' | head -20)\n      if [ -n \"$files\" ]; then\n        gh pr comment ${{ github.event.pull_request.number }} \\\n          --body \"Failure screenshots and videos from run ${{ github.run_id }}.\" \\\n          $(printf -- '--attach %s ' $files)\n      fi\n```\n\nFor a polished walkthrough of a new feature, record a hero script as described in [video-recording.md](video-recording.md) and attach the resulting WebM the same way.\n",
+          "replace": "## From continuous integration\n\nPreserve the repository permission configuration. Do not add write permissions or an automatic comment workflow merely to upload test artifacts. When publication is explicitly authorized, use the existing approved artifact mechanism and verify that captured media contains only the intended test data.\n",
+          "reason": "Remove workflow example that changes repository permissions and posts comments automatically."
+        },
+        {
+          "path": "references/running-code.md",
+          "find": "## Geolocation\n\n```bash\n# Grant geolocation permission and set location\nplaywright-cli run-code \"async page => {\n  await page.context().grantPermissions(['geolocation']);\n  await page.context().setGeolocation({ latitude: 37.7749, longitude: -122.4194 });\n}\"\n\n# Set location to London\nplaywright-cli run-code \"async page => {\n  await page.context().grantPermissions(['geolocation']);\n  await page.context().setGeolocation({ latitude: 51.5074, longitude: -0.1278 });\n}\"\n\n# Clear geolocation override\nplaywright-cli run-code \"async page => {\n  await page.context().clearPermissions();\n}\"\n```\n\n## Permissions\n\n```bash\n# Grant multiple permissions\nplaywright-cli run-code \"async page => {\n  await page.context().grantPermissions([\n    'geolocation',\n    'notifications',\n    'camera',\n    'microphone'\n  ]);\n}\"\n\n# Grant permissions for specific origin\nplaywright-cli run-code \"async page => {\n  await page.context().grantPermissions(['clipboard-read'], {\n    origin: 'https://example.com'\n  });\n}\"\n```\n\n",
+          "replace": "## Permission-dependent features\n\nThis reference does not grant browser, device, or operating-system permissions. Keep the existing permissions. If a product test explicitly requires a permission-dependent feature, use the test environment and permissions already authorized for that task; otherwise report that behavior as unverified.\n\n",
+          "reason": "Remove broad browser camera, microphone, location, and clipboard permission examples."
+        },
+        {
+          "path": "references/running-code.md",
+          "find": "## Clipboard\n\n```bash\n# Read clipboard (requires permission)\nplaywright-cli run-code \"async page => {\n  await page.context().grantPermissions(['clipboard-read']);\n  return await page.evaluate(() => navigator.clipboard.readText());\n}\"\n\n# Write to clipboard\nplaywright-cli run-code \"async page => {\n  await page.evaluate(text => navigator.clipboard.writeText(text), 'Hello clipboard!');\n}\"\n```\n\n",
+          "replace": "## Clipboard\n\nDo not read or overwrite the personal clipboard as a diagnostic shortcut. Use product test fixtures and the already authorized browser test context when the product requirements include clipboard behavior.\n\n",
+          "reason": "Preserve personal clipboard and permissions."
+        },
+        {
+          "path": "references/running-code.md",
+          "find": "# Wait for network idle\nplaywright-cli run-code \"async page => {\n  await page.waitForLoadState('networkidle');\n}\"",
+          "replace": "# Wait for the observable application state required by the test\nplaywright-cli run-code \"async page => {\n  await page.getByRole('heading', { name: 'Dashboard' }).waitFor();\n}\"",
+          "reason": "Remove a wait strategy that conflicts with the included test-generation instructions."
+        },
+        {
+          "path": "references/video-recording.md",
+          "find": "### 3. Attach the recording to the pull request\n\nA hero script recording is the best proof of work for a user-facing change. GitHub accepts WebM as is, so once the recording looks right, attach it with `gh` 2.99+ instead of describing the flow in words:\n\n```bash\ngh pr create --title \"feat(todo): add items inline\" --body-file body.md --attach ./demo.webm\ngh pr comment 123 --body \"Walkthrough of the new flow.\" --attach ./demo.webm\ngh issue comment 456 --body \"Recording of the repro steps.\" --attach ./repro.webm\n```\n\n`gh` appends unreferenced attachments to the end of the body, which is the right place for a walkthrough. Videos are limited to 10 MB on free plans and 100 MB on paid plans, so keep the script focused, record at a modest size such as 1280x800 and drop chapters that do not add to the story. See [pr-attachments.md](pr-attachments.md) for the full set of commands, including attaching test artifacts from CI.\n\n",
+          "replace": "### 3. Present the recording\n\nPresent the recording locally with its test result. A recording supports visual verification but does not replace functional assertions. Upload or comment on an external service only when that specific action is explicitly authorized. See [pr-attachments.md](pr-attachments.md) for syntax when publication is authorized.\n\n",
+          "reason": "Remove unconditional external publication and exaggerated proof-of-quality claim."
+        },
+        {
+          "path": "references/test-generation.md",
+          "find": "Check the workspace has Playwright installed before anything else:\n\n```bash\n# Either of these confirms a workspace:\ntest -f playwright.config.ts || test -f playwright.config.js\nnpx --no-install playwright --version\n```",
+          "replace": "Verify both capabilities before starting:\n\n1. Resolve the actual `playwright-cli` executable as described in `SKILL.md`, run that exact executable with `--help`, and confirm its browser commands. A missing executable blocks this interactive workflow.\n2. Independently inspect the project Playwright configuration and verify the existing test runner with `npx --no-install playwright --version`. The configuration file alone does not prove the runner is installed, and the runner version does not prove browser automation is installed.\n\nDo not install either tool globally. Use an existing compatible local dependency or return the missing capability to the coordinator.",
+          "reason": "Distinguish browser-automation CLI availability from Playwright test-runner availability."
+        }
+      ],
+      "adaptation": "Agent Forge scopes activation to authorized software-product work and applies the exact, reviewed substitutions recorded below. Original bytes, file hashes, licenses, and attribution remain available."
+    },
+    {
+      "id": "code-review-security",
+      "deploymentName": "agent-forge-code-review-security",
+      "directoryUrl": "https://www.skills.sh/owasp/secure-agent-playbook/code-review-security",
+      "repositoryUrl": "https://github.com/OWASP/secure-agent-playbook",
+      "revision": "1b5fd4cff76075feb56d61ee2985e82516f8c53b",
+      "sourceDirectory": "plugins/code-security-skills/skills/code-review-security",
+      "license": "CC-BY-4.0 AND CC-BY-SA-4.0",
+      "licensePath": "LICENSE.md",
+      "files": [
+        {
+          "path": "SKILL.md",
+          "repositoryPath": "plugins/code-security-skills/skills/code-review-security/SKILL.md",
+          "sha256": "a95dbecda4100e39b81fd7480fd76c228149b786ea5e66888044e9addf4abdd3"
+        },
+        {
+          "path": "data/asvs/README.md",
+          "repositoryPath": "plugins/code-security-skills/data/asvs/README.md",
+          "sha256": "6261e945936ed8d2287c47db4f022bd922df35a12afae607b531029cfe115e2b"
+        },
+        {
+          "path": "data/asvs/V1.1.md",
+          "repositoryPath": "plugins/code-security-skills/data/asvs/V1.1.md",
+          "sha256": "8af731f7a1b69e939e14860ef7f0a0c277f820554e45a85a72f6e30ac5c9dd36"
+        },
+        {
+          "path": "data/asvs/V1.2.md",
+          "repositoryPath": "plugins/code-security-skills/data/asvs/V1.2.md",
+          "sha256": "169822d3348c7900a2fac47ba8afeb38c86a3e531933d53feab075e06526a149"
+        },
+        {
+          "path": "data/asvs/V1.3.md",
+          "repositoryPath": "plugins/code-security-skills/data/asvs/V1.3.md",
+          "sha256": "53fd0eb8b8f49d886d5a9ef12d619da27d1af1d9cb84ddd0a4b8022182e93ab8"
+        },
+        {
+          "path": "data/asvs/V1.4.md",
+          "repositoryPath": "plugins/code-security-skills/data/asvs/V1.4.md",
+          "sha256": "2ea846b2baa58c03c463d09d308ae6216511e2396635ac8609b3fc7fc5bd7cc7"
+        },
+        {
+          "path": "data/asvs/V1.5.md",
+          "repositoryPath": "plugins/code-security-skills/data/asvs/V1.5.md",
+          "sha256": "15743e1fc43d239c6a90109443d6176423fe305d6466047dc1cc5ae0e2bea8d3"
+        },
+        {
+          "path": "data/asvs/V10.1.md",
+          "repositoryPath": "plugins/code-security-skills/data/asvs/V10.1.md",
+          "sha256": "4b49793a1b87ae3e785fa0aa543edc9b4057e0d79eef580cb865d22eeedd47b5"
+        },
+        {
+          "path": "data/asvs/V10.2.md",
+          "repositoryPath": "plugins/code-security-skills/data/asvs/V10.2.md",
+          "sha256": "a79e9b696fb3d30f74466a1fad141fcea3883e583b9c9c046da074e1a5fda409"
+        },
+        {
+          "path": "data/asvs/V10.3.md",
+          "repositoryPath": "plugins/code-security-skills/data/asvs/V10.3.md",
+          "sha256": "ec4a78d2f8ad2b96086c189a0283a328871fac89ff0216047edd8548f01cfdac"
+        },
+        {
+          "path": "data/asvs/V10.4.md",
+          "repositoryPath": "plugins/code-security-skills/data/asvs/V10.4.md",
+          "sha256": "cd6e1a3fa45c5bc94b42f944d30d63b10ec7f29c06b03a8102def1297fabf166"
+        },
+        {
+          "path": "data/asvs/V10.5.md",
+          "repositoryPath": "plugins/code-security-skills/data/asvs/V10.5.md",
+          "sha256": "84a4d1b3903b7d6f6e3261b140c63ad4e00dd7741de28c0f4670f2b720404c0f"
+        },
+        {
+          "path": "data/asvs/V10.6.md",
+          "repositoryPath": "plugins/code-security-skills/data/asvs/V10.6.md",
+          "sha256": "1765fdab58b96f721949945cdd415b069bef35b625f73acc30469ec0b82e993b"
+        },
+        {
+          "path": "data/asvs/V10.7.md",
+          "repositoryPath": "plugins/code-security-skills/data/asvs/V10.7.md",
+          "sha256": "71fae06fc56872d592b39b40fe6278fef3a1df0875d3ea0687c322dc615f9f57"
+        },
+        {
+          "path": "data/asvs/V11.1.md",
+          "repositoryPath": "plugins/code-security-skills/data/asvs/V11.1.md",
+          "sha256": "10b1250af3a485a9bf02dfc75eeac2758b1368d8ec89edc5dd65b69babb32884"
+        },
+        {
+          "path": "data/asvs/V11.2.md",
+          "repositoryPath": "plugins/code-security-skills/data/asvs/V11.2.md",
+          "sha256": "6320d956ad0373f62baf6356dc0f30770bd475ea1b927c9fd99df08fe4940d78"
+        },
+        {
+          "path": "data/asvs/V11.3.md",
+          "repositoryPath": "plugins/code-security-skills/data/asvs/V11.3.md",
+          "sha256": "2dbfe0dc67b2818292a31d31a3044d0a534525ccfbbdf5e6491c4fb9d5b13c18"
+        },
+        {
+          "path": "data/asvs/V11.4.md",
+          "repositoryPath": "plugins/code-security-skills/data/asvs/V11.4.md",
+          "sha256": "e9012d16c0fe2f5476805385a36af5fcea592804cbafa631606a33d2143691bb"
+        },
+        {
+          "path": "data/asvs/V11.5.md",
+          "repositoryPath": "plugins/code-security-skills/data/asvs/V11.5.md",
+          "sha256": "577c59f3d4a59adb130f58e14ebf66cb75a89b225a17695d4bf08c96668ea69d"
+        },
+        {
+          "path": "data/asvs/V11.6.md",
+          "repositoryPath": "plugins/code-security-skills/data/asvs/V11.6.md",
+          "sha256": "e6174cb17ea962e8f5e20c166ae82111613672118a48d0bcd867fbc7997a5915"
+        },
+        {
+          "path": "data/asvs/V11.7.md",
+          "repositoryPath": "plugins/code-security-skills/data/asvs/V11.7.md",
+          "sha256": "8b81dad95f29c32c233f96c46106259fbef10d6f276dac53c5717eff6b56ccdf"
+        },
+        {
+          "path": "data/asvs/V12.1.md",
+          "repositoryPath": "plugins/code-security-skills/data/asvs/V12.1.md",
+          "sha256": "6be343535dcc479dd3050500ea3113bf27cb3a79bba99022d553a7251a5f48c2"
+        },
+        {
+          "path": "data/asvs/V12.2.md",
+          "repositoryPath": "plugins/code-security-skills/data/asvs/V12.2.md",
+          "sha256": "b9b18db04a67f567438dcd9025039be1779a4b289ae2a8e0d1013d07ef475f78"
+        },
+        {
+          "path": "data/asvs/V12.3.md",
+          "repositoryPath": "plugins/code-security-skills/data/asvs/V12.3.md",
+          "sha256": "20c0b62c21f0e68956e9999ac232fa16b4a3bb78d5048f1e9d1f87fb72d763bf"
+        },
+        {
+          "path": "data/asvs/V13.1.md",
+          "repositoryPath": "plugins/code-security-skills/data/asvs/V13.1.md",
+          "sha256": "235e081c1bf43d8b454e00105af7ec751bc99974e92bd6f2ece089859a62043a"
+        },
+        {
+          "path": "data/asvs/V13.2.md",
+          "repositoryPath": "plugins/code-security-skills/data/asvs/V13.2.md",
+          "sha256": "1bb4841c1c4d1a2366b092138c5e7d8a500ba3117fcadca376fd81f46f64a5ab"
+        },
+        {
+          "path": "data/asvs/V13.3.md",
+          "repositoryPath": "plugins/code-security-skills/data/asvs/V13.3.md",
+          "sha256": "56f3430461ad8b02faea97e92428f8f61d1d17d3187b8b314a72ed808a40da5e"
+        },
+        {
+          "path": "data/asvs/V13.4.md",
+          "repositoryPath": "plugins/code-security-skills/data/asvs/V13.4.md",
+          "sha256": "a9fca7d948e5249cba7ce55961539ede9ffdbc83cf291e92b981c5121765b74c"
+        },
+        {
+          "path": "data/asvs/V14.1.md",
+          "repositoryPath": "plugins/code-security-skills/data/asvs/V14.1.md",
+          "sha256": "7228c6b65eff4e13ef9e59e6ed8773ab66c4a298647b5d7c594c1e74637dfcb6"
+        },
+        {
+          "path": "data/asvs/V14.2.md",
+          "repositoryPath": "plugins/code-security-skills/data/asvs/V14.2.md",
+          "sha256": "e83fd2881144959d60ff26fdf5a44368d3750429de172257d4a95f3cc569994a"
+        },
+        {
+          "path": "data/asvs/V14.3.md",
+          "repositoryPath": "plugins/code-security-skills/data/asvs/V14.3.md",
+          "sha256": "c0f458ded2353e68f32e9f9720aedf7c4646e49fb135ed65130099b8e2c5ecf7"
+        },
+        {
+          "path": "data/asvs/V15.1.md",
+          "repositoryPath": "plugins/code-security-skills/data/asvs/V15.1.md",
+          "sha256": "5c6ef01a45f90ba64d63bad282438424ca5401a8baaac117c80fdc710e3c3782"
+        },
+        {
+          "path": "data/asvs/V15.2.md",
+          "repositoryPath": "plugins/code-security-skills/data/asvs/V15.2.md",
+          "sha256": "7d67519a545c1e91033b850a9e51ce8ac8055d0bda7c2da710fc8bd64ebd8322"
+        },
+        {
+          "path": "data/asvs/V15.3.md",
+          "repositoryPath": "plugins/code-security-skills/data/asvs/V15.3.md",
+          "sha256": "273f27fdd1fd82999463ebfc352e74fa04c568ded4d15d87515e3cefe525233c"
+        },
+        {
+          "path": "data/asvs/V15.4.md",
+          "repositoryPath": "plugins/code-security-skills/data/asvs/V15.4.md",
+          "sha256": "cbf8aa11c0e47d38b7ae0e87024b5d4fff091269149206fb4711ba161cd4a61b"
+        },
+        {
+          "path": "data/asvs/V16.1.md",
+          "repositoryPath": "plugins/code-security-skills/data/asvs/V16.1.md",
+          "sha256": "9c81ef090b772c6b6c140c3522a02c53e9adeee4793001b959f1ca8ba37396d4"
+        },
+        {
+          "path": "data/asvs/V16.2.md",
+          "repositoryPath": "plugins/code-security-skills/data/asvs/V16.2.md",
+          "sha256": "2235f0a8e96e7029d2dd11df69d2304077de08b4066d4e9eab3d1ed0c9f98ab7"
+        },
+        {
+          "path": "data/asvs/V16.3.md",
+          "repositoryPath": "plugins/code-security-skills/data/asvs/V16.3.md",
+          "sha256": "7823fd567237b288dde386a51dbc1e0357c462df3d69f4f1f17184bec7130d83"
+        },
+        {
+          "path": "data/asvs/V16.4.md",
+          "repositoryPath": "plugins/code-security-skills/data/asvs/V16.4.md",
+          "sha256": "c3198c6271d98c2e87ea28309c112fbb3710cdf5a26a0c27a09a2b090f2738e1"
+        },
+        {
+          "path": "data/asvs/V16.5.md",
+          "repositoryPath": "plugins/code-security-skills/data/asvs/V16.5.md",
+          "sha256": "d90002587890f5a8e3185123564fdb53c85097d9c6dec681511f0ea1028c347d"
+        },
+        {
+          "path": "data/asvs/V17.1.md",
+          "repositoryPath": "plugins/code-security-skills/data/asvs/V17.1.md",
+          "sha256": "46b840788bbac1cab168ad1bcd085f5599273e8c345d5fb9398a1921a5a4a076"
+        },
+        {
+          "path": "data/asvs/V17.2.md",
+          "repositoryPath": "plugins/code-security-skills/data/asvs/V17.2.md",
+          "sha256": "0549cbc4fe5462489667fbd5c606a4dd3ba7efcc11d640b464641bee1953d6d5"
+        },
+        {
+          "path": "data/asvs/V17.3.md",
+          "repositoryPath": "plugins/code-security-skills/data/asvs/V17.3.md",
+          "sha256": "05bf0389ce32e38453d45f4b55ad43b1a1e6bf753fb421f9b98a71629832b803"
+        },
+        {
+          "path": "data/asvs/V2.1.md",
+          "repositoryPath": "plugins/code-security-skills/data/asvs/V2.1.md",
+          "sha256": "460b7578d22c9845e4ab678291ff2623822fd57369834546f2b7c49d37f94fdb"
+        },
+        {
+          "path": "data/asvs/V2.2.md",
+          "repositoryPath": "plugins/code-security-skills/data/asvs/V2.2.md",
+          "sha256": "d830652c6d89f76e3111767105c9e8a37406573ca6aec6c45ced945f37a95e5f"
+        },
+        {
+          "path": "data/asvs/V2.3.md",
+          "repositoryPath": "plugins/code-security-skills/data/asvs/V2.3.md",
+          "sha256": "551c327417289eb567e86067da51abc468ca968d6d6ed81d950ea862980c45d8"
+        },
+        {
+          "path": "data/asvs/V2.4.md",
+          "repositoryPath": "plugins/code-security-skills/data/asvs/V2.4.md",
+          "sha256": "7515269608d1542f29d3b9cbe9fe6a361eb9d50efbc262a030cea73c27521547"
+        },
+        {
+          "path": "data/asvs/V3.1.md",
+          "repositoryPath": "plugins/code-security-skills/data/asvs/V3.1.md",
+          "sha256": "83134960ce5b27cc2a8d5c890dd9d5ca75977e9dd241706b98768bf4ac07ddf7"
+        },
+        {
+          "path": "data/asvs/V3.2.md",
+          "repositoryPath": "plugins/code-security-skills/data/asvs/V3.2.md",
+          "sha256": "296527cb259684d3b1dc02124876c84335c64dfe5a1c5879e97bee8e7f5b7d2a"
+        },
+        {
+          "path": "data/asvs/V3.3.md",
+          "repositoryPath": "plugins/code-security-skills/data/asvs/V3.3.md",
+          "sha256": "013c33dc75818705c18b27a36916b84b81174c6aee9754236947b5ed938c93bf"
+        },
+        {
+          "path": "data/asvs/V3.4.md",
+          "repositoryPath": "plugins/code-security-skills/data/asvs/V3.4.md",
+          "sha256": "99a99c4fbda660322b3e79a4ce89b393e3167fa18b12dcd834b459a3cf1ca67d"
+        },
+        {
+          "path": "data/asvs/V3.5.md",
+          "repositoryPath": "plugins/code-security-skills/data/asvs/V3.5.md",
+          "sha256": "a734efa08c8b009a3a42522c454c73fa7629bd20992014787e802032f0f2bc85"
+        },
+        {
+          "path": "data/asvs/V3.6.md",
+          "repositoryPath": "plugins/code-security-skills/data/asvs/V3.6.md",
+          "sha256": "aefcfe5eb5ddf25ea211838047bb8372b1228cb0fba2abea98c3b831d085ea41"
+        },
+        {
+          "path": "data/asvs/V3.7.md",
+          "repositoryPath": "plugins/code-security-skills/data/asvs/V3.7.md",
+          "sha256": "47f58e0202a4374dd48faa9615c39bad884d0ba7e077c82fa71870962131c5b8"
+        },
+        {
+          "path": "data/asvs/V4.1.md",
+          "repositoryPath": "plugins/code-security-skills/data/asvs/V4.1.md",
+          "sha256": "1e196339194f33fc0e2572ee27b5109e85cc8157d8a2315bc6300d2dfe625a9d"
+        },
+        {
+          "path": "data/asvs/V4.2.md",
+          "repositoryPath": "plugins/code-security-skills/data/asvs/V4.2.md",
+          "sha256": "48864333a575737b00960bf5372ec3aff9fc5e3be20d866fcce589badc54fcbd"
+        },
+        {
+          "path": "data/asvs/V4.3.md",
+          "repositoryPath": "plugins/code-security-skills/data/asvs/V4.3.md",
+          "sha256": "6b96714cb6f522ea42e1b6704fde4828eaedd2cd4a750e5d1e9541033f797a29"
+        },
+        {
+          "path": "data/asvs/V4.4.md",
+          "repositoryPath": "plugins/code-security-skills/data/asvs/V4.4.md",
+          "sha256": "052abf6bd10740a837a9746e27158ed3c037bb8cb40438b4f0e1e483c677452d"
+        },
+        {
+          "path": "data/asvs/V5.1.md",
+          "repositoryPath": "plugins/code-security-skills/data/asvs/V5.1.md",
+          "sha256": "1736911dcd5eb2cefa32ad02b69eed20c25e14c78d10810f1e547e8ae8d4c45e"
+        },
+        {
+          "path": "data/asvs/V5.2.md",
+          "repositoryPath": "plugins/code-security-skills/data/asvs/V5.2.md",
+          "sha256": "47f017240b3eb59804712a60cc8dece5b59bc3376692ec7be69532176f46558f"
+        },
+        {
+          "path": "data/asvs/V5.3.md",
+          "repositoryPath": "plugins/code-security-skills/data/asvs/V5.3.md",
+          "sha256": "5bf5687d843d9fa7f82c8900f0c07bfa066523ce8225d190eeb69467176c90e4"
+        },
+        {
+          "path": "data/asvs/V5.4.md",
+          "repositoryPath": "plugins/code-security-skills/data/asvs/V5.4.md",
+          "sha256": "ea02be272a688c93b073e4a2732873a7db5db54c902f3316a1fe013dafbffd52"
+        },
+        {
+          "path": "data/asvs/V6.1.md",
+          "repositoryPath": "plugins/code-security-skills/data/asvs/V6.1.md",
+          "sha256": "1deef19fbbb65e7b5e6bcf40f9209c3e851dd5a1eb39346ab1634379aa8e38c8"
+        },
+        {
+          "path": "data/asvs/V6.2.md",
+          "repositoryPath": "plugins/code-security-skills/data/asvs/V6.2.md",
+          "sha256": "3ad0ec5deed0e10eb6c16941b19b4d962aac5ef5f6470e0f65e5c184a9ec4e55"
+        },
+        {
+          "path": "data/asvs/V6.3.md",
+          "repositoryPath": "plugins/code-security-skills/data/asvs/V6.3.md",
+          "sha256": "8a6889967b5e711ebc13f1b6967398d50242cb6b0278faa518bd84424c7d9322"
+        },
+        {
+          "path": "data/asvs/V6.4.md",
+          "repositoryPath": "plugins/code-security-skills/data/asvs/V6.4.md",
+          "sha256": "084df37c2ef952bd862c549eee3de42605b2963fd38dea4f78ad9c80ec139e26"
+        },
+        {
+          "path": "data/asvs/V6.5.md",
+          "repositoryPath": "plugins/code-security-skills/data/asvs/V6.5.md",
+          "sha256": "a4f8c29e05d259c858dd5e349d12dce6c5af256a97a05d2b87dc1ecb8145568f"
+        },
+        {
+          "path": "data/asvs/V6.6.md",
+          "repositoryPath": "plugins/code-security-skills/data/asvs/V6.6.md",
+          "sha256": "d2053e380ab54650c2ec1899cde8844897af8a08907d835138c48f19c0625f64"
+        },
+        {
+          "path": "data/asvs/V6.7.md",
+          "repositoryPath": "plugins/code-security-skills/data/asvs/V6.7.md",
+          "sha256": "20cb1636bdc4ca7a006517accacd84fd50a2b6b7dceecb9ed8d0c26c98c6f25d"
+        },
+        {
+          "path": "data/asvs/V6.8.md",
+          "repositoryPath": "plugins/code-security-skills/data/asvs/V6.8.md",
+          "sha256": "83132a35fcf37379b371c98bd935bfa8401026acca4d041cab2b6508e0c5ee49"
+        },
+        {
+          "path": "data/asvs/V7.1.md",
+          "repositoryPath": "plugins/code-security-skills/data/asvs/V7.1.md",
+          "sha256": "921808630ce896942fae2bc2f3fc84b403cbc6dc96d60e4c02a811efeec0fd51"
+        },
+        {
+          "path": "data/asvs/V7.2.md",
+          "repositoryPath": "plugins/code-security-skills/data/asvs/V7.2.md",
+          "sha256": "0158402c36ab13aaed21fa34cd24209dcd8c36a56b7598261418defab0b3fe04"
+        },
+        {
+          "path": "data/asvs/V7.3.md",
+          "repositoryPath": "plugins/code-security-skills/data/asvs/V7.3.md",
+          "sha256": "9914052d98392042d10d3fcb762ff8555bb9cc3edb569c848bd5480bd02c0dfe"
+        },
+        {
+          "path": "data/asvs/V7.4.md",
+          "repositoryPath": "plugins/code-security-skills/data/asvs/V7.4.md",
+          "sha256": "b0263e5464458187b5ef40c781648948c86dd199be4a6639598b6b71eeea5b8f"
+        },
+        {
+          "path": "data/asvs/V7.5.md",
+          "repositoryPath": "plugins/code-security-skills/data/asvs/V7.5.md",
+          "sha256": "3f2a0ec8d32548256b9cfabaa620abe08b8c0719106bffc2a2f13be91fe68178"
+        },
+        {
+          "path": "data/asvs/V7.6.md",
+          "repositoryPath": "plugins/code-security-skills/data/asvs/V7.6.md",
+          "sha256": "0afcde224736d964d92f0c5805063c414626dd54d31f3add8c9ec9d53e5c95ae"
+        },
+        {
+          "path": "data/asvs/V8.1.md",
+          "repositoryPath": "plugins/code-security-skills/data/asvs/V8.1.md",
+          "sha256": "eed00016f68a96c7ce082946d7351fd98884d46531bef5544ec505a973fb6e60"
+        },
+        {
+          "path": "data/asvs/V8.2.md",
+          "repositoryPath": "plugins/code-security-skills/data/asvs/V8.2.md",
+          "sha256": "805f45abee4b3f43b7165e29a7ac607bf7cccf66e65463ebebd375ef320b358f"
+        },
+        {
+          "path": "data/asvs/V8.3.md",
+          "repositoryPath": "plugins/code-security-skills/data/asvs/V8.3.md",
+          "sha256": "a22e604dd151c52e5007a198addab9494932334bac07d4d8de0ec955be98d736"
+        },
+        {
+          "path": "data/asvs/V8.4.md",
+          "repositoryPath": "plugins/code-security-skills/data/asvs/V8.4.md",
+          "sha256": "32011f754224312964aaecbbd0c067c6bb1327657bc9d6c5db05ab06b799b13f"
+        },
+        {
+          "path": "data/asvs/V9.1.md",
+          "repositoryPath": "plugins/code-security-skills/data/asvs/V9.1.md",
+          "sha256": "ab79957174203a6021ea738d8d72fcf90f30585ba9086dd5b3990ab994ea1bae"
+        },
+        {
+          "path": "data/asvs/V9.2.md",
+          "repositoryPath": "plugins/code-security-skills/data/asvs/V9.2.md",
+          "sha256": "a141cc4e1f8ed950d409826741750715477082c5a0b28e7eb07746132fe9f4e7"
+        },
+        {
+          "path": "plays/code-review-security.md",
+          "repositoryPath": "plugins/code-security-skills/plays/code-review-security.md",
+          "sha256": "019379b1ff328e2adb5132512b95591b370c31e7ec7a5c5900ee26c0524dccd1"
+        },
+        {
+          "path": "templates/finding.md",
+          "repositoryPath": "plugins/code-security-skills/templates/finding.md",
+          "sha256": "aad190ef52d264f4704ef3b1a98cca4afeef09827a5f96dda9a4b825584993b2"
+        },
+        {
+          "path": "LICENSE.md",
+          "repositoryPath": "LICENSE.md",
+          "sha256": "a6ef5f90d5f4d6df60f02545fd1b2c05f7108a690af0f914098ffa0f7025dca1"
+        }
+      ],
+      "agentIds": [
+        "cybersecurity-engineer"
+      ],
+      "description": "Use only for the assigned security review of a software product under construction, examining the authorized code or diff and reporting supported vulnerabilities and remediation.",
+      "adaptations": [
+        {
+          "path": "plays/code-review-security.md",
+          "find": "`data/asvs/V12.1.md` (Input Validation), `data/asvs/V13.1.md` (Output Encoding), `data/asvs/V5.3.md` (File Storage)",
+          "replace": "`data/asvs/V2.2.md` (Input Validation), `data/asvs/V1.2.md` (Injection Prevention), `data/asvs/V1.3.md` (Sanitization), `data/asvs/V5.3.md` (File Storage)",
+          "reason": "Correct ASVS 5 chapter references using the titles in the included source data."
+        },
+        {
+          "path": "plays/code-review-security.md",
+          "find": "`data/asvs/V2.1.md`–`V2.4.md` (Authentication), `data/asvs/V3.1.md`–`V3.7.md` (Session Management)",
+          "replace": "`data/asvs/V6.1.md`–`V6.8.md` (Authentication), `data/asvs/V7.1.md`–`V7.6.md` (Session Management)",
+          "reason": "Correct ASVS 5 chapter references using the titles in the included source data."
+        },
+        {
+          "path": "plays/code-review-security.md",
+          "find": "`data/asvs/V4.1.md`–`V4.4.md` (Access Control)",
+          "replace": "`data/asvs/V8.1.md`–`V8.4.md` (Authorization)",
+          "reason": "Correct ASVS 5 chapter references using the titles in the included source data."
+        },
+        {
+          "path": "plays/code-review-security.md",
+          "find": "`data/asvs/V6.1.md`–`V6.8.md` (Cryptography)",
+          "replace": "`data/asvs/V11.1.md`–`V11.7.md` (Cryptography)",
+          "reason": "Correct ASVS 5 chapter references using the titles in the included source data."
+        },
+        {
+          "path": "plays/code-review-security.md",
+          "find": "`data/asvs/V8.1.md`–`V8.4.md` (Data Protection), `data/asvs/V7.1.md`–`V7.6.md` (Error Handling & Logging)",
+          "replace": "`data/asvs/V14.1.md`–`V14.3.md` (Data Protection), `data/asvs/V16.1.md`–`V16.5.md` (Security Logging and Error Handling)",
+          "reason": "Correct ASVS 5 chapter references using the titles in the included source data."
+        },
+        {
+          "path": "plays/code-review-security.md",
+          "find": "`data/asvs/V10.1.md`–`V10.7.md` (Configuration)",
+          "replace": "`data/asvs/V13.1.md`–`V13.4.md` (Configuration)",
+          "reason": "Correct ASVS 5 chapter references using the titles in the included source data."
+        },
+        {
+          "path": "plays/code-review-security.md",
+          "find": "`data/asvs/V11.1.md`–`V11.7.md` (Business Logic)",
+          "replace": "`data/asvs/V2.3.md` (Business Logic), `data/asvs/V1.5.md` (Safe Deserialization)",
+          "reason": "Correct ASVS 5 chapter references using the titles in the included source data."
+        },
+        {
+          "path": "data/asvs/README.md",
+          "find": "## Chapter Index\n\n| Chapter | Topic | Sections |\n|---------|-------|----------|\n| V1 | Security Architecture | V1.1-V1.5 |\n| V2 | Authentication | V2.1-V2.4 |\n| V3 | Session Management | V3.1-V3.7 |\n| V4 | Access Control | V4.1-V4.4 |\n| V5 | File Handling | V5.1-V5.4 |\n| V6 | Cryptography | V6.1-V6.8 |\n| V7 | Error/Logging | V7.1-V7.6 |\n| V8 | Data Protection | V8.1-V8.4 |\n| V9 | API/Web Services | V9.1-V9.2 |\n| V10 | Configuration | V10.1-V10.7 |\n| V11 | Business Logic | V11.1-V11.7 |\n| V12 | Input Validation | V12.1-V12.3 |\n| V13 | Output Encoding | V13.1-V13.4 |\n| V14 | Secure Communication | V14.1-V14.3 |\n| V15 | Security in Dev | V15.1-V15.4 |\n| V16 | Sensitive Data | V16.1-V16.5 |\n| V17 | Malicious Code | V17.1-V17.3 |\n\n## Updating\n\nTo refresh from upstream:\n\n```bash\ncd /tmp && git clone --depth 1 https://github.com/eoftedal/owasp-agent-skills-project.git\ncp /tmp/owasp-agent-skills-project/references/ASVS/*.md data/asvs/\n```\n",
+          "replace": "## Chapter Index\n\nUse the title and requirement identifiers in each included `V*.md` file as the authoritative index. The source README chapter labels did not match the included ASVS 5 sections; Agent Forge removed those incorrect labels. Preserve the source and CC BY-SA 4.0 attribution above. Updates are performed through a new reviewed Agent Forge revision and file hashes, not a runtime clone or overwrite.\n",
+          "reason": "Remove incorrect chapter table and runtime overwrite instructions; the modified README remains CC-BY-SA-4.0."
+        },
+        {
+          "path": "templates/finding.md",
+          "find": "— requirement name (see data/opencre/)",
+          "replace": "— requirement name (verify the linked standard; do not infer an identifier)",
+          "reason": "Remove reference to a directory absent from the upstream repository."
+        },
+        {
+          "path": "templates/finding.md",
+          "find": "Common mappings are pre-populated in `data/opencre/README.md`.",
+          "replace": "The pinned source repository does not include `data/opencre/README.md`. Verify a mapping against the linked standard or leave that optional field unassigned; do not fabricate mappings.",
+          "reason": "Account for a missing upstream resource without fetching unreviewed material."
+        }
+      ],
+      "adaptation": "Agent Forge scopes activation to authorized software-product work and applies the exact, reviewed substitutions recorded below. Original bytes, file hashes, licenses, and attribution remain available."
+    },
+    {
+      "id": "langchain",
+      "deploymentName": "agent-forge-langchain",
+      "directoryUrl": "https://www.skills.sh/langchain-ai/docs/langchain",
+      "repositoryUrl": "https://github.com/langchain-ai/docs",
+      "revision": "e10670ebfb0ab8deb64a046c6ac558674e47e542",
+      "sourceDirectory": "src/.mintlify/skills/langchain",
+      "license": "MIT",
+      "licensePath": "LICENSE",
+      "files": [
+        {
+          "path": "SKILL.md",
+          "repositoryPath": "src/.mintlify/skills/langchain/SKILL.md",
+          "sha256": "f5786a494d5a0df46eeccacf1d6911501a7613916394a82426cafa66824c0293"
+        },
+        {
+          "path": "LICENSE",
+          "repositoryPath": "LICENSE",
+          "sha256": "98af1351ea856e008c835bc89a312905960a318072f950732bf346c741027c7d"
+        }
+      ],
+      "agentIds": [
+        "agentic-systems-engineer"
+      ],
+      "description": "Use only while implementing an authorized software product whose selected stack includes LangChain, for tool-calling agents, model integrations, structured output, and middleware.",
+      "adaptations": [
+        {
+          "path": "SKILL.md",
+          "find": "## Install\n",
+          "replace": "## Install\n\nUse the selected project dependency versions, package manager, and lockfile. These examples describe package names; they do not authorize upgrading an existing project, changing Codex models, or adding external accounts or services. Related frameworks below are references, not mandatory dependencies.\n\n",
+          "reason": "Preserve project dependency choices and model settings."
+        },
+        {
+          "path": "SKILL.md",
+          "find": "pip install -U langchain\n",
+          "replace": "pip install langchain\n",
+          "reason": "Remove unconditional dependency upgrade."
+        },
+        {
+          "path": "SKILL.md",
+          "find": "pip install -U langchain-openai",
+          "replace": "pip install langchain-openai",
+          "reason": "Remove unconditional provider upgrade."
+        }
+      ],
+      "adaptation": "Agent Forge scopes activation to authorized software-product work and applies the exact, reviewed substitutions recorded below. Original bytes, file hashes, licenses, and attribution remain available."
+    },
+    {
+      "id": "create-datadriven-aspnetcore",
+      "deploymentName": "agent-forge-create-datadriven-aspnetcore",
+      "directoryUrl": "https://www.skills.sh/dotnet/skills/create-datadriven-aspnetcore",
+      "repositoryUrl": "https://github.com/dotnet/skills",
+      "revision": "e87c5da26cbf0f8c701e91247c4817df0adc12f7",
+      "sourceDirectory": "plugins/dotnet-data/skills/create-datadriven-aspnetcore",
+      "license": "MIT",
+      "licensePath": "LICENSE",
+      "files": [
+        {
+          "path": "SKILL.md",
+          "repositoryPath": "plugins/dotnet-data/skills/create-datadriven-aspnetcore/SKILL.md",
+          "sha256": "b90587c30ae832293bd25abeeb9f2df1a25dc28bbae0908e3d722086a2c7cf6a"
+        },
+        {
+          "path": "LICENSE",
+          "repositoryPath": "LICENSE",
+          "sha256": "cfc21f5e8bd655ae997eec916138b707b1d290b83272c02a95c9f821b8c87310"
+        }
+      ],
+      "agentIds": [
+        "dotnet-engineer"
+      ],
+      "description": "Use only when an authorized ASP.NET Core product task specifically requires creating data-backed pages or endpoints with Entity Framework Core, matching the existing project and approved database scope.",
+      "adaptations": [
+        {
+          "path": "SKILL.md",
+          "find": "3. Generate complete CRUD for the requested entity and every required parent entity: list, details, create, edit, and delete.",
+          "replace": "3. Generate the requested create, read, update, and delete behavior. Reuse existing parent-entity flows; add a missing parent flow only when it is necessary to deliver the requested product behavior. Do not expose unrequested administrative endpoints.",
+          "reason": "Avoid automatic creation of unrequested parent-resource functionality."
+        },
+        {
+          "path": "SKILL.md",
+          "find": "4. Use the EF migration lifecycle: create a migration and apply it. Never call `EnsureCreated` or seed the database in `Program.cs`.",
+          "replace": "4. Follow the existing EF migration lifecycle. Prepare the required migration; apply it only to an isolated disposable test database or a database change explicitly authorized by Roberto. Preserve real data and do not introduce `EnsureCreated` or startup seeding.",
+          "reason": "Constrain migration application to authorized data targets."
+        },
+        {
+          "path": "SKILL.md",
+          "find": "- For `dotnet ef`: prefer `dotnet tool restore` from a local tool manifest. Only install globally if no manifest exists",
+          "replace": "- For `dotnet ef`, restore the existing local tool manifest when available. If the tool is absent, prepare a project-local manifest within the authorized implementation scope or report the missing dependency; do not install global tools.",
+          "reason": "Remove global tool installation fallback."
+        },
+        {
+          "path": "SKILL.md",
+          "find": "| `dotnet ef` not found | Try `dotnet tool restore` first; only install globally as fallback |",
+          "replace": "| `dotnet ef` not found | Restore the existing local tool manifest or report the missing dependency; do not install global tools |",
+          "reason": "Remove conflicting global installation advice in the pitfalls table."
+        },
+        {
+          "path": "SKILL.md",
+          "find": "2. If Entity Framework is used and this is the first verification:\n   - Run `dotnet ef migrations add InitialCreate`\n   - Run `dotnet ef database update`\n   - You will need to change \"InitialCreate\" to something else if you run this more than once, as EF Core requires unique migration names.",
+          "replace": "2. If Entity Framework is used, inspect existing migrations and create the migration that the actual schema change requires. Apply it to an isolated disposable test database. Applying it to preserved data requires explicit authorization; do not add repeated initial migrations merely to rerun verification.",
+          "reason": "Preserve migration history and real data on repeated verification."
+        },
+        {
+          "path": "SKILL.md",
+          "find": "- [ ] EF migrations apply cleanly (if applicable)",
+          "replace": "- [ ] EF migrations apply cleanly to the isolated test database (if applicable); report any real-data migration awaiting authorization",
+          "reason": "Make the validation target explicit."
+        },
+        {
+          "path": "SKILL.md",
+          "find": "Also scaffold CRUD for any entity that `<ModelName>` depends on via required foreign keys, so parent entities can be created first.",
+          "replace": "Reuse the existing permitted way to select a valid parent entity. Add a missing parent-entity operation only if the requested product workflow requires it.",
+          "reason": "Remove residual requirements to create parent-resource CRUD; foreign-key prerequisites are resolved within the authorized product workflow."
+        },
+        {
+          "path": "SKILL.md",
+          "find": "- **FK scope**: whether to also scaffold CRUD for parent entities referenced by required foreign keys",
+          "replace": "- **Foreign-key scope**: how the requested workflow obtains valid referenced records; identify existing selection flows, authorized test fixtures, or a necessary missing operation without assuming full CRUD for related entities.",
+          "reason": "Remove residual requirements to create parent-resource CRUD; foreign-key prerequisites are resolved within the authorized product workflow."
+        },
+        {
+          "path": "SKILL.md",
+          "find": "Complete the applicable checklist in order. Do not stop after creating only the requested child resource when a required foreign key makes a parent resource necessary.",
+          "replace": "Complete the applicable checklist for the authorized workflow. Resolve required foreign-key prerequisites using existing records, existing permitted operations, or isolated test fixtures; a foreign key alone does not require adding a parent-resource interface or API.",
+          "reason": "Remove residual requirements to create parent-resource CRUD; foreign-key prerequisites are resolved within the authorized product workflow."
+        },
+        {
+          "path": "SKILL.md",
+          "find": "2. Generate the complete child and required-parent UI flows, including a navigation path to each resource so users can create a parent before creating a child.",
+          "replace": "2. Generate the requested UI flow and let users select valid related records through the existing permitted interface. Add only the missing related-record operation necessary for that workflow; do not create complete parent-entity pages or navigation by default.",
+          "reason": "Remove residual requirements to create parent-resource CRUD; foreign-key prerequisites are resolved within the authorized product workflow."
+        },
+        {
+          "path": "SKILL.md",
+          "find": "1. Use a route group for each resource and map `GET` (list and by ID), `POST`, `PUT`, and `DELETE` endpoints for both child and required-parent resources.",
+          "replace": "1. Use route groups for the resources changed by the authorized task. Map only the requested operations. Reuse existing parent-resource endpoints or approved fixture setup for foreign-key prerequisites; do not add parent-resource CRUD merely because a foreign key exists.",
+          "reason": "Remove residual requirements to create parent-resource CRUD; foreign-key prerequisites are resolved within the authorized product workflow."
+        },
+        {
+          "path": "SKILL.md",
+          "find": "3. Create an executable `.http` file with every CRUD request. Create parent records first, capture or clearly reuse their returned IDs in child requests, and run the requests in dependency order.",
+          "replace": "3. Create an executable `.http` file covering the endpoints implemented by this task. Obtain related-record IDs from existing authorized setup or isolated fixtures before requests that reference them; do not require a new parent endpoint to arrange test data.",
+          "reason": "Remove residual requirements to create parent-resource CRUD; foreign-key prerequisites are resolved within the authorized product workflow."
+        },
+        {
+          "path": "SKILL.md",
+          "find": "- Inspect the model for navigation properties and foreign keys. Ensure CRUD endpoints/pages exist for referenced entities",
+          "replace": "- Inspect navigation properties and foreign keys. Confirm that the requested workflow can obtain valid related records through existing authorized operations or test fixtures; referenced entities do not automatically require new CRUD endpoints or pages.",
+          "reason": "Remove residual requirements to create parent-resource CRUD; foreign-key prerequisites are resolved within the authorized product workflow."
+        },
+        {
+          "path": "SKILL.md",
+          "find": "- For API scaffolders: the `.http` file MUST create parent entities before child entities. Use FK values consistent with creation order",
+          "replace": "- For API scaffolders, prepare any required related records through the existing authorized setup or isolated test fixtures, then use their actual IDs in requests. Record setup separately when it is not an HTTP operation.",
+          "reason": "Remove residual requirements to create parent-resource CRUD; foreign-key prerequisites are resolved within the authorized product workflow."
+        },
+        {
+          "path": "SKILL.md",
+          "find": "2. Include sample requests for every CRUD endpoint scaffolded, including endpoints for parent/dependent entities",
+          "replace": "2. Include sample requests for every endpoint implemented within this task. Include a related-entity request only when that operation already exists and is authorized for the test, or was specifically required by the product workflow.",
+          "reason": "Remove residual requirements to create parent-resource CRUD; foreign-key prerequisites are resolved within the authorized product workflow."
+        },
+        {
+          "path": "SKILL.md",
+          "find": "5. Order requests by dependency: create parent entities before child entities",
+          "replace": "5. Order requests by data dependencies. Reuse valid related records or arrange them in isolated test setup; do not add an endpoint solely to satisfy a test sequence.",
+          "reason": "Remove residual requirements to create parent-resource CRUD; foreign-key prerequisites are resolved within the authorized product workflow."
+        },
+        {
+          "path": "SKILL.md",
+          "find": "6. When possible, capture IDs from parent creation responses using your HTTP client's variable/templating features and reuse them as foreign key values in child-entity POST payloads",
+          "replace": "6. Obtain foreign-key IDs from the authorized existing records or test setup. Capture response IDs when setup legitimately uses an existing API, and reuse those actual IDs in the requests under test.",
+          "reason": "Remove residual requirements to create parent-resource CRUD; foreign-key prerequisites are resolved within the authorized product workflow."
+        },
+        {
+          "path": "SKILL.md",
+          "find": "7. If your client cannot capture response values, add comments indicating which FK IDs must be updated after running the parent creation requests; do not leave unrealistic placeholder or assumed FK values that do not correspond to actual parent records when executing the requests",
+          "replace": "7. If the HTTP client cannot capture IDs, document the actual fixture or setup IDs needed by each request. Never execute requests with invented IDs or create extra endpoints to avoid arranging valid test data.",
+          "reason": "Remove residual requirements to create parent-resource CRUD; foreign-key prerequisites are resolved within the authorized product workflow."
+        },
+        {
+          "path": "SKILL.md",
+          "find": "| EF migration fails due to missing parent entity CRUD | Scaffold CRUD for FK-dependent entities when request mentions foreign keys |",
+          "replace": "| A migration or request fails on a foreign-key prerequisite | Inspect the schema, constraint, migration order, and actual referenced records; reuse authorized data setup. Missing CRUD endpoints are not a schema-migration defect |",
+          "reason": "Remove residual requirements to create parent-resource CRUD; foreign-key prerequisites are resolved within the authorized product workflow."
+        },
+        {
+          "path": "SKILL.md",
+          "find": "| `.http` file has wrong FK values | Order requests by dependency; use values consistent with creation order |",
+          "replace": "| `.http` file has wrong foreign-key values | Use actual IDs from existing authorized records or isolated fixture setup and run requests in dependency order |",
+          "reason": "Remove residual requirements to create parent-resource CRUD; foreign-key prerequisites are resolved within the authorized product workflow."
+        }
+      ],
+      "adaptation": "Agent Forge scopes activation to authorized software-product work and applies the exact, reviewed substitutions recorded below. Original bytes, file hashes, licenses, and attribution remain available."
+    },
+    {
+      "id": "supabase-postgres-best-practices",
+      "deploymentName": "agent-forge-supabase-postgres-best-practices",
+      "directoryUrl": "https://www.skills.sh/supabase/agent-skills/supabase-postgres-best-practices",
+      "repositoryUrl": "https://github.com/supabase/agent-skills",
+      "revision": "c9be0e931b7930f7d02126d04774d904c381e7d7",
+      "sourceDirectory": "skills/supabase-postgres-best-practices",
+      "license": "MIT",
+      "licensePath": "LICENSE",
+      "files": [
+        {
+          "path": "CHANGELOG.md",
+          "repositoryPath": "skills/supabase-postgres-best-practices/CHANGELOG.md",
+          "sha256": "751ad110037c85d400018c9894716a04fa46357ff55c22b1169b280752e19e88"
+        },
+        {
+          "path": "SKILL.md",
+          "repositoryPath": "skills/supabase-postgres-best-practices/SKILL.md",
+          "sha256": "ad65e776f45e761bafc609d3f506c77c1032225aa65e0c4c02f241b8071e5855"
+        },
+        {
+          "path": "references/_contributing.md",
+          "repositoryPath": "skills/supabase-postgres-best-practices/references/_contributing.md",
+          "sha256": "191e039e7d94764e6073410b513b559f9a594e0fdf0252a30c2a2986df2ab3bc"
+        },
+        {
+          "path": "references/_sections.md",
+          "repositoryPath": "skills/supabase-postgres-best-practices/references/_sections.md",
+          "sha256": "c9e992612b422c7122de0b7542ebc2450db283edaab08cfe86c6d657fcccccd5"
+        },
+        {
+          "path": "references/_template.md",
+          "repositoryPath": "skills/supabase-postgres-best-practices/references/_template.md",
+          "sha256": "6299954250f212caabe339d752c3e5313a8e07d1a182a4e4b425baee91df1bd2"
+        },
+        {
+          "path": "references/advanced-full-text-search.md",
+          "repositoryPath": "skills/supabase-postgres-best-practices/references/advanced-full-text-search.md",
+          "sha256": "40c2606bbb4c4dce31308f201b24cc7f58c7df05b1d9c6856fe2b888d3b7cf28"
+        },
+        {
+          "path": "references/advanced-jsonb-indexing.md",
+          "repositoryPath": "skills/supabase-postgres-best-practices/references/advanced-jsonb-indexing.md",
+          "sha256": "24cacf6a8bc35901dd566d24502ce8e57f810a5c196b897e61d52726e521d106"
+        },
+        {
+          "path": "references/conn-idle-timeout.md",
+          "repositoryPath": "skills/supabase-postgres-best-practices/references/conn-idle-timeout.md",
+          "sha256": "630588902c00fcec59a5988cc5d042f76dcf2c923a535abfd8c47dca205eaed5"
+        },
+        {
+          "path": "references/conn-limits.md",
+          "repositoryPath": "skills/supabase-postgres-best-practices/references/conn-limits.md",
+          "sha256": "11b2a67a7c7679cbbc5d807bbb17e69c98484a581d0c8b929c03408f412b81b2"
+        },
+        {
+          "path": "references/conn-pooling.md",
+          "repositoryPath": "skills/supabase-postgres-best-practices/references/conn-pooling.md",
+          "sha256": "88cf086bf98ba865d2e9d0579974e1366b14157619d6a93e7da77be91084e4a5"
+        },
+        {
+          "path": "references/conn-prepared-statements.md",
+          "repositoryPath": "skills/supabase-postgres-best-practices/references/conn-prepared-statements.md",
+          "sha256": "174e9332fe3dda5c99b2b00159fb1915ae36c00bab3a7882c14e73e4344e946e"
+        },
+        {
+          "path": "references/data-batch-inserts.md",
+          "repositoryPath": "skills/supabase-postgres-best-practices/references/data-batch-inserts.md",
+          "sha256": "531933b82d6a622d0fae29e0ea80be6fe5d78655adf2804c271ea84a1930de37"
+        },
+        {
+          "path": "references/data-n-plus-one.md",
+          "repositoryPath": "skills/supabase-postgres-best-practices/references/data-n-plus-one.md",
+          "sha256": "21a44905e5b16a42741892ec34bb1bfef124d049b140a76934a9acd0f46f5fc2"
+        },
+        {
+          "path": "references/data-pagination.md",
+          "repositoryPath": "skills/supabase-postgres-best-practices/references/data-pagination.md",
+          "sha256": "73c9fa10a3d439bedea0e11b640bd25bf30dd50f0d9006cf85baf7c3151543fa"
+        },
+        {
+          "path": "references/data-upsert.md",
+          "repositoryPath": "skills/supabase-postgres-best-practices/references/data-upsert.md",
+          "sha256": "2612af83b20a2701dde30ef1f8d7efd26b7e9eef84717226b8f038a2d2150ff7"
+        },
+        {
+          "path": "references/lock-advisory.md",
+          "repositoryPath": "skills/supabase-postgres-best-practices/references/lock-advisory.md",
+          "sha256": "c88d259dbf81c3771438f59a165f7eab8acd09999dd370bdf807521c73f35aab"
+        },
+        {
+          "path": "references/lock-deadlock-prevention.md",
+          "repositoryPath": "skills/supabase-postgres-best-practices/references/lock-deadlock-prevention.md",
+          "sha256": "09aee46f51d7178c8e55fe056cd5a94a64ba2c122fe418e6900cd99f297b2347"
+        },
+        {
+          "path": "references/lock-short-transactions.md",
+          "repositoryPath": "skills/supabase-postgres-best-practices/references/lock-short-transactions.md",
+          "sha256": "5aa7f61095916986d39644b446cdbcd2bacca7ef698a3bb50b3f82dd60207602"
+        },
+        {
+          "path": "references/lock-skip-locked.md",
+          "repositoryPath": "skills/supabase-postgres-best-practices/references/lock-skip-locked.md",
+          "sha256": "6c45077f430f29cd9cd8f448c94d578e827e7bd023fcdaf717a756acb116fa4b"
+        },
+        {
+          "path": "references/monitor-explain-analyze.md",
+          "repositoryPath": "skills/supabase-postgres-best-practices/references/monitor-explain-analyze.md",
+          "sha256": "4cb67ffbf8e57f2e5b380b0beb4242528b513723ce314a2c2ffcf083bd4203d7"
+        },
+        {
+          "path": "references/monitor-pg-stat-statements.md",
+          "repositoryPath": "skills/supabase-postgres-best-practices/references/monitor-pg-stat-statements.md",
+          "sha256": "89dca99d4e894fcbdcac136be7ad9fbc03d1342904f065c1b198dc9cf495f098"
+        },
+        {
+          "path": "references/monitor-vacuum-analyze.md",
+          "repositoryPath": "skills/supabase-postgres-best-practices/references/monitor-vacuum-analyze.md",
+          "sha256": "2892272011710eb49b3f185ec12f15ce9ce4c365792c672f6e2a9c90da426a1a"
+        },
+        {
+          "path": "references/query-composite-indexes.md",
+          "repositoryPath": "skills/supabase-postgres-best-practices/references/query-composite-indexes.md",
+          "sha256": "73e42424e671f0266e74fdb220db3196790f69fb43e2b19c7b9483eb4971b554"
+        },
+        {
+          "path": "references/query-covering-indexes.md",
+          "repositoryPath": "skills/supabase-postgres-best-practices/references/query-covering-indexes.md",
+          "sha256": "daf2a7f0477fb7357b62b5fb5b185b1995a77a186347e45cb780e25e7a7589b6"
+        },
+        {
+          "path": "references/query-index-types.md",
+          "repositoryPath": "skills/supabase-postgres-best-practices/references/query-index-types.md",
+          "sha256": "472a74f22c2df203bd0154999b3a5a0187cca2ab3d9a3978e305bb7c32f1a282"
+        },
+        {
+          "path": "references/query-missing-indexes.md",
+          "repositoryPath": "skills/supabase-postgres-best-practices/references/query-missing-indexes.md",
+          "sha256": "91ad8b0ff4365704b4830a7f077c6f140f7140fd5d3ce5cd0b92b160cf9e25f1"
+        },
+        {
+          "path": "references/query-partial-indexes.md",
+          "repositoryPath": "skills/supabase-postgres-best-practices/references/query-partial-indexes.md",
+          "sha256": "6448982bc8558c6555284958edc331b29239c6a0130e6b4501dd6d4da607a6dd"
+        },
+        {
+          "path": "references/schema-constraints.md",
+          "repositoryPath": "skills/supabase-postgres-best-practices/references/schema-constraints.md",
+          "sha256": "90e8efda3e9e81095e642911ad4aae2809d160f29414338fa997253238f510f8"
+        },
+        {
+          "path": "references/schema-data-types.md",
+          "repositoryPath": "skills/supabase-postgres-best-practices/references/schema-data-types.md",
+          "sha256": "e01b58c14c7f3f65d8ead580b9a4fcf70b83baaab0f9a5f83c569c9fd113e8c8"
+        },
+        {
+          "path": "references/schema-foreign-key-indexes.md",
+          "repositoryPath": "skills/supabase-postgres-best-practices/references/schema-foreign-key-indexes.md",
+          "sha256": "7587713d12a65a212365459b3d39e4717d8a79e4073b10bd62f1054d8192c0dd"
+        },
+        {
+          "path": "references/schema-lowercase-identifiers.md",
+          "repositoryPath": "skills/supabase-postgres-best-practices/references/schema-lowercase-identifiers.md",
+          "sha256": "4bc80f70865f2390872591f326c8a6be6456a0aeb5a7e5a2475d7cd9d43059ab"
+        },
+        {
+          "path": "references/schema-partitioning.md",
+          "repositoryPath": "skills/supabase-postgres-best-practices/references/schema-partitioning.md",
+          "sha256": "541e13fbeaf4bb1485c9059d4c9417dbdb766cf16f4237cd63a04ada7ec45b90"
+        },
+        {
+          "path": "references/schema-primary-keys.md",
+          "repositoryPath": "skills/supabase-postgres-best-practices/references/schema-primary-keys.md",
+          "sha256": "3c8beabef82066f9a0838b926da0885117fd2d9a263aaf84cb5ca9e5f0d400e9"
+        },
+        {
+          "path": "references/security-privileges.md",
+          "repositoryPath": "skills/supabase-postgres-best-practices/references/security-privileges.md",
+          "sha256": "095909274a4fb43df785d7144cf674eeb40284d2d45628f14af4108737b93663"
+        },
+        {
+          "path": "references/security-rls-basics.md",
+          "repositoryPath": "skills/supabase-postgres-best-practices/references/security-rls-basics.md",
+          "sha256": "e04dd1a3a382aafdaaa73fe9f7976352acdde6e90c2a2470d281b94d4f44b096"
+        },
+        {
+          "path": "references/security-rls-performance.md",
+          "repositoryPath": "skills/supabase-postgres-best-practices/references/security-rls-performance.md",
+          "sha256": "2e1faeca7d5746e246b1c78f9492fe2a9cfa41c4d7fa1e23c402d58fa18ea014"
+        },
+        {
+          "path": "LICENSE",
+          "repositoryPath": "LICENSE",
+          "sha256": "b65e575eb4f04a13c187d64e958321298e2ab84d67aa8428819f362056ba292c"
+        }
+      ],
+      "agentIds": [
+        "database-engineer"
+      ],
+      "description": "Use only while implementing or reviewing PostgreSQL schemas, constraints, transactions, or row-level security for an authorized software product. Apply performance procedures only when performance work is explicitly requested.",
+      "adaptations": [
+        {
+          "path": "SKILL.md",
+          "find": "Comprehensive performance optimization guide for Postgres, maintained by Supabase. Contains rules across 8 categories, prioritized by impact to guide automated query optimization and schema design.",
+          "replace": "PostgreSQL reference guidance maintained by Supabase. Read only the schema, transaction, constraint, or security references relevant to the product task. Performance ranking and tuning examples do not authorize optimization; use them only when performance work is explicitly requested.",
+          "reason": "Scope the performance-oriented source to the authorized database work."
+        },
+        {
+          "path": "SKILL.md",
+          "find": "Reference these guidelines when:\n- Writing SQL queries or designing schemas\n- Implementing indexes or query optimization\n- Reviewing database performance issues\n- Configuring connection pooling or scaling\n- Optimizing for Postgres-specific features\n- Working with Row-Level Security (RLS)",
+          "replace": "Reference these guidelines for the authorized product task when writing SQL, designing schemas or constraints, managing transactions, or implementing row-level security. Use performance, pooling, scaling, and index-tuning procedures only for explicitly requested performance work. Applying migrations or changing preserved data still requires the corresponding authorization.",
+          "reason": "Prevent broad optimization and data changes from keyword activation."
+        },
+        {
+          "path": "references/schema-constraints.md",
+          "find": "where conname = 'check_age_positive'\n",
+          "replace": "where conname = 'check_age_positive'\n      and conrelid = 'public.users'::regclass\n",
+          "reason": "Qualify constraint existence by table; constraint names are not globally unique."
+        },
+        {
+          "path": "references/schema-constraints.md",
+          "find": "where conname = 'profiles_birthchart_id_fkey'\n",
+          "replace": "where conname = 'profiles_birthchart_id_fkey'\n      and conrelid = 'public.profiles'::regclass\n",
+          "reason": "Qualify foreign-key existence by table; constraint names are not globally unique."
+        },
+        {
+          "path": "references/security-rls-basics.md",
+          "find": "Row Level Security (RLS) enforces data access at the database level, ensuring users only see their own data.",
+          "replace": "Row Level Security (RLS) can enforce row access when the application role, policies, and authenticated identity are correctly configured. Verify tenant isolation with the actual runtime role; superusers and roles with BYPASSRLS can bypass policies. A client-supplied custom setting is not authenticated identity. The custom-setting example below applies only when trusted server code owns the connection and sets the identity within the request transaction, with no untrusted direct SQL access.",
+          "reason": "Clarify the trust boundary and privileged-role limitations of the sample policy."
+        },
+        {
+          "path": "references/security-rls-basics.md",
+          "find": "-- Set user context and query\nset app.current_user_id = '123';\nselect * from orders;  -- Only returns orders for user 123",
+          "replace": "-- Trusted server code sets identity only for this request transaction\nbegin;\nset local app.current_user_id = '123';\nselect * from orders;  -- Check expected isolation using the runtime role\ncommit;",
+          "reason": "Avoid leaking a user identity into later requests on a pooled connection."
+        }
+      ],
+      "adaptation": "Agent Forge scopes activation to authorized software-product work and applies the exact, reviewed substitutions recorded below. Original bytes, file hashes, licenses, and attribution remain available."
+    }
+  ]
+}

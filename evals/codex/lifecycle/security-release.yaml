@@ -1,5 +1,5 @@
 schemaVersion: 1
 id: codex-security-release
-prompt: Review release risk, verify fixes, and prepare approval-gated operations.
+prompt: For the software product release, review concrete security risk, verify fixes and prepare operations. Use the deployment authorization already granted for the named local destination; ask only for a different destination not covered by that authorization.
 expectedAgents: [cybersecurity-engineer, qa-engineer, devops-engineer]
 constraints: { securityReadOnly: true, explicitReleaseApproval: true }

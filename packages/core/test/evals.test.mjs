@@ -3,7 +3,7 @@ import { readdir, readFile } from 'node:fs/promises';
 import path from 'node:path';
 import test from 'node:test';
 import { fileURLToPath } from 'node:url';
-import { loadManifest } from '../dist/index.js';
+import { loadManifest, loadExternalSkillCatalog } from '../dist/index.js';
 
 const repo = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..', '..', '..');
 
@@ -31,7 +31,9 @@ test('lifecycle and failure-mode release fixtures are complete', async () => {
 test('Codex agents, bundles, lifecycle, and failure evaluations are complete', async () => {
   const manifest = await loadManifest(repo);
   assert.deepEqual((await ids(path.join(repo, 'evals', 'codex', 'agents'))).sort(), Object.keys(manifest.codex.agents).sort());
-  assert.deepEqual((await ids(path.join(repo, 'evals', 'codex', 'skills'))).sort(), Object.keys(manifest.codex.skillBundles).sort());
+  const catalog = await loadExternalSkillCatalog(repo, manifest);
+  const skills = [...Object.keys(manifest.codex.skillBundles), ...catalog.skills.map(skill => skill.deploymentName), manifest.codex.productDevelopment.deploymentName];
+  assert.deepEqual((await ids(path.join(repo, 'evals', 'codex', 'skills'))).sort(), skills.sort());
   assert.equal((await ids(path.join(repo, 'evals', 'codex', 'lifecycle'))).length, 6);
   assert.equal((await ids(path.join(repo, 'evals', 'codex', 'failures'))).length, 7);
 });

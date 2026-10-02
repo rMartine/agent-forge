@@ -28,6 +28,7 @@ function validateAgent(id: string, raw: unknown): asserts raw is AgentManifestEn
   if (!raw || typeof raw !== 'object') throw new ManifestValidationError(`agents.${id} must be an object`);
   const agent = raw as Record<string, unknown>;
   nonEmpty(agent.id, `agents.${id}.id`);
+  if (!/^[a-z0-9]+(?:-[a-z0-9]+)*$/.test(id)) throw new ManifestValidationError(`Invalid agent identifier ${id}`);
   if (agent.id !== id) throw new ManifestValidationError(`agents.${id}.id must equal its map key`);
   nonEmpty(agent.source, `agents.${id}.source`);
   if (agent.visibility !== 'entry' && agent.visibility !== 'worker') throw new ManifestValidationError(`agents.${id}.visibility must be entry or worker`);
@@ -42,6 +43,7 @@ function validateCodexAgent(id: string, raw: unknown, manifest: Record<string, u
   if (!raw || typeof raw !== 'object') throw new ManifestValidationError(`codex.agents.${id} must be an object`);
   const agent = raw as Record<string, unknown>;
   nonEmpty(agent.id, `codex.agents.${id}.id`);
+  if (!/^[a-z0-9]+(?:-[a-z0-9]+)*$/.test(id)) throw new ManifestValidationError(`Invalid Codex agent identifier ${id}`);
   if (agent.id !== id) throw new ManifestValidationError(`codex.agents.${id}.id must equal its map key`);
   nonEmpty(agent.sourceAgent, `codex.agents.${id}.sourceAgent`);
   if (!(agent.sourceAgent in manifest)) throw new ManifestValidationError(`codex.agents.${id}.sourceAgent is unknown`);
@@ -52,6 +54,7 @@ function validateCodexAgent(id: string, raw: unknown, manifest: Record<string, u
   if (typeof agent.instructionOverlay !== 'string') throw new ManifestValidationError(`codex.agents.${id}.instructionOverlay must be a string`);
   stringArray(agent.requiredCapabilities, `codex.agents.${id}.requiredCapabilities`);
   stringArray(agent.optionalCapabilities, `codex.agents.${id}.optionalCapabilities`);
+  if (agent.completionEvidence !== undefined) stringArray(agent.completionEvidence, `codex.agents.${id}.completionEvidence`);
 }
 
 function validateBundle(id: string, raw: unknown, skillIds: Set<string>): asserts raw is CodexSkillBundleEntry {
@@ -93,7 +96,7 @@ export async function loadManifest(repoPath: string): Promise<DeploymentManifest
 export function validateManifest(raw: unknown): DeploymentManifestV3 {
   if (!raw || typeof raw !== 'object') throw new ManifestValidationError('Manifest must be an object');
   const manifest = raw as Record<string, unknown>;
-  if (manifest.schemaVersion !== 3) throw new ManifestValidationError('schemaVersion must be 3; manifest v2 is no longer deployable');
+  if (manifest.schemaVersion !== 3 && manifest.schemaVersion !== 4) throw new ManifestValidationError('schemaVersion must be 3 or 4; manifest v2 is no longer deployable');
   if (!Array.isArray(manifest.platforms) || manifest.platforms.join(',') !== 'vscode,codex') throw new ManifestValidationError('platforms must be ["vscode", "codex"]');
   if (manifest.scope !== 'user') throw new ManifestValidationError('scope must be user');
   if (!manifest.targets || typeof manifest.targets !== 'object') throw new ManifestValidationError('targets is required');
@@ -106,7 +109,7 @@ export function validateManifest(raw: unknown): DeploymentManifestV3 {
   for (const key of ['capabilityCatalog', 'modelProfiles', 'mcpProviders']) nonEmpty(manifest[key], key);
   if (!manifest.agents || typeof manifest.agents !== 'object' || Array.isArray(manifest.agents)) throw new ManifestValidationError('agents must be an object keyed by stable agent id');
   const agents = manifest.agents as Record<string, unknown>;
-  if (Object.keys(agents).length !== 24) throw new ManifestValidationError('agents must preserve exactly 24 canonical IDs');
+  if (Object.keys(agents).length === 0) throw new ManifestValidationError('agents must contain at least one canonical agent');
   for (const [id, agent] of Object.entries(agents)) validateAgent(id, agent);
   const ids = new Set(Object.keys(agents));
   for (const [id, rawAgent] of Object.entries(agents)) {
@@ -131,12 +134,25 @@ export function validateManifest(raw: unknown): DeploymentManifestV3 {
   if (!codex.agents || typeof codex.agents !== 'object' || Array.isArray(codex.agents)) throw new ManifestValidationError('codex.agents must be an object');
   if (!codex.skillBundles || typeof codex.skillBundles !== 'object' || Array.isArray(codex.skillBundles)) throw new ManifestValidationError('codex.skillBundles must be an object');
   const bundles = codex.skillBundles as Record<string, unknown>;
-  if (Object.keys(bundles).length !== 5) throw new ManifestValidationError('codex.skillBundles must contain exactly five bundles');
   const skillIds = new Set((manifest.skills as Array<{ id: string }>).map(item => item.id));
   for (const [id, bundle] of Object.entries(bundles)) validateBundle(id, bundle, skillIds);
   const codexAgents = codex.agents as Record<string, unknown>;
-  if (Object.keys(codexAgents).length !== 16) throw new ManifestValidationError('codex.agents must contain exactly 16 agents');
+  if (Object.keys(codexAgents).length === 0) throw new ManifestValidationError('codex.agents must contain at least one agent');
   const bundleIds = new Set(Object.keys(bundles));
   for (const [id, agent] of Object.entries(codexAgents)) validateCodexAgent(id, agent, agents, bundleIds);
+  const deployedNames = Object.values(bundles).map(raw => (raw as CodexSkillBundleEntry).deploymentName);
+  if (codex.productDevelopment !== undefined) {
+    if (manifest.schemaVersion !== 4) throw new ManifestValidationError('productDevelopment requires manifest schemaVersion 4');
+    const product = codex.productDevelopment as Record<string, unknown>;
+    if (!product || typeof product !== 'object') throw new ManifestValidationError('codex.productDevelopment must be an object');
+    for (const field of ['source', 'deploymentName', 'hooksSource', 'hooksTarget']) nonEmpty(product[field], `codex.productDevelopment.${field}`);
+    if (!/^agent-forge-[a-z0-9-]+$/.test(String(product.deploymentName))) throw new ManifestValidationError('Product skill name must start with agent-forge-');
+    deployedNames.push(String(product.deploymentName));
+  }
+  if (new Set(deployedNames).size !== deployedNames.length) throw new ManifestValidationError('Codex deployed skill names must be unique');
+  if (codex.externalSkillCatalog !== undefined) {
+    if (manifest.schemaVersion !== 4) throw new ManifestValidationError('externalSkillCatalog requires manifest schemaVersion 4');
+    nonEmpty(codex.externalSkillCatalog, 'codex.externalSkillCatalog');
+  }
   return raw as DeploymentManifestV3;
 }

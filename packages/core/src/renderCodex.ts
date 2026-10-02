@@ -25,6 +25,7 @@ export function renderCodexAgent(
   source: string,
   agent: CodexAgentManifestEntry,
   manifest: DeploymentManifestV3,
+  externalSkillNames: string[] = [],
 ): string {
   const parsed = parseSource(source);
   const mapping = codexSkillMap(manifest);
@@ -37,12 +38,19 @@ export function renderCodexAgent(
     agent.instructionOverlay || 'Do not delegate or spawn subagents.',
     `Use these Agent Forge skill bundles when relevant: ${bundles}.`,
     'Inherit the parent model, MCP configuration, permissions, and approval policy. Never weaken approval requirements.',
+    ...(manifest.codex.productDevelopment ? [
+      'Participate only in a software-product development assignment from the primary agent. A general question, independent research task or isolated code discussion does not activate this roster.',
+      'The primary agent owns product-level technical decisions, delegation, integration and final delivery. Return unresolved business decisions to that agent rather than conducting a new user interview.',
+      'Apply the checks required by the changed behavior and the current project phase. Do not turn optional checks or examples into universal requirements.',
+      `Completion evidence for this assignment: ${(agent.completionEvidence ?? []).join('; ')}.`,
+      ...(externalSkillNames.length ? [`Additional curated skills available when the assigned technology and task match: ${externalSkillNames.map(name => `$${name}`).join(', ')}. Read only those that apply.`] : []),
+    ] : []),
     '',
     body,
   ].join('\n');
   const table: Record<string, string> = {
     name: parsed.name,
-    description: parsed.description,
+    description: manifest.codex.productDevelopment ? `For an assigned software-product build: ${parsed.description}` : parsed.description,
     developer_instructions: developerInstructions,
     sandbox_mode: agent.sandboxMode,
   };

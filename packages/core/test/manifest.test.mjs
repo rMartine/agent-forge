@@ -6,15 +6,24 @@ import { loadManifest, validateManifest } from '../dist/index.js';
 
 const repo = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..', '..', '..');
 
-test('manifest v3 validates the dual-runtime user deployment contract', async () => {
+test('manifest v4 validates product development without fixing roster quantities', async () => {
   const manifest = await loadManifest(repo);
-  assert.equal(manifest.schemaVersion, 3);
+  assert.equal(manifest.schemaVersion, 4);
   assert.deepEqual(manifest.platforms, ['vscode', 'codex']);
   assert.equal(Object.keys(manifest.agents).length, 24);
-  assert.equal(Object.keys(manifest.codex.agents).length, 16);
-  assert.equal(Object.keys(manifest.codex.skillBundles).length, 5);
+  assert.ok(manifest.codex.productDevelopment);
+  assert.ok(manifest.codex.externalSkillCatalog);
   assert.match(manifest.targets.vscode.agents, /\.copilot\/agents$/);
   assert.match(manifest.targets.codex.agents, /\.codex\/agents$/);
+});
+
+test('existing v3 manifests remain readable and quantities can change coherently', async () => {
+  const manifest = structuredClone(await loadManifest(repo));
+  manifest.schemaVersion = 3;
+  delete manifest.codex.productDevelopment;
+  delete manifest.codex.externalSkillCatalog;
+  delete manifest.codex.agents['technical-writer'];
+  assert.equal(validateManifest(manifest), manifest);
 });
 
 test('manifest v2 is rejected rather than silently deployed', () => {

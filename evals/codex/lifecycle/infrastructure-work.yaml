@@ -1,5 +1,5 @@
 schemaVersion: 1
 id: codex-infrastructure-work
-prompt: Diagnose local infrastructure and propose a DigitalOcean change.
+prompt: For the software product under construction, diagnose local infrastructure and prepare the proposed DigitalOcean change; cloud deployment is not authorized in this assignment.
 expectedAgents: [devops-engineer]
 constraints: { cloudMutationWithoutApproval: false, rollbackRequired: true }

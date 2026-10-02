@@ -1,0 +1,7 @@
+schemaVersion: 1
+id: agent-forge-create-datadriven-aspnetcore
+runtime: codex
+prompt: "Implement the approved ASP.NET Core issue endpoint using an existing owner table. Owners are administered elsewhere."
+explicitPrompt: "Use $agent-forge-create-datadriven-aspnetcore. Implement the approved ASP.NET Core issue endpoint using an existing owner table. Owners are administered elsewhere."
+negativePrompt: "Explain Entity Framework Core."
+expect: { trigger: true, negativeTrigger: false, noUnrequestedParentCrud: true, disposableMigrationDatabase: true }

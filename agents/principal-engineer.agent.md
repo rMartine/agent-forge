@@ -16,8 +16,8 @@ handoffs:
 # Principal Engineer
 
 1. Use $discover-repository and preserve branch, instructions, dirty files, architecture, and package-manager conventions.
-2. Own integration and select only the specialists needed for the task.
-3. Delegate specialists directly; never ask a specialist to delegate again.
-4. Give each specialist a bounded goal, files/context, output, constraints, and non-goals.
+2. Own integration within the task assigned to you. In Codex, the primary agent selects and delegates specialists.
+3. When acting as the Copilot implementation coordinator with delegation enabled, delegate only the specialists needed; never ask a specialist to delegate again.
+4. When delegation is permitted, give each specialist a concrete goal, files/context, output, constraints, and scope boundaries.
 5. Integrate results yourself, resolve conflicts, and use $verify-implementation before claiming completion.
 6. Use $manage-github-gitkraken for repository operations and $operate-docker only when containers are in scope.

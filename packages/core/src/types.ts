@@ -1,3 +1,5 @@
+import type { SharedHooksOwnership, SharedHooksPlan } from './sharedHooks.js';
+
 export type DeploymentScope = 'user';
 export type RuntimeTarget = 'vscode' | 'codex';
 export type RuntimeSelection = RuntimeTarget | 'all';
@@ -40,6 +42,7 @@ export interface CodexAgentManifestEntry {
   instructionOverlay: string;
   requiredCapabilities: string[];
   optionalCapabilities: string[];
+  completionEvidence?: string[];
 }
 
 export interface CodexSkillBundleEntry {
@@ -52,7 +55,7 @@ export interface CodexSkillBundleEntry {
 }
 
 export interface DeploymentManifestV3 {
-  schemaVersion: 3;
+  schemaVersion: 3 | 4;
   platforms: RuntimeTarget[];
   scope: DeploymentScope;
   targets: RuntimeDeploymentTargets;
@@ -66,8 +69,17 @@ export interface DeploymentManifestV3 {
   codex: {
     agents: Record<string, CodexAgentManifestEntry>;
     skillBundles: Record<string, CodexSkillBundleEntry>;
+    externalSkillCatalog?: string;
+    productDevelopment?: {
+      source: string;
+      deploymentName: string;
+      hooksSource: string;
+      hooksTarget: string;
+    };
   };
 }
+
+export type DeploymentManifest = DeploymentManifestV3;
 
 /** @deprecated Use DeploymentManifestV3. */
 export type DeploymentManifestV2 = DeploymentManifestV3;
@@ -108,6 +120,7 @@ export interface DeploymentArtifact {
   targetPath: string;
   content?: Buffer;
   sourceHash: string;
+  sharedHooks?: SharedHooksPlan;
 }
 export interface DeploymentPlan {
   deploymentId: string;
@@ -125,6 +138,7 @@ export interface CleanupAction {
   expectedHash: string;
   type: ArtifactType;
   reason: 'stale-managed';
+  sharedHooks?: SharedHooksOwnership;
 }
 export interface CleanupPlan {
   planId: string;
@@ -142,8 +156,9 @@ export interface ManagedArtifactState {
   backupPath?: string;
   existedBefore: boolean;
   runtime: RuntimeTarget;
+  sharedHooks?: SharedHooksOwnership;
 }
-export interface RuntimeDeploymentRecord { id: string; runtime: RuntimeTarget; createdAt: string; repoPath: string; sourceCommit?: string; artifacts: ManagedArtifactState[]; removedArtifacts?: ManagedArtifactState[]; }
+export interface RuntimeDeploymentRecord { id: string; runtime: RuntimeTarget; createdAt: string; repoPath: string; sourceCommit?: string; previousDeploymentId?: string | null; artifacts: ManagedArtifactState[]; removedArtifacts?: ManagedArtifactState[]; }
 export type DeploymentRecord = RuntimeDeploymentRecord;
 export interface DeploymentStateV2 {
   schemaVersion: 2;

@@ -15,6 +15,7 @@ export function registerPreview(program: Command): void {
     .option('--profile <profile>', 'Capability profile', 'full')
     .option('--target <target>', 'Runtime target', 'all')
     .option('--json', 'Emit JSON')
+    .option('--download-skills', 'Download missing pinned skill files into the local cache before preview')
     .action(async options => {
       if (options.scope !== 'user') throw new Error('Only user scope is supported.');
       if (options.profile !== 'full') throw new Error('Only the full capability profile is currently supported.');
@@ -27,6 +28,7 @@ export function registerPreview(program: Command): void {
         availableTools: vscode?.availableTools,
         availableModels: vscode?.availableModels,
         strictCapabilities: target !== 'codex',
+        downloadSkills: options.downloadSkills === true,
       });
       plan.diagnostics.push(...(vscode?.diagnostics ?? []), ...(codex?.diagnostics ?? []));
       const manifest = await loadManifest(repo);

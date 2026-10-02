@@ -1,5 +1,5 @@
 schemaVersion: 1
 id: codex-product-design
-prompt: Refine a product flow and prepare implementable visual guidance.
+prompt: Build the agreed product interface; refine its user flow and implement visual guidance with accessible interaction states.
 expectedAgents: [ux-engineer, frontend-developer]
 constraints: { accessibilityRequired: true, provenanceRequired: true }

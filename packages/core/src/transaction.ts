@@ -2,6 +2,7 @@ import { access, copyFile, mkdir, readFile, rename, unlink, writeFile } from 'no
 import * as path from 'node:path';
 import type {
   CleanupPlan,
+  CleanupAction,
   DeployResult,
   DeploymentPlan,
   DeploymentRecord,
@@ -12,16 +13,39 @@ import type {
   WipeResult,
 } from './types.js';
 import { diagnostic, hasErrors } from './diagnostics.js';
-import { hashFile } from './hash.js';
+import { hashBuffer, hashFile } from './hash.js';
 import { deploymentStoragePath, loadDeploymentState, saveDeploymentState } from './state.js';
+import { assertSharedHooksPlan, restoreRemovedSharedHooks, restoreSharedHooks, sharedHooksAreIntact, sharedHooksOwnershipHash } from './sharedHooks.js';
 
 async function exists(filePath: string): Promise<boolean> {
   try { await access(filePath); return true; } catch { return false; }
 }
 
+async function readOptional(filePath: string): Promise<Buffer | undefined> {
+  try { return await readFile(filePath); }
+  catch (error: unknown) { if ((error as NodeJS.ErrnoException).code === 'ENOENT') return undefined; throw error; }
+}
+
+async function replaceFile(targetPath: string, content: Buffer | undefined): Promise<void> {
+  if (!content) { if (await exists(targetPath)) await unlink(targetPath); return; }
+  await mkdir(path.dirname(targetPath), { recursive: true });
+  const temporary = `${targetPath}.agent-forge-tmp`;
+  try { await writeFile(temporary, content); await rename(temporary, targetPath); }
+  finally { if (await exists(temporary)) await unlink(temporary); }
+}
+
 function activeRecord(state: Awaited<ReturnType<typeof loadDeploymentState>>, runtime: RuntimeTarget): DeploymentRecord | undefined {
   const id = state.activeDeployments[runtime];
   return state.deployments.find(item => item.id === id && item.runtime === runtime);
+}
+
+function assertSharedCleanupOwnership(action: CleanupAction, managed: ManagedArtifactState | undefined): void {
+  if (!action.sharedHooks || !managed?.sharedHooks || action.runtime !== managed.runtime
+    || action.expectedHash !== managed.deployedHash
+    || sharedHooksOwnershipHash(action.sharedHooks) !== managed.deployedHash
+    || JSON.stringify(action.sharedHooks) !== JSON.stringify(managed.sharedHooks)) {
+    throw new Error('AF012: shared hook cleanup ownership no longer matches the active deployment; create a new plan');
+  }
 }
 
 interface UndoEntry { targetPath: string; existed: boolean; backupPath?: string; }
@@ -65,8 +89,17 @@ export async function applyDeploymentPlan(plan: DeploymentPlan, statePath: strin
 
   const blockers: Diagnostic[] = [];
   for (const item of artifacts) {
-    if (!(await exists(item.targetPath))) continue;
+    if (!item.content || hashBuffer(item.content) !== item.sourceHash) {
+      blockers.push(diagnostic('AF012', 'error', 'Deployment artifact bytes do not match the immutable preview hash', { path: item.targetPath }));
+      continue;
+    }
     const managed = managedByPath.get(path.resolve(item.targetPath).toLowerCase());
+    if (item.sharedHooks) {
+      try { assertSharedHooksPlan(await readOptional(item.targetPath), item.content, item.sharedHooks, managed?.sharedHooks); }
+      catch (error: unknown) { blockers.push(diagnostic('AF012', 'error', (error as Error).message, { path: item.targetPath })); }
+      continue;
+    }
+    if (!(await exists(item.targetPath))) continue;
     if (!managed) {
       blockers.push(diagnostic('AF009', 'error', 'Refusing to replace an unmanaged customization', { path: item.targetPath }));
     } else if (await hashFile(item.targetPath) !== managed.deployedHash) {
@@ -74,6 +107,15 @@ export async function applyDeploymentPlan(plan: DeploymentPlan, statePath: strin
     }
   }
   for (const action of cleanupActions) {
+    if (action.sharedHooks) {
+      try {
+        assertSharedCleanupOwnership(action, managedByPath.get(path.resolve(action.targetPath).toLowerCase()));
+        if (!sharedHooksAreIntact(await readOptional(action.targetPath), action.sharedHooks)) {
+          throw new Error('Stale managed hook groups were modified or are missing; cleanup is blocked');
+        }
+      } catch (error: unknown) { blockers.push(diagnostic('AF012', 'error', (error as Error).message, { path: action.targetPath })); }
+      continue;
+    }
     if (!(await exists(action.targetPath)) || await hashFile(action.targetPath) !== action.expectedHash) {
       blockers.push(diagnostic('AF012', 'error', 'Stale managed artifact was modified or is missing; cleanup is blocked', { path: action.targetPath }));
     }
@@ -92,6 +134,23 @@ export async function applyDeploymentPlan(plan: DeploymentPlan, statePath: strin
     for (const item of artifacts) {
       const present = await exists(item.targetPath);
       const previous = managedByPath.get(path.resolve(item.targetPath).toLowerCase());
+      if (item.sharedHooks) {
+        assertSharedHooksPlan(await readOptional(item.targetPath), item.content!, item.sharedHooks, previous?.sharedHooks);
+        const unchanged = present && await hashFile(item.targetPath) === item.sourceHash;
+        const undoEntry = unchanged ? undefined : await backupForUndo(item.targetPath, storage, undoEntries.length);
+        if (undoEntry) undoEntries.push(undoEntry);
+        if (!unchanged) {
+          assertSharedHooksPlan(await readOptional(item.targetPath), item.content!, item.sharedHooks, previous?.sharedHooks);
+          await replaceFile(item.targetPath, item.content!);
+        }
+        managed.get(item.runtime)!.push({
+          id: item.id, type: item.type, runtime: item.runtime, targetPath: item.targetPath,
+          deployedHash: sharedHooksOwnershipHash(item.sharedHooks.ownership),
+          existedBefore: present, backupPath: undoEntry?.backupPath, sharedHooks: item.sharedHooks.ownership,
+        });
+        if (unchanged) skipped++; else deployed++;
+        continue;
+      }
       if (present && await hashFile(item.targetPath) === item.sourceHash) {
         managed.get(item.runtime)!.push(previous ?? {
           id: item.id, type: item.type, runtime: item.runtime, targetPath: item.targetPath,
@@ -111,15 +170,13 @@ export async function applyDeploymentPlan(plan: DeploymentPlan, statePath: strin
         existedBefore: present,
         backupPath: undoEntry.backupPath,
       };
-      await mkdir(path.dirname(item.targetPath), { recursive: true });
-      const temporary = `${item.targetPath}.agent-forge-tmp`;
-      await writeFile(temporary, item.content!);
-      await rename(temporary, item.targetPath);
+      await replaceFile(item.targetPath, item.content!);
       managed.get(item.runtime)!.push(record);
       deployed++;
     }
 
     for (const action of cleanupActions) {
+      const sharedContent = action.sharedHooks ? restoreSharedHooks(await readOptional(action.targetPath), action.sharedHooks, 'remove') : undefined;
       const undoEntry = await backupForUndo(action.targetPath, storage, undoEntries.length);
       undoEntries.push(undoEntry);
       removed.get(action.runtime)!.push({
@@ -130,8 +187,10 @@ export async function applyDeploymentPlan(plan: DeploymentPlan, statePath: strin
         deployedHash: action.expectedHash,
         existedBefore: true,
         backupPath: undoEntry.backupPath,
+        ...(action.sharedHooks ? { sharedHooks: action.sharedHooks } : {}),
       });
-      await unlink(action.targetPath);
+      if (action.sharedHooks) await replaceFile(action.targetPath, sharedContent);
+      else await unlink(action.targetPath);
     }
 
     for (const runtime of targets) {
@@ -141,6 +200,7 @@ export async function applyDeploymentPlan(plan: DeploymentPlan, statePath: strin
         createdAt: plan.createdAt,
         repoPath: plan.repoPath,
         sourceCommit: plan.sourceCommit,
+        previousDeploymentId: activeByRuntime.get(runtime)?.id ?? null,
         artifacts: managed.get(runtime)!,
         removedArtifacts: removed.get(runtime)!,
       };
@@ -183,7 +243,26 @@ export async function rollbackDeployment(statePath: string, runtimeOrDeployment:
   let restored = 0;
   let skipped = 0;
   const diagnostics: Diagnostic[] = [];
+  for (const item of record.artifacts) {
+    if (!item.sharedHooks) continue;
+    try { restoreSharedHooks(await readOptional(item.targetPath), item.sharedHooks, 'rollback'); }
+    catch (error: unknown) { diagnostics.push(diagnostic('AF012', 'error', (error as Error).message, { path: item.targetPath })); }
+  }
+  for (const item of record.removedArtifacts ?? []) {
+    if (!item.sharedHooks) continue;
+    try { restoreRemovedSharedHooks(await readOptional(item.targetPath), item.sharedHooks); }
+    catch (error: unknown) { diagnostics.push(diagnostic('AF012', 'error', (error as Error).message, { path: item.targetPath })); }
+  }
+  if (hasErrors(diagnostics)) {
+    return { success: false, deploymentId: record.id, restored: 0, skipped: diagnostics.length, summary: { restored: 0, skipped: diagnostics.length }, details: [], errors: [], diagnostics };
+  }
   for (const item of [...record.artifacts].reverse()) {
+    if (item.sharedHooks) {
+      // Read again immediately before writing so later foreign additions are retained.
+      await replaceFile(item.targetPath, restoreSharedHooks(await readOptional(item.targetPath), item.sharedHooks, 'rollback'));
+      restored++;
+      continue;
+    }
     if (!(await exists(item.targetPath)) || await hashFile(item.targetPath) !== item.deployedHash) {
       skipped++;
       diagnostics.push(diagnostic('AF012', 'warning', 'Preserved a modified or missing managed file during rollback', { path: item.targetPath }));
@@ -199,6 +278,11 @@ export async function rollbackDeployment(statePath: string, runtimeOrDeployment:
     restored++;
   }
   for (const item of record.removedArtifacts ?? []) {
+    if (item.sharedHooks) {
+      await replaceFile(item.targetPath, restoreRemovedSharedHooks(await readOptional(item.targetPath), item.sharedHooks));
+      restored++;
+      continue;
+    }
     if (await exists(item.targetPath)) {
       skipped++;
       diagnostics.push(diagnostic('AF012', 'warning', 'Preserved a replacement at a previously removed managed path', { path: item.targetPath }));
@@ -214,7 +298,9 @@ export async function rollbackDeployment(statePath: string, runtimeOrDeployment:
     restored++;
   }
   const index = state.deployments.findIndex(item => item.id === record.id && item.runtime === runtime);
-  const previous = state.deployments.slice(0, index).reverse().find(item => item.runtime === runtime);
+  const previous = record.previousDeploymentId === undefined
+    ? state.deployments.slice(0, index).reverse().find(item => item.runtime === runtime)
+    : state.deployments.find(item => item.runtime === runtime && item.id === record.previousDeploymentId);
   state.activeDeployments[runtime] = previous?.id;
   if (!previous) delete state.activeDeployments[runtime];
   await saveDeploymentState(statePath, state);
@@ -228,7 +314,22 @@ export async function removeManagedDeployment(statePath: string, runtime: Runtim
   let deleted = 0;
   let skipped = 0;
   const diagnostics: Diagnostic[] = [];
+  const removedPaths = new Set<string>();
+  let preservedSharedHooks = false;
+  const originalArtifacts = [...current.artifacts];
   for (const active of current.artifacts) {
+    if (active.sharedHooks) {
+      try {
+        await replaceFile(active.targetPath, restoreSharedHooks(await readOptional(active.targetPath), active.sharedHooks, 'remove'));
+        removedPaths.add(active.targetPath);
+        deleted++;
+      } catch (error: unknown) {
+        skipped++;
+        preservedSharedHooks = true;
+        diagnostics.push(diagnostic('AF012', 'warning', (error as Error).message, { path: active.targetPath }));
+      }
+      continue;
+    }
     if (!(await exists(active.targetPath)) || await hashFile(active.targetPath) !== active.deployedHash) {
       skipped++;
       diagnostics.push(diagnostic('AF012', 'warning', 'Preserved a modified or missing managed file during wipe', { path: active.targetPath }));
@@ -241,11 +342,13 @@ export async function removeManagedDeployment(statePath: string, runtime: Runtim
     const first = history[0];
     if (first?.existedBefore && first.backupPath && await exists(first.backupPath)) await copyFile(first.backupPath, active.targetPath);
     else await unlink(active.targetPath);
+    removedPaths.add(active.targetPath);
     deleted++;
   }
-  delete state.activeDeployments[runtime];
+  if (preservedSharedHooks) current.artifacts = current.artifacts.filter(item => !removedPaths.has(item.targetPath));
+  else delete state.activeDeployments[runtime];
   await saveDeploymentState(statePath, state);
-  return { success: true, deleted, skipped, summary: { deleted, skipped }, details: current.artifacts.map(item => ({ path: item.targetPath, action: 'removed', type: item.type })), errors: [], diagnostics };
+  return { success: true, deleted, skipped, summary: { deleted, skipped }, details: originalArtifacts.map(item => ({ path: item.targetPath, action: removedPaths.has(item.targetPath) ? 'removed' : 'preserved', type: item.type })), errors: [], diagnostics };
 }
 
 export async function applyManagedCleanupPlan(plan: CleanupPlan, statePath: string): Promise<WipeResult> {
@@ -253,8 +356,21 @@ export async function applyManagedCleanupPlan(plan: CleanupPlan, statePath: stri
   const state = await loadDeploymentState(statePath);
   let deleted = 0;
   let skipped = 0;
-  const removed: Array<{ path: string; content: Buffer }> = [];
+  const removed: Array<{ path: string; content: Buffer; sharedHooks?: CleanupAction['sharedHooks'] }> = [];
   for (const action of plan.actions) {
+    if (action.sharedHooks) {
+      try {
+        const current = activeRecord(state, action.runtime)?.artifacts.find(item => path.resolve(item.targetPath).toLowerCase() === path.resolve(action.targetPath).toLowerCase());
+        assertSharedCleanupOwnership(action, current);
+        const content = await readOptional(action.targetPath);
+        restoreSharedHooks(content, action.sharedHooks, 'remove');
+        removed.push({ path: action.targetPath, content: content!, sharedHooks: action.sharedHooks });
+      } catch (error: unknown) {
+        skipped++;
+        diagnostics.push(diagnostic('AF012', 'warning', (error as Error).message, { path: action.targetPath }));
+      }
+      continue;
+    }
     if (!(await exists(action.targetPath)) || await hashFile(action.targetPath) !== action.expectedHash) {
       skipped++;
       diagnostics.push(diagnostic('AF012', 'warning', 'Preserved modified or missing managed cleanup target', { path: action.targetPath }));
@@ -264,7 +380,13 @@ export async function applyManagedCleanupPlan(plan: CleanupPlan, statePath: stri
   }
   if (hasErrors(diagnostics)) return { success: false, deleted: 0, skipped, summary: { deleted: 0, skipped }, details: [], errors: [], diagnostics };
   try {
-    for (const item of removed) { await unlink(item.path); deleted++; }
+    for (const item of removed) {
+      if (item.sharedHooks) {
+        item.content = (await readOptional(item.path))!;
+        await replaceFile(item.path, restoreSharedHooks(item.content, item.sharedHooks, 'remove'));
+      } else await unlink(item.path);
+      deleted++;
+    }
     const removedPaths = new Set(removed.map(item => path.resolve(item.path).toLowerCase()));
     for (const runtime of plan.targets) {
       const record = activeRecord(state, runtime);
@@ -277,5 +399,6 @@ export async function applyManagedCleanupPlan(plan: CleanupPlan, statePath: stri
     }
     return { success: false, deleted: 0, skipped, summary: { deleted: 0, skipped }, details: [], errors: [{ path: 'cleanup', message: (error as Error).message }], diagnostics: [...diagnostics, diagnostic('AF012', 'error', 'Managed cleanup failed and was rolled back')] };
   }
-  return { success: true, deleted, skipped, summary: { deleted, skipped }, details: plan.actions.map(item => ({ path: item.targetPath, action: 'cleaned', type: item.type })), errors: [], diagnostics };
+  const cleanedPaths = new Set(removed.map(item => path.resolve(item.path).toLowerCase()));
+  return { success: true, deleted, skipped, summary: { deleted, skipped }, details: plan.actions.map(item => ({ path: item.targetPath, action: cleanedPaths.has(path.resolve(item.targetPath).toLowerCase()) ? 'cleaned' : 'preserved', type: item.type })), errors: [], diagnostics };
 }

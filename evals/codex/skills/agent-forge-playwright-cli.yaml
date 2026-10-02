@@ -1,0 +1,7 @@
+schemaVersion: 1
+id: agent-forge-playwright-cli
+runtime: codex
+prompt: "Within the assigned product, verify creation and completion through the browser using the available playwright-cli."
+explicitPrompt: "Use $agent-forge-playwright-cli. Within the assigned product, verify creation and completion through the browser using the available playwright-cli."
+negativePrompt: "Research browser testing products without building software."
+expect: { trigger: true, negativeTrigger: false, checkActualCli: true, preserveBrowserProfiles: true, reportMissingTool: true }

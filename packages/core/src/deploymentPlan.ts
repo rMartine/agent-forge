@@ -23,6 +23,9 @@ import { renderCodexSkillBundle } from './skillBundles.js';
 import { validateRoster } from './validation.js';
 import { diagnostic } from './diagnostics.js';
 import { deploymentPlanPath, loadDeploymentState } from './state.js';
+import { loadExternalSkillCatalog, resolveExternalSkillFiles } from './externalSkills.js';
+import { renderProductDevelopmentSkill, productDevelopmentHookGroups } from './productDevelopment.js';
+import { prepareSharedHooks } from './sharedHooks.js';
 
 const execFileAsync = promisify(execFile);
 
@@ -35,6 +38,7 @@ export interface DeploymentPlanOptions {
   availableTools?: string[];
   availableModels?: string[];
   strictCapabilities?: boolean;
+  downloadSkills?: boolean;
 }
 
 function selectedTargets(target: RuntimeSelection = 'vscode'): RuntimeTarget[] {
@@ -89,6 +93,8 @@ export async function createDeploymentPlan(
   const validation = await validateRoster(repoPath, manifest, catalog, { target: options.target ?? 'vscode' });
   const diagnostics: Diagnostic[] = [...validation.diagnostics];
   const artifacts: DeploymentArtifact[] = [];
+  const statePath = resolveStatePath(manifest.targets.state);
+  const state = await loadDeploymentState(statePath);
 
   if (targets.includes('vscode')) {
     const agentTarget = resolveTargetPath(manifest.targets.vscode.agents);
@@ -133,10 +139,12 @@ export async function createDeploymentPlan(
   if (targets.includes('codex')) {
     const agentTarget = resolveTargetPath(manifest.targets.codex.agents);
     const skillTarget = resolveTargetPath(manifest.targets.codex.skills);
+    const externalSkills = await loadExternalSkillCatalog(repoPath, manifest);
     for (const agent of Object.values(manifest.codex.agents)) {
       const source = manifest.agents[agent.sourceAgent];
       const sourcePath = resolveRepoFilePath(repoPath, source.source);
-      const rendered = Buffer.from(renderCodexAgent(await readFile(sourcePath, 'utf8'), agent, manifest));
+      const skillNames = externalSkills.skills.filter(skill => skill.agentIds.includes(agent.id)).map(skill => skill.deploymentName);
+      const rendered = Buffer.from(renderCodexAgent(await readFile(sourcePath, 'utf8'), agent, manifest, skillNames));
       artifacts.push(artifact('codex', agent.id, 'agent', sourcePath, path.join(agentTarget, `${agent.id}.toml`), rendered));
     }
     for (const bundle of Object.values(manifest.codex.skillBundles)) {
@@ -144,10 +152,29 @@ export async function createDeploymentPlan(
         artifacts.push(artifact('codex', `${bundle.id}/${rendered.relativePath.replaceAll('\\', '/')}`, 'skill', rendered.sourcePath, path.join(skillTarget, bundle.deploymentName, rendered.relativePath), rendered.content));
       }
     }
+    for (const skill of externalSkills.skills) {
+      for (const rendered of await resolveExternalSkillFiles(repoPath, skill, options.downloadSkills)) {
+        artifacts.push(artifact('codex', `${skill.deploymentName}/${rendered.relativePath.replaceAll('\\', '/')}`, 'skill', rendered.sourcePath, path.join(skillTarget, skill.deploymentName, rendered.relativePath), rendered.content));
+      }
+    }
+    const product = manifest.codex.productDevelopment;
+    if (product) {
+      for (const rendered of await renderProductDevelopmentSkill(repoPath, manifest, externalSkills)) {
+        artifacts.push(artifact('codex', `${product.deploymentName}/${rendered.relativePath.replaceAll('\\', '/')}`, 'skill', rendered.sourcePath, path.join(skillTarget, product.deploymentName, rendered.relativePath), rendered.content));
+      }
+      const hookTarget = resolveTargetPath(product.hooksTarget);
+      const active = state.deployments.find(item => item.id === state.activeDeployments.codex && item.runtime === 'codex');
+      const previous = active?.artifacts.find(item => path.resolve(item.targetPath).toLowerCase() === path.resolve(hookTarget).toLowerCase());
+      try {
+        const before = await exists(hookTarget) ? await readFile(hookTarget) : undefined;
+        const prepared = prepareSharedHooks(before, productDevelopmentHookGroups(manifest, skillTarget), previous?.sharedHooks);
+        artifacts.push({ ...artifact('codex', 'agent-forge-product-hooks', 'hook', resolveRepoFilePath(repoPath, product.hooksSource), hookTarget, prepared.content), sharedHooks: prepared.sharedHooks });
+      } catch (error: unknown) {
+        diagnostics.push(diagnostic('AF012', 'error', `Cannot safely prepare shared hooks: ${(error as Error).message}`, { path: hookTarget }));
+      }
+    }
   }
 
-  const statePath = resolveStatePath(manifest.targets.state);
-  const state = await loadDeploymentState(statePath);
   const managedPaths = new Map<string, string>();
   for (const runtime of targets) {
     const activeId = state.activeDeployments[runtime];
@@ -155,6 +182,7 @@ export async function createDeploymentPlan(
     for (const item of active?.artifacts ?? []) managedPaths.set(path.resolve(item.targetPath).toLowerCase(), item.deployedHash);
   }
   for (const item of artifacts) {
+    if (item.sharedHooks) continue;
     if (!(await exists(item.targetPath))) continue;
     const expected = managedPaths.get(path.resolve(item.targetPath).toLowerCase());
     if (!expected) diagnostics.push(diagnostic('AF009', 'error', 'Target collides with an unmanaged customization', { path: item.targetPath }));
@@ -167,7 +195,7 @@ export async function createDeploymentPlan(
     const active = state.deployments.find(item => item.id === activeId && item.runtime === runtime);
     for (const item of active?.artifacts ?? []) {
       if (!plannedPaths.has(path.resolve(item.targetPath).toLowerCase())) {
-        cleanupActions.push({ runtime, targetPath: item.targetPath, expectedHash: item.deployedHash, type: item.type, reason: 'stale-managed' });
+        cleanupActions.push({ runtime, targetPath: item.targetPath, expectedHash: item.deployedHash, type: item.type, reason: 'stale-managed', ...(item.sharedHooks ? { sharedHooks: item.sharedHooks } : {}) });
       }
     }
   }
@@ -207,6 +235,6 @@ export async function loadDeploymentPlan(statePath: string, planId: string): Pro
   if (serialized.deploymentId !== planId) throw new Error('AF012: immutable deployment plan ID mismatch');
   return {
     ...serialized,
-    artifacts: serialized.artifacts.map(({ contentBase64, ...item }) => ({ ...item, content: contentBase64 ? Buffer.from(contentBase64, 'base64') : undefined })),
+    artifacts: serialized.artifacts.map(({ contentBase64, ...item }) => ({ ...item, content: contentBase64 !== undefined ? Buffer.from(contentBase64, 'base64') : undefined })),
   };
 }
