@@ -25,6 +25,13 @@ test('Codex preview contains the declared agents, complete skills and scoped hoo
     assert.equal(hooks.SubagentStart.length, agents.length);
     assert.equal(hooks.SubagentStop.length, agents.length);
     assert.equal(hooks.Stop.length, 1);
+    const hookNames = Object.values(hooks).flatMap(groups => groups.flatMap(group => group.hooks.map(handler => handler.statusMessage)));
+    assert.equal(new Set(hookNames).size, agents.length * 2 + 3);
+    const hookReference = plan.artifacts.find(item => item.id === `${manifest.codex.productDevelopment.deploymentName}/references/hooks.md`);
+    for (const name of hookNames) {
+      assert.equal(typeof name, 'string');
+      assert.ok(hookReference.content.toString('utf8').includes(`## ${name}`));
+    }
     for (const skill of external.skills) {
       for (const file of skill.files) assert.ok(plan.artifacts.some(item => item.id === `${skill.deploymentName}/${file.path}`));
     }

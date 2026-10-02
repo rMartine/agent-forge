@@ -46,6 +46,7 @@ function validateCodexAgent(id: string, raw: unknown, manifest: Record<string, u
   if (!/^[a-z0-9]+(?:-[a-z0-9]+)*$/.test(id)) throw new ManifestValidationError(`Invalid Codex agent identifier ${id}`);
   if (agent.id !== id) throw new ManifestValidationError(`codex.agents.${id}.id must equal its map key`);
   nonEmpty(agent.sourceAgent, `codex.agents.${id}.sourceAgent`);
+  if (agent.displayName !== undefined) nonEmpty(agent.displayName, `codex.agents.${id}.displayName`);
   if (!(agent.sourceAgent in manifest)) throw new ManifestValidationError(`codex.agents.${id}.sourceAgent is unknown`);
   if (agent.sandboxMode !== 'read-only' && agent.sandboxMode !== 'workspace-write') throw new ManifestValidationError(`codex.agents.${id}.sandboxMode is invalid`);
   if (agent.modelProfile !== 'inherit') throw new ManifestValidationError(`codex.agents.${id}.modelProfile must be inherit`);

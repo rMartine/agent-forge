@@ -300,6 +300,10 @@
         "sourceAgent": {
           "$ref": "#/$defs/identifier"
         },
+        "displayName": {
+          "type": "string",
+          "minLength": 1
+        },
         "sandboxMode": {
           "enum": [
             "read-only",

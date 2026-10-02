@@ -637,6 +637,7 @@
       "software-architect": {
         "id": "software-architect",
         "sourceAgent": "software-architect",
+        "displayName": "Arquitectura de software",
         "sandboxMode": "read-only",
         "modelProfile": "inherit",
         "requiredSkillBundles": [
@@ -654,6 +655,7 @@
       "principal-engineer": {
         "id": "principal-engineer",
         "sourceAgent": "principal-engineer",
+        "displayName": "Implementación e integración",
         "sandboxMode": "workspace-write",
         "modelProfile": "inherit",
         "requiredSkillBundles": [
@@ -672,6 +674,7 @@
       "backend-developer": {
         "id": "backend-developer",
         "sourceAgent": "backend-developer",
+        "displayName": "Servicios del servidor",
         "sandboxMode": "workspace-write",
         "modelProfile": "inherit",
         "requiredSkillBundles": [
@@ -688,6 +691,7 @@
       "frontend-developer": {
         "id": "frontend-developer",
         "sourceAgent": "frontend-developer",
+        "displayName": "Interfaz web",
         "sandboxMode": "workspace-write",
         "modelProfile": "inherit",
         "requiredSkillBundles": [
@@ -704,6 +708,7 @@
       "database-engineer": {
         "id": "database-engineer",
         "sourceAgent": "database-engineer",
+        "displayName": "Bases de datos",
         "sandboxMode": "workspace-write",
         "modelProfile": "inherit",
         "requiredSkillBundles": [
@@ -721,6 +726,7 @@
       "dotnet-engineer": {
         "id": "dotnet-engineer",
         "sourceAgent": "dotnet-engineer",
+        "displayName": "Desarrollo con .NET",
         "sandboxMode": "workspace-write",
         "modelProfile": "inherit",
         "requiredSkillBundles": [
@@ -737,6 +743,7 @@
       "desktop-app-engineer": {
         "id": "desktop-app-engineer",
         "sourceAgent": "desktop-app-engineer",
+        "displayName": "Aplicaciones de escritorio",
         "sandboxMode": "workspace-write",
         "modelProfile": "inherit",
         "requiredSkillBundles": [
@@ -753,6 +760,7 @@
       "mobile-engineer": {
         "id": "mobile-engineer",
         "sourceAgent": "mobile-engineer",
+        "displayName": "Aplicaciones móviles",
         "sandboxMode": "workspace-write",
         "modelProfile": "inherit",
         "requiredSkillBundles": [
@@ -769,6 +777,7 @@
       "ml-engineer": {
         "id": "ml-engineer",
         "sourceAgent": "ml-engineer",
+        "displayName": "Aprendizaje automático",
         "sandboxMode": "workspace-write",
         "modelProfile": "inherit",
         "requiredSkillBundles": [
@@ -785,6 +794,7 @@
       "agentic-systems-engineer": {
         "id": "agentic-systems-engineer",
         "sourceAgent": "agentic-systems-engineer",
+        "displayName": "Sistemas con agentes de inteligencia artificial",
         "sandboxMode": "workspace-write",
         "modelProfile": "inherit",
         "requiredSkillBundles": [
@@ -802,6 +812,7 @@
       "digital-twin-engineer": {
         "id": "digital-twin-engineer",
         "sourceAgent": "digital-twin-engineer",
+        "displayName": "Gemelos digitales",
         "sandboxMode": "workspace-write",
         "modelProfile": "inherit",
         "requiredSkillBundles": [
@@ -819,6 +830,7 @@
       "qa-engineer": {
         "id": "qa-engineer",
         "sourceAgent": "qa-engineer",
+        "displayName": "Pruebas y calidad",
         "sandboxMode": "workspace-write",
         "modelProfile": "inherit",
         "requiredSkillBundles": [
@@ -835,6 +847,7 @@
       "cybersecurity-engineer": {
         "id": "cybersecurity-engineer",
         "sourceAgent": "cybersecurity-engineer",
+        "displayName": "Seguridad del software",
         "sandboxMode": "read-only",
         "modelProfile": "inherit",
         "requiredSkillBundles": [
@@ -851,6 +864,7 @@
       "devops-engineer": {
         "id": "devops-engineer",
         "sourceAgent": "devops-engineer",
+        "displayName": "Operación y despliegue",
         "sandboxMode": "workspace-write",
         "modelProfile": "inherit",
         "requiredSkillBundles": [
@@ -868,6 +882,7 @@
       "ux-engineer": {
         "id": "ux-engineer",
         "sourceAgent": "ux-engineer",
+        "displayName": "Experiencia de uso y accesibilidad",
         "sandboxMode": "workspace-write",
         "modelProfile": "inherit",
         "requiredSkillBundles": [
@@ -885,6 +900,7 @@
       "technical-writer": {
         "id": "technical-writer",
         "sourceAgent": "technical-writer",
+        "displayName": "Documentación técnica",
         "sandboxMode": "workspace-write",
         "modelProfile": "inherit",
         "requiredSkillBundles": [

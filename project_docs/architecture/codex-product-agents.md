@@ -55,6 +55,10 @@ La tabla cubre los 16 agentes definidos en `codex.agents`. Las comprobaciones se
 
 La implementación genera un filtro exacto por cada uno de los 16 tipos de agente para `SubagentStart` y `SubagentStop`. `Stop` corresponde al agente principal de la conversación. También registra `Interrupt` y `SessionEnd`. Todos actúan sobre un registro temporal previamente activado para la sesión y el proyecto; si no existe ese registro o no está activo, no aplican el procedimiento del producto. `SessionEnd` puede cerrar un registro existente aunque ya estuviera interrumpido.
 
+Cada entrada tiene un nombre en español en el campo nativo `statusMessage`: indica la responsabilidad y la acción, por ejemplo, «Interfaz web: preparar contexto y requisitos» o «Interfaz web: comprobar resultados registrados». Las revisiones de arquitectura y seguridad indican que el agente principal registra los resultados, porque esos especialistas tienen acceso de solo lectura. Los tres hooks generales nombran la comprobación de evidencias, la interrupción y el cierre de sesión. No se agregan campos de nombre que Codex no documenta.
+
+La skill instalada `agent-forge-build-software-products` incluye `references/hooks.md`, con el inventario completo de los 35 nombres, sus eventos, agentes, acciones y límites. El núcleo genera ese documento y los mensajes a partir de las mismas definiciones; el nombre legible de cada especialista procede de `codex.agents.<id>.displayName`. Cambiar un texto modifica la definición del hook y requiere la revisión de confianza que aplique el cliente.
+
 | Evento | Acción del hook | Responsabilidad que conserva el agente |
 |---|---|---|
 | `SubagentStart` | Registra el tipo e identificador del especialista; suministra las instrucciones, las skills asignadas, la evidencia esperada y los identificadores de la sesión principal y del proyecto. | El agente principal ya debe haber asignado la tarea y sus límites. El especialista selecciona únicamente las referencias pertinentes y preserva el trabajo concurrente. |

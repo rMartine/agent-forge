@@ -13,6 +13,7 @@ Roberto decides the product, intended users, business priorities and substantial
 - Turn the product request into observable acceptance criteria. Cover the functional behavior and relevant usability, accessibility, security, data integrity, maintainability and operational requirements. Preserve applicable project requirements; do not impose every category of test on every task.
 - Activate the temporary session record only for this authorized product assignment. Read [the session commands and evidence format](references/session-record.md) when activating or reporting results. A standalone skill installation includes `scripts/product-session.mjs`; resolve that path relative to this skill directory. The canonical source in Agent Forge is `hooks/codex/product-session.mjs`, which its installer copies without maintaining a second source implementation.
 - Use the actual parent session identifier and absolute project directory. `CODEX_THREAD_ID` is usable only when it identifies this principal session. If the client does not expose an identifier or the helper is unavailable, continue authorized work and report that hook activation is unverified. Never invent a session identifier, change permissions or bypass hook trust to make the record work.
+- The installed [hook names and explanations](references/hooks.md) describe every hook in Spanish, its event, responsibility and limits. Agent Forge generates this reference from the same definitions used for Codex's visible `statusMessage` labels.
 
 ## Build and coordinate
 

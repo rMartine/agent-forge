@@ -15,6 +15,7 @@ A canonical agent entry declares its source, Copilot visibility, capability and 
 `CodexAgentManifestEntry` declares the following complete entry contract:
 
 - `id` and `sourceAgent` identify a unique specialist and an existing canonical source.
+- Optional `displayName` supplies a readable name for hook messages and their generated reference. It does not change the specialist identifier or add unsupported fields to native Codex agent files. Existing manifests without it use the identifier.
 - `sandboxMode` is `read-only` or `workspace-write`; `modelProfile` is `inherit`.
 - `requiredSkillBundles` names existing bundles; `instructionOverlay` defines the specialist's Codex responsibility.
 - `requiredCapabilities` and `optionalCapabilities` name capability families for diagnostics.

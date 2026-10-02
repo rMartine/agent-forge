@@ -36,6 +36,7 @@ export interface RuntimeDeploymentTargets {
 export interface CodexAgentManifestEntry {
   id: string;
   sourceAgent: string;
+  displayName?: string;
   sandboxMode: CodexSandboxMode;
   modelProfile: ModelProfile;
   requiredSkillBundles: string[];
