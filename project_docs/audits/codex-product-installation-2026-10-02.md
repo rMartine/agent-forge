@@ -20,6 +20,10 @@ Después de la petición de nombres legibles, el commit `3d839be2cd237f976785b81
 
 La referencia completa se instaló en `C:\Users\rober\.agents\skills\agent-forge-build-software-products\references\hooks.md`. Se solicitó abrirla en Codex; la herramienta devolvió `queued`, por lo que no se afirma que ya esté visible. La inspección del código de la extensión 26.930.21537 confirmó que la lista y el diálogo de revisión usan `statusMessage` como título de cada hook. Se revisaron `hooks-settings-copy-112c6066f690.js`, `hooks-settings-source-label-d0611754e5d6.js` y `dialog-a1c6be4b51ba.js`. Esto acredita la implementación del cliente inspeccionado, no una comprobación visual ni la ejecución de los hooks en Desktop.
 
+La consulta posterior sobre contradicciones permitió detectar que la descripción breve de `principal-engineer` todavía decía que seleccionaba especialistas, aunque su contrato de Codex ya lo prohibía y el cuerpo limitaba esa función a Copilot. Esa descripción había quedado fuera de la corrección inicial. El commit `579af7417d9812ec83f446713a84dd626381beb8` la corrigió para describir implementación, integración y evidencia del trabajo asignado. El plan `2026-10-02T23-10-02-457Z-48f96a` actualizó únicamente `principal-engineer.toml`, conservó 197 archivos idénticos y terminó sin fallas; el estado informó 198 archivos sincronizados. Un intento anterior se rechazó antes de aplicar por una transcripción incorrecta del identificador de confirmación; se corrigió usando el identificador exacto del plan. Las cuatro pruebas de generación pertinentes y la validación estricta de ambos destinos aprobaron. Los hooks conservaron sus definiciones.
+
+Los 16 agentes de Codex declaran `modelProfile: inherit`. No se realizó una comparación de modelos por responsabilidad ni se configuraron modelos particulares: el encargo indicaba preservarlos. Las pruebas de generación verifican que no se imponga un modelo, no que el modelo heredado sea el más adecuado para cada tarea.
+
 Destinos comprobados:
 
 - `C:\Users\rober\.codex\agents`: 16 definiciones TOML.
@@ -28,6 +32,8 @@ Destinos comprobados:
 - `C:\Users\rober\.agent-forge`: planes, registro y respaldos de recuperación.
 
 Se compararon antes y después 439 entradas protegidas: configuración e instrucciones globales de Codex, skills personales y archivos ajenos a este despliegue en los directorios inspeccionados de Copilot y skills compartidas. El inventario conservó su hash `3363c659d6506e6c2e532b4550c7029c962dda4979299e205b308c0bb4e1a90b`. Esta comparación acredita el estado inmediatamente posterior a instalar; no impide cambios posteriores del usuario o del cliente.
+
+La comparación realizada después de corregir la descripción detectó diferencias respecto de ese inventario histórico en la configuración y algunas skills personales; el inventario entonces contenía 417 entradas. No se investigaron ni sobrescribieron esos cambios ajenos al encargo. Esa comparación histórica ya no acredita preservación para este tercer despliegue. Su plan y resultado registran como único archivo actualizado `principal-engineer.toml`.
 
 ## Comprobaciones ejecutadas
 
@@ -68,12 +74,13 @@ La actualización de nombres modifica las definiciones y su confianza debe corre
 Ejecutar desde `D:\Repositorios\agent-forge` para regresar al estado capturado justo antes de instalar:
 
 ```powershell
+node packages/cli/dist/index.js --repo . rollback --target codex --deployment 2026-10-02T23-10-02-457Z-48f96a
 node packages/cli/dist/index.js --repo . rollback --target codex --deployment 2026-10-02T22-29-27-589Z-809f76
 node packages/cli/dist/index.js --repo . rollback --target codex --deployment 2026-10-02T21-54-06-936Z-b9d1f8
 node packages/cli/dist/index.js --repo . reconcile restore --target codex --plan reconciled-2026-10-02T21-51-28-537Z-f0f5d0 --json
 ```
 
-El primer comando revierte únicamente la actualización de nombres y vuelve a la instalación inicial de este encargo. El segundo revierte esa instalación conservando modificaciones posteriores que no coincidan con sus hashes. El tercero restaura el registro previo solo si el estado reconciliado vuelve a estar activo y sus archivos coinciden; ante diferencias conserva el estado y reporta el impedimento. Los respaldos originales están en `C:\Users\rober\.agent-forge\reconciliations\reconciled-2026-10-02T21-51-28-537Z-f0f5d0`.
+Los tres primeros comandos revierten, en orden, la corrección de la descripción, la actualización de nombres y la instalación inicial de este encargo, conservando modificaciones posteriores que no coincidan con sus hashes. El cuarto restaura el registro previo solo si el estado reconciliado vuelve a estar activo y sus archivos coinciden; ante diferencias conserva el estado y reporta el impedimento. Los respaldos originales están en `C:\Users\rober\.agent-forge\reconciliations\reconciled-2026-10-02T21-51-28-537Z-f0f5d0`.
 
 La implementación e instalación de archivos están realizadas. El encargo completo no se considera concluido mientras falten la confianza, los eventos nativos y las comprobaciones de ambos clientes que correspondan.
 
