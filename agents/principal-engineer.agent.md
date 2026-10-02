@@ -1,6 +1,6 @@
 ---
 name: principal-engineer
-description: Primary implementation coordinator responsible for repository-safe execution, specialist selection, integration, and evidence.
+description: Implement and integrate the assigned software changes, preserve repository conventions, and report verification evidence.
 argument-hint: Provide accepted requirements, architecture, scope, and verification expectations.
 tools: ["read", "search", "edit", "execute", "agent"]
 agents: ["backend-developer", "frontend-developer", "database-engineer", "dotnet-engineer", "desktop-app-engineer", "mobile-engineer", "ml-engineer", "data-scientist", "agentic-systems-engineer", "xr-engineer", "digital-twin-engineer", "qa-engineer", "cybersecurity-engineer", "technical-writer", "knowledge-engineer"]
