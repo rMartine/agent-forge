@@ -7,8 +7,8 @@
     "packages/cli"
   ],
   "scripts": {
-    "check:research": "node scripts/research-plugin.mjs check",
-    "test:research": "node scripts/test-research-plugin.mjs",
+    "check:research": "node scripts/research-specialists.mjs check",
+    "test:research": "node scripts/test-research-specialists.mjs",
     "build": "npm run build -w packages/core && npm run build -w packages/extension && npm run build -w packages/cli",
     "build:core": "npm run build -w packages/core",
     "build:extension": "npm run build -w packages/extension",

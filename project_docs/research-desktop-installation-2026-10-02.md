@@ -2,7 +2,9 @@
 
 Actualización del 3 de octubre de 2026, zona America/New_York. Estado: **plugin implementado e instalado; carga nativa y creación, vinculación y respuesta de especialistas comprobadas con las cuatro combinaciones de modelo y razonamiento del plan. La aceptación científica integral no se declara completada; las comprobaciones y sus límites se distinguen abajo**.
 
-Se instaló `agent-forge-research@agent-forge-research-local`, versión `1.0.5`, mediante los comandos nativos de Codex. No se desplegó a otra workstation ni se publicaron cambios remotos. El paquete incluye veinte definiciones de especialistas, una dirección, veintiuna skills y siete hooks. Las responsabilidades y los modelos corresponden al [catálogo implementado](../plugins/agent-forge-research/research-roster.json).
+Este informe documenta la instalación histórica de la versión 1.0.5 distribuida como plugin. No acredita la instalación ni la carga de los agentes y las habilidades globales de la migración actual; consulta la [guía operativa vigente](research-desktop-plugin.md).
+
+Se instaló `agent-forge-research@agent-forge-research-local`, versión `1.0.5`, mediante los comandos nativos de Codex. No se desplegó a otra workstation ni se publicaron cambios remotos. El paquete incluye veinte definiciones de especialistas, una dirección, veintiuna skills y siete hooks. Las responsabilidades y los modelos corresponden al [catálogo implementado](../packages/research-specialists/research-roster.json).
 
 ## Ubicaciones comprobadas
 
@@ -72,7 +74,7 @@ Alcance de la aceptación y comprobaciones todavía no acreditadas:
 
 1. Las cuatro combinaciones de modelo y razonamiento quedaron comprobadas mediante el acuse breve y el registro nativo. Esto verifica las combinaciones utilizadas por el catálogo; no significa que se haya ejecutado una tarea sustantiva con cada uno de los veinte especialistas.
 2. La creación y vinculación reales ya se observaron en el chat nuevo. El registro de evidencia y cierre del programa auxiliar también se ejecutó. Esto no demuestra por sí solo la ejecución nativa de cada uno de los siete eventos: las pruebas controladas se distinguen de los eventos realmente observados.
-3. [El material científico ficticio preparado](../plugins/agent-forge-research/tests/fixtures/scientific-review.md) no se ha usado para evaluar respuestas científicas de los especialistas. Los acuses breves verifican recepción y configuración, no calidad científica. No se presenta como aprobada una evaluación científica integral.
+3. [El material científico ficticio preparado](../packages/research-specialists/tests/fixtures/scientific-review.md) no se ha usado para evaluar respuestas científicas de los especialistas. Los acuses breves verifican recepción y configuración, no calidad científica. No se presenta como aprobada una evaluación científica integral.
 
 No hace falta recopilar un corpus, iniciar estudios, instalar nuevas skills o contratar servicios para esas comprobaciones pendientes. Las capacidades opcionales de Pandoc/XeLaTeX no se presentan como compilación verificada; para documentos LaTeX independientes se conserva el editor nativo.
 

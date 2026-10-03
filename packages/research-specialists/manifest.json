@@ -1,0 +1,8 @@
+{
+  "schemaVersion": 1,
+  "packageName": "research-specialists",
+  "version": "1.0.6",
+  "roster": "research-roster.json",
+  "skills": "skills",
+  "hooks": "hooks/hooks.json"
+}

@@ -1,0 +1,88 @@
+{
+  "hooks": {
+    "PreToolUse": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "node \"./scripts/research-hooks.mjs\"",
+            "timeout": 10,
+            "statusMessage": "Investigación: comprobar la asignación antes de usar herramientas"
+          }
+        ]
+      }
+    ],
+    "PostToolUse": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "node \"./scripts/research-hooks.mjs\"",
+            "timeout": 10,
+            "statusMessage": "Investigación: identificar al especialista creado"
+          }
+        ]
+      }
+    ],
+    "SubagentStart": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "node \"./scripts/research-hooks.mjs\"",
+            "timeout": 10,
+            "statusMessage": "Investigación: comprobar el contexto del especialista"
+          }
+        ]
+      }
+    ],
+    "SubagentStop": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "node \"./scripts/research-hooks.mjs\"",
+            "timeout": 10,
+            "statusMessage": "Investigación: devolver los resultados al agente principal"
+          }
+        ]
+      }
+    ],
+    "Stop": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "node \"./scripts/research-hooks.mjs\"",
+            "timeout": 10,
+            "statusMessage": "Investigación: comprobar la evidencia registrada"
+          }
+        ]
+      }
+    ],
+    "Interrupt": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "node \"./scripts/research-hooks.mjs\"",
+            "timeout": 3,
+            "statusMessage": "Investigación: registrar la interrupción sin reanudar"
+          }
+        ]
+      }
+    ],
+    "SessionEnd": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "node \"./scripts/research-hooks.mjs\"",
+            "timeout": 3,
+            "statusMessage": "Investigación: cerrar el registro de la sesión"
+          }
+        ]
+      }
+    ]
+  }
+}

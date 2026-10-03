@@ -1,0 +1,10 @@
+{
+  "name": "@agent-forge/research-specialists",
+  "version": "1.0.6",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "preview": "node install.mjs preview",
+    "verify": "node install.mjs verify"
+  }
+}
