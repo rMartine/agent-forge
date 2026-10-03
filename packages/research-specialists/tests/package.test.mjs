@@ -6,6 +6,7 @@ import path from 'node:path';
 import { spawnSync } from 'node:child_process';
 import { inspectPackage, sourceRoot } from '../scripts/research-package.mjs';
 import { verifyResearchPackageIntegrity } from '../scripts/research-integrity.mjs';
+import { generateResearchDefinitions } from '../scripts/research-definitions.mjs';
 
 async function profile(t) {
   const directory = await mkdtemp(path.join(os.tmpdir(), 'agent-forge-research-global-test-'));
@@ -39,6 +40,21 @@ test('the module preserves twenty specialist roles, twenty-one complete skills a
   }
   assert.deepEqual(Object.fromEntries(models), { 'gpt-6.1-sol/high': 3, 'gpt-6-astra/high': 15, 'gpt-6.1-sol/medium': 1, 'gpt-6-astra/medium': 1 });
   assert.equal(roster.specialists.filter(a => a.readOnly).length, 1);
+});
+
+test('generated skill descriptions preserve the folded Nature response block and the twenty simple descriptions', async () => {
+  const definitions = (await generateResearchDefinitions(sourceRoot, sourceRoot, path.dirname(sourceRoot))).filter(definition => definition.kind === 'skill');
+  assert.equal(definitions.length, 21);
+  const response = definitions.find(definition => definition.name === 'agent-forge-research-nature-response');
+  const description = JSON.parse(response.bytes.toString('utf8').split('\n').find(line => line.startsWith('description: ')).slice('description: '.length));
+  assert.equal(description, 'Draft, audit, or revise responses to peer review, revision cover letters, and marked-manuscript or LaTeX revision packages. Use for 审稿意见回复、逐点回复、返修信、 rebuttals and edits to existing response drafts. Initial-submission materials belong to nature-writing; simulated peer review belongs to nature-reviewer.');
+  for (const definition of definitions.filter(item => item !== response)) {
+    const name = definition.name.slice('agent-forge-research-'.length);
+    const original = await readFile(path.join(sourceRoot, 'skills', name, 'SKILL.md'), 'utf8');
+    const expected = original.split(/\r?\n/).find(line => line.startsWith('description:')).slice('description:'.length).replace(/\s+/g, ' ').trim();
+    const actual = JSON.parse(definition.bytes.toString('utf8').split('\n').find(line => line.startsWith('description: ')).slice('description: '.length));
+    assert.equal(actual, expected, name);
+  }
 });
 
 test('installation generates twenty global agents and twenty-one skill entries with the catalog models and no permission overrides', async t => {

@@ -41,7 +41,8 @@ export async function generateResearchDefinitions(sourceRoot, installedRoot, cod
   for (const entry of (await readdir(path.join(sourceRoot, 'skills'), { withFileTypes: true })).sort((a, b) => a.name.localeCompare(b.name))) {
     if (!entry.isDirectory() || !/^[a-z][a-z0-9-]+$/.test(entry.name)) throw new Error('Invalid research skill directory');
     const original = await readFile(path.join(sourceRoot, 'skills', entry.name, 'SKILL.md'), 'utf8');
-    const description = original.match(/^description:\s*(.*(?:\n[ \t]+[^\n]+)*)/m)?.[1]?.replace(/\s+/g, ' ').trim() || `Research procedure: ${entry.name}`;
+    const descriptionValue = original.replaceAll('\r\n', '\n').match(/^description:[ \t]*([^\n]*(?:\n[ \t]+[^\n]+)*)/m)?.[1];
+    const description = descriptionValue?.replace(/^>[+-]?[ \t]*\n/, '').replace(/\s+/g, ' ').trim() || `Research procedure: ${entry.name}`;
     const name = `agent-forge-research-${entry.name}`;
     const procedure = textPath(path.join(installedRoot, 'skills', entry.name, 'SKILL.md'));
     const content = `---\nname: ${name}\ndescription: ${JSON.stringify(description)}\n---\n\nRead and apply [the complete ${entry.name} procedure](<${procedure}>) when it matches the authorized assignment. Its references, scripts and other resources remain under ${textPath(path.join(installedRoot, 'skills', entry.name))}; resolve relative references against the original procedure's directory.\n`;
