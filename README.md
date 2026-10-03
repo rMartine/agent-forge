@@ -86,3 +86,7 @@ See [architecture](project_docs/architecture/architecture.md), [build and instal
 ## Consultor de tecnología e IA para logística
 
 El [módulo independiente de consultoría](packages/consulting-specialist/README.md) incorpora un perfil nativo para soluciones, propuestas, respuestas y presentaciones de logística, aduanas y transporte. Tiene instalación, propiedad de archivos y grupos de hooks separados del compilador principal. Conserva contexto por cliente y proyecto, y hereda modelo y permisos. Su documentación distingue instalación, descubrimiento nativo y ejecución observada de hooks.
+
+## Equipo de investigación para Codex Desktop
+
+El [paquete de especialistas de investigación](packages/research-specialists/README.md) instala agentes y habilidades globales de Codex, los recursos científicos que conservan y siete grupos de hooks. La [guía de instalación y comportamiento](project_docs/research-desktop-plugin.md) documenta la vista previa, los modelos fijos por rol y los límites de lo comprobado.
