@@ -187,6 +187,57 @@ test('unrelated default spawns remain available and are never identified solely 
   assert.equal(Object.values((await readState(f.context)).assignments).some(entry => entry.agentId === 'unrelated-agent'), false);
 });
 
+test('spawn rejection reports field comparisons without recording supplied content or unknown keys', async t => {
+  const f = await fixture(t);
+  await f.start();
+  const entry = await f.assign();
+  const input = spawnInput(entry);
+  const output = await f.hook('PreToolUse', { tool_name: 'Agent', tool_use_id: 'comparison-only', tool_input: { ...input, message: 'PRIVATE_CONTENT', PRIVATE_KEY_NAME: 'PRIVATE_VALUE' } });
+  assert.equal(output.hookSpecificOutput.permissionDecision, 'deny');
+  const record = await readState(f.context);
+  assert.deepEqual(record.assignments[entry.id].spawnValidationFailure, { mismatchedFields: ['message'], unknownFieldCount: 1, hasAssignmentMarker: false, messageMatchesAfterNormalizingLineEndings: false });
+  assert.doesNotMatch(JSON.stringify({ output, record }), /PRIVATE_CONTENT|PRIVATE_KEY_NAME|PRIVATE_VALUE/);
+  const lineEndingOutput = await f.hook('PreToolUse', { tool_name: 'Agent', tool_use_id: 'different-line-endings', tool_input: { ...input, message: input.message.replaceAll('\n', '\r\n') } });
+  assert.notEqual(lineEndingOutput.hookSpecificOutput?.permissionDecision, 'deny');
+  assert.equal(lineEndingOutput.hookSpecificOutput?.updatedInput, undefined);
+});
+
+test('opaque native messages preserve client transport while recording the comparison limitation', async t => {
+  const f = await fixture(t);
+  await addIntegrityInventory(f);
+  await f.start();
+  const entry = await f.assign();
+  const expected = spawnInput(entry);
+  const supplied = { ...expected, message: `gAAAA${'A'.repeat(100)}` };
+  const wrongModel = await f.hook('PreToolUse', { tool_name: 'collaborationspawn_agent', tool_use_id: 'restore-instructions', tool_input: { ...supplied, model: 'another-model' } });
+  assert.equal(wrongModel.hookSpecificOutput.permissionDecision, 'deny');
+  assert.equal((await readState(f.context)).assignments[entry.id].status, 'prepared');
+  const original = structuredClone(supplied);
+  const result = await f.hook('PreToolUse', { tool_name: 'collaborationspawn_agent', tool_use_id: 'native-instructions', tool_input: supplied });
+  assert.notEqual(result.hookSpecificOutput?.permissionDecision, 'deny');
+  assert.equal(result.hookSpecificOutput?.updatedInput, undefined);
+  assert.deepEqual(supplied, original);
+  assert.ok(!JSON.stringify({ result, record: await readState(f.context) }).includes(supplied.message));
+  assert.equal((await readState(f.context)).assignments[entry.id].instructionVerification, 'opaque-native-message-not-compared');
+  const status = await runCommand(['status', '--project', f.project, '--session', f.sessionId], { pluginRoot: f.pluginRoot, dataRoot: f.dataRoot });
+  assert.equal(status.assignments[0].instructionVerification, 'opaque-native-message-not-compared');
+  await f.hook('PostToolUse', { tool_name: 'collaborationspawn_agent', tool_use_id: 'native-instructions', tool_response: { task_name: `/root/${entry.taskName}` } });
+  const started = await f.hook('SubagentStart', { agent_id: 'native-child', agent_type: 'default', model: entry.model });
+  assert.ok(started.hookSpecificOutput.additionalContext.includes(entry.task));
+  assert.equal((await readState(f.context)).assignments[entry.id].diagnostic, undefined);
+});
+
+test('opaque native transport cannot skip installed integrity verification', async t => {
+  const f = await fixture(t);
+  await addIntegrityInventory(f);
+  await f.start();
+  const entry = await f.assign();
+  await writeFile(path.join(f.pluginRoot, 'scripts', 'fixture-analysis.py'), '# Changed since preparation.');
+  const result = await f.hook('PreToolUse', { tool_name: 'collaborationspawn_agent', tool_use_id: 'changed-package', tool_input: { ...spawnInput(entry), message: `gAAAA${'A'.repeat(100)}` } });
+  assert.equal(result.hookSpecificOutput.permissionDecision, 'deny');
+  assert.equal(result.hookSpecificOutput.updatedInput, undefined);
+});
+
 test('only one unbound assignment is created under concurrent assign attempts', async t => {
   const f = await fixture(t);
   await f.start();
@@ -239,6 +290,7 @@ test('PostToolUse before SubagentStart binds the later unique event', async t =>
   const output = await f.hook('SubagentStart', { agent_id: 'actual-child', agent_type: 'default', model: 'gpt-review' });
   assert.match(output.hookSpecificOutput.additionalContext, /research-review/);
   assert.equal((await readState(f.context)).assignments[entry.id].agentId, 'actual-child');
+  assert.equal((await readState(f.context)).assignments[entry.id].diagnostic, undefined);
 });
 
 test('concurrent unrelated spawns make candidate correlation ambiguous instead of claiming an unknown agent', async t => {
