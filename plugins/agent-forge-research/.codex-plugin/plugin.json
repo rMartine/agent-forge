@@ -1,0 +1,16 @@
+{
+  "name": "agent-forge-research",
+  "version": "1.0.0",
+  "description": "Coordinate authorized research with twenty specialist subagents, explicit models, selected scientific skills and local lifecycle hooks.",
+  "author": { "name": "Agent Forge" },
+  "skills": "./skills/",
+  "hooks": "./hooks/hooks.json",
+  "interface": {
+    "displayName": "Equipo de investigación de Agent Forge",
+    "shortDescription": "Veinte especialistas para investigación autorizada",
+    "longDescription": "Dirección de investigación, especialistas metodológicos y especialistas de dominio con modelos explícitos, evidencia trazable y controles locales sobre operaciones autorizadas. Preparado para Codex Desktop en esta workstation.",
+    "category": "Education & Research",
+    "capabilities": ["Read", "Write"],
+    "defaultPrompt": ["Usa el equipo de investigación de Agent Forge para desarrollar el encargo que te indique, respetando sus materiales, métodos y autorizaciones."]
+  }
+}

@@ -1,0 +1,375 @@
+{
+  "version": 1,
+  "coordinator": {
+    "id": "research-director",
+    "name": "Dirección de investigación",
+    "model": "gpt-6-astra",
+    "reasoning": "high",
+    "skill": "skills/direct-research/SKILL.md"
+  },
+  "specialists": [
+    {
+      "id": "research-literature-search",
+      "name": "Búsqueda bibliográfica",
+      "model": "gpt-6.1-sol",
+      "reasoning": "high",
+      "roleFile": "roles/research-literature-search.md",
+      "skills": [
+        "skills/literature-review/SKILL.md"
+      ],
+      "externalSkills": [],
+      "completionEvidence": [
+        "Search sources, complete queries, search dates and result counts for the searches actually run.",
+        "Records selected or excluded with reasons and unresolved access limitations.",
+        "A reproducible record of authorized deduplication and selection decisions."
+      ],
+      "readOnly": false
+    },
+    {
+      "id": "research-evidence-synthesis",
+      "name": "Síntesis de evidencia",
+      "model": "gpt-6-astra",
+      "reasoning": "high",
+      "roleFile": "roles/research-evidence-synthesis.md",
+      "skills": [
+        "skills/literature-review/SKILL.md",
+        "skills/scientific-critical-thinking/SKILL.md"
+      ],
+      "externalSkills": [],
+      "completionEvidence": [
+        "A claim-to-source mapping with identifiers and page, section, table or other available locations.",
+        "An account of contradictory findings, differences in methods and uncertainty.",
+        "Separation of supported findings, interpretation and proposed research."
+      ],
+      "readOnly": false
+    },
+    {
+      "id": "research-bibliographic-references",
+      "name": "Referencias bibliográficas",
+      "model": "gpt-6.1-sol",
+      "reasoning": "medium",
+      "roleFile": "roles/research-bibliographic-references.md",
+      "skills": [
+        "skills/citation-management/SKILL.md"
+      ],
+      "externalSkills": [
+        "zotero:Zotero"
+      ],
+      "completionEvidence": [
+        "Verified identities and bibliographic fields with their provenance.",
+        "A mapping between in-text citations and bibliography entries.",
+        "Duplicate decisions, unresolved metadata and a record of authorized library changes."
+      ],
+      "readOnly": false
+    },
+    {
+      "id": "research-experimental-design",
+      "name": "Diseño experimental",
+      "model": "gpt-6-astra",
+      "reasoning": "high",
+      "roleFile": "roles/research-experimental-design.md",
+      "skills": [
+        "skills/experimental-design/SKILL.md",
+        "skills/scientific-critical-thinking/SKILL.md"
+      ],
+      "externalSkills": [],
+      "completionEvidence": [
+        "The research question and authorized comparison or estimand.",
+        "Experimental units, allocation, measurements, analysis linkage and design assumptions.",
+        "Threats to validity, design limitations and scientific decisions still reserved to Roberto."
+      ],
+      "readOnly": false
+    },
+    {
+      "id": "research-human-participant-studies",
+      "name": "Estudios con participantes",
+      "model": "gpt-6-astra",
+      "reasoning": "high",
+      "roleFile": "roles/research-human-participant-studies.md",
+      "skills": [
+        "skills/research-human-participants/SKILL.md",
+        "skills/experimental-design/SKILL.md"
+      ],
+      "externalSkills": [],
+      "completionEvidence": [
+        "Versioned instruments, participant procedures and the authorized analysis procedure.",
+        "Consent, access, retention and institutional conditions relevant to the assigned study.",
+        "A distinction between planned procedures, simulated exercises and observations from actual participants."
+      ],
+      "readOnly": false
+    },
+    {
+      "id": "research-statistical-analysis",
+      "name": "Análisis estadístico",
+      "model": "gpt-6-astra",
+      "reasoning": "high",
+      "roleFile": "roles/research-statistical-analysis.md",
+      "skills": [
+        "skills/statistical-analysis/SKILL.md"
+      ],
+      "externalSkills": [
+        "jupyter-notebook"
+      ],
+      "completionEvidence": [
+        "Data provenance, inclusion and exclusion decisions, transformations and missingness treatment.",
+        "The specified analysis, assumptions, effect sizes and uncertainty with reproducible outputs.",
+        "A distinction between prespecified, exploratory and changed analyses, including resulting limitations."
+      ],
+      "readOnly": false
+    },
+    {
+      "id": "research-computational-reproducibility",
+      "name": "Reproducibilidad computacional",
+      "model": "gpt-6.1-sol",
+      "reasoning": "high",
+      "roleFile": "roles/research-computational-reproducibility.md",
+      "skills": [],
+      "externalSkills": [
+        "jupyter-notebook"
+      ],
+      "completionEvidence": [
+        "Identified input versions, transformation steps, dependency versions, seeds where relevant and commands.",
+        "Executed outputs and comparison against the claimed or supplied result.",
+        "Unreproduced steps, numerical differences and environment limitations without invented success."
+      ],
+      "readOnly": false
+    },
+    {
+      "id": "research-scientific-figures",
+      "name": "Figuras científicas",
+      "model": "gpt-6.1-sol",
+      "reasoning": "high",
+      "roleFile": "roles/research-scientific-figures.md",
+      "skills": [
+        "skills/scientific-visualization/SKILL.md"
+      ],
+      "externalSkills": [],
+      "completionEvidence": [
+        "The data and transformations underlying each plotted element.",
+        "Editable figure sources, labels, units, uncertainty representations and output locations.",
+        "Visual verification performed and any renderer, resolution or accessibility limitations."
+      ],
+      "readOnly": false
+    },
+    {
+      "id": "research-scientific-writing",
+      "name": "Escritura científica",
+      "model": "gpt-6-astra",
+      "reasoning": "medium",
+      "roleFile": "roles/research-scientific-writing.md",
+      "skills": [
+        "skills/nature-writing/SKILL.md",
+        "skills/nature-shared/SKILL.md",
+        "skills/research-latex/SKILL.md"
+      ],
+      "externalSkills": [],
+      "completionEvidence": [
+        "A manuscript or revision grounded in the supplied evidence, with citation locations.",
+        "A record of unresolved claims, scientific decisions and missing evidence.",
+        "The checks actually run, including compilation or citation verification when applicable."
+      ],
+      "readOnly": false
+    },
+    {
+      "id": "research-reviewer-responses",
+      "name": "Respuestas a revisores",
+      "model": "gpt-6-astra",
+      "reasoning": "high",
+      "roleFile": "roles/research-reviewer-responses.md",
+      "skills": [
+        "skills/nature-response/SKILL.md",
+        "skills/nature-shared/SKILL.md"
+      ],
+      "externalSkills": [],
+      "completionEvidence": [
+        "Every reviewer comment mapped to a response and decision.",
+        "Actual manuscript changes and verified locations for changes claimed in responses.",
+        "Requests requiring new analyses or evidence, disagreements and unresolved decisions."
+      ],
+      "readOnly": false
+    },
+    {
+      "id": "research-independent-scientific-review",
+      "name": "Revisión científica independiente",
+      "model": "gpt-6-astra",
+      "reasoning": "high",
+      "roleFile": "roles/research-independent-scientific-review.md",
+      "skills": [
+        "skills/scientific-critical-thinking/SKILL.md"
+      ],
+      "externalSkills": [],
+      "completionEvidence": [
+        "Localized findings with source, argument or result evidence and their consequences.",
+        "Checks performed, materials inspected and limitations of the review.",
+        "A separation of confirmed defects, uncertainty and proposed improvements."
+      ],
+      "readOnly": true
+    },
+    {
+      "id": "research-machine-learning",
+      "name": "Aprendizaje automático y aprendizaje profundo",
+      "model": "gpt-6-astra",
+      "reasoning": "high",
+      "roleFile": "roles/research-machine-learning.md",
+      "skills": [
+        "skills/research-machine-learning/SKILL.md",
+        "skills/scientific-critical-thinking/SKILL.md"
+      ],
+      "externalSkills": [],
+      "completionEvidence": [
+        "The question, learning objective, architecture or method and justified comparisons.",
+        "Dataset provenance, partitions, preprocessing boundaries and evaluation conditions.",
+        "Generalization findings, uncertainty and failure analysis with executed evidence distinguished from proposals."
+      ],
+      "readOnly": false
+    },
+    {
+      "id": "research-language-models",
+      "name": "Modelos de lenguaje y sistemas con agentes",
+      "model": "gpt-6-astra",
+      "reasoning": "high",
+      "roleFile": "roles/research-language-models.md",
+      "skills": [
+        "skills/research-language-models/SKILL.md",
+        "skills/scientific-critical-thinking/SKILL.md"
+      ],
+      "externalSkills": [],
+      "completionEvidence": [
+        "The question and separately identified model, instructions, retrieval, tools and orchestration.",
+        "Versioned evaluation materials, contamination considerations and scoring procedure.",
+        "Observed errors, uncertainty, permitted tool actions and limits on inference."
+      ],
+      "readOnly": false
+    },
+    {
+      "id": "research-computer-vision",
+      "name": "Visión por computadora y percepción multimodal",
+      "model": "gpt-6-astra",
+      "reasoning": "high",
+      "roleFile": "roles/research-computer-vision.md",
+      "skills": [
+        "skills/research-computer-vision/SKILL.md",
+        "skills/scientific-critical-thinking/SKILL.md"
+      ],
+      "externalSkills": [],
+      "completionEvidence": [
+        "Sensor or modality provenance, annotation conditions and partition boundaries.",
+        "Transformations, calibration, synchronization and applicable geometry assumptions.",
+        "Metrics and errors by relevant observed conditions with limits on generalization."
+      ],
+      "readOnly": false
+    },
+    {
+      "id": "research-human-ai-interaction",
+      "name": "Interacción entre personas y sistemas de inteligencia artificial",
+      "model": "gpt-6-astra",
+      "reasoning": "high",
+      "roleFile": "roles/research-human-ai-interaction.md",
+      "skills": [
+        "skills/research-human-ai-interaction/SKILL.md",
+        "skills/scientific-critical-thinking/SKILL.md"
+      ],
+      "externalSkills": [],
+      "completionEvidence": [
+        "Definitions of the human interaction concepts and a reasoned mapping to measures.",
+        "The system behavior, participant activity and interaction conditions under study.",
+        "Evidence and limitations concerning interpretation, control, reliance or recovery."
+      ],
+      "readOnly": false
+    },
+    {
+      "id": "research-extended-reality",
+      "name": "Realidad extendida",
+      "model": "gpt-6-astra",
+      "reasoning": "high",
+      "roleFile": "roles/research-extended-reality.md",
+      "skills": [
+        "skills/research-extended-reality/SKILL.md",
+        "skills/scientific-critical-thinking/SKILL.md"
+      ],
+      "externalSkills": [],
+      "completionEvidence": [
+        "Experience, device, rendering and interaction conditions relevant to the question.",
+        "Definitions and measurements of the assigned spatial or immersive outcomes.",
+        "A separation of simulator, device and participant observations with relevant comfort and accessibility limits."
+      ],
+      "readOnly": false
+    },
+    {
+      "id": "research-physical-ai",
+      "name": "Inteligencia artificial para sistemas físicos",
+      "model": "gpt-6-astra",
+      "reasoning": "high",
+      "roleFile": "roles/research-physical-ai.md",
+      "skills": [
+        "skills/research-physical-ai/SKILL.md",
+        "skills/scientific-critical-thinking/SKILL.md"
+      ],
+      "externalSkills": [
+        "digital-twin-researcher"
+      ],
+      "completionEvidence": [
+        "The physical task, environment assumptions, observations, actions and learning objective.",
+        "Model or policy evidence and simulation-to-reality differences.",
+        "Operating conditions, uncertainty and a separation of simulated results from physical execution."
+      ],
+      "readOnly": false
+    },
+    {
+      "id": "research-mathematical-modeling",
+      "name": "Modelado matemático y simulaciones",
+      "model": "gpt-6-astra",
+      "reasoning": "high",
+      "roleFile": "roles/research-mathematical-modeling.md",
+      "skills": [
+        "skills/research-mathematical-modeling/SKILL.md",
+        "skills/scientific-critical-thinking/SKILL.md"
+      ],
+      "externalSkills": [
+        "digital-twin-researcher"
+      ],
+      "completionEvidence": [
+        "Equations, units, assumptions, parameters and initial or boundary conditions.",
+        "Implementation, numerical verification, sensitivity and applicable convergence evidence.",
+        "Calibration provenance and empirical validation distinguished from agreement with a simulation."
+      ],
+      "readOnly": false
+    },
+    {
+      "id": "research-mathematics",
+      "name": "Matemáticas",
+      "model": "gpt-6-astra",
+      "reasoning": "high",
+      "roleFile": "roles/research-mathematics.md",
+      "skills": [
+        "skills/research-mathematics/SKILL.md",
+        "skills/scientific-critical-thinking/SKILL.md"
+      ],
+      "externalSkills": [],
+      "completionEvidence": [
+        "Precisely stated objects, domains, assumptions and proposition or derivation.",
+        "A justified argument, derivation or localized counterexample with dependencies.",
+        "A distinction between proof, symbolic checks, numerical examples and unresolved steps."
+      ],
+      "readOnly": false
+    },
+    {
+      "id": "research-robotics",
+      "name": "Robótica",
+      "model": "gpt-6-astra",
+      "reasoning": "high",
+      "roleFile": "roles/research-robotics.md",
+      "skills": [
+        "skills/research-robotics/SKILL.md",
+        "skills/scientific-critical-thinking/SKILL.md"
+      ],
+      "externalSkills": [],
+      "completionEvidence": [
+        "Kinematic, dynamic, estimation, planning or control assumptions for the assigned system.",
+        "Frames, units, time, sensing, actuation constraints and reproducible experiment conditions.",
+        "Simulated and physical results identified separately, with execution authority and observed limitations."
+      ],
+      "readOnly": false
+    }
+  ]
+}

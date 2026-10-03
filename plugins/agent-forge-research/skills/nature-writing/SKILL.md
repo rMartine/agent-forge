@@ -1,0 +1,136 @@
+---
+name: nature-writing
+description: Draft or restructure scientific manuscript arguments, sections, and initial-submission materials from author-provided evidence. Use for 论文写作、章节起草、论证重构、正文压缩、首次投稿材料. Use nature-polishing for language-only edits to existing prose and nature-response for post-decision correspondence.
+---
+
+## Agent Forge authorization and responsibility
+
+This locally adapted skill supports only the research question, sources, data, methods, outputs, and effort authorized by Roberto. Reuse current decisions. Do not install other skills, expand the literature corpus, run new experiments, upload material, or start a paid service merely because an upstream example recommends it. The user retains scientific decisions not expressly delegated. Apply upstream examples only when relevant to the requested deliverable.
+
+Use the user's requested deliverable language. Preserve evidence, uncertainty, negative results, and attribution; do not invent data or citations. Do not abbreviate responsibilities, decisions, or conditions into invented labels. Technical abbreviations retain only their conventional meanings. Published methodological guidance does not authorize changing study design or compressing requirements.
+
+Scripts require AGENT_FORGE_RESEARCH_AUTHORIZATION to identify a reviewed task authorization file. Inputs and outputs must be inside its permitted roots. Network origins, methods, paths, models, credentials, any request limits, and any monetary ceiling must match the user authorization. Do not change that authorization file to make an operation pass. A command-line option does not grant permission to overwrite a file or use credentials. Never search parent folders for .env files. Installation and subsequent upstream updates are separate actions.
+
+Run only the checks relevant to the changed material and the agreed delivery stage. A diagnostic is evidence of what it checks, not proof of scientific validity, live provider access, or manuscript acceptance. Follow the existing authorizations without inventing repeated approval steps. Recommendations to use a separate skill are optional routing suggestions, never permission to install it. Prefer the installed native document, figure, and browser capabilities when they fit the authorized task.
+
+
+# Nature-Style Scientific Writing — Router
+
+## Routing protocol
+
+For a new drafting task, follow the routing below. For follow-up edits, reuse established task choices and already loaded guidance; read additional fragments only when the requested scope changes.
+
+### 1. Load the manifest and the core layer
+
+Read [manifest.yaml](manifest.yaml). It declares the axes (`task`, `paper_type`, `section`, `language`, `journal`), the allowed values, and the file paths each value maps to.
+
+Also read every file listed under `always_load`. These hold the default stance, writing workflow, and output format that apply to every drafting job.
+
+### 2. Detect the axis values for this request
+
+For each axis in the manifest, decide the value using the manifest's `detect:` hint and the user's input:
+
+- `task` — manuscript / submission-package. Use `submission-package` for first-submission materials, never for revision correspondence.
+- `paper_type` — research / methods / hypothesis / algorithmic / review. Default: research.
+- `section` — abstract / intro / related-work / method / experiments / discussion / conclusion / title. May be multiple. Ask the user if it is ambiguous and matters for the draft.
+- `language` — follow the requested deliverable language. English fragments apply to English output; zh-to-en applies only to authorized Chinese-to-English work.
+- `journal` — nature / nature-family / nat-comms / nat-mach-intell / generic.
+  Default: generic. Use `nature` only for the flagship journal Nature,
+  `nat-comms` for Nature Communications, `nat-mach-intell` for Nature Machine
+  Intelligence (NMI), and `nature-family` for other Nature Portfolio titles or
+  an unspecified Nature-family request.
+
+State the detected axis values in one short line to the user before drafting, so they can correct you cheaply. This is a progress update, not an approval gate; continue unless a necessary decision remains unresolved.
+
+### 3. Load the matching fragments
+
+For each axis value, Read the file mapped in the manifest. Skip the `section` axis when the task is `submission-package` or when the user explicitly asks for a free-floating argument paragraph with no section context.
+
+Do **not** read every fragment in `static/`. Load only what step 2 selected.
+
+### 4. Draft using the loaded material
+
+Apply the loaded fragments in this priority order:
+
+1. Core stance + intake (`core/stance.md`) — surface missing claim / evidence / boundary before drafting.
+2. Paper-type playbook — argument chain, drafting order.
+3. Section-specific drafting rules and structure.
+4. Task-specific submission rules when `task=submission-package`.
+5. Journal-specific framing and constraints.
+6. Language-specific sentence and paragraph rules (apply last).
+
+For `task=manuscript`, use `core/workflow.md` at the requested scale. Plan the argument for a new section or substantial restructuring; a title, single paragraph, or local follow-up needs only the applicable evidence, wording, and consistency checks. Complete the requested prose unless a material unresolved decision blocks it or the user requested an outline for approval first.
+
+When drafting or restructuring Results, or compressing a full manuscript's main
+text, also load `../nature-shared/core/main-text-discipline.md` before building
+the paragraph map. Classify every result by function, allocate it across main
+text, captions, Methods/source data, and SI, then draft the shortest sufficient
+evidence chain. Do not equate a complete analysis record with a complete main
+text.
+
+When the target is flagship Nature, Nature Communications, Nature Machine
+Intelligence, or another Nature Portfolio title, load the matching shared
+Nature-style corpus guidance for the section being drafted:
+
+- Results or Discussion →
+  `../nature-shared/core/nature-results-discussion.md`
+- Introduction or whole-manuscript narrative →
+  `../nature-shared/core/nature-introduction.md`
+- Abstract → `../nature-shared/core/nature-abstract.md`
+
+Use these files for claim escalation, question-chain alignment,
+discovery-centred compression, and synthesis. They were initially distilled
+from published NMI papers and generalized as Nature-style defaults; do not
+present them as official policy, and let the target journal's current rules
+override them.
+
+For any Discussion drafting, restructuring, or section audit, also load
+`../nature-shared/core/discussion-argument-language.md`. Use it to select the
+opening anchor, control the reverse-funnel expansion, distinguish literature
+positioning from citation decoration, calibrate modal strength to evidence,
+and turn limitations and future work into claim-specific reasoning. This is
+general writing guidance rather than an official journal rule.
+
+For `task=submission-package`, follow `static/fragments/task/submission-package.md` and `references/submission-package.md` instead. Build the deliverable matrix and readiness audit; do not force manuscript paragraph architecture onto administrative submission materials.
+
+If essential evidence or boundary is missing, write a placeholder and list it under `Assumptions or missing inputs:` instead of inventing content.
+
+### 5. Reach for references only when needed
+
+The files under `references/` are deep references and the example library, not defaults. Open them on demand per the `references.on_demand` table in the manifest. Typical triggers:
+
+- The user asks for a concrete example or template → `references/examples/index.md`.
+- A section's draft has structural problems that the section fragment alone does not explain → the matching `references/<section>.md`.
+- The user needs a broad-audience `Nature` abstract opening or asks about a `summary paragraph` → `references/nature-summary-paragraph.md`.
+- The user asks "does this paragraph flow?" → `references/paragraph-flow.md`.
+- The user asks for a self-review or rejection-risk audit → `references/paper-review.md`.
+- The user asks what belongs in the main text, captions, or SI; wants a shorter
+  Results section; or is adding reviewer-driven explanation →
+  `../nature-shared/core/main-text-discipline.md`.
+- The user requests a complete first-submission package, templates, or a submission-readiness audit → `references/submission-package.md`.
+- The target is the flagship journal Nature and exact submission or formatting
+  requirements matter → `../nature-shared/journal-formats/nature.md`.
+- The target is Nature Machine Intelligence and exact content-type, submission,
+  data/code or production requirements matter →
+  `../nature-shared/journal-formats/nature-machine-intelligence.md`.
+- Any Nature / Nature Portfolio target needs Results claim progression,
+  evidence-bound interpretation, robustness placement, or Discussion synthesis
+  → `../nature-shared/core/nature-results-discussion.md`.
+- Any target needs a Discussion function chain, evidence-calibrated modal
+  language, claim-specific limitations, non-redundant literature positioning,
+  or uncertainty-driven future work →
+  `../nature-shared/core/discussion-argument-language.md`.
+- Any Nature / Nature Portfolio target needs an Introduction funnel, exact gap,
+  literature logic, question-first novelty, study roadmap, or alignment with
+  Results → `../nature-shared/core/nature-introduction.md`.
+- Any Nature / Nature Portfolio target needs abstract evidence-chain,
+  main/supporting-claim, numeric-result, or final-payoff decisions →
+  `../nature-shared/core/nature-abstract.md`.
+- The work involves regulated or specialist research compliance →
+  `../nature-shared/core/research-compliance.md`.
+
+## Submission boundary
+
+- `nature-writing` owns **initial submission** materials prepared before peer review.
+- `nature-response` owns revision cover letters, rebuttals, point-by-point responses, marked manuscripts, appeals, and other post-decision correspondence.
+- Route graphical abstracts and TOC graphics to `nature-figure`; route simulated pre-submission peer review to `nature-reviewer`.
