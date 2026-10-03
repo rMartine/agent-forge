@@ -1,4 +1,4 @@
-# Especialistas independientes de Agent Forge
+# Roster de Comunicación y Formación
 
 Cuatro perfiles nativos para Codex: marketing y ventas, marca y diseño gráfico, educación para adultos y producción audiovisual. No pertenecen a los equipos de investigación o desarrollo. Se coordinan a través de la conversación principal y de la skill `independent-specialist-coordination`.
 

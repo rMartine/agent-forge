@@ -1,9 +1,9 @@
 ---
 name: independent-specialist-coordination
-description: Coordina los agentes independientes de marketing, marca, educación para adultos y producción audiovisual; registra las autorizaciones ya vigentes cuando sus hooks necesitan comprobar una operación externa.
+description: Coordina los agentes del Roster de Comunicación y Formación, dedicado a marketing, marca, educación para adultos y producción audiovisual; registra las autorizaciones ya vigentes cuando sus hooks necesitan comprobar una operación externa.
 ---
 
-# Coordinar especialistas independientes
+# Coordinar el Roster de Comunicación y Formación
 
 Usa los perfiles nativos `marketing-and-sales-specialist`, `brand-and-graphic-design-specialist`, `adult-education-specialist` y `audiovisual-production-specialist` según el trabajo solicitado. Son independientes de los equipos de investigación y desarrollo. No crees chats nuevos para una delegación; utiliza las herramientas de colaboración disponibles. Un encargo a uno de estos agentes no activa por sí mismo los equipos existentes.
 

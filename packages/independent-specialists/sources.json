@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "purpose": "Procedencia de las skills adaptadas para los agentes independientes de marketing, marca, educación y producción audiovisual.",
+  "purpose": "Procedencia de las skills adaptadas para el Roster de Comunicación y Formación.",
   "reviewScope": "Revisión documental de las instrucciones seleccionadas y sus licencias. No certifica repositorios completos, versiones futuras, servicios remotos ni comportamiento durante producción. No se copiaron ejecutables, instaladores, instrucciones generales de repositorio ni referencias no utilizadas.",
   "updatePolicy": "Versiones fijadas por commit. No consultar ni instalar actualizaciones automáticamente. Revisar únicamente diferencias pertinentes cuando se encargue una actualización.",
   "skills": [

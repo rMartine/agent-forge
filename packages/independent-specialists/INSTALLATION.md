@@ -1,4 +1,4 @@
-# Instalación verificada el 2 de octubre de 2026
+# Roster de Comunicación y Formación: instalación verificada el 2 de octubre de 2026
 
 Se instalaron cuatro perfiles en el directorio personal de agentes de Codex, once skills y siete grupos de hooks. La instalación utiliza un registro propio y conserva los equipos existentes.
 
