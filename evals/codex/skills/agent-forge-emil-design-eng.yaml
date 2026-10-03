@@ -1,0 +1,7 @@
+schemaVersion: 1
+id: agent-forge-emil-design-eng
+runtime: codex
+prompt: "In the assigned product interface, implement interruptible popover feedback with the existing components and reduced-motion behavior."
+explicitPrompt: "Use $agent-forge-emil-design-eng for the assigned popover interaction."
+negativePrompt: "Who is Emil Kowalski?"
+expect: { trigger: true, negativeTrigger: false, noMandatoryIntroduction: true, preservesDependencies: true, noAbsoluteAestheticBans: true, observedInteraction: true }

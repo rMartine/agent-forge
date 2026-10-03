@@ -11,12 +11,13 @@ import type {
   Diagnostic,
   RuntimeSelection,
   RuntimeTarget,
+  GraphifyDeploymentPlan,
 } from './types.js';
 import { hashBuffer, hashFile } from './hash.js';
 import { loadManifest } from './manifest.js';
 import { resolveRepoFilePath, resolveStatePath, resolveTargetPath } from './paths.js';
 import { loadCapabilityCatalog, resolveAgentCapabilities } from './capabilities.js';
-import { loadModelPolicy, resolveAgentModel } from './models.js';
+import { loadModelPolicy, resolveAgentModel, validateCodexModelAvailability } from './models.js';
 import { renderVsCodeAgent } from './renderVsCode.js';
 import { renderCodexAgent } from './renderCodex.js';
 import { renderCodexSkillBundle } from './skillBundles.js';
@@ -26,6 +27,7 @@ import { deploymentPlanPath, loadDeploymentState } from './state.js';
 import { loadExternalSkillCatalog, resolveExternalSkillFiles } from './externalSkills.js';
 import { renderProductDevelopmentSkill, productDevelopmentHookGroups } from './productDevelopment.js';
 import { prepareSharedHooks } from './sharedHooks.js';
+import { prepareGraphifyDeployment } from './graphifyDeployment.js';
 
 const execFileAsync = promisify(execFile);
 
@@ -39,6 +41,8 @@ export interface DeploymentPlanOptions {
   availableModels?: string[];
   strictCapabilities?: boolean;
   downloadSkills?: boolean;
+  codexModelAvailability?: Parameters<typeof validateCodexModelAvailability>[1];
+  graphifyProvisionPlanId?: string;
 }
 
 function selectedTargets(target: RuntimeSelection = 'vscode'): RuntimeTarget[] {
@@ -93,6 +97,7 @@ export async function createDeploymentPlan(
   const validation = await validateRoster(repoPath, manifest, catalog, { target: options.target ?? 'vscode' });
   const diagnostics: Diagnostic[] = [...validation.diagnostics];
   const artifacts: DeploymentArtifact[] = [];
+  let graphify: GraphifyDeploymentPlan | undefined;
   const statePath = resolveStatePath(manifest.targets.state);
   const state = await loadDeploymentState(statePath);
 
@@ -137,6 +142,7 @@ export async function createDeploymentPlan(
   }
 
   if (targets.includes('codex')) {
+    diagnostics.push(...validateCodexModelAvailability(manifest.codex.agents, options.codexModelAvailability ?? {}));
     const agentTarget = resolveTargetPath(manifest.targets.codex.agents);
     const skillTarget = resolveTargetPath(manifest.targets.codex.skills);
     const externalSkills = await loadExternalSkillCatalog(repoPath, manifest);
@@ -161,6 +167,29 @@ export async function createDeploymentPlan(
     if (product) {
       for (const rendered of await renderProductDevelopmentSkill(repoPath, manifest, externalSkills)) {
         artifacts.push(artifact('codex', `${product.deploymentName}/${rendered.relativePath.replaceAll('\\', '/')}`, 'skill', rendered.sourcePath, path.join(skillTarget, product.deploymentName, rendered.relativePath), rendered.content));
+      }
+      if (manifest.codex.graphify) {
+        const managedRoot = resolveTargetPath(manifest.codex.graphify.managedRoot);
+        try {
+          graphify = await prepareGraphifyDeployment(managedRoot, options.graphifyProvisionPlanId);
+          const expectedLock = JSON.parse(await readFile(resolveRepoFilePath(repoPath, manifest.codex.graphify.lockFile), 'utf8'));
+          if (hashBuffer(Buffer.from(JSON.stringify(expectedLock))) !== graphify.lockHash) throw new Error('Installed Graphify dependencies differ from the reviewed manifest lock');
+        } catch (error) {
+          graphify = undefined;
+          diagnostics.push(diagnostic('AF012', options.graphifyProvisionPlanId ? 'error' : 'warning', `Graphify is unavailable for this deployment: ${(error as Error).message}`, { path: managedRoot }));
+        }
+        const scriptTarget = path.join(skillTarget, product.deploymentName, 'scripts');
+        const wrapper = resolveRepoFilePath(repoPath, 'hooks/codex/graphify-client.cjs');
+        try {
+          artifacts.push(artifact('codex', `${product.deploymentName}/scripts/graphify-client.cjs`, 'skill', wrapper, path.join(scriptTarget, 'graphify-client.cjs'), await readFile(wrapper)));
+          for (const name of ['graphifyCommand.js', 'graphifyRuntime.js', 'graphifyIndex.js', 'graphifyFiles.js', 'graphifyProcess.js']) {
+            const local = path.join(__dirname, name);
+            const source = await exists(local) ? local : path.join(__dirname, 'graphify', name);
+            artifacts.push(artifact('codex', `${product.deploymentName}/scripts/graphify/${name}`, 'skill', source, path.join(scriptTarget, 'graphify', name), await readFile(source)));
+          }
+          const descriptor = Buffer.from(JSON.stringify({ schemaVersion: 1, managedRoot, runtimeId: graphify?.runtimeId ?? null, ...(graphify?.runtimeHash ? { runtimeHash: graphify.runtimeHash } : {}) }, null, 2) + '\n');
+          artifacts.push(artifact('codex', `${product.deploymentName}/scripts/graphify-runtime.json`, 'skill', manifest.codex.graphify.lockFile, path.join(scriptTarget, 'graphify-runtime.json'), descriptor));
+        } catch (error) { diagnostics.push(diagnostic('AF012', 'error', `Graphify portable client is incomplete; build the shared core before preview: ${(error as Error).message}`)); }
       }
       const hookTarget = resolveTargetPath(product.hooksTarget);
       const active = state.deployments.find(item => item.id === state.activeDeployments.codex && item.runtime === 'codex');
@@ -210,6 +239,7 @@ export async function createDeploymentPlan(
     artifacts,
     cleanupActions,
     diagnostics,
+    ...(graphify ? { graphify } : {}),
   };
 }
 

@@ -25,6 +25,14 @@ test('Codex preview contains the declared agents, complete skills and scoped hoo
     assert.equal(hooks.SubagentStart.length, agents.length);
     assert.equal(hooks.SubagentStop.length, agents.length);
     assert.equal(hooks.Stop.length, 1);
+    const rolesFile = plan.artifacts.find(item => item.id === `${manifest.codex.productDevelopment.deploymentName}/scripts/product-roles.json`);
+    const roles = JSON.parse(rolesFile.content.toString('utf8')).agents;
+    for (const [id, role] of Object.entries(roles)) {
+      assert.equal(role.expectedModel, manifest.codex.agents[id].model);
+      assert.equal(role.expectedReasoningEffort, manifest.codex.agents[id].modelReasoningEffort);
+      assert.deepEqual(role.conditionalSkills, external.skills.filter(skill => skill.agentIds.includes(id)).map(skill => ({ name: skill.deploymentName, activationCondition: skill.activationCondition ?? skill.description })));
+      assert.equal(role.conditionalSkills.some(skill => role.skillNames.includes(skill.name)), false);
+    }
     const hookNames = Object.values(hooks).flatMap(groups => groups.flatMap(group => group.hooks.map(handler => handler.statusMessage)));
     assert.equal(new Set(hookNames).size, agents.length * 2 + 3);
     const hookReference = plan.artifacts.find(item => item.id === `${manifest.codex.productDevelopment.deploymentName}/references/hooks.md`);
@@ -40,7 +48,8 @@ test('Codex preview contains the declared agents, complete skills and scoped hoo
       const parsed = parseCodexToml(agent.content.toString('utf8'));
       assert.equal('tools' in parsed, false);
       assert.equal('agents' in parsed, false);
-      assert.equal('model' in parsed, false);
+      assert.equal(parsed.model, manifest.codex.agents[parsed.name].model);
+      assert.equal(parsed.model_reasoning_effort, manifest.codex.agents[parsed.name].modelReasoningEffort);
     }
     assert.equal(plan.artifacts.some(item => item.targetPath.includes(path.join('.codex', 'skills'))), false);
     const statePath = path.join(profile, '.agent-forge', 'state.json');

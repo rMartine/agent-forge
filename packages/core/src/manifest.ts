@@ -9,6 +9,7 @@ import type {
   ModelProfile,
 } from './types.js';
 import { ManifestNotFoundError, ManifestParseError, ManifestValidationError } from './errors.js';
+import { validateCodexModelConfiguration } from './models.js';
 
 const MANIFEST_FILENAME = 'agent-forge.manifest.jsonc';
 const MODEL_PROFILES = new Set<ModelProfile>(['inherit', 'reasoning', 'coding', 'creative', 'balanced']);
@@ -39,7 +40,7 @@ function validateAgent(id: string, raw: unknown): asserts raw is AgentManifestEn
   }
 }
 
-function validateCodexAgent(id: string, raw: unknown, manifest: Record<string, unknown>, bundleIds: Set<string>): asserts raw is CodexAgentManifestEntry {
+function validateCodexAgent(id: string, raw: unknown, manifest: Record<string, unknown>, bundleIds: Set<string>, schemaVersion: unknown): asserts raw is CodexAgentManifestEntry {
   if (!raw || typeof raw !== 'object') throw new ManifestValidationError(`codex.agents.${id} must be an object`);
   const agent = raw as Record<string, unknown>;
   nonEmpty(agent.id, `codex.agents.${id}.id`);
@@ -50,6 +51,12 @@ function validateCodexAgent(id: string, raw: unknown, manifest: Record<string, u
   if (!(agent.sourceAgent in manifest)) throw new ManifestValidationError(`codex.agents.${id}.sourceAgent is unknown`);
   if (agent.sandboxMode !== 'read-only' && agent.sandboxMode !== 'workspace-write') throw new ManifestValidationError(`codex.agents.${id}.sandboxMode is invalid`);
   if (agent.modelProfile !== 'inherit') throw new ManifestValidationError(`codex.agents.${id}.modelProfile must be inherit`);
+  if (schemaVersion === 5) {
+    const problem = validateCodexModelConfiguration(agent.model, agent.modelReasoningEffort);
+    if (problem) throw new ManifestValidationError(`codex.agents.${id}: ${problem}`);
+  } else if (agent.model !== undefined || agent.modelReasoningEffort !== undefined) {
+    throw new ManifestValidationError(`codex.agents.${id}: explicit models require manifest schemaVersion 5`);
+  }
   stringArray(agent.requiredSkillBundles, `codex.agents.${id}.requiredSkillBundles`);
   for (const bundle of agent.requiredSkillBundles) if (!bundleIds.has(bundle)) throw new ManifestValidationError(`codex.agents.${id} references unknown bundle ${bundle}`);
   if (typeof agent.instructionOverlay !== 'string') throw new ManifestValidationError(`codex.agents.${id}.instructionOverlay must be a string`);
@@ -97,7 +104,7 @@ export async function loadManifest(repoPath: string): Promise<DeploymentManifest
 export function validateManifest(raw: unknown): DeploymentManifestV3 {
   if (!raw || typeof raw !== 'object') throw new ManifestValidationError('Manifest must be an object');
   const manifest = raw as Record<string, unknown>;
-  if (manifest.schemaVersion !== 3 && manifest.schemaVersion !== 4) throw new ManifestValidationError('schemaVersion must be 3 or 4; manifest v2 is no longer deployable');
+  if (![3, 4, 5].includes(manifest.schemaVersion as number)) throw new ManifestValidationError('schemaVersion must be 3, 4 or 5; manifest v2 is no longer deployable');
   if (!Array.isArray(manifest.platforms) || manifest.platforms.join(',') !== 'vscode,codex') throw new ManifestValidationError('platforms must be ["vscode", "codex"]');
   if (manifest.scope !== 'user') throw new ManifestValidationError('scope must be user');
   if (!manifest.targets || typeof manifest.targets !== 'object') throw new ManifestValidationError('targets is required');
@@ -140,10 +147,10 @@ export function validateManifest(raw: unknown): DeploymentManifestV3 {
   const codexAgents = codex.agents as Record<string, unknown>;
   if (Object.keys(codexAgents).length === 0) throw new ManifestValidationError('codex.agents must contain at least one agent');
   const bundleIds = new Set(Object.keys(bundles));
-  for (const [id, agent] of Object.entries(codexAgents)) validateCodexAgent(id, agent, agents, bundleIds);
+  for (const [id, agent] of Object.entries(codexAgents)) validateCodexAgent(id, agent, agents, bundleIds, manifest.schemaVersion);
   const deployedNames = Object.values(bundles).map(raw => (raw as CodexSkillBundleEntry).deploymentName);
   if (codex.productDevelopment !== undefined) {
-    if (manifest.schemaVersion !== 4) throw new ManifestValidationError('productDevelopment requires manifest schemaVersion 4');
+    if (manifest.schemaVersion === 3) throw new ManifestValidationError('productDevelopment requires manifest schemaVersion 4 or 5');
     const product = codex.productDevelopment as Record<string, unknown>;
     if (!product || typeof product !== 'object') throw new ManifestValidationError('codex.productDevelopment must be an object');
     for (const field of ['source', 'deploymentName', 'hooksSource', 'hooksTarget']) nonEmpty(product[field], `codex.productDevelopment.${field}`);
@@ -152,8 +159,16 @@ export function validateManifest(raw: unknown): DeploymentManifestV3 {
   }
   if (new Set(deployedNames).size !== deployedNames.length) throw new ManifestValidationError('Codex deployed skill names must be unique');
   if (codex.externalSkillCatalog !== undefined) {
-    if (manifest.schemaVersion !== 4) throw new ManifestValidationError('externalSkillCatalog requires manifest schemaVersion 4');
+    if (manifest.schemaVersion === 3) throw new ManifestValidationError('externalSkillCatalog requires manifest schemaVersion 4 or 5');
     nonEmpty(codex.externalSkillCatalog, 'codex.externalSkillCatalog');
+  }
+  if (codex.graphify !== undefined) {
+    if (manifest.schemaVersion !== 5) throw new ManifestValidationError('codex.graphify requires manifest schemaVersion 5');
+    const graphify = codex.graphify as Record<string, unknown>;
+    if (!graphify || typeof graphify !== 'object' || Array.isArray(graphify)) throw new ManifestValidationError('codex.graphify must be an object');
+    for (const field of ['managedRoot', 'lockFile']) nonEmpty(graphify[field], `codex.graphify.${field}`);
+    if (Object.keys(graphify).some(field => !['managedRoot', 'lockFile'].includes(field))) throw new ManifestValidationError('codex.graphify contains unsupported fields');
+    if (path.isAbsolute(String(graphify.lockFile)) || /[\\:\u0000-\u001f]/.test(String(graphify.lockFile)) || String(graphify.lockFile).split('/').some(part => !part || part === '.' || part === '..')) throw new ManifestValidationError('codex.graphify.lockFile must be a repository-relative path');
   }
   return raw as DeploymentManifestV3;
 }

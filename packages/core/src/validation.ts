@@ -216,7 +216,10 @@ export async function validateRoster(
           const rendered = renderCodexAgent(await readFile(resolveRepoFilePath(repoPath, source.source), 'utf8'), agent, manifest);
           const parsed = parseCodexToml(rendered);
           const keys = Object.keys(parsed).sort();
-          if (keys.join(',') !== 'description,developer_instructions,name,sandbox_mode') {
+          const expectedKeys = manifest.schemaVersion === 5
+            ? 'description,developer_instructions,model,model_reasoning_effort,name,sandbox_mode'
+            : 'description,developer_instructions,name,sandbox_mode';
+          if (keys.join(',') !== expectedKeys) {
             diagnostics.push(diagnostic('AF001', 'error', 'Codex TOML contains unsupported or Copilot-only fields', { agentId: agent.id }));
           }
           if (!/do not[\s\S]{0,120}spawn subagents/i.test(String(parsed.developer_instructions))) {

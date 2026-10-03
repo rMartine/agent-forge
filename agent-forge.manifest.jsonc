@@ -1,5 +1,5 @@
 {
-  "schemaVersion": 4,
+  "schemaVersion": 5,
   "platforms": [
     "vscode",
     "codex"
@@ -650,7 +650,9 @@
         "completionEvidence": [
           "Architecture decisions tied to product requirements and repository evidence",
           "Compatibility, trust boundaries and risks requiring a decision"
-        ]
+        ],
+        "model": "gpt-6.1-sol",
+        "modelReasoningEffort": "high"
       },
       "principal-engineer": {
         "id": "principal-engineer",
@@ -669,7 +671,9 @@
         "completionEvidence": [
           "Integrated behavior and files owned by this assignment",
           "Commands actually executed, results and remaining integration issues"
-        ]
+        ],
+        "model": "gpt-6.1-sol",
+        "modelReasoningEffort": "high"
       },
       "backend-developer": {
         "id": "backend-developer",
@@ -686,7 +690,9 @@
         "completionEvidence": [
           "Service contracts, error handling and authorization behavior changed",
           "Focused checks of the changed request and data paths"
-        ]
+        ],
+        "model": "gpt-6-luna",
+        "modelReasoningEffort": "high"
       },
       "frontend-developer": {
         "id": "frontend-developer",
@@ -703,7 +709,9 @@
         "completionEvidence": [
           "Implemented user flows and relevant loading, empty, error and keyboard states",
           "Observed browser behavior and applicable build or type checks"
-        ]
+        ],
+        "model": "gpt-6.1-sol",
+        "modelReasoningEffort": "medium"
       },
       "database-engineer": {
         "id": "database-engineer",
@@ -721,7 +729,9 @@
         "completionEvidence": [
           "Schema invariants, data compatibility and migration effects",
           "Forward and recovery checks on disposable data when a migration changes"
-        ]
+        ],
+        "model": "gpt-6.1-sol",
+        "modelReasoningEffort": "high"
       },
       "dotnet-engineer": {
         "id": "dotnet-engineer",
@@ -738,7 +748,9 @@
         "completionEvidence": [
           "Affected target frameworks and public behavior",
           "Applicable build and test results, with unavailable platforms identified"
-        ]
+        ],
+        "model": "gpt-6-luna",
+        "modelReasoningEffort": "high"
       },
       "desktop-app-engineer": {
         "id": "desktop-app-engineer",
@@ -755,7 +767,9 @@
         "completionEvidence": [
           "Native boundaries, packaging or update behavior changed",
           "Results on the operating systems actually available"
-        ]
+        ],
+        "model": "gpt-6.1-sol",
+        "modelReasoningEffort": "high"
       },
       "mobile-engineer": {
         "id": "mobile-engineer",
@@ -772,7 +786,9 @@
         "completionEvidence": [
           "Implemented device flows, permissions and relevant offline states",
           "Device or simulator results explicitly distinguished"
-        ]
+        ],
+        "model": "gpt-6-luna",
+        "modelReasoningEffort": "high"
       },
       "ml-engineer": {
         "id": "ml-engineer",
@@ -789,7 +805,9 @@
         "completionEvidence": [
           "Authorized data, split and artifact provenance",
           "Reproducible measurements with uncertainty and evaluation limitations"
-        ]
+        ],
+        "model": "gpt-6.1-sol",
+        "modelReasoningEffort": "high"
       },
       "agentic-systems-engineer": {
         "id": "agentic-systems-engineer",
@@ -807,7 +825,9 @@
         "completionEvidence": [
           "Tool and state contracts, failure handling and authorization boundaries",
           "Observed routing, argument validation and recovery results"
-        ]
+        ],
+        "model": "gpt-6.1-sol",
+        "modelReasoningEffort": "high"
       },
       "digital-twin-engineer": {
         "id": "digital-twin-engineer",
@@ -825,7 +845,9 @@
         "completionEvidence": [
           "Telemetry, timing, units and simulation boundaries",
           "Relevant replay, duplicate event, disconnect and stale-data checks"
-        ]
+        ],
+        "model": "gpt-6.1-sol",
+        "modelReasoningEffort": "high"
       },
       "qa-engineer": {
         "id": "qa-engineer",
@@ -842,7 +864,9 @@
         "completionEvidence": [
           "Requirement-to-test correspondence and observed failures",
           "Reproduction steps, actual results and unverified cases"
-        ]
+        ],
+        "model": "gpt-6-luna",
+        "modelReasoningEffort": "high"
       },
       "cybersecurity-engineer": {
         "id": "cybersecurity-engineer",
@@ -859,7 +883,9 @@
         "completionEvidence": [
           "Evidence-backed findings with affected boundaries and exploit conditions",
           "Uncertainty, residual risk and recommendation for the scoped change"
-        ]
+        ],
+        "model": "gpt-6.1-sol",
+        "modelReasoningEffort": "high"
       },
       "devops-engineer": {
         "id": "devops-engineer",
@@ -877,7 +903,9 @@
         "completionEvidence": [
           "Exact authorized environment, artifact and external operation",
           "Observed health, persistence and recovery evidence or the outstanding authorization"
-        ]
+        ],
+        "model": "gpt-6.1-sol",
+        "modelReasoningEffort": "high"
       },
       "ux-engineer": {
         "id": "ux-engineer",
@@ -895,7 +923,9 @@
         "completionEvidence": [
           "User flows, interaction and accessibility decisions tied to the product",
           "Acceptance criteria and observed or explicitly unverified interface behavior"
-        ]
+        ],
+        "model": "gpt-6.1-sol",
+        "modelReasoningEffort": "medium"
       },
       "technical-writer": {
         "id": "technical-writer",
@@ -913,7 +943,9 @@
         "completionEvidence": [
           "Documentation tied to implemented behavior and its audience",
           "Verified references and commands, distinguishing execution from static review"
-        ]
+        ],
+        "model": "gpt-6-luna",
+        "modelReasoningEffort": "high"
       }
     },
     "skillBundles": {
@@ -994,6 +1026,10 @@
       "deploymentName": "agent-forge-build-software-products",
       "hooksSource": "hooks/codex",
       "hooksTarget": "%USERPROFILE%/.codex/hooks.json"
+    },
+    "graphify": {
+      "managedRoot": "%USERPROFILE%/.agent-forge/graphify",
+      "lockFile": "config/graphify-windows-x64-python312.lock.json"
     }
   }
 }

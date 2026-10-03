@@ -1,0 +1,3 @@
+# Upstream code-only CLI; no providers, servers, media or watcher extras.
+graphifyy==0.9.74
+pip==26.2.1

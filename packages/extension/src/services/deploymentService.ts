@@ -42,6 +42,7 @@ export class DeploymentService {
       target,
       availableTools: tools,
       availableModels: models,
+      codexModelAvailability: codex,
       strictCapabilities: target !== 'codex',
     });
     const ready = roster.valid && (mcp?.ready ?? true) && (codex?.supported ?? true) && !preview.diagnostics.some(item => item.severity === 'error');
@@ -49,10 +50,12 @@ export class DeploymentService {
   }
 
   async preview(target: RuntimeSelection = 'all', strictCapabilities = true): Promise<DeploymentPlan> {
+    const codex = target === 'vscode' ? undefined : await discoverCodexEnvironment();
     const plan = await createDeploymentPlan(this.repoPath, {
       target,
       availableTools: discoverAvailableToolIds(),
       availableModels: await discoverAvailableModelIds(),
+      codexModelAvailability: codex,
       strictCapabilities: target === 'codex' ? false : strictCapabilities,
     });
     const manifest = await loadManifest(this.repoPath);

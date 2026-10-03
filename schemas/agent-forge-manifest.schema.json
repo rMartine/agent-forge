@@ -21,7 +21,8 @@
     "schemaVersion": {
       "enum": [
         3,
-        4
+        4,
+        5
       ]
     },
     "platforms": {
@@ -184,6 +185,25 @@
               "minLength": 1
             }
           }
+        },
+        "graphify": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "managedRoot",
+            "lockFile"
+          ],
+          "properties": {
+            "managedRoot": {
+              "type": "string",
+              "minLength": 1
+            },
+            "lockFile": {
+              "type": "string",
+              "minLength": 1,
+              "pattern": "^(?!/)(?!.*(?:^|/)\\.{1,2}(?:/|$))(?!.*//)(?!.*\\/$)[^\\\\:\\u0000-\\u001f]+$"
+            }
+          }
         }
       }
     }
@@ -327,6 +347,22 @@
         },
         "completionEvidence": {
           "$ref": "#/$defs/stringArray"
+        },
+        "model": {
+          "type": "string",
+          "pattern": "^[a-zA-Z0-9][a-zA-Z0-9._:/-]{0,127}$"
+        },
+        "modelReasoningEffort": {
+          "enum": [
+            "none",
+            "minimal",
+            "low",
+            "medium",
+            "high",
+            "xhigh",
+            "max",
+            "ultra"
+          ]
         }
       }
     },
@@ -390,6 +426,80 @@
                     "externalSkillCatalog"
                   ]
                 }
+              ]
+            }
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "schemaVersion": {
+            "const": 5
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "codex": {
+            "properties": {
+              "agents": {
+                "additionalProperties": {
+                  "required": [
+                    "model",
+                    "modelReasoningEffort"
+                  ]
+                }
+              }
+            }
+          }
+        }
+      },
+      "else": {
+        "properties": {
+          "codex": {
+            "properties": {
+              "agents": {
+                "additionalProperties": {
+                  "not": {
+                    "anyOf": [
+                      {
+                        "required": [
+                          "model"
+                        ]
+                      },
+                      {
+                        "required": [
+                          "modelReasoningEffort"
+                        ]
+                      }
+                    ]
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "schemaVersion": {
+            "enum": [
+              3,
+              4
+            ]
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "codex": {
+            "not": {
+              "required": [
+                "graphify"
               ]
             }
           }

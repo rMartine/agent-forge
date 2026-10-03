@@ -1,6 +1,7 @@
 import { parseDocument } from 'yaml';
 import type { CodexAgentManifestEntry, DeploymentManifestV3 } from './types.js';
 import { codexSkillMap, rewriteCodexSkillReferences } from './skillBundles.js';
+import { validateCodexModelConfiguration } from './models.js';
 
 const toml = require('smol-toml') as {
   parse(source: string): Record<string, unknown>;
@@ -28,6 +29,12 @@ export function renderCodexAgent(
   externalSkillNames: string[] = [],
 ): string {
   const parsed = parseSource(source);
+  const hasModel = agent.model !== undefined || agent.modelReasoningEffort !== undefined;
+  if (hasModel || manifest.schemaVersion === 5) {
+    const problem = validateCodexModelConfiguration(agent.model, agent.modelReasoningEffort);
+    if (problem) throw new Error(`Agent ${agent.id}: ${problem}`);
+    if (manifest.schemaVersion !== 5) throw new Error('Explicit Codex models require manifest schemaVersion 5');
+  }
   const mapping = codexSkillMap(manifest);
   const body = rewriteCodexSkillReferences(parsed.body, mapping);
   const unresolved = [...body.matchAll(/\$([a-z0-9]+(?:-[a-z0-9]+)*)/g)].map(match => match[1]).filter(id => !id.startsWith('agent-forge-'));
@@ -37,7 +44,9 @@ export function renderCodexAgent(
     'Codex runtime contract (authoritative):',
     agent.instructionOverlay || 'Do not delegate or spawn subagents.',
     `Use these Agent Forge skill bundles when relevant: ${bundles}.`,
-    'Inherit the parent model, MCP configuration, permissions, and approval policy. Never weaken approval requirements.',
+    hasModel
+      ? `This custom agent is configured for model ${agent.model} with ${agent.modelReasoningEffort} reasoning. Inherit the parent MCP configuration, permissions, and approval policy. Never weaken approval requirements.`
+      : 'Inherit the parent model, MCP configuration, permissions, and approval policy. Never weaken approval requirements.',
     ...(manifest.codex.productDevelopment ? [
       'Participate only in a software-product development assignment from the primary agent. A general question, independent research task or isolated code discussion does not activate this roster.',
       'The primary agent owns product-level technical decisions, delegation, integration and final delivery. Return unresolved business decisions to that agent rather than conducting a new user interview.',
@@ -54,6 +63,10 @@ export function renderCodexAgent(
     developer_instructions: developerInstructions,
     sandbox_mode: agent.sandboxMode,
   };
+  if (hasModel) {
+    table.model = agent.model!;
+    table.model_reasoning_effort = agent.modelReasoningEffort!;
+  }
   const rendered = toml.stringify(table);
   toml.parse(rendered);
   return rendered;

@@ -40,9 +40,73 @@ function stringList(value, label, maximum = 40) {
   return value.map(item => text(item, label));
 }
 
+function validateAssignment(input) {
+  object(input, 'Assignment context');
+  onlyKeys(input, ['task', 'scope', 'ownership', 'stackVersion', 'context'], 'Assignment context');
+  const assignment = {};
+  for (const field of ['task', 'context']) if (input[field] !== undefined) assignment[field] = text(input[field], `Assignment ${field}`);
+  for (const field of ['scope', 'ownership']) if (input[field] !== undefined) assignment[field] = stringList(input[field], `Assignment ${field}`);
+  if (input.stackVersion !== undefined) {
+    object(input.stackVersion, 'Stack versions');
+    if (Object.keys(input.stackVersion).length > 40) throw new Error('At most 40 stack versions may be supplied.');
+    assignment.stackVersion = Object.fromEntries(Object.entries(input.stackVersion).map(([name, version]) => [text(name, 'Stack name', 100), text(version, 'Stack version', 100)]));
+  }
+  return assignment;
+}
+
+function validateGraphMetadata(input) {
+  object(input, 'Graphify metadata');
+  onlyKeys(input, ['schemaVersion', 'repositoryPath', 'projectId', 'runtimeId', 'generationId', 'contentHash', 'scopeHash', 'graphPath', 'graphHash', 'builtAt', 'fileCount', 'excludedCount', 'nodeCount', 'edgeCount'], 'Graphify metadata');
+  if (input.schemaVersion !== 1) throw new Error('Unsupported Graphify metadata version.');
+  for (const field of ['repositoryPath', 'projectId', 'runtimeId', 'generationId', 'graphPath', 'builtAt']) text(input[field], `Graphify ${field}`, 8192);
+  for (const field of ['contentHash', 'graphHash']) if (typeof input[field] !== 'string' || !/^[a-f0-9]{64}$/.test(input[field])) throw new Error(`Invalid Graphify ${field}.`);
+  for (const field of ['fileCount', 'excludedCount']) if (!Number.isSafeInteger(input[field]) || input[field] < 0) throw new Error(`Invalid Graphify ${field}.`);
+  if (input.scopeHash !== undefined && (typeof input.scopeHash !== 'string' || !/^[a-f0-9]{64}$/.test(input.scopeHash))) throw new Error('Invalid Graphify scopeHash.');
+  for (const field of ['nodeCount', 'edgeCount']) if (input[field] !== undefined && (!Number.isSafeInteger(input[field]) || input[field] < 0)) throw new Error(`Invalid Graphify ${field}.`);
+  return { ...input };
+}
+
+export function validateSessionMetadata(input) {
+  object(input, 'Session context');
+  onlyKeys(input, ['task', 'scope', 'ownership', 'stackVersion', 'context', 'assignments', 'graphify'], 'Session context');
+  const { assignments, graphify, ...parentAssignment } = input;
+  const metadata = validateAssignment(parentAssignment);
+  if (assignments !== undefined) {
+    object(assignments, 'Role assignments');
+    if (Object.keys(assignments).length > 128) throw new Error('At most 128 role assignments may be supplied.');
+    metadata.assignments = Object.fromEntries(Object.entries(assignments).map(([role, assignment]) => [validateIdentifier(role, 'Assignment agent type'), validateAssignment(assignment)]));
+  }
+  if (graphify !== undefined) {
+    object(graphify, 'Graphify observation');
+    onlyKeys(graphify, ['status', 'metadata', 'error', 'reason', 'observedAt'], 'Graphify observation');
+    if (!['missing', 'fresh', 'stale', 'invalid', 'unavailable', 'failed'].includes(graphify.status)) throw new Error('Invalid Graphify observation status.');
+    metadata.graphify = { status: graphify.status };
+    if (graphify.metadata !== undefined) metadata.graphify.metadata = validateGraphMetadata(graphify.metadata);
+    if (graphify.error !== undefined) metadata.graphify.error = text(graphify.error, 'Graphify error');
+    if (graphify.reason !== undefined) metadata.graphify.reason = text(graphify.reason, 'Graphify status reason');
+    if (graphify.observedAt !== undefined) metadata.graphify.observedAt = text(graphify.observedAt, 'Graphify observation time', 40);
+  }
+  return metadata;
+}
+
+function validateGraphEvidence(input) {
+  object(input, 'Graphify evidence');
+  onlyKeys(input, ['status', 'referencesConsulted', 'error'], 'Graphify evidence');
+  if (!['used', 'unavailable', 'failed', 'not-used'].includes(input.status)) throw new Error('Invalid Graphify evidence status.');
+  const referencesConsulted = stringList(input.referencesConsulted, 'Graphify references consulted', 100);
+  for (const reference of referencesConsulted) {
+    const relativePath = reference.split('#', 1)[0];
+    if (!relativePath || /[\\:\u0000-\u001f]/.test(relativePath) || relativePath.startsWith('/') || relativePath.split('/').some(part => !part || part === '.' || part === '..')) throw new Error('Graphify references must be paths relative to the assigned repository, optionally followed by a # locator.');
+  }
+  if (input.status === 'used' && !referencesConsulted.length) throw new Error('Graphify use requires references actually consulted.');
+  const evidence = { status: input.status, referencesConsulted };
+  if (input.error !== undefined) evidence.error = text(input.error, 'Graphify evidence error');
+  return evidence;
+}
+
 export function validateEvidence(input) {
   object(input, 'Evidence');
-  onlyKeys(input, ['status', 'summary', 'checks', 'verificationNotRunReason', 'artifacts', 'limitations'], 'Evidence');
+  onlyKeys(input, ['status', 'summary', 'checks', 'verificationNotRunReason', 'artifacts', 'limitations', 'graphify'], 'Evidence');
   if (!['completed', 'blocked', 'interrupted'].includes(input.status)) throw new Error('Evidence status must be completed, blocked or interrupted.');
   text(input.summary, 'Evidence summary');
   if (!Array.isArray(input.checks) || input.checks.length > 100) throw new Error('Evidence checks must be an array with at most 100 entries.');
@@ -61,6 +125,7 @@ export function validateEvidence(input) {
   if (input.verificationNotRunReason !== undefined) evidence.verificationNotRunReason = input.verificationNotRunReason;
   if (input.artifacts !== undefined) evidence.artifacts = stringList(input.artifacts, 'Evidence artifacts');
   if (input.limitations !== undefined) evidence.limitations = stringList(input.limitations, 'Evidence limitations');
+  if (input.graphify !== undefined) evidence.graphify = validateGraphEvidence(input.graphify);
   return evidence;
 }
 
@@ -131,6 +196,11 @@ function validateRecord(record, context) {
   }
   if (!['active', 'inactive', 'interrupted', 'ended'].includes(record.status)) throw new Error('Invalid session status.');
   text(record.objective, 'Product objective', 2000);
+  if (record.contextMetadata !== undefined) {
+    validateSessionMetadata(record.contextMetadata);
+    const repository = record.contextMetadata.graphify?.metadata?.repositoryPath;
+    if (repository !== undefined && (!path.isAbsolute(repository) || normalizedPath(path.resolve(repository)) !== normalizedPath(context.project))) throw new Error('Graphify metadata belongs to a different project.');
+  }
   object(record.principal, 'Principal record');
   if (typeof record.principal.continuationRequested !== 'boolean') throw new Error('Invalid principal continuation state.');
   validateStoredEvidence(record.principal);
@@ -141,6 +211,9 @@ function validateRecord(record, context) {
     object(agent, 'Agent record');
     validateIdentifier(agent.type, 'Agent type');
     if (agent.evidenceWriter !== undefined && !['agent', 'principal'].includes(agent.evidenceWriter)) throw new Error('Invalid agent evidence writer.');
+    if (agent.assignment !== undefined) validateAssignment(agent.assignment);
+    for (const field of ['expectedModel', 'observedModel', 'expectedReasoningEffort']) if (agent[field] !== undefined) text(agent[field], `Agent ${field}`, 128);
+    if (agent.modelMismatch !== undefined && typeof agent.modelMismatch !== 'boolean') throw new Error('Invalid model mismatch observation.');
     if (typeof agent.continuationRequested !== 'boolean') throw new Error('Invalid agent continuation state.');
     validateStoredEvidence(agent);
   }
@@ -217,17 +290,20 @@ export async function updateSession(context, updater, { create = false, lockWait
   }
 }
 
-export async function activateSession(context, objective) {
+export async function activateSession(context, objective, metadata) {
   text(objective, 'Product objective', 2000);
+  const validatedMetadata = metadata === undefined ? undefined : validateSessionMetadata(metadata);
   return updateSession(context, previous => {
     if (previous?.status === 'active') {
       if (previous.objective !== objective) throw new Error('An active product assignment already exists. Finish or deactivate it before activating a different assignment.');
+      if (validatedMetadata !== undefined) previous.contextMetadata = validatedMetadata;
       return previous;
     }
     return {
       version: RECORD_VERSION, sessionId: context.sessionId, project: context.project,
       objective, status: 'active', createdAt: new Date().toISOString(),
       principal: { continuationRequested: false }, agents: {},
+      ...(validatedMetadata === undefined ? {} : { contextMetadata: validatedMetadata }),
     };
   }, { create: true });
 }
@@ -259,7 +335,7 @@ export async function deactivateSession(context, status = 'inactive') {
 export async function runSessionCommand(arguments_, environment = process.env) {
   const [command, ...argumentsList] = arguments_;
   const allowed = {
-    activate: ['session', 'project', 'objective'], status: ['session', 'project'],
+    activate: ['session', 'project', 'objective', 'context-file'], status: ['session', 'project'],
     deactivate: ['session', 'project'], 'record-evidence': ['session', 'project', 'agent', 'file'],
   };
   if (!Object.hasOwn(allowed, command)) throw new Error('Use activate, status, deactivate or record-evidence.');
@@ -273,7 +349,10 @@ export async function runSessionCommand(arguments_, environment = process.env) {
   }
   const context = await createSessionContext({ sessionId: options.session ?? environment.CODEX_THREAD_ID, project: options.project, environment });
   let record;
-  if (command === 'activate') record = await activateSession(context, options.objective);
+  if (command === 'activate') {
+    const metadata = options['context-file'] === undefined ? undefined : await readJsonFile(path.resolve(options['context-file']));
+    record = await activateSession(context, options.objective, metadata);
+  }
   if (command === 'status') record = await readSession(context);
   if (command === 'deactivate') record = await deactivateSession(context);
   if (command === 'record-evidence') {

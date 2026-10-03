@@ -20,6 +20,7 @@ export interface ExternalSkill {
   files: ExternalSkillFile[];
   agentIds: string[];
   description: string;
+  activationCondition?: string;
   adaptation?: string;
   adaptations?: ExternalSkillAdaptation[];
 }
@@ -46,6 +47,7 @@ export async function loadExternalSkillCatalog(repoPath: string, manifest: Deplo
     if (!/^https:\/\/(?:www\.)?skills\.sh\/[^\s?#]+$/.test(skill.directoryUrl)) throw new Error(`External skill ${skill.id} must originate in skills.sh`);
     if (!/^https:\/\/github\.com\/[a-zA-Z0-9_.-]+\/[a-zA-Z0-9_.-]+$/.test(skill.repositoryUrl) || !/^[a-f0-9]{40}$/.test(skill.revision)) throw new Error(`External skill ${skill.id} requires a pinned GitHub commit`);
     if (!skill.license || !skill.description || !Array.isArray(skill.files) || !skill.files.some(file => file.path === 'SKILL.md')) throw new Error(`External skill ${skill.id} requires license, description and SKILL.md`);
+    if (skill.activationCondition !== undefined && (typeof skill.activationCondition !== 'string' || !skill.activationCondition.trim() || skill.activationCondition.length > 4000)) throw new Error(`External skill ${skill.id} requires a nonempty activationCondition of at most 4000 characters when provided`);
     safeRelative(skill.sourceDirectory); safeRelative(skill.licensePath);
     if (!skill.files.some(file => file.repositoryPath === skill.licensePath)) throw new Error(`External skill ${skill.id} must include its license`);
     if (!Array.isArray(skill.agentIds) || !skill.agentIds.length || new Set(skill.agentIds).size !== skill.agentIds.length || skill.agentIds.some(id => !manifest.codex.agents[id])) throw new Error(`External skill ${skill.id} has invalid agent assignments`);

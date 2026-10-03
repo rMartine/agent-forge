@@ -16,7 +16,7 @@ export function registerDoctor(program: Command): void {
       const vscode = target === 'codex' ? undefined : await discoverVsCodeEnvironment();
       const codex = target === 'vscode' ? undefined : await discoverCodexEnvironment();
       const mcp = target === 'codex' ? undefined : await doctorMcp(await loadMcpProviders(repo, manifest.mcpProviders));
-      const preview = await createDeploymentPlan(repo, { target, availableTools: vscode?.availableTools, availableModels: vscode?.availableModels, strictCapabilities: target !== 'codex' });
+      const preview = await createDeploymentPlan(repo, { target, availableTools: vscode?.availableTools, availableModels: vscode?.availableModels, codexModelAvailability: codex, strictCapabilities: target !== 'codex' });
       const environmentReady = (vscode?.supported ?? true) && (codex?.supported ?? true);
       const result = { ready: roster.valid && (mcp?.ready ?? true) && environmentReady && !preview.diagnostics.some(item => item.severity === 'error'), roster, mcp, environments: { vscode, codex }, previewDiagnostics: preview.diagnostics };
       if (options.json) console.log(JSON.stringify(result, null, 2));

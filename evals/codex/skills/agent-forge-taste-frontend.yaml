@@ -1,0 +1,7 @@
+schemaVersion: 1
+id: agent-forge-taste-frontend
+runtime: codex
+prompt: "Build the assigned commercial landing page using the current product brand, factual copy, and installed Next15.5, React19 and Tailwind4 stack."
+explicitPrompt: "Use $agent-forge-taste-frontend for the assigned product marketing page."
+negativePrompt: "Implement the application's dense account-permissions table and settings wizard."
+expect: { trigger: true, negativeTrigger: false, marketingOnly: true, noInventedClaims: true, noAbsoluteAestheticBans: true, noNewLibraryRequirement: true, preservesBrand: true }

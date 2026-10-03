@@ -1,0 +1,10 @@
+{
+  "schemaVersion": 1,
+  "revisions": [
+    {
+      "preparedDefinitionsHash": "8c2fe2ae09f776929d0b95ee5086cb9c800af435ca757c7b0b719e780959f0e1",
+      "verifiedDefinitionsHash": "86af574fdc6d827a8746ff9def8b0614712133e3087336cc4b7a3438ab23ea87",
+      "reason": "Repair JavaScript template escaping in the desktop acceptance program. The original generated program had a literal newline inside a quoted string and did not parse. String.raw preserves the originally intended backslash and control-character cases. No requirements, criteria, initial files, or model responses changed."
+    }
+  ]
+}

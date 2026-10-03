@@ -23,7 +23,7 @@ function describeProductHooks(manifest: DeploymentManifestV3): ProductHookDescri
       {
         event: 'SubagentStart', agentType: agent.id, timeout: 10,
         statusMessage: `${name}: preparar contexto y requisitos`,
-        explanation: 'Registra la participación del especialista y le entrega sus instrucciones, skills asignadas, evidencias requeridas e identificadores para informar resultados. El agente principal conserva la coordinación.',
+        explanation: 'Registra la participación del especialista y el modelo observado cuando Codex lo proporciona. Entrega instrucciones, guías condicionadas por la tarea y la tecnología, contexto y versiones suministrados por el principal, metadatos del índice y requisitos de evidencia. Advierte diferencias entre modelo configurado y observado sin cambiarlo. No ejecuta Graphify ni deduce datos faltantes. El agente principal conserva la coordinación.',
       },
       {
         event: 'SubagentStop', agentType: agent.id, timeout: 10,
@@ -99,14 +99,25 @@ export async function renderProductDevelopmentSkill(repoPath: string, manifest: 
   }
   const agents = Object.fromEntries(Object.values(manifest.codex.agents).map(agent => [agent.id, {
     evidenceWriter: agent.sandboxMode === 'read-only' ? 'principal' : 'agent',
-    skillNames: [...agent.requiredSkillBundles.map(id => manifest.codex.skillBundles[id].deploymentName), ...catalog.skills.filter(skill => skill.agentIds.includes(agent.id)).map(skill => skill.deploymentName)],
+    ...(agent.model ? { expectedModel: agent.model, expectedReasoningEffort: agent.modelReasoningEffort } : {}),
+    skillNames: agent.requiredSkillBundles.map(id => manifest.codex.skillBundles[id].deploymentName),
+    conditionalSkills: catalog.skills.filter(skill => skill.agentIds.includes(agent.id)).map(skill => ({
+      name: skill.deploymentName,
+      activationCondition: skill.activationCondition ?? skill.description,
+    })),
     instructions: agent.instructionOverlay,
     evidence: agent.completionEvidence ?? ['Return the assigned result, observed checks and remaining limitations.'],
   }]));
   files.push({ relativePath: 'scripts/product-roles.json', sourcePath: path.join(repoPath, 'agent-forge.manifest.jsonc'), content: Buffer.from(JSON.stringify({ agents }, null, 2) + '\n') });
   const matrix = ['# Specialists available for the assigned product', '',
     'Select by the responsibility required by the product. The primary agent retains coordination and final integration. Read each selected agent and only its relevant skills.', '',
-    ...Object.entries(agents).flatMap(([id, role]) => [`## ${id}`, '', role.instructions, '', `Available skills: ${role.skillNames.map(name => `$${name}`).join(', ')}.`, '', ...role.evidence.map(item => `- ${item}`), '']),
+    ...Object.entries(agents).flatMap(([id, role]) => [
+      `## ${id}`, '', role.instructions, '',
+      role.expectedModel ? `Configured model: ${role.expectedModel}; reasoning: ${role.expectedReasoningEffort}. These values configure this specialist; they do not change the primary agent's model.` : 'Model and reasoning inherit from the parent session for this legacy manifest.', '',
+      `Available workflow skills: ${role.skillNames.map(name => `$${name}`).join(', ')}.`, '',
+      ...role.conditionalSkills.map(skill => `- $${skill.name}: ${skill.activationCondition}`), '',
+      ...role.evidence.map(item => `- ${item}`), '',
+    ]),
   ].join('\n');
   files.push({ relativePath: 'references/agent-responsibilities.md', sourcePath: path.join(repoPath, 'agent-forge.manifest.jsonc'), content: Buffer.from(matrix) });
   files.push({ relativePath: 'references/hooks.md', sourcePath: path.join(repoPath, 'agent-forge.manifest.jsonc'), content: Buffer.from(renderProductHookReference(manifest)) });

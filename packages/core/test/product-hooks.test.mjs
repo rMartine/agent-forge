@@ -8,7 +8,7 @@ import test from 'node:test';
 import { fileURLToPath } from 'node:url';
 import {
   activateSession, createSessionContext, deactivateSession, readSession, recordEvidence,
-  runSessionCommand, updateSession, validateEvidence,
+  runSessionCommand, updateSession, validateEvidence, validateSessionMetadata,
 } from '../../../hooks/codex/product-session.mjs';
 import { runProductHook } from '../../../hooks/codex/product-hooks.mjs';
 
@@ -18,6 +18,17 @@ const completeEvidence = {
   status: 'completed', summary: 'Implemented and checked the requested behavior.',
   checks: [{ name: 'Acceptance case', command: 'node --test', result: 'passed', details: 'One isolated synthetic acceptance case passed.' }],
 };
+
+function indexObservation(project) {
+  return {
+    status: 'fresh', observedAt: '2026-10-02T20:00:00Z',
+    metadata: {
+      schemaVersion: 1, repositoryPath: project, projectId: 'a'.repeat(64), runtimeId: 'python-runtime',
+      generationId: 'test-generation', contentHash: 'b'.repeat(64), graphPath: 'deliberately-not-read.json',
+      graphHash: 'c'.repeat(64), scopeHash: 'd'.repeat(64), builtAt: '2026-10-02T20:00:00Z', fileCount: 3, excludedCount: 1, nodeCount: 4, edgeCount: 2,
+    },
+  };
+}
 
 async function fixture(t) {
   const temporary = await mkdtemp(path.join(os.tmpdir(), 'agent-forge-product-hooks-'));
@@ -389,4 +400,118 @@ test('record names contain only a digest and no supplied path fragments', async 
   const expected = createHash('sha256').update(JSON.stringify(['session-1', project])).digest('hex');
   assert.equal(path.basename(f.context.recordPath), `${expected}.json`);
   assert.equal(path.dirname(f.context.recordPath), f.sessionRoot);
+});
+
+// These tests exercise metadata transport, not a model's guide selection or Graphify.
+test('Start transports supplied assignment, stack versions, index metadata and conditional guides without reading project files', async t => {
+  const f = await fixture(t);
+  const roles = JSON.parse(await readFile(f.rolesPath, 'utf8'));
+  Object.assign(roles.agents['backend-developer'], {
+    expectedModel: 'gpt-6.1-sol', expectedReasoningEffort: 'high',
+    conditionalSkills: [{ name: 'test-postgres', activationCondition: 'Use for PostgreSQL schema or query changes in the assigned product.' }],
+  });
+  await writeFile(f.rolesPath, JSON.stringify(roles));
+  const metadata = {
+    task: 'Build an inventory product.', scope: ['Inventory only'], context: 'Local product proof',
+    stackVersion: { PostgreSQL: '16' },
+    assignments: { 'backend-developer': { task: 'Implement stock adjustment.', ownership: ['api/stock.mjs'], scope: ['Local endpoint'], stackVersion: { Express: '5.2.1' }, context: 'Use the approved API contract.' } },
+    graphify: indexObservation(f.project),
+  };
+  const contextFile = path.join(f.temporary, 'context.json');
+  await writeFile(contextFile, JSON.stringify(metadata));
+  await runSessionCommand(['activate', '--session', 'session-1', '--project', f.project, '--objective', 'Build inventory.', '--context-file', contextFile], { ...process.env, AGENT_FORGE_SESSION_ROOT: f.sessionRoot });
+  const result = await f.hook('SubagentStart', { agent_id: 'backend-1', agent_type: 'backend-developer', model: 'gpt-6.1-sol' });
+  const context = result.hookSpecificOutput.additionalContext;
+  assert.match(context, /PostgreSQL.*16/);
+  assert.match(context, /Express.*5.2.1/);
+  assert.match(context, /api\/stock.mjs/);
+  assert.match(context, /Conditional guide \$test-postgres: Use for PostgreSQL/);
+  assert.match(context, /not proof the current repository is indexed or unchanged/);
+  const entry = (await readSession(f.context)).agents['backend-1'];
+  assert.deepEqual(entry.assignment, metadata.assignments['backend-developer']);
+  assert.equal(entry.expectedModel, 'gpt-6.1-sol');
+  assert.equal(entry.expectedReasoningEffort, 'high');
+  assert.equal(entry.observedModel, 'gpt-6.1-sol');
+  assert.equal(entry.modelMismatch, false);
+  assert.deepEqual(await readdir(f.project), []);
+});
+
+test('repeated activation updates future context without erasing earlier evidence or inventing missing role assignment', async t => {
+  const f = await fixture(t);
+  await activateSession(f.context, 'Build inventory.', { assignments: { 'backend-developer': { task: 'First task' } } });
+  await f.hook('SubagentStart', { agent_id: 'backend-1', agent_type: 'backend-developer' });
+  await recordEvidence(f.context, completeEvidence, 'backend-1');
+  await activateSession(f.context, 'Build inventory.', { assignments: { 'backend-developer': { task: 'Second task' } } });
+  await f.hook('SubagentStart', { agent_id: 'backend-1', agent_type: 'backend-developer' });
+  let record = await readSession(f.context);
+  assert.equal(record.agents['backend-1'].assignment.task, 'First task');
+  assert.equal(record.agents['backend-1'].evidence.status, 'completed');
+  await f.hook('SubagentStart', { agent_id: 'backend-2', agent_type: 'backend-developer' });
+  const result = await f.hook('SubagentStart', { agent_id: 'qa-1', agent_type: 'qa-engineer' });
+  record = await readSession(f.context);
+  assert.equal(record.agents['backend-2'].assignment.task, 'Second task');
+  assert.equal(record.agents['qa-1'].assignment, undefined);
+  assert.doesNotMatch(result.hookSpecificOutput.additionalContext, /Parent-supplied responsibility/);
+  assert.equal(record.agents['qa-1'].observedModel, undefined);
+});
+
+test('model mismatches are observable warnings and never trigger a model change or continuation', async t => {
+  const f = await fixture(t);
+  const roles = JSON.parse(await readFile(f.rolesPath, 'utf8'));
+  Object.assign(roles.agents['backend-developer'], { expectedModel: 'gpt-6.1-sol', expectedReasoningEffort: 'high' });
+  await writeFile(f.rolesPath, JSON.stringify(roles));
+  await activateSession(f.context, 'Build inventory.');
+  const start = await f.hook('SubagentStart', { agent_id: 'backend-1', agent_type: 'backend-developer', model: 'gpt-6-luna' });
+  assert.match(start.hookSpecificOutput.additionalContext, /expected gpt-6.1-sol, received gpt-6-luna/);
+  assert.equal(start.decision, undefined);
+  await recordEvidence(f.context, completeEvidence, 'backend-1');
+  const stop = await f.hook('SubagentStop', { agent_id: 'backend-1', agent_type: 'backend-developer' });
+  assert.equal(stop.decision, undefined);
+  assert.match(stop.systemMessage, /cannot change or block the model/);
+  await recordEvidence(f.context, completeEvidence);
+  const principal = await f.hook('Stop');
+  assert.equal(principal.decision, undefined);
+  assert.match(principal.systemMessage, /1 agent record\(s\) observed a model different/);
+});
+
+test('Graphify evidence requires consulted references only when Graphify was used', async t => {
+  const f = await fixture(t);
+  await activateSession(f.context, 'Build inventory.');
+  const evidence = { ...completeEvidence, graphify: { status: 'used', referencesConsulted: ['api/stock.mjs#L10', 'tests/stock.test.mjs'] } };
+  await recordEvidence(f.context, evidence);
+  assert.deepEqual((await readSession(f.context)).principal.evidence.graphify, evidence.graphify);
+  assert.deepEqual(await f.hook('Stop'), {});
+  assert.throws(() => validateEvidence({ ...evidence, graphify: { status: 'used', referencesConsulted: [] } }), /actually consulted/);
+  for (const reference of ['../private.txt', '/root/private.txt', 'C:/private.txt', 'api/../private.txt', 'api\\private.txt']) {
+    assert.throws(() => validateEvidence({ ...evidence, graphify: { status: 'used', referencesConsulted: [reference] } }), /relative/);
+  }
+  assert.deepEqual(validateEvidence(completeEvidence), completeEvidence);
+});
+
+test('unavailable Graphify permits truthful completion and preserves cancellation behavior', async t => {
+  const f = await fixture(t);
+  await activateSession(f.context, 'Build inventory.', { graphify: { status: 'failed', error: 'Python unavailable in isolated test.' } });
+  await f.hook('SubagentStart', { agent_id: 'backend-1', agent_type: 'backend-developer' });
+  await recordEvidence(f.context, { ...completeEvidence, graphify: { status: 'failed', referencesConsulted: [], error: 'Synthetic index error; used direct inspection.' } }, 'backend-1');
+  await recordEvidence(f.context, { ...completeEvidence, graphify: { status: 'unavailable', referencesConsulted: [], error: 'Python unavailable in isolated test; checked files directly.' } });
+  const result = await f.hook('Stop');
+  assert.equal(result.decision, undefined);
+  assert.match(result.systemMessage, /Graphify was unavailable/);
+  assert.match(result.systemMessage, /1 agent record\(s\) report limitations/);
+  await activateSession(f.context, 'Next product assignment.', { graphify: { status: 'missing' } });
+  await f.hook('Interrupt');
+  assert.deepEqual(await f.hook('Stop'), {});
+  assert.equal((await readSession(f.context)).status, 'interrupted');
+});
+
+test('malformed context, cross-project index metadata and invalid observed models fail without corrupting session', async t => {
+  const f = await fixture(t);
+  for (const metadata of [{ scope: 'all files' }, { stackVersion: { Express: 5 } }, { assignments: { '../agent': {} } }, { graphify: { status: 'imagined' } }, { unexpected: true }]) {
+    assert.throws(() => validateSessionMetadata(metadata));
+  }
+  await assert.rejects(activateSession(f.context, 'Build inventory.', { graphify: indexObservation(path.join(f.temporary, 'other-project')) }), /different project/);
+  assert.equal(await readSession(f.context), null);
+  await activateSession(f.context, 'Build inventory.');
+  await assert.rejects(f.hook('SubagentStart', { agent_id: 'backend-1', agent_type: 'backend-developer', model: 'invalid\nmodel' }), /Observed model/);
+  assert.deepEqual((await readSession(f.context)).agents, {});
 });

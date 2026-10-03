@@ -2,6 +2,8 @@
 
 Fecha de revisión: 2 de octubre de 2026. Destino: Codex Desktop y la extensión de Codex para VS Code.
 
+Este informe conserva la revisión inicial de seis selecciones. La [ampliación de guías de producto](codex-product-guides-review.md) documenta las candidatas posteriores, sus condiciones de activación y las referencias por versión; la [comparación de diseño](codex-design-guide-comparison.md) registra los materiales y el impedimento de navegador. El catálogo vigente es la fuente del inventario actual. Anthropic se conserva como guía general; Impeccable queda provisional y exige solicitud explícita hasta completar la comparación visual pendiente.
+
 ## Resultado y límites de la comparación
 
 Se seleccionaron seis skills externas para complementar procedimientos propios de Agent Forge. La selección se limita a las candidatas comparadas; no demuestra que sean las mejores de todo el catálogo. Todas se descubrieron mediante skills.sh y después se inspeccionaron en el repositorio del autor. No se usaron la popularidad ni las insignias del catálogo como prueba de seguridad o corrección.

@@ -27,3 +27,6 @@ export * from './restore.js';
 export * from './wipe.js';
 export * from './status.js';
 export * from './scaffold.js';
+export * from './graphify.js';
+export * from './graphifyCommand.js';
+export * from './graphifyDeployment.js';
