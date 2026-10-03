@@ -1,6 +1,6 @@
 {
   "name": "agent-forge-research",
-  "version": "1.0.0",
+  "version": "1.0.2",
   "description": "Coordinate authorized research with twenty specialist subagents, explicit models, selected scientific skills and local lifecycle hooks.",
   "author": { "name": "Agent Forge" },
   "skills": "./skills/",

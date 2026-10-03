@@ -60,6 +60,12 @@ El comando de preparación rechaza un destino no vacío. El entorno científico 
 
 Desktop requiere revisar la confianza de los hooks del plugin; instalarlo no concede esa confianza. Esta comprobación del cliente se respeta sin modificar manualmente sus registros de confianza. Véanse la [documentación oficial del paquete](https://developers.openai.com/plugins/build/plugins) y [los eventos de hooks](https://learn.chatgpt.com/docs/hooks).
 
+## Código disponible al clonar Agent Forge
+
+Las definiciones, modelos, skills, hooks y programas auxiliares se versionan dentro de `plugins/agent-forge-research`; la preparación e instalación se documentan en este repositorio. Un clon que incluya esos commits contiene el código necesario para preparar otra instalación. Un clon remoto no incluye commits que solo existen localmente.
+
+Clonar no instala el equipo ni copia su confianza. En otra workstation se deben preparar rutas locales y el entorno Python, construir una versión con su inventario, instalarla mediante Codex Desktop y revisar los hooks en ese cliente. Las rutas absolutas del entorno preparado, los registros de ejecución, las credenciales y las autorizaciones de Roberto no se transfieren como parte del repositorio. La instalación y validación encargadas se limitaron a esta workstation; no se afirma funcionamiento verificado en otros equipos.
+
 ## Recuperación
 
 Para retirar exclusivamente este plugin, usar la operación nativa:

@@ -7,12 +7,16 @@ import {
 import { verifyResearchPackageIntegrity } from './research-integrity.mjs';
 
 const EVENTS = new Set(['PreToolUse', 'PostToolUse', 'SubagentStart', 'SubagentStop', 'Stop', 'Interrupt', 'SessionEnd']);
-const SPAWN_TOOLS = new Set(['Agent', 'spawn_agent', 'collaboration.spawn_agent', 'functions.collaboration.spawn_agent']);
+const SPAWN_TOOLS = new Set(['Agent', 'spawn_agent', 'collaboration.spawn_agent', 'functions.collaboration.spawn_agent', 'collaborationspawn_agent']);
 const WRITING_TOOLS = new Set(['apply_patch', 'functions.apply_patch', 'Write', 'Edit', 'MultiEdit', 'NotebookEdit']);
 const SHELL_TOOLS = new Set(['exec_command', 'functions.exec_command', 'Bash', 'powershell', 'shell_command', 'write_stdin', 'functions.write_stdin']);
 const OBSERVED_TOOLS = new Set([...SPAWN_TOOLS, ...WRITING_TOOLS, ...SHELL_TOOLS, 'functions.exec', 'functions.wait', 'Read', 'Glob', 'Grep', 'WebSearch', 'WebFetch', 'read_file', 'list_files', 'read_mcp_resource', 'functions.read_mcp_resource', 'web.run', 'functions.web__run']);
 const SAFE_TOOL_IDENTIFIER = /^[A-Za-z0-9][A-Za-z0-9_.:/-]{0,159}$/;
-const DIRECT_EXEC_TOOLS = new Set(['exec_command', 'functions.exec_command']);
+const DIRECT_EXEC_COMMAND_FIELDS = new Map([
+  ['Bash', 'command'],
+  ['exec_command', 'cmd'],
+  ['functions.exec_command', 'cmd'],
+]);
 const LAUNCHER_NAME = 'run-research-python.mjs';
 const SENSITIVE_WORDS = /(?:^|[_.:/])(write|edit|delete|remove|upload|send|publish|deploy|install|update|create|execute|exec|run|commit|merge|push|connect)(?:$|[_.:/])/i;
 
@@ -129,11 +133,13 @@ function pathInside(root, file) {
 }
 
 async function checkPackagedHelper(input, record, options) {
-  if (!DIRECT_EXEC_TOOLS.has(input.tool_name) || typeof input.tool_input?.cmd !== 'string' || !input.tool_input.cmd.toLowerCase().includes(LAUNCHER_NAME)) return null;
+  const commandField = DIRECT_EXEC_COMMAND_FIELDS.get(input.tool_name);
+  const command = commandField ? input.tool_input?.[commandField] : undefined;
+  if (typeof command !== 'string' || !command.toLowerCase().includes(LAUNCHER_NAME)) return null;
   try {
     const shell = input.tool_input.shell;
     if (shell !== undefined && (typeof shell !== 'string' || !/(?:^|[\\/])(?:powershell|pwsh)(?:\.exe)?$/i.test(shell))) throw new Error('Unsupported helper shell.');
-    const args = literalCommandArguments(input.tool_input.cmd);
+    const args = literalCommandArguments(command);
     if (args.length < 7 || args[2] !== '--authorization' || args[4] !== '--script' || args[6] !== '--') throw new Error('Unsupported helper argument order.');
     if (!['node', 'node.exe'].includes(args[0].toLowerCase())) {
       if (!path.isAbsolute(args[0]) || normalizePath(await realpath(args[0])) !== normalizePath(await realpath(process.execPath))) throw new Error('Unsupported Node executable.');
