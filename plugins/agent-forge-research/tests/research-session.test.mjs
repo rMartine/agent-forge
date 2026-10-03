@@ -210,6 +210,25 @@ test('SubagentStart before PostToolUse binds a unique candidate through a canoni
   assert.equal(bound.observedModel, 'gpt-review');
 });
 
+test('collaborationspawn_agent alias validates and correlates the complete simulated event sequence', async t => {
+  const f = await fixture(t);
+  await f.start();
+  const entry = await f.assign();
+  const tool = { tool_name: 'collaborationspawn_agent', tool_use_id: 'aliased-spawn', tool_input: spawnInput(entry) };
+  const mismatch = await f.hook('PreToolUse', { ...tool, tool_input: { ...tool.tool_input, model: 'wrong-model' } });
+  assert.equal(mismatch.hookSpecificOutput.permissionDecision, 'deny');
+  assert.equal((await readState(f.context)).assignments[entry.id].status, 'prepared');
+  assert.notEqual((await f.hook('PreToolUse', tool)).hookSpecificOutput?.permissionDecision, 'deny');
+  assert.equal((await readState(f.context)).assignments[entry.id].toolUseId, 'aliased-spawn');
+  assert.deepEqual(await f.hook('SubagentStart', { agent_id: 'aliased-child', agent_type: 'default', model: 'gpt-review' }), {});
+  await f.hook('PostToolUse', { ...tool, tool_response: { task_name: `/root/${entry.taskName}` } });
+  const bound = (await readState(f.context)).assignments[entry.id];
+  assert.equal(bound.agentId, 'aliased-child');
+  assert.equal(bound.status, 'running');
+  assert.equal(bound.observedModel, 'gpt-review');
+  assert.equal(bound.modelMismatch, false);
+});
+
 test('PostToolUse before SubagentStart binds the later unique event', async t => {
   const f = await fixture(t);
   await f.start();
@@ -381,6 +400,47 @@ test('ambiguous helper shell commands are denied while literal script arguments 
   }
   assert.deepEqual(await f.hook('PreToolUse', { agent_id: 'child-one', tool_name: 'exec_command', tool_input: { cmd: `${command} '--label' 'literal; value with $characters'` } }), {});
   assert.equal((await f.hook('PreToolUse', { agent_id: 'child-one', tool_name: 'exec_command', tool_input: { cmd: command, shell: 'cmd.exe' } })).hookSpecificOutput.permissionDecision, 'deny');
+});
+
+test('canonical Bash command events verify the packaged helper and preserve literal PowerShell restrictions', async t => {
+  const f = await fixture(t);
+  await addIntegrityInventory(f);
+  await f.start();
+  await f.preparedSpawn('research-analysis');
+  const policy = await policyFile(f);
+  const command = helperCommand(f, policy);
+  const canonicalEvent = commandText => ({ agent_id: 'child-one', tool_name: 'Bash', tool_input: { command: commandText } });
+  assert.deepEqual(await f.hook('PreToolUse', canonicalEvent(command)), {});
+  assert.deepEqual(await f.hook('PreToolUse', canonicalEvent(command.replace(/^node /, `& ${literalArgument(process.execPath)} `))), {});
+  assert.deepEqual(await f.hook('PreToolUse', canonicalEvent(`${command} '--label' 'literal; value with $characters'`)), {});
+  for (const ambiguous of [
+    `${command}; another-command`, `${command} | another-command`, `${command}\nnext-command`,
+    command.replace(literalArgument(policy), '$ResearchPolicy'),
+    command.replace(literalArgument(policy), `"${policy}"`),
+    `powershell -Command ${literalArgument(command)}`,
+  ]) assert.equal((await f.hook('PreToolUse', canonicalEvent(ambiguous))).hookSpecificOutput.permissionDecision, 'deny');
+  assert.equal((await f.hook('PreToolUse', { ...canonicalEvent(command), tool_input: { command, shell: 'cmd.exe' } })).hookSpecificOutput.permissionDecision, 'deny');
+  await policyFile(f, 'Another authorization');
+  assert.equal((await f.hook('PreToolUse', canonicalEvent(command))).hookSpecificOutput.permissionDecision, 'deny');
+  await policyFile(f);
+  assert.equal((await f.hook('PreToolUse', canonicalEvent(helperCommand(f, policy, '../outside.py')))).hookSpecificOutput.permissionDecision, 'deny');
+  await writeFile(path.join(f.pluginRoot, 'scripts', 'uninventoried.py'), '# Not part of the reviewed package.');
+  assert.equal((await f.hook('PreToolUse', canonicalEvent(helperCommand(f, policy, 'scripts/uninventoried.py')))).hookSpecificOutput.permissionDecision, 'deny');
+  await writeFile(path.join(f.pluginRoot, 'scripts', 'fixture-analysis.py'), '# Modified after inventory.');
+  assert.equal((await f.hook('PreToolUse', canonicalEvent(command))).hookSpecificOutput.permissionDecision, 'deny');
+});
+
+test('canonical Bash events retain read-only and model restrictions without claiming unrelated commands', async t => {
+  const f = await fixture(t);
+  await f.start();
+  await f.preparedSpawn('research-review', 'reviewer-child');
+  const ordinaryCommand = { tool_name: 'Bash', tool_input: { command: 'python -c "print(1 + 1)"' } };
+  assert.equal((await f.hook('PreToolUse', { ...ordinaryCommand, agent_id: 'reviewer-child' })).hookSpecificOutput.permissionDecision, 'deny');
+  await f.preparedSpawn('research-analysis', 'analyst-child');
+  assert.deepEqual(await f.hook('PreToolUse', { ...ordinaryCommand, agent_id: 'analyst-child' }), {});
+  assert.deepEqual(await f.hook('PreToolUse', { agent_id: 'unrelated-child', tool_name: 'Bash', tool_input: { command: 'node run-research-python.mjs ambiguous' } }), {});
+  await f.hook('SubagentStart', { agent_id: 'analyst-child', agent_type: 'default', model: 'unexpected-model' });
+  assert.equal((await f.hook('PreToolUse', { ...ordinaryCommand, agent_id: 'analyst-child' })).hookSpecificOutput.permissionDecision, 'deny');
 });
 
 test('helper checks leave unrelated scientific shell work and unexposed JavaScript orchestration untouched', async t => {
