@@ -342,7 +342,7 @@ function principalOnly(context, environment) {
 
 function publicStatus(record) {
   if (!record) return { status: 'unregistered' };
-  return { status: record.status, sessionId: record.sessionId, authorizationReference: record.authorization.reference, objective: record.objective, principalEvidenceRecorded: !!record.principal.evidence, assignments: Object.values(record.assignments).map(({ id, roleId, taskName, model, reasoning, status, agentId, modelMismatch, observedModel, evidence, diagnostic }) => ({ id, roleId, taskName, model, reasoning, status, agentId, modelMismatch, observedModel, evidenceRecorded: !!evidence, diagnostic })) };
+  return { status: record.status, sessionId: record.sessionId, authorizationReference: record.authorization.reference, objective: record.objective, principalEvidenceRecorded: !!record.principal.evidence, assignments: Object.values(record.assignments).map(({ id, roleId, taskName, model, reasoning, status, agentId, modelMismatch, observedModel, evidence, diagnostic, spawnValidationFailure, instructionVerification }) => ({ id, roleId, taskName, model, reasoning, status, agentId, modelMismatch, observedModel, evidenceRecorded: !!evidence, diagnostic, spawnValidationFailure, instructionVerification })) };
 }
 
 export async function runCommand(args, { environment = process.env, pluginRoot = PLUGIN_ROOT, dataRoot } = {}) {

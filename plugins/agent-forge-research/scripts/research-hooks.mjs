@@ -192,8 +192,24 @@ async function preTool(context, actorId, input, options) {
     const expected = spawnInput(entry);
     const supplied = input.tool_input;
     const fields = ['agent_type', 'model', 'reasoning_effort', 'fork_turns', 'task_name', 'message'];
-    if (!selected.marked || fields.some(field => supplied[field] !== expected[field]) || Object.keys(supplied).some(field => !fields.includes(field))) {
-      output = deny('Research spawn must exactly match its prepared role, explicit model, reasoning effort, task name, instructions, and fork_turns none. Use spawn-input without alterations.'); return record;
+    const mismatchedFields = fields.filter(field => supplied[field] !== expected[field]);
+    const unknownFieldCount = Object.keys(supplied).filter(field => !fields.includes(field)).length;
+    const sameMessageAfterNormalizingLineEndings = typeof supplied.message === 'string' && supplied.message.replaceAll('\r\n', '\n') === expected.message.replaceAll('\r\n', '\n');
+    // The native collaboration transport can expose an opaque message. Its
+    // format is not proof of authenticity and its contents are not verified.
+    // Preserve it for the client's decoder; match the prepared task and all
+    // other creation arguments, and supply the task at SubagentStart when bound.
+    const opaqueNativeMessage = input.tool_name === 'collaborationspawn_agent' && !selected.marked && typeof supplied.message === 'string' && supplied.message.length >= 80 && supplied.message.length <= MAX_BYTES && /^gAAAA[A-Za-z0-9_-]+={0,2}$/.test(supplied.message);
+    if (mismatchedFields.some(field => field !== 'message') || unknownFieldCount || (mismatchedFields.includes('message') && !sameMessageAfterNormalizingLineEndings && !opaqueNativeMessage)) {
+      // Report comparisons only. Never record supplied instructions, unknown key
+      // names, ciphertext, credentials, or excerpts from the research material.
+      entry.spawnValidationFailure = {
+        mismatchedFields,
+        unknownFieldCount,
+        hasAssignmentMarker: selected.marked,
+        messageMatchesAfterNormalizingLineEndings: sameMessageAfterNormalizingLineEndings,
+      };
+      output = deny(`Research spawn differs from its prepared assignment. Validation: ${JSON.stringify(entry.spawnValidationFailure)}. Use spawn-input without alterations.`); return record;
     }
     if (typeof input.tool_use_id !== 'string' || !input.tool_use_id.trim()) { output = deny('Research spawn cannot be correlated without a tool-use identifier.'); return record; }
     try {
@@ -205,6 +221,7 @@ async function preTool(context, actorId, input, options) {
       output = deny('Research plugin integrity verification failed. The prepared research agent cannot be dispatched from this package.');
       return record;
     }
+    entry.instructionVerification = opaqueNativeMessage ? 'opaque-native-message-not-compared' : 'prepared-message-matched-after-normalizing-line-endings';
     if (entry.status === 'spawning') return record;
     entry.status = 'spawning';
     entry.toolUseId = input.tool_use_id;
@@ -271,6 +288,7 @@ async function postTool(context, actorId, input) {
       entry.agentId = agentId;
       entry.status = 'running';
       if (candidate) observeModel(entry, candidate.model);
+      if (!entry.modelMismatch) delete entry.diagnostic;
       bind = agentId;
       delete entry.startCandidates;
       output = entry.modelMismatch ? note(entry.diagnostic) : {};
@@ -311,8 +329,10 @@ async function subagentStart(context, input) {
       }
     }
     observeModel(entry, input.model);
+    if (!entry.modelMismatch) delete entry.diagnostic;
     output = { hookSpecificOutput: { hookEventName: 'SubagentStart', additionalContext: [
       `Research assignment ${entry.id}, role ${entry.roleId}, parent session ${context.sessionId}.`,
+      `Prepared task for this assignment: ${entry.task}`,
       'Return evidence to the principal. Do not write research session records or spawn other agents. Hooks verify recorded structure and known tool patterns; they do not certify scientific validity or provide a complete security sandbox.',
       entry.readOnly ? 'This role is read-only. Return proposed edits; do not execute writing tools or shell commands.' : 'Current platform permissions and the referenced human authorization remain in force.',
       entry.modelMismatch ? entry.diagnostic : `Prepared model: ${entry.model}. Reasoning effort was explicitly requested as ${entry.reasoning}; hooks do not independently observe that effort.`,
