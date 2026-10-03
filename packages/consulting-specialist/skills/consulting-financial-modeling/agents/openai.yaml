@@ -1,0 +1,4 @@
+interface:
+  display_name: "Modelos económicos de tecnología"
+  short_description: "Calcular costos, beneficios y sensibilidad"
+  default_prompt: "Usa $consulting-financial-modeling para construir y comprobar el análisis económico de esta solución."

@@ -1,0 +1,4 @@
+interface:
+  display_name: "Logística, aduanas y transporte"
+  short_description: "Analizar operaciones, documentos y excepciones"
+  default_prompt: "Usa $consulting-logistics-customs-transport para analizar esta operación según sus países, participantes, sistemas y datos."

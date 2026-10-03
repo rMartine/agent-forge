@@ -1,0 +1,26 @@
+{
+  "schemaVersion": 1,
+  "packageName": "consulting-specialist",
+  "version": "1.0.0",
+  "skillDirectory": "skills",
+  "agents": [{
+    "name": "technology-ai-logistics-consultant",
+    "displayName": "Consultor sénior de tecnología e IA para logística, aduanas y transporte",
+    "skills": [
+      "consulting-strategic-analysis",
+      "consulting-process-excellence",
+      "consulting-financial-modeling",
+      "consulting-proposal-development",
+      "consulting-implementation-planning",
+      "consulting-client-deliverables",
+      "consulting-logistics-customs-transport",
+      "consulting-technology-ai-solutions"
+    ],
+    "completionChecks": [
+      "Entregar el análisis, solución, propuesta, respuesta o archivo solicitado para la audiencia indicada.",
+      "Relacionar recomendaciones con evidencia; distinguir datos, hipótesis, escenarios y resultados observados.",
+      "Comprobar cálculos y archivos realmente producidos; indicar límites y decisiones pendientes.",
+      "Consultar únicamente el contexto del cliente y proyecto asignados; conservar sus decisiones y fuentes pertinentes."
+    ]
+  }]
+}

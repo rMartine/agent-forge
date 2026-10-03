@@ -82,3 +82,7 @@ The remaining canonical workflows stay available through these bundles and the p
 - `project_docs/`: architecture, requirements, audits, and delivery evidence
 
 See [architecture](project_docs/architecture/architecture.md), [build and install](project_docs/requirements/build-and-install.md), and the [Codex remediation report](project_docs/audits/codex-ide-integration-remediation-2026-08-23.md).
+
+## Consultor de tecnología e IA para logística
+
+El [módulo independiente de consultoría](packages/consulting-specialist/README.md) incorpora un perfil nativo para soluciones, propuestas, respuestas y presentaciones de logística, aduanas y transporte. Tiene instalación, propiedad de archivos y grupos de hooks separados del compilador principal. Conserva contexto por cliente y proyecto, y hereda modelo y permisos. Su documentación distingue instalación, descubrimiento nativo y ejecución observada de hooks.

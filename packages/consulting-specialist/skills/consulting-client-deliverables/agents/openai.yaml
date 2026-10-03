@@ -1,0 +1,4 @@
+interface:
+  display_name: "Entregables para clientes de consultoría"
+  short_description: "Crear respuestas, informes y presentaciones"
+  default_prompt: "Usa $consulting-client-deliverables para producir el entregable solicitado con evidencia y revisar su archivo final."

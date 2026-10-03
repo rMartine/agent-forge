@@ -1,0 +1,4 @@
+interface:
+  display_name: "Coordinar al consultor de tecnología e IA"
+  short_description: "Consultoría con contexto separado por cliente y proyecto"
+  default_prompt: "Usa $consulting-specialist-coordination para asignar al consultor este encargo y conservar las decisiones de mi cliente."

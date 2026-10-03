@@ -1,0 +1,4 @@
+interface:
+  display_name: "Análisis estratégico para consultoría"
+  short_description: "Contrastar causas y decisiones con evidencia"
+  default_prompt: "Usa $consulting-strategic-analysis para comparar las alternativas de este encargo y sustentar una recomendación."

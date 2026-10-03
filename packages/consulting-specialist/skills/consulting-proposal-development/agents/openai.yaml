@@ -1,0 +1,4 @@
+interface:
+  display_name: "Propuestas de consultoría tecnológica"
+  short_description: "Definir propuestas, alcance y evidencia comercial"
+  default_prompt: "Usa $consulting-proposal-development para preparar la propuesta de este cliente con sus requisitos y condiciones vigentes."

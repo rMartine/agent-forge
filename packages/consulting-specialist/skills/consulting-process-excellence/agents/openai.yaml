@@ -1,0 +1,4 @@
+interface:
+  display_name: "Diagnóstico de procesos operativos"
+  short_description: "Explicar esperas, errores y capacidad operativa"
+  default_prompt: "Usa $consulting-process-excellence para diagnosticar este proceso con los datos disponibles y proponer los cambios solicitados."
