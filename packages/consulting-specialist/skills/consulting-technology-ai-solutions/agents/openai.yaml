@@ -1,0 +1,4 @@
+interface:
+  display_name: "Diseño de tecnología e IA aplicada"
+  short_description: "Diseñar soluciones y comprobar su comportamiento"
+  default_prompt: "Usa $consulting-technology-ai-solutions para diseñar una solución al problema del cliente y definir cómo verificarla."

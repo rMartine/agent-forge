@@ -1,0 +1,4 @@
+interface:
+  display_name: "Plan de implementación de soluciones"
+  short_description: "Relacionar trabajo, dependencias y aceptación"
+  default_prompt: "Usa $consulting-implementation-planning para convertir la solución acordada en un plan ejecutable."

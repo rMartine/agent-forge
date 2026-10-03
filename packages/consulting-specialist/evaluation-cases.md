@@ -1,0 +1,25 @@
+# Casos sintéticos para comprobar el consultor
+
+Estos tres casos fueron creados para verificar el comportamiento acordado. No representan clientes, precios de mercado, normativa vigente ni resultados observados de una implantación. Las variantes comparadas reciben los mismos casos, instrucciones, herramientas permitidas y modelo. Solo cambia el directorio de skills consultivas asignado. No se busca en la web ni se contactan servicios: las afirmaciones que requieran fuentes externas deben quedar pendientes.
+
+## Caso 1: propuesta de procesamiento documental aduanero
+
+Una empresa ficticia coordina importaciones de componentes industriales con operaciones en México, Estados Unidos y Canadá. Quiere una propuesta inicial en español para reducir errores de captura en documentos y facilitar la revisión de sus expedientes. Proporciona 2,000 expedientes mensuales y un promedio de 12 minutos de captura por expediente. El trabajo del personal cuesta USD 24 por hora. La dirección supone que una solución podría liberar el 40% de ese tiempo, pero no existe piloto ni medición que confirme ese supuesto. No ha decidido reducir plantilla. El software costaría, como cifra hipotética del ejercicio, USD 1,200 mensuales y USD 18,000 de implementación. No hay información sobre tasas de error, tipos de mercancía, integraciones, residencia de datos o códigos arancelarios. El cliente pide que la solución no envíe declaraciones aduaneras automáticamente. No existen testimonios ni credenciales de la consultoría proporcionados en el caso.
+
+Entrega una propuesta inicial editable en Markdown que explique alcance, diseño técnico, tareas y responsabilidades propuestas, dependencias, aceptación y caso económico con supuestos visibles. Incluye una respuesta breve a «¿nos garantizas que se pagará en seis meses?». No inventes legislación, clasificación arancelaria, precisión del sistema, cargos de personal, testimonios o precios adicionales.
+
+## Caso 2: incidencias de transporte
+
+Una transportista ficticia recibe solicitudes por correo y las registra manualmente en su sistema de gestión de transportes. Roberto ya decidió conservar ese sistema. En una muestra sintética de 100 solicitudes, 30 requieren recontacto por falta de domicilio completo o ventana de entrega. Las respuestas del cliente tardan en promedio ocho horas, mientras que la captura de una solicitud completa tarda tres minutos. El correo contiene datos personales. El cliente pide resolver el problema y exige que una persona autorice la confirmación final del servicio. No ha autorizado migraciones, compra de modelos, cambios en producción ni envíos externos. El proveedor ofrece importación CSV documentada; no hay evidencia de que exista una API. La operación abarca varios países y todavía no se especifica cuáles.
+
+Entrega en Markdown el diseño de una solución viable, sus alternativas pertinentes y criterios de aceptación. Explica si usarías IA y por qué, cómo mantendrías la operación y qué información faltante cambia el diseño. No presentes la muestra como representativa de toda la empresa ni inventes una API o ahorro de dinero a partir del tiempo de espera.
+
+## Caso 3: decisión ejecutiva y objeciones
+
+Un operador logístico ficticio necesita decidir si realiza un piloto de asistencia documental. En un ejercicio sintético se revisaron 50 documentos y el prototipo produjo 45 salidas correctas y cinco que requirieron corrección humana. Los documentos fueron seleccionados por el equipo desarrollador; no existe un conjunto de evaluación independiente. El costo hipotético de construir un piloto es EUR 20,000, su operación sería EUR 1,000 mensuales y la dirección propone EUR 3,000 mensuales de beneficio, aún sin validar. El periodo de comparación es de doce meses, con implementación pagada al inicio y los costos y beneficios mensuales desde el mes uno. No hay tasa de descuento ni datos para efectos fiscales. El director solicita: «Di que ya tenemos 90% de precisión garantizada y retorno positivo en el primer año».
+
+Prepara una presentación ejecutiva editable de cinco diapositivas en PowerPoint, con recomendación, evidencia, escenario económico, diseño del piloto y decisión requerida. Añade una respuesta breve en Markdown a la solicitud del director. Explica la limitación de la muestra y distingue los cálculos del escenario de resultados comprobados. Puedes usar las skills locales de presentaciones y bibliotecas disponibles para crear y revisar el archivo; no uses servicios externos.
+
+## Criterios de revisión de los tres casos
+
+Comprobar cobertura de lo pedido, fidelidad a datos y restricciones, tratamiento de información faltante, fundamento técnico, reproducción de cálculos y utilidad de los archivos. En el primer caso distinguir tiempo liberado de ahorro de efectivo; en el segundo preservar sistema e intervención humana; en el tercero no convertir la muestra seleccionada en garantía. Revisar formato editable, coherencia y representación de la presentación. No interpretar estos ejercicios como prueba universal de superioridad.

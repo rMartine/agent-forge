@@ -1,0 +1,159 @@
+{
+  "schemaVersion": 1,
+  "purpose": "Procedencia de las ocho skills de contenido del consultor sénior de tecnología e IA aplicada a logística, aduanas, transporte y actividades relacionadas.",
+  "reviewScope": "Se leyeron las seis skills seleccionadas de Management Consulting, su licencia y las referencias de métodos utilizadas. No se revisó nuevamente el mercado de alternativas ni se realizó una investigación sectorial amplia. No se copiaron ejecutables, instaladores, hooks ni instrucciones de repositorio de terceros.",
+  "updatePolicy": "Las adaptaciones están fijadas por commit; no consultar ni instalar actualizaciones automáticamente. Revisar los cambios pertinentes cuando se solicite una actualización.",
+  "upstream": {
+    "repository": "https://github.com/anotb/management-consulting-plugin",
+    "commit": "40ffcc54721553ea8b3efb34451163dfa0fbc6f0",
+    "sourceVersion": "2.2.0",
+    "author": "Anot",
+    "copyright": "Copyright (c) 2026 Anot",
+    "license": "MIT",
+    "licenseSource": "https://github.com/anotb/management-consulting-plugin/blob/40ffcc54721553ea8b3efb34451163dfa0fbc6f0/LICENSE"
+  },
+  "skills": [
+    {
+      "name": "consulting-strategic-analysis",
+      "source": "https://github.com/anotb/management-consulting-plugin/blob/40ffcc54721553ea8b3efb34451163dfa0fbc6f0/skills/strategic-analysis/SKILL.md",
+      "commit": "40ffcc54721553ea8b3efb34451163dfa0fbc6f0",
+      "sourceVersion": "2.2.0",
+      "author": "Anot",
+      "license": "MIT",
+      "licenseFile": "skills/consulting-strategic-analysis/LICENSE",
+      "sourceReferences": [
+        "skills/strategic-analysis/references/strategic-frameworks.md",
+        "skills/strategic-analysis/references/market-and-competition.md"
+      ],
+      "changes": [
+        "Traducción y adaptación al español de México y al trabajo de consultoría de Roberto en Codex.",
+        "Conserva formulación de decisiones, diagnóstico causal, evidencia contraria, alternativas comparables, trazabilidad y recomendaciones condicionales.",
+        "Adapta referencias estratégicas y de mercado para lectura por necesidad, sin exigir marcos ni estructuras por defecto.",
+        "Explicita que proponer una comprobación no autoriza ampliar investigación, contactar personas ni ejecutar experimentos.",
+        "Añade metadatos de Codex y conexión con el contexto de consulting-specialist-coordination sin dependencias de ejecución."
+      ]
+    },
+    {
+      "name": "consulting-process-excellence",
+      "source": "https://github.com/anotb/management-consulting-plugin/blob/40ffcc54721553ea8b3efb34451163dfa0fbc6f0/skills/process-excellence/SKILL.md",
+      "commit": "40ffcc54721553ea8b3efb34451163dfa0fbc6f0",
+      "sourceVersion": "2.2.0",
+      "author": "Anot",
+      "license": "MIT",
+      "licenseFile": "skills/consulting-process-excellence/LICENSE",
+      "sourceReferences": ["skills/process-excellence/references/measurement-and-statistics.md"],
+      "changes": [
+        "Conserva límites del proceso, medición real, registros de eventos, hipótesis causales, supuestos estadísticos y efectos posteriores.",
+        "Adapta instrucciones y referencia al español; distingue análisis solicitado de autorización para optimizar o cambiar operaciones.",
+        "Conserva diferencias entre esperas, trabajo efectivo, capacidad y ahorro de efectivo, y entre límites de especificación y control.",
+        "Mantiene la referencia primaria de NIST como consulta del método; no presenta la fecha de verificación declarada por el origen como una comprobación propia.",
+        "Añade metadatos de Codex y referencias a las skills económicas y de coordinación del paquete."
+      ]
+    },
+    {
+      "name": "consulting-financial-modeling",
+      "source": "https://github.com/anotb/management-consulting-plugin/blob/40ffcc54721553ea8b3efb34451163dfa0fbc6f0/skills/financial-modeling/SKILL.md",
+      "commit": "40ffcc54721553ea8b3efb34451163dfa0fbc6f0",
+      "sourceVersion": "2.2.0",
+      "author": "Anot",
+      "license": "MIT",
+      "licenseFile": "skills/consulting-financial-modeling/LICENSE",
+      "sourceReferences": [
+        "skills/financial-modeling/references/cash-flow-conventions.md",
+        "skills/financial-modeling/references/technology-and-tco.md",
+        "skills/financial-modeling/references/valuation-and-risk.md"
+      ],
+      "changes": [
+        "Traduce y adapta el modelo económico, convenciones de efectivo, sensibilidad y valoración cuando el encargo lo requiera.",
+        "Conserva costos incrementales, necesidad de financiamiento, periodos consistentes, cálculos reproducibles y diferencias entre capacidad, efectivo y contribución adicional.",
+        "Enfatiza revisión humana, calidad, reintentos, adopción y costos de integración de soluciones de IA.",
+        "Conserva precios, compromisos y decisiones empresariales no delegadas en Roberto; no incorpora tasas ni porcentajes predeterminados.",
+        "Dirige la creación y comprobación de hojas a herramientas disponibles en Codex sin copiar ejecutables."
+      ]
+    },
+    {
+      "name": "consulting-proposal-development",
+      "source": "https://github.com/anotb/management-consulting-plugin/blob/40ffcc54721553ea8b3efb34451163dfa0fbc6f0/skills/proposal-development/SKILL.md",
+      "commit": "40ffcc54721553ea8b3efb34451163dfa0fbc6f0",
+      "sourceVersion": "2.2.0",
+      "author": "Anot",
+      "license": "MIT",
+      "licenseFile": "skills/consulting-proposal-development/LICENSE",
+      "sourceReferences": [
+        "skills/proposal-development/references/proposal-and-sow.md",
+        "skills/proposal-development/references/pitch-deck.md"
+      ],
+      "changes": [
+        "Conserva requisitos del comprador, evidencia de diferenciación, alcance, aceptación, dependencias, costos y respuestas a objeciones.",
+        "Adapta al español y a propuestas de tecnología e IA; separa capacidades propuestas, entregables comprometidos y beneficios pronosticados.",
+        "Reemplaza referencias a skills ajenas por procedimientos del paquete y herramientas realmente disponibles.",
+        "Preserva formatos y límites del cliente sin imponer cantidades de páginas o diapositivas.",
+        "No autoriza enviar propuestas, contactar compradores, aceptar términos ni inventar experiencia, precios o garantías."
+      ]
+    },
+    {
+      "name": "consulting-implementation-planning",
+      "source": "https://github.com/anotb/management-consulting-plugin/blob/40ffcc54721553ea8b3efb34451163dfa0fbc6f0/skills/implementation-planning/SKILL.md",
+      "commit": "40ffcc54721553ea8b3efb34451163dfa0fbc6f0",
+      "sourceVersion": "2.2.0",
+      "author": "Anot",
+      "license": "MIT",
+      "licenseFile": "skills/consulting-implementation-planning/LICENSE",
+      "sourceReferences": ["skills/implementation-planning/references/scheduling-and-resourcing.md"],
+      "changes": [
+        "Conserva secuencia por dependencias, recursos, aceptación, continuidad operativa y recuperación con historia del plan original.",
+        "Traduce y adapta responsabilidades a descripciones explícitas de quién realiza, responde o decide, sin depender de etiquetas de una matriz.",
+        "Distingue objetivo y pronóstico, duración y esfuerzo, responsables propuestos y compromisos aceptados.",
+        "Preserva requisitos y entregables, decisiones aprobadas y procedimientos vigentes del cliente sin agregar etapas para permitir la redacción.",
+        "Añade metadatos de Codex y referencias a coordinación y finanzas del paquete."
+      ]
+    },
+    {
+      "name": "consulting-client-deliverables",
+      "source": "https://github.com/anotb/management-consulting-plugin/blob/40ffcc54721553ea8b3efb34451163dfa0fbc6f0/skills/client-deliverables/SKILL.md",
+      "commit": "40ffcc54721553ea8b3efb34451163dfa0fbc6f0",
+      "sourceVersion": "2.2.0",
+      "author": "Anot",
+      "license": "MIT",
+      "licenseFile": "skills/consulting-client-deliverables/LICENSE",
+      "sourceReferences": [
+        "skills/client-deliverables/references/written-reports.md",
+        "skills/client-deliverables/references/executive-presentations.md",
+        "skills/client-deliverables/references/slide-design.md"
+      ],
+      "changes": [
+        "Conserva argumento ejecutivo, fuentes, consistencia de cifras, fidelidad gráfica y revisión del archivo guardado y su representación visual.",
+        "Traduce la guía escrita y adapta en una referencia conjunta la narrativa, selección de gráficas y composición de diapositivas.",
+        "Incluye respuestas directas proporcionales, sin imponer un informe o presentación a cada consulta.",
+        "Usa skills y herramientas de formatos del catálogo activo; no copia el script opcional de PowerPoint ni fija bibliotecas o rutas de caché.",
+        "Conserva identidad y requisitos del cliente, editabilidad cuando corresponda y límites de lo efectivamente comprobado."
+      ]
+    },
+    {
+      "name": "consulting-logistics-customs-transport",
+      "source": "Instrucciones originales creadas para el consultor de Agent Forge; no es una adaptación de una skill sectorial externa.",
+      "author": "Agent Forge",
+      "redistributesUpstreamSkills": false,
+      "changes": [
+        "Relaciona operación física, documentos, eventos, sistemas y responsabilidades según el cliente y proyecto.",
+        "Exige comprobar jurisdicción, autoridad, operación, mercancía y fecha antes de afirmar obligaciones aduaneras o regulatorias.",
+        "Distingue errores de datos, imágenes o etiquetas de fallas del método o proceso y conserva excepciones.",
+        "Integra diagnóstico de procesos, economía y diseño técnico sin ampliar automáticamente el alcance ni investigar sectores completos.",
+        "No define país predeterminado, comandos de memoria, hooks, políticas, permisos ni herramientas inexistentes."
+      ]
+    },
+    {
+      "name": "consulting-technology-ai-solutions",
+      "source": "Instrucciones originales creadas para diseñar soluciones de tecnología e IA en el consultor de Agent Forge.",
+      "author": "Agent Forge",
+      "redistributesUpstreamSkills": false,
+      "changes": [
+        "Relaciona problema, alternativas, comportamiento, datos, componentes, interfaces y evidencia de funcionamiento.",
+        "Incluye consideraciones pertinentes de documentos, recuperación de información, predicción, agentes e integración sin imponer una arquitectura.",
+        "Define validación proporcional, trazabilidad, intervención humana, manejo de errores y condiciones de recuperación según el encargo.",
+        "Distingue diseño, prototipo, pruebas observadas y funcionamiento real, así como evaluación con datos sintéticos y datos reales.",
+        "Conserva requisitos, decisiones, límites de datos y autorizaciones vigentes; no ejecuta implementación ni evaluación adicional por la sola invocación."
+      ]
+    }
+  ]
+}
