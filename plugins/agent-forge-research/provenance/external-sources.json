@@ -1,0 +1,1556 @@
+{
+  "schemaVersion": 1,
+  "reviewedDate": "2026-10-02",
+  "purpose": "Selected upstream source and actual local adaptations; no upstream updater is included",
+  "skills": [
+    {
+      "name": "literature-review",
+      "upstreamRepository": "https://github.com/K-Dense-AI/scientific-agent-skills",
+      "upstreamCommit": "154988403bb5a18e9d3c0ce4e6d5e2e4b184a298",
+      "licensePath": "provenance/licenses/K-Dense-MIT.txt",
+      "files": [
+        {
+          "upstreamPath": "skills/literature-review/assets/review_template.md",
+          "installedPath": "skills/literature-review/assets/review_template.md",
+          "originalSha256": "08671516976d01a7004f8ae7c944a50c253877504720c15d5fa24eed90889819",
+          "adaptedSha256": "08671516976d01a7004f8ae7c944a50c253877504720c15d5fa24eed90889819",
+          "modified": false
+        },
+        {
+          "upstreamPath": "skills/literature-review/references/citation_styles.md",
+          "installedPath": "skills/literature-review/references/citation_styles.md",
+          "originalSha256": "2a50e43b18c2fff781e04406deb66186ba8f91ed28af32004aba63c63dcc1789",
+          "adaptedSha256": "2a50e43b18c2fff781e04406deb66186ba8f91ed28af32004aba63c63dcc1789",
+          "modified": false
+        },
+        {
+          "upstreamPath": "skills/literature-review/references/core_workflow.md",
+          "installedPath": "skills/literature-review/references/core_workflow.md",
+          "originalSha256": "4d63f1087c98efeec7c7bf622bed6e0456a9c7c3defe584995917f2de6f2c601",
+          "adaptedSha256": "4d63f1087c98efeec7c7bf622bed6e0456a9c7c3defe584995917f2de6f2c601",
+          "modified": false
+        },
+        {
+          "upstreamPath": "skills/literature-review/references/database_strategies.md",
+          "installedPath": "skills/literature-review/references/database_strategies.md",
+          "originalSha256": "24b56cd88128a9016520ed6b5e2abb79e19dc9b86cbf064927e9056aa1504f48",
+          "adaptedSha256": "24b56cd88128a9016520ed6b5e2abb79e19dc9b86cbf064927e9056aa1504f48",
+          "modified": false
+        },
+        {
+          "upstreamPath": "skills/literature-review/references/example_workflow.md",
+          "installedPath": "skills/literature-review/references/example_workflow.md",
+          "originalSha256": "86336c42f78ff282430a6cdd2282a99562cc9d5e46b62e70a33bd839f9ab726a",
+          "adaptedSha256": "86336c42f78ff282430a6cdd2282a99562cc9d5e46b62e70a33bd839f9ab726a",
+          "modified": false
+        },
+        {
+          "upstreamPath": "skills/literature-review/references/search_and_citation.md",
+          "installedPath": "skills/literature-review/references/search_and_citation.md",
+          "originalSha256": "f33d671351989ee86066b9a21bdbf630a1f60001ada92fda4c942006d37b74fe",
+          "adaptedSha256": "f33d671351989ee86066b9a21bdbf630a1f60001ada92fda4c942006d37b74fe",
+          "modified": false
+        },
+        {
+          "upstreamPath": "skills/literature-review/scripts/generate_pdf.py",
+          "installedPath": "skills/literature-review/scripts/generate_pdf.py",
+          "originalSha256": "0ba1b16b196b64d4966e5f055a289f0c17e3579a84254abe47ff63be95b4f136",
+          "adaptedSha256": "d7edc604632f0924a812baef2ee9229f1e4aebedc1fc0c1c65ca9df2c95e7662",
+          "modified": true
+        },
+        {
+          "upstreamPath": "skills/literature-review/scripts/generate_schematic.py",
+          "installedPath": "skills/literature-review/scripts/generate_schematic.py",
+          "originalSha256": "0c81ce099d5ab9aa3d3c486aa9bd3e81ee1117e18a54db14bb0a68de61eaa4bc",
+          "adaptedSha256": "ef8ed9eeaa2f52d8701a6de3302f3b4df5f51d8968e56f8b8386f45c0af8a576",
+          "modified": true
+        },
+        {
+          "upstreamPath": "skills/literature-review/scripts/generate_schematic_ai.py",
+          "installedPath": "skills/literature-review/scripts/generate_schematic_ai.py",
+          "originalSha256": "7316f2df92f442b8c60a5dd2bd8b504e17449d4be89352e5af24be2239700046",
+          "adaptedSha256": "43bf8e48838e5bbe919686a6be85be772d9ce513827b80e5055236a628775567",
+          "modified": true
+        },
+        {
+          "upstreamPath": "skills/literature-review/scripts/search_databases.py",
+          "installedPath": "skills/literature-review/scripts/search_databases.py",
+          "originalSha256": "76f47fd18ca28df4985ffc6d30d5ad659e67c8058bb3de8f385c2443752f4eaf",
+          "adaptedSha256": "31ef40610287be6aa8ff05c6450a354961773b2c83d34965746ca58ecd05ce7f",
+          "modified": true
+        },
+        {
+          "upstreamPath": "skills/literature-review/scripts/verify_citations.py",
+          "installedPath": "skills/literature-review/scripts/verify_citations.py",
+          "originalSha256": "4c8e8377718ddd47e9cd7cef706935b04910af5d13bfd920970dcf41d4ef3706",
+          "adaptedSha256": "be824300d155827ba15cc45036980566879f5b8d6c99684dd63940d59f53c28d",
+          "modified": true
+        },
+        {
+          "upstreamPath": "skills/literature-review/SKILL.md",
+          "installedPath": "skills/literature-review/SKILL.md",
+          "originalSha256": "16a9e85bcdcb9bb859e1646bf836e51b22900445ba2e367d8d75be05b5a5cba8",
+          "adaptedSha256": "ee3e664586deaffc72d04e5a1dac0334dcff8e26ca29a46121e8b1c92ff1bc98",
+          "modified": true
+        }
+      ]
+    },
+    {
+      "name": "scientific-critical-thinking",
+      "upstreamRepository": "https://github.com/K-Dense-AI/scientific-agent-skills",
+      "upstreamCommit": "154988403bb5a18e9d3c0ce4e6d5e2e4b184a298",
+      "licensePath": "provenance/licenses/K-Dense-MIT.txt",
+      "files": [
+        {
+          "upstreamPath": "skills/scientific-critical-thinking/references/common_biases.md",
+          "installedPath": "skills/scientific-critical-thinking/references/common_biases.md",
+          "originalSha256": "641e8e8e6dfadac1643ea8691b7d3e4e58cf013f134cd42c71301878096a5a39",
+          "adaptedSha256": "641e8e8e6dfadac1643ea8691b7d3e4e58cf013f134cd42c71301878096a5a39",
+          "modified": false
+        },
+        {
+          "upstreamPath": "skills/scientific-critical-thinking/references/core_capabilities.md",
+          "installedPath": "skills/scientific-critical-thinking/references/core_capabilities.md",
+          "originalSha256": "0f337b96aa2d7453433a17824368fbd0638b9469d4f90a5fd23f4167c9dee180",
+          "adaptedSha256": "0f337b96aa2d7453433a17824368fbd0638b9469d4f90a5fd23f4167c9dee180",
+          "modified": false
+        },
+        {
+          "upstreamPath": "skills/scientific-critical-thinking/references/evidence_hierarchy.md",
+          "installedPath": "skills/scientific-critical-thinking/references/evidence_hierarchy.md",
+          "originalSha256": "534fbe991ecfb2d162f755004dc528118ce74a78862917c2911595a522d76e6c",
+          "adaptedSha256": "534fbe991ecfb2d162f755004dc528118ce74a78862917c2911595a522d76e6c",
+          "modified": false
+        },
+        {
+          "upstreamPath": "skills/scientific-critical-thinking/references/experimental_design.md",
+          "installedPath": "skills/scientific-critical-thinking/references/experimental_design.md",
+          "originalSha256": "eca7e42025393984c07676f3d4bc354d217e5604dc2209c76215d31953a7c74c",
+          "adaptedSha256": "eca7e42025393984c07676f3d4bc354d217e5604dc2209c76215d31953a7c74c",
+          "modified": false
+        },
+        {
+          "upstreamPath": "skills/scientific-critical-thinking/references/logical_fallacies.md",
+          "installedPath": "skills/scientific-critical-thinking/references/logical_fallacies.md",
+          "originalSha256": "becfc5bfac7b831dca67cc442cd0fcb42d8eea527a6fc2921c1b704e592ff593",
+          "adaptedSha256": "becfc5bfac7b831dca67cc442cd0fcb42d8eea527a6fc2921c1b704e592ff593",
+          "modified": false
+        },
+        {
+          "upstreamPath": "skills/scientific-critical-thinking/references/review_sources.md",
+          "installedPath": "skills/scientific-critical-thinking/references/review_sources.md",
+          "originalSha256": "71e75106f36f3e69b28959ad1fec503ccdb21b7f5361ab230173e4812accbf62",
+          "adaptedSha256": "71e75106f36f3e69b28959ad1fec503ccdb21b7f5361ab230173e4812accbf62",
+          "modified": false
+        },
+        {
+          "upstreamPath": "skills/scientific-critical-thinking/references/scientific_method.md",
+          "installedPath": "skills/scientific-critical-thinking/references/scientific_method.md",
+          "originalSha256": "5aa925b97c7a916f819dafc8b42a9c24e4bd3eb2836594e724f1e7f9ae75ea0f",
+          "adaptedSha256": "5aa925b97c7a916f819dafc8b42a9c24e4bd3eb2836594e724f1e7f9ae75ea0f",
+          "modified": false
+        },
+        {
+          "upstreamPath": "skills/scientific-critical-thinking/references/statistical_pitfalls.md",
+          "installedPath": "skills/scientific-critical-thinking/references/statistical_pitfalls.md",
+          "originalSha256": "0c43204a0a81110cfeb7c982fa4caa89f274bdcebf096e09e5adfccf31241cb9",
+          "adaptedSha256": "0c43204a0a81110cfeb7c982fa4caa89f274bdcebf096e09e5adfccf31241cb9",
+          "modified": false
+        },
+        {
+          "upstreamPath": "skills/scientific-critical-thinking/SKILL.md",
+          "installedPath": "skills/scientific-critical-thinking/SKILL.md",
+          "originalSha256": "563af70571b7dcd6a96bf2e303bedfdcba623b4e9f082d58f04aacbc961fdae4",
+          "adaptedSha256": "68e4669023dbecd10285b200037523a400cd5ac71a5625530d651ad39c7b5ca0",
+          "modified": true
+        }
+      ]
+    },
+    {
+      "name": "citation-management",
+      "upstreamRepository": "https://github.com/K-Dense-AI/scientific-agent-skills",
+      "upstreamCommit": "154988403bb5a18e9d3c0ce4e6d5e2e4b184a298",
+      "licensePath": "provenance/licenses/K-Dense-MIT.txt",
+      "files": [
+        {
+          "upstreamPath": "skills/citation-management/assets/bibtex_template.bib",
+          "installedPath": "skills/citation-management/assets/bibtex_template.bib",
+          "originalSha256": "08e21647fa68cad1aa1658264798c7d24775ba89bfbd2723ea6bfe4b562e2be1",
+          "adaptedSha256": "08e21647fa68cad1aa1658264798c7d24775ba89bfbd2723ea6bfe4b562e2be1",
+          "modified": false
+        },
+        {
+          "upstreamPath": "skills/citation-management/assets/citation_checklist.md",
+          "installedPath": "skills/citation-management/assets/citation_checklist.md",
+          "originalSha256": "ce7317f2983f8b7fd02949aad726ebd6188319c7e57c929fffe689d5ae18ce36",
+          "adaptedSha256": "ce7317f2983f8b7fd02949aad726ebd6188319c7e57c929fffe689d5ae18ce36",
+          "modified": false
+        },
+        {
+          "upstreamPath": "skills/citation-management/references/api_contracts.md",
+          "installedPath": "skills/citation-management/references/api_contracts.md",
+          "originalSha256": "3e82a14f77133a215831d2627b65c93199589782f6907fc42af3c75f2ab3c5a8",
+          "adaptedSha256": "b4101c790d40c8f7515d0657cb1e9bd3acdb1a74863bfa46158346a0c51a05af",
+          "modified": true
+        },
+        {
+          "upstreamPath": "skills/citation-management/references/best_practices.md",
+          "installedPath": "skills/citation-management/references/best_practices.md",
+          "originalSha256": "df90d19c8f639590a6a430a889160b478dce61f4a5c0a5a36df5ab1be749b6b1",
+          "adaptedSha256": "801aef9988a272dc1b2216d4d377c16b9c6123ccc72194eb6dcb824b90a6e945",
+          "modified": true
+        },
+        {
+          "upstreamPath": "skills/citation-management/references/bibtex_formatting.md",
+          "installedPath": "skills/citation-management/references/bibtex_formatting.md",
+          "originalSha256": "6337a8d2b87de96bf0f72c076feb0fc5d61ed9c342d9c8f19b3633efbfec6fed",
+          "adaptedSha256": "ddcb457b2580c6fdb5d783d05533760bd6a7d545ee4aed063958069dc2440e45",
+          "modified": true
+        },
+        {
+          "upstreamPath": "skills/citation-management/references/citation_validation.md",
+          "installedPath": "skills/citation-management/references/citation_validation.md",
+          "originalSha256": "f235f82e02db282f0abdd23fd8d2973d870d427d355979e869f736259ba95774",
+          "adaptedSha256": "8ab2bbf5132ec5050da1d60b5ffdd73fd808f7f72b658c938bd327a6b587766d",
+          "modified": true
+        },
+        {
+          "upstreamPath": "skills/citation-management/references/core_workflow.md",
+          "installedPath": "skills/citation-management/references/core_workflow.md",
+          "originalSha256": "19e8b52c43f5822163c79904236016616dc4515d21a01d29073d968c9251af8d",
+          "adaptedSha256": "a7f0ec8f6d554479e25b70b19dd21d72e5894e6a28b3bac3049ef3b96305c7c4",
+          "modified": true
+        },
+        {
+          "upstreamPath": "skills/citation-management/references/example_workflows.md",
+          "installedPath": "skills/citation-management/references/example_workflows.md",
+          "originalSha256": "01c0a15e08e8115e10a07623f63565d119812fd2bb68c669eac413db2f9cd482",
+          "adaptedSha256": "1531c0098bc7404d00aae61ed158e01c70a49a41a62d9088bf7bb754d6e81aff",
+          "modified": true
+        },
+        {
+          "upstreamPath": "skills/citation-management/references/google_scholar_search.md",
+          "installedPath": "skills/citation-management/references/google_scholar_search.md",
+          "originalSha256": "5b705ec8d6276ef83b819b737ed10bd991815ccb413de27e046b7bfdf4da8399",
+          "adaptedSha256": "b7a58264900d8db8e3629e44d69f63a7101245fc28359cba8de9cb916820650f",
+          "modified": true
+        },
+        {
+          "upstreamPath": "skills/citation-management/references/metadata_extraction.md",
+          "installedPath": "skills/citation-management/references/metadata_extraction.md",
+          "originalSha256": "68c27886aff0d4efbf3a6f7e0a318dedd706d4cfd0f55dd859466de36ed78d46",
+          "adaptedSha256": "eddf8c40d869707754016b33939f34de5002b0207ed05e8c6543056854a204ec",
+          "modified": true
+        },
+        {
+          "upstreamPath": "skills/citation-management/references/pubmed_search.md",
+          "installedPath": "skills/citation-management/references/pubmed_search.md",
+          "originalSha256": "fab82cda700a0dfc6dccc9465c9cc60b9df68cb58d0bec9abe7b2d8748a49cd1",
+          "adaptedSha256": "d322f5a71babbf34c85d04d5914e8178b70b40f7b5d12d74d787f8aed496c4f3",
+          "modified": true
+        },
+        {
+          "upstreamPath": "skills/citation-management/references/script_reference.md",
+          "installedPath": "skills/citation-management/references/script_reference.md",
+          "originalSha256": "bd23683cb3a7edb932fc5a13bb9215969a834a778a8765eea82553bf1b8b3417",
+          "adaptedSha256": "ef911deaedd23cae59ae417c637671570c55fd612c6711fa732f083f460d521d",
+          "modified": true
+        },
+        {
+          "upstreamPath": "skills/citation-management/references/search_strategies.md",
+          "installedPath": "skills/citation-management/references/search_strategies.md",
+          "originalSha256": "776c0dd1cbaf0432004ae80273640ff324b570401c569413c674829436385c85",
+          "adaptedSha256": "f6bacff032afac757749114680e9a65023105f14e7491a4d05a5a736b08ba207",
+          "modified": true
+        },
+        {
+          "upstreamPath": "skills/citation-management/scripts/_common.py",
+          "installedPath": "skills/citation-management/scripts/_common.py",
+          "originalSha256": "87540160163671b972c2fccb4d0a42db3cca2603c664d26d5da3ca5dbc7dfdd2",
+          "adaptedSha256": "8e11be8fd461d991d8cb846268a597abafb95c98031993d9d35470693c648e12",
+          "modified": true
+        },
+        {
+          "upstreamPath": "skills/citation-management/scripts/doi_to_bibtex.py",
+          "installedPath": "skills/citation-management/scripts/doi_to_bibtex.py",
+          "originalSha256": "1b7d1ab2e8bf9bcf5a7d49bf45496e0f8b7d8e0d0cda8efd8fce4e527082dc4b",
+          "adaptedSha256": "12fe1d1a134ca3301fe39dc58decd28f4444bba4e7cb6e7583e7de25d8a7c850",
+          "modified": true
+        },
+        {
+          "upstreamPath": "skills/citation-management/scripts/extract_metadata.py",
+          "installedPath": "skills/citation-management/scripts/extract_metadata.py",
+          "originalSha256": "bebc7835b5e659cdeee0087980e881635894330bac5eda4ce01f490fd41df781",
+          "adaptedSha256": "3e683c0aab1eb1d1d15fd0e28da6388083edf92fde55c8bfaeea0f121c8ef7f2",
+          "modified": true
+        },
+        {
+          "upstreamPath": "skills/citation-management/scripts/format_bibtex.py",
+          "installedPath": "skills/citation-management/scripts/format_bibtex.py",
+          "originalSha256": "cc74fdc4d5819df8db3999e59f96469cebfb353ecf406a49a5a0fc60896707cb",
+          "adaptedSha256": "434cc27e402cf02e2429b2fbc4f0c6c1106a3e403b7971dfc74da9e39774416f",
+          "modified": true
+        },
+        {
+          "upstreamPath": "skills/citation-management/scripts/search_google_scholar.py",
+          "installedPath": "skills/citation-management/scripts/search_google_scholar.py",
+          "originalSha256": "05cfd67aea6475029d017f1b4ff68e7ba727e1fa9b52f1e614c80287940b4985",
+          "adaptedSha256": "2c1fb45bff3a69ae780bfc0baecc81d202afdeef6a6a69eb62472e1af479a7a3",
+          "modified": true
+        },
+        {
+          "upstreamPath": "skills/citation-management/scripts/search_openalex.py",
+          "installedPath": "skills/citation-management/scripts/search_openalex.py",
+          "originalSha256": "538b2f086625fd1e9a2cb2fe8bd46ee852d888f17d2d1e889b8f50592594f693",
+          "adaptedSha256": "39d4aa13be6d4ee6cd350222cd40cb6a8827f507cf5a7bc3f9ddb43e4af08526",
+          "modified": true
+        },
+        {
+          "upstreamPath": "skills/citation-management/scripts/search_pubmed.py",
+          "installedPath": "skills/citation-management/scripts/search_pubmed.py",
+          "originalSha256": "4543b74bf773747bae47a2bbb18acf2a4a050071119d88d1711db6049d157116",
+          "adaptedSha256": "9f6230e47e47d216f07e57217cddb52e629bb2d5204fe1848360633b2ad29b5f",
+          "modified": true
+        },
+        {
+          "upstreamPath": "skills/citation-management/scripts/validate_citations.py",
+          "installedPath": "skills/citation-management/scripts/validate_citations.py",
+          "originalSha256": "a08e8e0774287e9aca2bd87c3a66cd3dfc751018eafb6cdee37987e3f416d2b5",
+          "adaptedSha256": "6c0884d4cb5323450c51ba450286a1923e5fe34884f8181af38076daae1d1a26",
+          "modified": true
+        },
+        {
+          "upstreamPath": "skills/citation-management/SKILL.md",
+          "installedPath": "skills/citation-management/SKILL.md",
+          "originalSha256": "dc79fe1e8438dcf598040615d5323360c6a7ed0b868fc3ffc82512c871a1e3ff",
+          "adaptedSha256": "eadd90083984359b130ee979653fa5c3ce2ab8f637ef1c14c02c20656e0686fb",
+          "modified": true
+        }
+      ]
+    },
+    {
+      "name": "experimental-design",
+      "upstreamRepository": "https://github.com/K-Dense-AI/scientific-agent-skills",
+      "upstreamCommit": "154988403bb5a18e9d3c0ce4e6d5e2e4b184a298",
+      "licensePath": "provenance/licenses/K-Dense-MIT.txt",
+      "files": [
+        {
+          "upstreamPath": "skills/experimental-design/references/design_types.md",
+          "installedPath": "skills/experimental-design/references/design_types.md",
+          "originalSha256": "1f36f14160bc9895773a2922402869202866410c9130f2b32c5a54e5f5a6e71b",
+          "adaptedSha256": "1f36f14160bc9895773a2922402869202866410c9130f2b32c5a54e5f5a6e71b",
+          "modified": false
+        },
+        {
+          "upstreamPath": "skills/experimental-design/references/factorial_and_doe.md",
+          "installedPath": "skills/experimental-design/references/factorial_and_doe.md",
+          "originalSha256": "a59fa2279c439c096a66955b4923ad68c00d6046570665e6f6d36e807fa1de63",
+          "adaptedSha256": "a59fa2279c439c096a66955b4923ad68c00d6046570665e6f6d36e807fa1de63",
+          "modified": false
+        },
+        {
+          "upstreamPath": "skills/experimental-design/references/randomization_and_blocking.md",
+          "installedPath": "skills/experimental-design/references/randomization_and_blocking.md",
+          "originalSha256": "fabcfae913397fb8c3018b959b67ddf8fe47322b40cbf4155d898fa11738e9ae",
+          "adaptedSha256": "fabcfae913397fb8c3018b959b67ddf8fe47322b40cbf4155d898fa11738e9ae",
+          "modified": false
+        },
+        {
+          "upstreamPath": "skills/experimental-design/references/sequential_and_adaptive.md",
+          "installedPath": "skills/experimental-design/references/sequential_and_adaptive.md",
+          "originalSha256": "83085e2cde0942de23670d3aabb30768fb576a6aa99c2e4ac6f7790b00977051",
+          "adaptedSha256": "83085e2cde0942de23670d3aabb30768fb576a6aa99c2e4ac6f7790b00977051",
+          "modified": false
+        },
+        {
+          "upstreamPath": "skills/experimental-design/scripts/doe_designs.py",
+          "installedPath": "skills/experimental-design/scripts/doe_designs.py",
+          "originalSha256": "916996b5e6a5dbb9a408aa1e755a95800af70231e46d12c8c5efddb9e3e30683",
+          "adaptedSha256": "916996b5e6a5dbb9a408aa1e755a95800af70231e46d12c8c5efddb9e3e30683",
+          "modified": false
+        },
+        {
+          "upstreamPath": "skills/experimental-design/scripts/randomization.py",
+          "installedPath": "skills/experimental-design/scripts/randomization.py",
+          "originalSha256": "c7c2eab469618a4b27548058b924ec3f4aafaf635d3797af920b9058e700bce4",
+          "adaptedSha256": "c7c2eab469618a4b27548058b924ec3f4aafaf635d3797af920b9058e700bce4",
+          "modified": false
+        },
+        {
+          "upstreamPath": "skills/experimental-design/SKILL.md",
+          "installedPath": "skills/experimental-design/SKILL.md",
+          "originalSha256": "db2de0f3d29b7729776a91e923c9c83801298f5ad8e88fe44570045fbefcc248",
+          "adaptedSha256": "4ccd199198d05c0094c87f4d18daba1827c6d9841cf85f022d38ac6832e0f326",
+          "modified": true
+        }
+      ]
+    },
+    {
+      "name": "statistical-analysis",
+      "upstreamRepository": "https://github.com/K-Dense-AI/scientific-agent-skills",
+      "upstreamCommit": "154988403bb5a18e9d3c0ce4e6d5e2e4b184a298",
+      "licensePath": "provenance/licenses/K-Dense-MIT.txt",
+      "files": [
+        {
+          "upstreamPath": "skills/statistical-analysis/references/assumptions_and_diagnostics.md",
+          "installedPath": "skills/statistical-analysis/references/assumptions_and_diagnostics.md",
+          "originalSha256": "6e1ebc110c092845b93e5c6d28f38c8a990780105ba1865f0bd47c007620b073",
+          "adaptedSha256": "6e1ebc110c092845b93e5c6d28f38c8a990780105ba1865f0bd47c007620b073",
+          "modified": false
+        },
+        {
+          "upstreamPath": "skills/statistical-analysis/references/bayesian_statistics.md",
+          "installedPath": "skills/statistical-analysis/references/bayesian_statistics.md",
+          "originalSha256": "34d62e1b20dd82a11497be40e07c93e4fdb555d56e4944e200f881c1b7629cbf",
+          "adaptedSha256": "34d62e1b20dd82a11497be40e07c93e4fdb555d56e4944e200f881c1b7629cbf",
+          "modified": false
+        },
+        {
+          "upstreamPath": "skills/statistical-analysis/references/effect_sizes_and_power.md",
+          "installedPath": "skills/statistical-analysis/references/effect_sizes_and_power.md",
+          "originalSha256": "5e1321c9058b2931a1bd2a753c7a8f4295f58274412d62e99a34eabd478e42b2",
+          "adaptedSha256": "5e1321c9058b2931a1bd2a753c7a8f4295f58274412d62e99a34eabd478e42b2",
+          "modified": false
+        },
+        {
+          "upstreamPath": "skills/statistical-analysis/references/reporting_standards.md",
+          "installedPath": "skills/statistical-analysis/references/reporting_standards.md",
+          "originalSha256": "0a30a1bec63231c94c9c285977acaa4218c50a34c8385857d18f62c61ac817b7",
+          "adaptedSha256": "0a30a1bec63231c94c9c285977acaa4218c50a34c8385857d18f62c61ac817b7",
+          "modified": false
+        },
+        {
+          "upstreamPath": "skills/statistical-analysis/references/test_selection_guide.md",
+          "installedPath": "skills/statistical-analysis/references/test_selection_guide.md",
+          "originalSha256": "e72e00b6ebe9450e5e84849503db223c4908a8d9a68c3b87cf0ab8ec3254fe83",
+          "adaptedSha256": "e72e00b6ebe9450e5e84849503db223c4908a8d9a68c3b87cf0ab8ec3254fe83",
+          "modified": false
+        },
+        {
+          "upstreamPath": "skills/statistical-analysis/scripts/assumption_checks.py",
+          "installedPath": "skills/statistical-analysis/scripts/assumption_checks.py",
+          "originalSha256": "3e37a4e04407b5f040f103962ed0e73935d114d3892ee45b5a06a1da42c10341",
+          "adaptedSha256": "3e37a4e04407b5f040f103962ed0e73935d114d3892ee45b5a06a1da42c10341",
+          "modified": false
+        },
+        {
+          "upstreamPath": "skills/statistical-analysis/SKILL.md",
+          "installedPath": "skills/statistical-analysis/SKILL.md",
+          "originalSha256": "e112848726b3713267cac65e4e2c15491a0a26ee1ed628db01195f7e43f97997",
+          "adaptedSha256": "2c7b4a70093b38423a6c643ddbc86224752af6edd6c605ad2a12376bf61ef106",
+          "modified": true
+        }
+      ]
+    },
+    {
+      "name": "scientific-visualization",
+      "upstreamRepository": "https://github.com/K-Dense-AI/scientific-agent-skills",
+      "upstreamCommit": "154988403bb5a18e9d3c0ce4e6d5e2e4b184a298",
+      "licensePath": "provenance/licenses/K-Dense-MIT.txt",
+      "files": [
+        {
+          "upstreamPath": "skills/scientific-visualization/assets/color_palettes.py",
+          "installedPath": "skills/scientific-visualization/assets/color_palettes.py",
+          "originalSha256": "98ee4aa4b9bbb010996d55144ea6bf45a0ab294009b9bb0ef6d9c5ec9fed5154",
+          "adaptedSha256": "98ee4aa4b9bbb010996d55144ea6bf45a0ab294009b9bb0ef6d9c5ec9fed5154",
+          "modified": false
+        },
+        {
+          "upstreamPath": "skills/scientific-visualization/assets/nature.mplstyle",
+          "installedPath": "skills/scientific-visualization/assets/nature.mplstyle",
+          "originalSha256": "f37a361cdda8846da0794fd879cc8173402094f110239d57e0227fdd8299a4f6",
+          "adaptedSha256": "f37a361cdda8846da0794fd879cc8173402094f110239d57e0227fdd8299a4f6",
+          "modified": false
+        },
+        {
+          "upstreamPath": "skills/scientific-visualization/assets/presentation.mplstyle",
+          "installedPath": "skills/scientific-visualization/assets/presentation.mplstyle",
+          "originalSha256": "d0e5a768e5965aa3893b12c0f7decd4c3b09502044391a840ebdee37dfea44da",
+          "adaptedSha256": "d0e5a768e5965aa3893b12c0f7decd4c3b09502044391a840ebdee37dfea44da",
+          "modified": false
+        },
+        {
+          "upstreamPath": "skills/scientific-visualization/assets/publication.mplstyle",
+          "installedPath": "skills/scientific-visualization/assets/publication.mplstyle",
+          "originalSha256": "eba3001f346649a9e41d9ac1d56101abbae10aefecdad3be9530f4c9cd9269b3",
+          "adaptedSha256": "eba3001f346649a9e41d9ac1d56101abbae10aefecdad3be9530f4c9cd9269b3",
+          "modified": false
+        },
+        {
+          "upstreamPath": "skills/scientific-visualization/assets/publisher_profiles.json",
+          "installedPath": "skills/scientific-visualization/assets/publisher_profiles.json",
+          "originalSha256": "1e1b1b5a4e0e3dfc57877f2abf1e96888fe6b65617234b078f193b8f76e0ebe9",
+          "adaptedSha256": "1e1b1b5a4e0e3dfc57877f2abf1e96888fe6b65617234b078f193b8f76e0ebe9",
+          "modified": false
+        },
+        {
+          "upstreamPath": "skills/scientific-visualization/references/color_palettes.md",
+          "installedPath": "skills/scientific-visualization/references/color_palettes.md",
+          "originalSha256": "c9b6a596dd1dd1e08050fdcbb304a0268ee515bce2120a9bbd3fba31cd7fa119",
+          "adaptedSha256": "c9b6a596dd1dd1e08050fdcbb304a0268ee515bce2120a9bbd3fba31cd7fa119",
+          "modified": false
+        },
+        {
+          "upstreamPath": "skills/scientific-visualization/references/journal_requirements.md",
+          "installedPath": "skills/scientific-visualization/references/journal_requirements.md",
+          "originalSha256": "f7c4b6660eb70f7c5778d13908409e1dc690f00e3dfc8314f430feb89781740c",
+          "adaptedSha256": "f7c4b6660eb70f7c5778d13908409e1dc690f00e3dfc8314f430feb89781740c",
+          "modified": false
+        },
+        {
+          "upstreamPath": "skills/scientific-visualization/references/matplotlib_examples.md",
+          "installedPath": "skills/scientific-visualization/references/matplotlib_examples.md",
+          "originalSha256": "74fd5977ce57b09b476285309559bbcbe3b1748943b719844b28a6b61378c041",
+          "adaptedSha256": "74fd5977ce57b09b476285309559bbcbe3b1748943b719844b28a6b61378c041",
+          "modified": false
+        },
+        {
+          "upstreamPath": "skills/scientific-visualization/references/publication_guidelines.md",
+          "installedPath": "skills/scientific-visualization/references/publication_guidelines.md",
+          "originalSha256": "5f70c6b22dbb5e0fae18b0f1197b8794896bf7afc059874bcf7afbd5aa86bbe5",
+          "adaptedSha256": "5f70c6b22dbb5e0fae18b0f1197b8794896bf7afc059874bcf7afbd5aa86bbe5",
+          "modified": false
+        },
+        {
+          "upstreamPath": "skills/scientific-visualization/references/sources.md",
+          "installedPath": "skills/scientific-visualization/references/sources.md",
+          "originalSha256": "3ff34759c0fed3baf33286a8005fd81f0c3466a554c8b0d45f43ad30b1e5b505",
+          "adaptedSha256": "3ff34759c0fed3baf33286a8005fd81f0c3466a554c8b0d45f43ad30b1e5b505",
+          "modified": false
+        },
+        {
+          "upstreamPath": "skills/scientific-visualization/scripts/_common.py",
+          "installedPath": "skills/scientific-visualization/scripts/_common.py",
+          "originalSha256": "e4eea2c2e5f5d8cfa544c6bed152cdb88a3d7c7952df99bcd74b45077fd6f707",
+          "adaptedSha256": "cad061708f28d7027a701d306b22154fa331c6305dbf3ed26fa605796e3e4db7",
+          "modified": true
+        },
+        {
+          "upstreamPath": "skills/scientific-visualization/scripts/export_plan.py",
+          "installedPath": "skills/scientific-visualization/scripts/export_plan.py",
+          "originalSha256": "c20962bf4c624b9939c80bd16815fc0a18fe2be285f0654a6a53704c663add0e",
+          "adaptedSha256": "62756f5563e63ff075cf1d725c1e60e475f5af10cd3942c1162534ddd3d2dda4",
+          "modified": true
+        },
+        {
+          "upstreamPath": "skills/scientific-visualization/scripts/figure_export.py",
+          "installedPath": "skills/scientific-visualization/scripts/figure_export.py",
+          "originalSha256": "fe9c77878da61297ce55224b67282d128631deb628d930aa1929c9eb7330bf79",
+          "adaptedSha256": "3f24a2a54548bfda6c6334a59a9bdc0b62ab52dbfef6eae75b5c12cfd1fda6fe",
+          "modified": true
+        },
+        {
+          "upstreamPath": "skills/scientific-visualization/scripts/image_metadata.py",
+          "installedPath": "skills/scientific-visualization/scripts/image_metadata.py",
+          "originalSha256": "45f79cefd99b8e5dabcbfd1a29b7346363f383411cc43540bf9f73e67fed634e",
+          "adaptedSha256": "b806542f5b67854e389999b9983757058dc470ffd00121f33e1d4f668d5c316d",
+          "modified": true
+        },
+        {
+          "upstreamPath": "skills/scientific-visualization/scripts/palette_audit.py",
+          "installedPath": "skills/scientific-visualization/scripts/palette_audit.py",
+          "originalSha256": "3a90b3c9a4a39dde6a341dc3de7b99cd2bca4773c66564fc90cdc2706a5a8165",
+          "adaptedSha256": "3a90b3c9a4a39dde6a341dc3de7b99cd2bca4773c66564fc90cdc2706a5a8165",
+          "modified": false
+        },
+        {
+          "upstreamPath": "skills/scientific-visualization/scripts/style_presets.py",
+          "installedPath": "skills/scientific-visualization/scripts/style_presets.py",
+          "originalSha256": "8413cfae7f2cbc4a5dd9d4301d74b051fd8eb0c7a4b3375ae59e1da91db3a985",
+          "adaptedSha256": "7ff8ee820909aafd5f4059ef2854790e590da5e916c88e79a91191c687cc4836",
+          "modified": true
+        },
+        {
+          "upstreamPath": "skills/scientific-visualization/scripts/style_preview.py",
+          "installedPath": "skills/scientific-visualization/scripts/style_preview.py",
+          "originalSha256": "ca14e714dc2fb32541ff80292db97b3acbac074a65c4f2fb290f38354f880ba7",
+          "adaptedSha256": "ca14e714dc2fb32541ff80292db97b3acbac074a65c4f2fb290f38354f880ba7",
+          "modified": false
+        },
+        {
+          "upstreamPath": "skills/scientific-visualization/SKILL.md",
+          "installedPath": "skills/scientific-visualization/SKILL.md",
+          "originalSha256": "8cbde7cdc10d959cf72cfd08335cc8ce996247eee6ebdb900eb64a4cb0ff34a3",
+          "adaptedSha256": "79c1cea7112875e29f7eba3a40ee2f57ab30c7806e1554a14d816fe9c25605b6",
+          "modified": true
+        }
+      ]
+    },
+    {
+      "name": "nature-writing",
+      "upstreamRepository": "https://github.com/Yuan1z0825/nature-skills",
+      "upstreamCommit": "84880815fb37317b3766bff2c2abba395b8993c3",
+      "licensePath": "provenance/licenses/Nature-Apache-2.0.txt",
+      "files": [
+        {
+          "upstreamPath": "skills/nature-writing/agents/openai.yaml",
+          "installedPath": "skills/nature-writing/agents/openai.yaml",
+          "originalSha256": "35275439e4108cea510a750d1368b017fe1b3e88cc8f341475f1478e3090f79c",
+          "adaptedSha256": "35275439e4108cea510a750d1368b017fe1b3e88cc8f341475f1478e3090f79c",
+          "modified": false
+        },
+        {
+          "upstreamPath": "skills/nature-writing/manifest.yaml",
+          "installedPath": "skills/nature-writing/manifest.yaml",
+          "originalSha256": "91004af376547a51b033e7e7aeab9fd81eb1fa727995afb9e8823a844e32925a",
+          "adaptedSha256": "979abdbf79a3f352815b113272a985deb7d55ee27c0fae0c1ec69ff2b0659037",
+          "modified": true
+        },
+        {
+          "upstreamPath": "skills/nature-writing/README.md",
+          "installedPath": "skills/nature-writing/README.md",
+          "originalSha256": "8e2b300189ba2fb33e849ac2c9299a903ffb4da3b2629e55736904925671e813",
+          "adaptedSha256": "8e2b300189ba2fb33e849ac2c9299a903ffb4da3b2629e55736904925671e813",
+          "modified": false
+        },
+        {
+          "upstreamPath": "skills/nature-writing/README_EN.md",
+          "installedPath": "skills/nature-writing/README_EN.md",
+          "originalSha256": "f491a275177ef2560c1a17b24085d568ec05cecb9766824e3f4c5813a96ad44d",
+          "adaptedSha256": "f491a275177ef2560c1a17b24085d568ec05cecb9766824e3f4c5813a96ad44d",
+          "modified": false
+        },
+        {
+          "upstreamPath": "skills/nature-writing/references/abstract.md",
+          "installedPath": "skills/nature-writing/references/abstract.md",
+          "originalSha256": "b639c44ada14a644a2823f16c9e7efa513525f8c9666357e8ccb33a136c7ed1e",
+          "adaptedSha256": "b639c44ada14a644a2823f16c9e7efa513525f8c9666357e8ccb33a136c7ed1e",
+          "modified": false
+        },
+        {
+          "upstreamPath": "skills/nature-writing/references/article-architecture.md",
+          "installedPath": "skills/nature-writing/references/article-architecture.md",
+          "originalSha256": "fc57ff3e8152ddd1d4eb72eb1f062c4a048a13cedac135b21ea32baee0c34ba9",
+          "adaptedSha256": "fc57ff3e8152ddd1d4eb72eb1f062c4a048a13cedac135b21ea32baee0c34ba9",
+          "modified": false
+        },
+        {
+          "upstreamPath": "skills/nature-writing/references/chinese-author-workflow.md",
+          "installedPath": "skills/nature-writing/references/chinese-author-workflow.md",
+          "originalSha256": "42fc1cb975d94d1ecdb8901fb6f6e727ca321379b0faa3745d4814c0b1268bf1",
+          "adaptedSha256": "42fc1cb975d94d1ecdb8901fb6f6e727ca321379b0faa3745d4814c0b1268bf1",
+          "modified": false
+        },
+        {
+          "upstreamPath": "skills/nature-writing/references/conclusion.md",
+          "installedPath": "skills/nature-writing/references/conclusion.md",
+          "originalSha256": "64de66f24ceb42ff5cefb4498a8bd16f595661bbaa604d9cde6e743b39dab9c6",
+          "adaptedSha256": "64de66f24ceb42ff5cefb4498a8bd16f595661bbaa604d9cde6e743b39dab9c6",
+          "modified": false
+        },
+        {
+          "upstreamPath": "skills/nature-writing/references/examples/abstract/template-a.md",
+          "installedPath": "skills/nature-writing/references/examples/abstract/template-a.md",
+          "originalSha256": "c4cec6346be6d76350bfacea36c1abad5bce669e810f7facc2c884b664a8d83e",
+          "adaptedSha256": "c4cec6346be6d76350bfacea36c1abad5bce669e810f7facc2c884b664a8d83e",
+          "modified": false
+        },
+        {
+          "upstreamPath": "skills/nature-writing/references/examples/abstract/template-b.md",
+          "installedPath": "skills/nature-writing/references/examples/abstract/template-b.md",
+          "originalSha256": "dc41e8d5206fca72dd41b2cd188ec447b7735b54c164b6da1785bd88c2e0b78d",
+          "adaptedSha256": "dc41e8d5206fca72dd41b2cd188ec447b7735b54c164b6da1785bd88c2e0b78d",
+          "modified": false
+        },
+        {
+          "upstreamPath": "skills/nature-writing/references/examples/abstract/template-c.md",
+          "installedPath": "skills/nature-writing/references/examples/abstract/template-c.md",
+          "originalSha256": "4f6269a1b1ad47055eb4287cdd0410ea1d1d1198dbf02d74671f50d3fa0d1447",
+          "adaptedSha256": "4f6269a1b1ad47055eb4287cdd0410ea1d1d1198dbf02d74671f50d3fa0d1447",
+          "modified": false
+        },
+        {
+          "upstreamPath": "skills/nature-writing/references/examples/abstract-examples.md",
+          "installedPath": "skills/nature-writing/references/examples/abstract-examples.md",
+          "originalSha256": "8228ce8ec4a35b8339bcb439c4292bb2d678e5be17af2ef1d7631d03ebf40010",
+          "adaptedSha256": "8228ce8ec4a35b8339bcb439c4292bb2d678e5be17af2ef1d7631d03ebf40010",
+          "modified": false
+        },
+        {
+          "upstreamPath": "skills/nature-writing/references/examples/index.md",
+          "installedPath": "skills/nature-writing/references/examples/index.md",
+          "originalSha256": "8652823627fd0f56a5e2be3eff192dcc5925f482380d7b45321cd9cfc6ba4b03",
+          "adaptedSha256": "8652823627fd0f56a5e2be3eff192dcc5925f482380d7b45321cd9cfc6ba4b03",
+          "modified": false
+        },
+        {
+          "upstreamPath": "skills/nature-writing/references/examples/introduction/novel-task-challenge-decomposition.md",
+          "installedPath": "skills/nature-writing/references/examples/introduction/novel-task-challenge-decomposition.md",
+          "originalSha256": "5613ddd24911efde77aaf35a7ff883a9ef886b99b9863782aeec426282cd286c",
+          "adaptedSha256": "5613ddd24911efde77aaf35a7ff883a9ef886b99b9863782aeec426282cd286c",
+          "modified": false
+        },
+        {
+          "upstreamPath": "skills/nature-writing/references/examples/introduction/pipeline-not-recommended-abstract-only.md",
+          "installedPath": "skills/nature-writing/references/examples/introduction/pipeline-not-recommended-abstract-only.md",
+          "originalSha256": "33ab449b0eadc7cc968c0ff4cddcc4538811d2abc2a0497ebca15c629da80cd2",
+          "adaptedSha256": "33ab449b0eadc7cc968c0ff4cddcc4538811d2abc2a0497ebca15c629da80cd2",
+          "modified": false
+        },
+        {
+          "upstreamPath": "skills/nature-writing/references/examples/introduction/pipeline-version-1-one-contribution-multi-advantages.md",
+          "installedPath": "skills/nature-writing/references/examples/introduction/pipeline-version-1-one-contribution-multi-advantages.md",
+          "originalSha256": "a39b95c76a19f7fd214048dd2e8861d825495662b9144529326abc4ab94c7f23",
+          "adaptedSha256": "a39b95c76a19f7fd214048dd2e8861d825495662b9144529326abc4ab94c7f23",
+          "modified": false
+        },
+        {
+          "upstreamPath": "skills/nature-writing/references/examples/introduction/pipeline-version-2-two-contributions.md",
+          "installedPath": "skills/nature-writing/references/examples/introduction/pipeline-version-2-two-contributions.md",
+          "originalSha256": "fc6d13cfdd6e69b9bf7238e86f400e7d120d35c053718a56ae9faf442f0e86f1",
+          "adaptedSha256": "fc6d13cfdd6e69b9bf7238e86f400e7d120d35c053718a56ae9faf442f0e86f1",
+          "modified": false
+        },
+        {
+          "upstreamPath": "skills/nature-writing/references/examples/introduction/pipeline-version-3-new-module-on-existing-pipeline.md",
+          "installedPath": "skills/nature-writing/references/examples/introduction/pipeline-version-3-new-module-on-existing-pipeline.md",
+          "originalSha256": "71fe9465e12602517ca47a693572bd7db0c08b7cd046ae1c55ec88ba679e1d49",
+          "adaptedSha256": "71fe9465e12602517ca47a693572bd7db0c08b7cd046ae1c55ec88ba679e1d49",
+          "modified": false
+        },
+        {
+          "upstreamPath": "skills/nature-writing/references/examples/introduction/pipeline-version-4-observation-driven.md",
+          "installedPath": "skills/nature-writing/references/examples/introduction/pipeline-version-4-observation-driven.md",
+          "originalSha256": "f5e59e8c578cd3996870c3863ac1f2ce503fe74ec76c909a66a9cb9100020e70",
+          "adaptedSha256": "f5e59e8c578cd3996870c3863ac1f2ce503fe74ec76c909a66a9cb9100020e70",
+          "modified": false
+        },
+        {
+          "upstreamPath": "skills/nature-writing/references/examples/introduction/technical-challenge-version-1-existing-task.md",
+          "installedPath": "skills/nature-writing/references/examples/introduction/technical-challenge-version-1-existing-task.md",
+          "originalSha256": "470195180f159d7f240409c0685a927fea21c82ed7d7c766a03b76ed3765e276",
+          "adaptedSha256": "470195180f159d7f240409c0685a927fea21c82ed7d7c766a03b76ed3765e276",
+          "modified": false
+        },
+        {
+          "upstreamPath": "skills/nature-writing/references/examples/introduction/technical-challenge-version-2-existing-task-insight-backed-by-traditional.md",
+          "installedPath": "skills/nature-writing/references/examples/introduction/technical-challenge-version-2-existing-task-insight-backed-by-traditional.md",
+          "originalSha256": "b90e9edf376f9dc2cac1fcbe9174b8878a090763dac08302a301c8b743301b1f",
+          "adaptedSha256": "b90e9edf376f9dc2cac1fcbe9174b8878a090763dac08302a301c8b743301b1f",
+          "modified": false
+        },
+        {
+          "upstreamPath": "skills/nature-writing/references/examples/introduction/technical-challenge-version-3-novel-task.md",
+          "installedPath": "skills/nature-writing/references/examples/introduction/technical-challenge-version-3-novel-task.md",
+          "originalSha256": "3b3b58cc0cffe2e1ae1e192b2344223924f9dfb880eeae3c955e09cd923269ef",
+          "adaptedSha256": "3b3b58cc0cffe2e1ae1e192b2344223924f9dfb880eeae3c955e09cd923269ef",
+          "modified": false
+        },
+        {
+          "upstreamPath": "skills/nature-writing/references/examples/introduction/version-1-task-then-application.md",
+          "installedPath": "skills/nature-writing/references/examples/introduction/version-1-task-then-application.md",
+          "originalSha256": "d9296f2f23e8589e068a06fd063d2b9291b30b630ffeac19f0cf0290fde52284",
+          "adaptedSha256": "d9296f2f23e8589e068a06fd063d2b9291b30b630ffeac19f0cf0290fde52284",
+          "modified": false
+        },
+        {
+          "upstreamPath": "skills/nature-writing/references/examples/introduction/version-2-application-first.md",
+          "installedPath": "skills/nature-writing/references/examples/introduction/version-2-application-first.md",
+          "originalSha256": "3f57603bd5fd56bc185a3d78f12edc43bd202e2593b01d1bda943f3745af7ea5",
+          "adaptedSha256": "3f57603bd5fd56bc185a3d78f12edc43bd202e2593b01d1bda943f3745af7ea5",
+          "modified": false
+        },
+        {
+          "upstreamPath": "skills/nature-writing/references/examples/introduction/version-3-general-to-specific-setting.md",
+          "installedPath": "skills/nature-writing/references/examples/introduction/version-3-general-to-specific-setting.md",
+          "originalSha256": "0afbf79dd9c47e65ec0d9debf08c701838b5398327a0864b8f8a0421ea786a2a",
+          "adaptedSha256": "0afbf79dd9c47e65ec0d9debf08c701838b5398327a0864b8f8a0421ea786a2a",
+          "modified": false
+        },
+        {
+          "upstreamPath": "skills/nature-writing/references/examples/introduction/version-4-open-with-challenge.md",
+          "installedPath": "skills/nature-writing/references/examples/introduction/version-4-open-with-challenge.md",
+          "originalSha256": "974379058c3d5448bbb95ad989b68564ede2dc7e262f4b9bb82820058ad098b1",
+          "adaptedSha256": "974379058c3d5448bbb95ad989b68564ede2dc7e262f4b9bb82820058ad098b1",
+          "modified": false
+        },
+        {
+          "upstreamPath": "skills/nature-writing/references/examples/introduction-examples.md",
+          "installedPath": "skills/nature-writing/references/examples/introduction-examples.md",
+          "originalSha256": "0fb5b62e4353f71e586f8873881d2a60a86ad756e02bd0e7ef626dcafa0e5d71",
+          "adaptedSha256": "0fb5b62e4353f71e586f8873881d2a60a86ad756e02bd0e7ef626dcafa0e5d71",
+          "modified": false
+        },
+        {
+          "upstreamPath": "skills/nature-writing/references/examples/method/example-of-the-three-elements.md",
+          "installedPath": "skills/nature-writing/references/examples/method/example-of-the-three-elements.md",
+          "originalSha256": "a08a1201e6b4a9629262e16827b8d95e62eeee97f6117a1d97659a37200a4dea",
+          "adaptedSha256": "a08a1201e6b4a9629262e16827b8d95e62eeee97f6117a1d97659a37200a4dea",
+          "modified": false
+        },
+        {
+          "upstreamPath": "skills/nature-writing/references/examples/method/method-writing-common-issues-note.md",
+          "installedPath": "skills/nature-writing/references/examples/method/method-writing-common-issues-note.md",
+          "originalSha256": "265ca143a785401c29d754d022e761aca41cce7f17db316a3a12cf2e35b5bfa9",
+          "adaptedSha256": "265ca143a785401c29d754d022e761aca41cce7f17db316a3a12cf2e35b5bfa9",
+          "modified": false
+        },
+        {
+          "upstreamPath": "skills/nature-writing/references/examples/method/module-design-instant-ngp.md",
+          "installedPath": "skills/nature-writing/references/examples/method/module-design-instant-ngp.md",
+          "originalSha256": "a7c72221545e83d05b3becc4209b9fec71188a9a758434aa1ae3c4bc673e1dad",
+          "adaptedSha256": "a7c72221545e83d05b3becc4209b9fec71188a9a758434aa1ae3c4bc673e1dad",
+          "modified": false
+        },
+        {
+          "upstreamPath": "skills/nature-writing/references/examples/method/module-motivation-patterns.md",
+          "installedPath": "skills/nature-writing/references/examples/method/module-motivation-patterns.md",
+          "originalSha256": "0d1476b9e31662ecd135eec0ec70bc959f91235622e874e2a1e12a5234d195ce",
+          "adaptedSha256": "0d1476b9e31662ecd135eec0ec70bc959f91235622e874e2a1e12a5234d195ce",
+          "modified": false
+        },
+        {
+          "upstreamPath": "skills/nature-writing/references/examples/method/module-triad-neural-body.md",
+          "installedPath": "skills/nature-writing/references/examples/method/module-triad-neural-body.md",
+          "originalSha256": "eabc41af8b001bcab30bc8373bb44b798ab0a21d32045d01d6b672d49c1ed76f",
+          "adaptedSha256": "eabc41af8b001bcab30bc8373bb44b798ab0a21d32045d01d6b672d49c1ed76f",
+          "modified": false
+        },
+        {
+          "upstreamPath": "skills/nature-writing/references/examples/method/neural-body-annotated-figure-text.md",
+          "installedPath": "skills/nature-writing/references/examples/method/neural-body-annotated-figure-text.md",
+          "originalSha256": "f671d284186011497291fcec22dadd1dabe835f60fb97dc607cfa0246d08b6be",
+          "adaptedSha256": "f671d284186011497291fcec22dadd1dabe835f60fb97dc607cfa0246d08b6be",
+          "modified": false
+        },
+        {
+          "upstreamPath": "skills/nature-writing/references/examples/method/overview-template.md",
+          "installedPath": "skills/nature-writing/references/examples/method/overview-template.md",
+          "originalSha256": "3328ea5b1100e8068bfd94455486a5934d55a888bf0095df727eef9ec7eadf93",
+          "adaptedSha256": "3328ea5b1100e8068bfd94455486a5934d55a888bf0095df727eef9ec7eadf93",
+          "modified": false
+        },
+        {
+          "upstreamPath": "skills/nature-writing/references/examples/method/pre-writing-questions.md",
+          "installedPath": "skills/nature-writing/references/examples/method/pre-writing-questions.md",
+          "originalSha256": "b6466d5d6fbe8785a45a0b67134c9c08a0d8b3e14f2e17db2f2fe3a2053b3c69",
+          "adaptedSha256": "b6466d5d6fbe8785a45a0b67134c9c08a0d8b3e14f2e17db2f2fe3a2053b3c69",
+          "modified": false
+        },
+        {
+          "upstreamPath": "skills/nature-writing/references/examples/method/section-skeleton.md",
+          "installedPath": "skills/nature-writing/references/examples/method/section-skeleton.md",
+          "originalSha256": "e437a48be1e608bed3200844e1033b8b9da900aa1e4512dccb80f778e6fe0590",
+          "adaptedSha256": "e437a48be1e608bed3200844e1033b8b9da900aa1e4512dccb80f778e6fe0590",
+          "modified": false
+        },
+        {
+          "upstreamPath": "skills/nature-writing/references/examples/method-examples.md",
+          "installedPath": "skills/nature-writing/references/examples/method-examples.md",
+          "originalSha256": "8a8499c32096fbdf9baac6d00d71df750fba2909d29a0bc37e559ebd02d10210",
+          "adaptedSha256": "8a8499c32096fbdf9baac6d00d71df750fba2909d29a0bc37e559ebd02d10210",
+          "modified": false
+        },
+        {
+          "upstreamPath": "skills/nature-writing/references/experiments.md",
+          "installedPath": "skills/nature-writing/references/experiments.md",
+          "originalSha256": "ba4f469b4e65f5ee042d0d5891ff5182512fde60b66f014a7b035993ae1d4548",
+          "adaptedSha256": "ba4f469b4e65f5ee042d0d5891ff5182512fde60b66f014a7b035993ae1d4548",
+          "modified": false
+        },
+        {
+          "upstreamPath": "skills/nature-writing/references/introduction.md",
+          "installedPath": "skills/nature-writing/references/introduction.md",
+          "originalSha256": "761213024d82264d1aec986066993492e6bdde95e84ef1e414b7afb341465353",
+          "adaptedSha256": "761213024d82264d1aec986066993492e6bdde95e84ef1e414b7afb341465353",
+          "modified": false
+        },
+        {
+          "upstreamPath": "skills/nature-writing/references/method.md",
+          "installedPath": "skills/nature-writing/references/method.md",
+          "originalSha256": "d67bcb9a8a3702897ac39ff3ad19042019f4da73f98717034b42f7247c53b35d",
+          "adaptedSha256": "d67bcb9a8a3702897ac39ff3ad19042019f4da73f98717034b42f7247c53b35d",
+          "modified": false
+        },
+        {
+          "upstreamPath": "skills/nature-writing/references/nat-comms-2025-corpus.md",
+          "installedPath": "skills/nature-writing/references/nat-comms-2025-corpus.md",
+          "originalSha256": "220398897991a1bbbfbda7c0a39390afdfac3706324e3c5b7c2c2a93f9195161",
+          "adaptedSha256": "220398897991a1bbbfbda7c0a39390afdfac3706324e3c5b7c2c2a93f9195161",
+          "modified": false
+        },
+        {
+          "upstreamPath": "skills/nature-writing/references/nature-summary-paragraph.md",
+          "installedPath": "skills/nature-writing/references/nature-summary-paragraph.md",
+          "originalSha256": "df3711242be9720e17c9a6631e10dd5aa4e5315626bacb4b95ed21de38c2da20",
+          "adaptedSha256": "df3711242be9720e17c9a6631e10dd5aa4e5315626bacb4b95ed21de38c2da20",
+          "modified": false
+        },
+        {
+          "upstreamPath": "skills/nature-writing/references/paper-review.md",
+          "installedPath": "skills/nature-writing/references/paper-review.md",
+          "originalSha256": "7a46e0805a7048e66f9f2f91cbc13134eff1864bf0152d699c987df078051f20",
+          "adaptedSha256": "7a46e0805a7048e66f9f2f91cbc13134eff1864bf0152d699c987df078051f20",
+          "modified": false
+        },
+        {
+          "upstreamPath": "skills/nature-writing/references/paragraph-flow.md",
+          "installedPath": "skills/nature-writing/references/paragraph-flow.md",
+          "originalSha256": "7fe339e94763c97902d846fffb1116c64e140d3a3d6949fa65c88b2eebf014ec",
+          "adaptedSha256": "7fe339e94763c97902d846fffb1116c64e140d3a3d6949fa65c88b2eebf014ec",
+          "modified": false
+        },
+        {
+          "upstreamPath": "skills/nature-writing/references/related-work.md",
+          "installedPath": "skills/nature-writing/references/related-work.md",
+          "originalSha256": "2b37fce3ae4ea604492689215e835d45f85cc39ed74e6f6132b2723bbe506e0d",
+          "adaptedSha256": "2b37fce3ae4ea604492689215e835d45f85cc39ed74e6f6132b2723bbe506e0d",
+          "modified": false
+        },
+        {
+          "upstreamPath": "skills/nature-writing/references/submission-package.md",
+          "installedPath": "skills/nature-writing/references/submission-package.md",
+          "originalSha256": "9a0e6195e368fb922a321403c399e0f581b64be11a3ce350538aabec248fb940",
+          "adaptedSha256": "9a0e6195e368fb922a321403c399e0f581b64be11a3ce350538aabec248fb940",
+          "modified": false
+        },
+        {
+          "upstreamPath": "skills/nature-writing/SKILL.md",
+          "installedPath": "skills/nature-writing/SKILL.md",
+          "originalSha256": "ce7c4d20329b96b03b0f0c0bb744411b1b4deaa7a7b69b90757705a83c195b12",
+          "adaptedSha256": "245b2adab697c45e2175a2a7087dbeacee8ff90a3cfa6fc87c395fe96da89b19",
+          "modified": true
+        },
+        {
+          "upstreamPath": "skills/nature-writing/static/core/output-format.md",
+          "installedPath": "skills/nature-writing/static/core/output-format.md",
+          "originalSha256": "46d34afa2eed2162051ac265eb14a7ce04de8aa022348cd7ad96045fafdc3b68",
+          "adaptedSha256": "46d34afa2eed2162051ac265eb14a7ce04de8aa022348cd7ad96045fafdc3b68",
+          "modified": false
+        },
+        {
+          "upstreamPath": "skills/nature-writing/static/core/stance.md",
+          "installedPath": "skills/nature-writing/static/core/stance.md",
+          "originalSha256": "ebe691909f4aef282e0d976565fb08ec2b41e62b72f464629c9781d732c53326",
+          "adaptedSha256": "ebe691909f4aef282e0d976565fb08ec2b41e62b72f464629c9781d732c53326",
+          "modified": false
+        },
+        {
+          "upstreamPath": "skills/nature-writing/static/core/workflow.md",
+          "installedPath": "skills/nature-writing/static/core/workflow.md",
+          "originalSha256": "e02426a89e729d6f725d83a4ad41f8393a3aa0fcd968c7a0402a0e2b6b6293fd",
+          "adaptedSha256": "e02426a89e729d6f725d83a4ad41f8393a3aa0fcd968c7a0402a0e2b6b6293fd",
+          "modified": false
+        },
+        {
+          "upstreamPath": "skills/nature-writing/static/fragments/journal/generic.md",
+          "installedPath": "skills/nature-writing/static/fragments/journal/generic.md",
+          "originalSha256": "a479f37851c3034e988eb293f17fd1e07f2650ed55600d9c6e046b9b0f6d39fe",
+          "adaptedSha256": "a479f37851c3034e988eb293f17fd1e07f2650ed55600d9c6e046b9b0f6d39fe",
+          "modified": false
+        },
+        {
+          "upstreamPath": "skills/nature-writing/static/fragments/journal/nat-comms.md",
+          "installedPath": "skills/nature-writing/static/fragments/journal/nat-comms.md",
+          "originalSha256": "bd0e1cb81d1ee9030d3c5837b5a74b3c460005128319a61cc2a41dd548b43a6e",
+          "adaptedSha256": "bd0e1cb81d1ee9030d3c5837b5a74b3c460005128319a61cc2a41dd548b43a6e",
+          "modified": false
+        },
+        {
+          "upstreamPath": "skills/nature-writing/static/fragments/journal/nat-mach-intell.md",
+          "installedPath": "skills/nature-writing/static/fragments/journal/nat-mach-intell.md",
+          "originalSha256": "af514347009f38c61351ea37be275cd1087a22cf3698e7aa80f656957d2768f5",
+          "adaptedSha256": "af514347009f38c61351ea37be275cd1087a22cf3698e7aa80f656957d2768f5",
+          "modified": false
+        },
+        {
+          "upstreamPath": "skills/nature-writing/static/fragments/journal/nature-family.md",
+          "installedPath": "skills/nature-writing/static/fragments/journal/nature-family.md",
+          "originalSha256": "1e124883a1d21552e005747283b2f4a16a6b2da6cc925b7eace6e4655320e10f",
+          "adaptedSha256": "1e124883a1d21552e005747283b2f4a16a6b2da6cc925b7eace6e4655320e10f",
+          "modified": false
+        },
+        {
+          "upstreamPath": "skills/nature-writing/static/fragments/journal/nature.md",
+          "installedPath": "skills/nature-writing/static/fragments/journal/nature.md",
+          "originalSha256": "4333c75dad3094bcd785060887986859152e53c1bed98d1b6d08e70ecf27de7f",
+          "adaptedSha256": "4333c75dad3094bcd785060887986859152e53c1bed98d1b6d08e70ecf27de7f",
+          "modified": false
+        },
+        {
+          "upstreamPath": "skills/nature-writing/static/fragments/language/en.md",
+          "installedPath": "skills/nature-writing/static/fragments/language/en.md",
+          "originalSha256": "6de5e67bf7c90361237f998c10f98d6d2c61e9c067ce3c686cab6a3cdf919caf",
+          "adaptedSha256": "6de5e67bf7c90361237f998c10f98d6d2c61e9c067ce3c686cab6a3cdf919caf",
+          "modified": false
+        },
+        {
+          "upstreamPath": "skills/nature-writing/static/fragments/language/zh-to-en.md",
+          "installedPath": "skills/nature-writing/static/fragments/language/zh-to-en.md",
+          "originalSha256": "a60506956df0a5b1e006fe17aec2bc843b1a0463662f5675cb9dc6db112a96c8",
+          "adaptedSha256": "a60506956df0a5b1e006fe17aec2bc843b1a0463662f5675cb9dc6db112a96c8",
+          "modified": false
+        },
+        {
+          "upstreamPath": "skills/nature-writing/static/fragments/paper_type/algorithmic.md",
+          "installedPath": "skills/nature-writing/static/fragments/paper_type/algorithmic.md",
+          "originalSha256": "a6e548d38dfbb60bbc9beac713da4b51c625adcce55cdc688d4578a530b2c35b",
+          "adaptedSha256": "a6e548d38dfbb60bbc9beac713da4b51c625adcce55cdc688d4578a530b2c35b",
+          "modified": false
+        },
+        {
+          "upstreamPath": "skills/nature-writing/static/fragments/paper_type/hypothesis.md",
+          "installedPath": "skills/nature-writing/static/fragments/paper_type/hypothesis.md",
+          "originalSha256": "c2ef6457304001a14fba41c615e62d47a852a9b0137ae13def6117669143da23",
+          "adaptedSha256": "c2ef6457304001a14fba41c615e62d47a852a9b0137ae13def6117669143da23",
+          "modified": false
+        },
+        {
+          "upstreamPath": "skills/nature-writing/static/fragments/paper_type/methods.md",
+          "installedPath": "skills/nature-writing/static/fragments/paper_type/methods.md",
+          "originalSha256": "eebf6bdd16e3114abf8b03b524af22c9183444d7e30e8c4ecc5fc37b32a636f0",
+          "adaptedSha256": "eebf6bdd16e3114abf8b03b524af22c9183444d7e30e8c4ecc5fc37b32a636f0",
+          "modified": false
+        },
+        {
+          "upstreamPath": "skills/nature-writing/static/fragments/paper_type/research.md",
+          "installedPath": "skills/nature-writing/static/fragments/paper_type/research.md",
+          "originalSha256": "29a20cfce7525107867faf5ff8b6215d4b86fc8587b1dc92993154c18b2f33e1",
+          "adaptedSha256": "29a20cfce7525107867faf5ff8b6215d4b86fc8587b1dc92993154c18b2f33e1",
+          "modified": false
+        },
+        {
+          "upstreamPath": "skills/nature-writing/static/fragments/paper_type/review.md",
+          "installedPath": "skills/nature-writing/static/fragments/paper_type/review.md",
+          "originalSha256": "f26f847b44761faf44aee024bc05d079490ead7bd5ffa975b277add7795f2b21",
+          "adaptedSha256": "f26f847b44761faf44aee024bc05d079490ead7bd5ffa975b277add7795f2b21",
+          "modified": false
+        },
+        {
+          "upstreamPath": "skills/nature-writing/static/fragments/section/abstract.md",
+          "installedPath": "skills/nature-writing/static/fragments/section/abstract.md",
+          "originalSha256": "0f60dc39a2e0f9cccf043cef55ad9ce9d629f9397a8ffc58436dd0dd6dae8fc5",
+          "adaptedSha256": "0f60dc39a2e0f9cccf043cef55ad9ce9d629f9397a8ffc58436dd0dd6dae8fc5",
+          "modified": false
+        },
+        {
+          "upstreamPath": "skills/nature-writing/static/fragments/section/conclusion.md",
+          "installedPath": "skills/nature-writing/static/fragments/section/conclusion.md",
+          "originalSha256": "5287996cba0ef8f41a540abc4e50aae8e830a056a5de7188f6bc2b701ac78bd6",
+          "adaptedSha256": "5287996cba0ef8f41a540abc4e50aae8e830a056a5de7188f6bc2b701ac78bd6",
+          "modified": false
+        },
+        {
+          "upstreamPath": "skills/nature-writing/static/fragments/section/discussion.md",
+          "installedPath": "skills/nature-writing/static/fragments/section/discussion.md",
+          "originalSha256": "345fe173d7f6138170d259028c5f015f9708ecfce45ced8645bf5d068bb00e22",
+          "adaptedSha256": "345fe173d7f6138170d259028c5f015f9708ecfce45ced8645bf5d068bb00e22",
+          "modified": false
+        },
+        {
+          "upstreamPath": "skills/nature-writing/static/fragments/section/experiments.md",
+          "installedPath": "skills/nature-writing/static/fragments/section/experiments.md",
+          "originalSha256": "299182cbc369969f203237058bccf4abd439ca5459290fe075fe3a3be4ed1f5d",
+          "adaptedSha256": "299182cbc369969f203237058bccf4abd439ca5459290fe075fe3a3be4ed1f5d",
+          "modified": false
+        },
+        {
+          "upstreamPath": "skills/nature-writing/static/fragments/section/intro.md",
+          "installedPath": "skills/nature-writing/static/fragments/section/intro.md",
+          "originalSha256": "d8ca45bb0c12df3c4805460a9f1023b769ce05d99771a87652756229f4102450",
+          "adaptedSha256": "d8ca45bb0c12df3c4805460a9f1023b769ce05d99771a87652756229f4102450",
+          "modified": false
+        },
+        {
+          "upstreamPath": "skills/nature-writing/static/fragments/section/method.md",
+          "installedPath": "skills/nature-writing/static/fragments/section/method.md",
+          "originalSha256": "6e75016acd655da12a19cc90e89fd6c502997a86845c98151eb4b9aad5e3695f",
+          "adaptedSha256": "6e75016acd655da12a19cc90e89fd6c502997a86845c98151eb4b9aad5e3695f",
+          "modified": false
+        },
+        {
+          "upstreamPath": "skills/nature-writing/static/fragments/section/related-work.md",
+          "installedPath": "skills/nature-writing/static/fragments/section/related-work.md",
+          "originalSha256": "96f42b73af918123173c30467698e78d42ed00dc043171265cdd2bc6e5fb3bd6",
+          "adaptedSha256": "96f42b73af918123173c30467698e78d42ed00dc043171265cdd2bc6e5fb3bd6",
+          "modified": false
+        },
+        {
+          "upstreamPath": "skills/nature-writing/static/fragments/section/title.md",
+          "installedPath": "skills/nature-writing/static/fragments/section/title.md",
+          "originalSha256": "667fafc45b0a38c439998d6d8ed18fb98ffea1b196fc9343bc3a4629fcdc110a",
+          "adaptedSha256": "667fafc45b0a38c439998d6d8ed18fb98ffea1b196fc9343bc3a4629fcdc110a",
+          "modified": false
+        },
+        {
+          "upstreamPath": "skills/nature-writing/static/fragments/task/manuscript.md",
+          "installedPath": "skills/nature-writing/static/fragments/task/manuscript.md",
+          "originalSha256": "c798ea7e70241be9d00b62a762650b0984e3ea1abc228c5f469499551ae6bf94",
+          "adaptedSha256": "c798ea7e70241be9d00b62a762650b0984e3ea1abc228c5f469499551ae6bf94",
+          "modified": false
+        },
+        {
+          "upstreamPath": "skills/nature-writing/static/fragments/task/submission-package.md",
+          "installedPath": "skills/nature-writing/static/fragments/task/submission-package.md",
+          "originalSha256": "69410d283d738e82a35f2d8da1bcfb48385e924b68c1deef84cb2a5be8dceb9d",
+          "adaptedSha256": "69410d283d738e82a35f2d8da1bcfb48385e924b68c1deef84cb2a5be8dceb9d",
+          "modified": false
+        },
+        {
+          "upstreamPath": "skills/nature-writing/templates/submission/declarations-and-reviewers.tex",
+          "installedPath": "skills/nature-writing/templates/submission/declarations-and-reviewers.tex",
+          "originalSha256": "7fe9d93bcde4ba7f20dcf5a9194728e3cd156d99b0fe8567279bd9c399f2eba9",
+          "adaptedSha256": "7fe9d93bcde4ba7f20dcf5a9194728e3cd156d99b0fe8567279bd9c399f2eba9",
+          "modified": false
+        },
+        {
+          "upstreamPath": "skills/nature-writing/templates/submission/highlights-and-summary.tex",
+          "installedPath": "skills/nature-writing/templates/submission/highlights-and-summary.tex",
+          "originalSha256": "d1ea1f6ccf6d91f6e1727a9e9d2befff1f6c90ef43030d1bbaf9fe583ff6dfb5",
+          "adaptedSha256": "d1ea1f6ccf6d91f6e1727a9e9d2befff1f6c90ef43030d1bbaf9fe583ff6dfb5",
+          "modified": false
+        },
+        {
+          "upstreamPath": "skills/nature-writing/templates/submission/initial-cover-letter.tex",
+          "installedPath": "skills/nature-writing/templates/submission/initial-cover-letter.tex",
+          "originalSha256": "4b040e28937d6dd467c7575bb3b043b7ce5a69f881635f8af544e5a031a024be",
+          "adaptedSha256": "4b040e28937d6dd467c7575bb3b043b7ce5a69f881635f8af544e5a031a024be",
+          "modified": false
+        },
+        {
+          "upstreamPath": "skills/nature-writing/templates/submission/title-page.tex",
+          "installedPath": "skills/nature-writing/templates/submission/title-page.tex",
+          "originalSha256": "e25038ba6b300a2a567e6c8e45a1babf310f64eae14f902f89a6c9b881ecb6e4",
+          "adaptedSha256": "e25038ba6b300a2a567e6c8e45a1babf310f64eae14f902f89a6c9b881ecb6e4",
+          "modified": false
+        },
+        {
+          "upstreamPath": "skills/nature-writing/tests/scoped-drafting.md",
+          "installedPath": "skills/nature-writing/tests/scoped-drafting.md",
+          "originalSha256": "bd7cf7e61d818bf67849c02b5d6b87f0f1a44c89b552be64bbeee498b8978136",
+          "adaptedSha256": "bd7cf7e61d818bf67849c02b5d6b87f0f1a44c89b552be64bbeee498b8978136",
+          "modified": false
+        }
+      ]
+    },
+    {
+      "name": "nature-response",
+      "upstreamRepository": "https://github.com/Yuan1z0825/nature-skills",
+      "upstreamCommit": "84880815fb37317b3766bff2c2abba395b8993c3",
+      "licensePath": "provenance/licenses/Nature-Apache-2.0.txt",
+      "files": [
+        {
+          "upstreamPath": "skills/nature-response/agents/openai.yaml",
+          "installedPath": "skills/nature-response/agents/openai.yaml",
+          "originalSha256": "6d142f897f51d032339d442526cab3c48e6144d1c294600a683b49e9ae719566",
+          "adaptedSha256": "6d142f897f51d032339d442526cab3c48e6144d1c294600a683b49e9ae719566",
+          "modified": false
+        },
+        {
+          "upstreamPath": "skills/nature-response/examples/conflicting-reviewers.md",
+          "installedPath": "skills/nature-response/examples/conflicting-reviewers.md",
+          "originalSha256": "7cd0b29e9be0f2a83aa47df8d2564a1406e6d2bfdbfb68d2e2165d5828446760",
+          "adaptedSha256": "7cd0b29e9be0f2a83aa47df8d2564a1406e6d2bfdbfb68d2e2165d5828446760",
+          "modified": false
+        },
+        {
+          "upstreamPath": "skills/nature-response/examples/major-revision-with-missing-evidence.md",
+          "installedPath": "skills/nature-response/examples/major-revision-with-missing-evidence.md",
+          "originalSha256": "9ea416be44164f72fc76c82b11ee243e6228fc890ee4224571cc13123be972e8",
+          "adaptedSha256": "9ea416be44164f72fc76c82b11ee243e6228fc890ee4224571cc13123be972e8",
+          "modified": false
+        },
+        {
+          "upstreamPath": "skills/nature-response/examples/minor-revision.md",
+          "installedPath": "skills/nature-response/examples/minor-revision.md",
+          "originalSha256": "2cfa0f5a20e3ac1fafdaa76c078803a98b079e5c49723f9e4fe4606bb9cbb8b2",
+          "adaptedSha256": "2cfa0f5a20e3ac1fafdaa76c078803a98b079e5c49723f9e4fe4606bb9cbb8b2",
+          "modified": false
+        },
+        {
+          "upstreamPath": "skills/nature-response/manifest.yaml",
+          "installedPath": "skills/nature-response/manifest.yaml",
+          "originalSha256": "a5f6c33760542c21ebf8789c7dccb1097653c309bfcce592a8bd76461c94cf06",
+          "adaptedSha256": "a5f6c33760542c21ebf8789c7dccb1097653c309bfcce592a8bd76461c94cf06",
+          "modified": false
+        },
+        {
+          "upstreamPath": "skills/nature-response/README.md",
+          "installedPath": "skills/nature-response/README.md",
+          "originalSha256": "f1b5fe23c7fd1a82f18c49891d4118e4264b5f18e68eaf1ef06d49cc1a5b2bc9",
+          "adaptedSha256": "f1b5fe23c7fd1a82f18c49891d4118e4264b5f18e68eaf1ef06d49cc1a5b2bc9",
+          "modified": false
+        },
+        {
+          "upstreamPath": "skills/nature-response/README_EN.md",
+          "installedPath": "skills/nature-response/README_EN.md",
+          "originalSha256": "b80a51abf055e37363c41bfdebe83e27826ac5176216a9980e01ad884f7de237",
+          "adaptedSha256": "b80a51abf055e37363c41bfdebe83e27826ac5176216a9980e01ad884f7de237",
+          "modified": false
+        },
+        {
+          "upstreamPath": "skills/nature-response/references/action-mapping.md",
+          "installedPath": "skills/nature-response/references/action-mapping.md",
+          "originalSha256": "bcecebe64ae1e5a417c22c5881cb69f9ff0904c6eef3d3da6d7fdc6d85b79d59",
+          "adaptedSha256": "bcecebe64ae1e5a417c22c5881cb69f9ff0904c6eef3d3da6d7fdc6d85b79d59",
+          "modified": false
+        },
+        {
+          "upstreamPath": "skills/nature-response/references/chinese-author-alignment.md",
+          "installedPath": "skills/nature-response/references/chinese-author-alignment.md",
+          "originalSha256": "de210995ed9ff3969cdfff2298f7c81e672fc5d2b7f97e394df2ce32b36ec7ce",
+          "adaptedSha256": "de210995ed9ff3969cdfff2298f7c81e672fc5d2b7f97e394df2ce32b36ec7ce",
+          "modified": false
+        },
+        {
+          "upstreamPath": "skills/nature-response/references/comment-taxonomy.md",
+          "installedPath": "skills/nature-response/references/comment-taxonomy.md",
+          "originalSha256": "70b701edd2a31d0e471c8ff6809173b8d8218671a91d2bc6cb9d8d28a6d82e84",
+          "adaptedSha256": "70b701edd2a31d0e471c8ff6809173b8d8218671a91d2bc6cb9d8d28a6d82e84",
+          "modified": false
+        },
+        {
+          "upstreamPath": "skills/nature-response/references/difficult-cases.md",
+          "installedPath": "skills/nature-response/references/difficult-cases.md",
+          "originalSha256": "49595ab1330a237787423988d81e96d54881c46b2f4d7c65429b03a03fad1adb",
+          "adaptedSha256": "49595ab1330a237787423988d81e96d54881c46b2f4d7c65429b03a03fad1adb",
+          "modified": false
+        },
+        {
+          "upstreamPath": "skills/nature-response/references/intake-and-routing.md",
+          "installedPath": "skills/nature-response/references/intake-and-routing.md",
+          "originalSha256": "241c3bc7b4fd7e7c081a541504826267f844d1b9cae13ebad077573ef786bbcf",
+          "adaptedSha256": "241c3bc7b4fd7e7c081a541504826267f844d1b9cae13ebad077573ef786bbcf",
+          "modified": false
+        },
+        {
+          "upstreamPath": "skills/nature-response/references/latex-templates.md",
+          "installedPath": "skills/nature-response/references/latex-templates.md",
+          "originalSha256": "85d9df3c4101bc6e94e37c233c48f31f5b4541c61259d86ff6b333e48034a1c2",
+          "adaptedSha256": "85d9df3c4101bc6e94e37c233c48f31f5b4541c61259d86ff6b333e48034a1c2",
+          "modified": false
+        },
+        {
+          "upstreamPath": "skills/nature-response/references/package-consistency-audit.md",
+          "installedPath": "skills/nature-response/references/package-consistency-audit.md",
+          "originalSha256": "4154e4ba8e26551cfb4da2db6037801da62adc7645db3a36ce7052012a361627",
+          "adaptedSha256": "cf280424cf4eb5d55ea52d532f304172a721dce32b5a3ae6d79054298315cdfb",
+          "modified": true
+        },
+        {
+          "upstreamPath": "skills/nature-response/references/qa-checklist.md",
+          "installedPath": "skills/nature-response/references/qa-checklist.md",
+          "originalSha256": "f75f08943882705c4402b4c431c7846bd30b3252858af90e79a44098c81baa3b",
+          "adaptedSha256": "f75f08943882705c4402b4c431c7846bd30b3252858af90e79a44098c81baa3b",
+          "modified": false
+        },
+        {
+          "upstreamPath": "skills/nature-response/references/response-structure.md",
+          "installedPath": "skills/nature-response/references/response-structure.md",
+          "originalSha256": "80caabbbb69b582e12524d31583d49529c52599bca42ff0b3d7957cda31e5b88",
+          "adaptedSha256": "80caabbbb69b582e12524d31583d49529c52599bca42ff0b3d7957cda31e5b88",
+          "modified": false
+        },
+        {
+          "upstreamPath": "skills/nature-response/references/source-basis.md",
+          "installedPath": "skills/nature-response/references/source-basis.md",
+          "originalSha256": "0f7164b74ba4af40f79fef74f5436519076518160f00edaf4fa86e7eb16aeb56",
+          "adaptedSha256": "0f7164b74ba4af40f79fef74f5436519076518160f00edaf4fa86e7eb16aeb56",
+          "modified": false
+        },
+        {
+          "upstreamPath": "skills/nature-response/references/tone-and-stance.md",
+          "installedPath": "skills/nature-response/references/tone-and-stance.md",
+          "originalSha256": "90220cdd7f139b0fa1497039e6bb329311aab015387f27869655d72e373831f0",
+          "adaptedSha256": "90220cdd7f139b0fa1497039e6bb329311aab015387f27869655d72e373831f0",
+          "modified": false
+        },
+        {
+          "upstreamPath": "skills/nature-response/scripts/check_package_consistency.py",
+          "installedPath": "skills/nature-response/scripts/check_package_consistency.py",
+          "originalSha256": "efb5fbbf31156cc96ca4ac0f023e94a6940ee0996dd700cdd17807d21939cd06",
+          "adaptedSha256": "c0d565573b8d0fae1c62d60e823049930efc5ef0fc2a57f04537f10defa4327f",
+          "modified": true
+        },
+        {
+          "upstreamPath": "skills/nature-response/SKILL.md",
+          "installedPath": "skills/nature-response/SKILL.md",
+          "originalSha256": "a8283db56e73879413311cbcde1db4c72dd4390bbe21ab2f62f1f968610b5de1",
+          "adaptedSha256": "0687f2d354fe3aab9701e223b1de151bcb0b4012adf516f4b69b910f83941db3",
+          "modified": true
+        },
+        {
+          "upstreamPath": "skills/nature-response/static/core/stance.md",
+          "installedPath": "skills/nature-response/static/core/stance.md",
+          "originalSha256": "13e88e6a10a411cabc34a3340549606353bcf2ba6e0c6eb5966511b296782cce",
+          "adaptedSha256": "13e88e6a10a411cabc34a3340549606353bcf2ba6e0c6eb5966511b296782cce",
+          "modified": false
+        },
+        {
+          "upstreamPath": "skills/nature-response/static/core/workflow.md",
+          "installedPath": "skills/nature-response/static/core/workflow.md",
+          "originalSha256": "455d0a663b662c9d867345e7ee55706e1b01cdbec9928b2edb5d457bed4eb625",
+          "adaptedSha256": "455d0a663b662c9d867345e7ee55706e1b01cdbec9928b2edb5d457bed4eb625",
+          "modified": false
+        },
+        {
+          "upstreamPath": "skills/nature-response/templates/cover-letter.tex",
+          "installedPath": "skills/nature-response/templates/cover-letter.tex",
+          "originalSha256": "6d3bb1dd4f207d929bb93416da7a61c83ac2dc36e64030b255d175c563d9fdc9",
+          "adaptedSha256": "6d3bb1dd4f207d929bb93416da7a61c83ac2dc36e64030b255d175c563d9fdc9",
+          "modified": false
+        },
+        {
+          "upstreamPath": "skills/nature-response/templates/response-to-reviewers.tex",
+          "installedPath": "skills/nature-response/templates/response-to-reviewers.tex",
+          "originalSha256": "a6cfab13080177f2c4dc4865428ae5facebefef15856254a1455d3df4e2553f9",
+          "adaptedSha256": "a6cfab13080177f2c4dc4865428ae5facebefef15856254a1455d3df4e2553f9",
+          "modified": false
+        },
+        {
+          "upstreamPath": "skills/nature-response/templates/revised-manuscript-redline.tex",
+          "installedPath": "skills/nature-response/templates/revised-manuscript-redline.tex",
+          "originalSha256": "1df90868420eb385144a9e286f0b5d210b98b8197b8ece2276ea0e348696cf5c",
+          "adaptedSha256": "1df90868420eb385144a9e286f0b5d210b98b8197b8ece2276ea0e348696cf5c",
+          "modified": false
+        },
+        {
+          "upstreamPath": "skills/nature-response/tests/conflicting-reviewers.md",
+          "installedPath": "skills/nature-response/tests/conflicting-reviewers.md",
+          "originalSha256": "5e800475051d54f5b3a6ba86d6592aa3b48bddb1ad64c4122a1729b5af987af4",
+          "adaptedSha256": "5e800475051d54f5b3a6ba86d6592aa3b48bddb1ad64c4122a1729b5af987af4",
+          "modified": false
+        },
+        {
+          "upstreamPath": "skills/nature-response/tests/defensive-draft-audit.md",
+          "installedPath": "skills/nature-response/tests/defensive-draft-audit.md",
+          "originalSha256": "923f9a53b212958ad8bb48b87372e431126fc20cd763b87e1f0489816540ebc3",
+          "adaptedSha256": "923f9a53b212958ad8bb48b87372e431126fc20cd763b87e1f0489816540ebc3",
+          "modified": false
+        },
+        {
+          "upstreamPath": "skills/nature-response/tests/evaluation-summary.md",
+          "installedPath": "skills/nature-response/tests/evaluation-summary.md",
+          "originalSha256": "993776088f522a774ea920c330b9f4873580735cc32247d06a3b7e28eb967c23",
+          "adaptedSha256": "993776088f522a774ea920c330b9f4873580735cc32247d06a3b7e28eb967c23",
+          "modified": false
+        },
+        {
+          "upstreamPath": "skills/nature-response/tests/impossible-experiment.md",
+          "installedPath": "skills/nature-response/tests/impossible-experiment.md",
+          "originalSha256": "8509bc53c6c6c0039fdee37cf9a7b66bce7e03ede80728a7b50b9121ec5ec56e",
+          "adaptedSha256": "8509bc53c6c6c0039fdee37cf9a7b66bce7e03ede80728a7b50b9121ec5ec56e",
+          "modified": false
+        },
+        {
+          "upstreamPath": "skills/nature-response/tests/local-edit-without-decision.md",
+          "installedPath": "skills/nature-response/tests/local-edit-without-decision.md",
+          "originalSha256": "faf952d8ab11cb3d703cdd9518eb96930084be85a484eb85ee6d366de5455c12",
+          "adaptedSha256": "faf952d8ab11cb3d703cdd9518eb96930084be85a484eb85ee6d366de5455c12",
+          "modified": false
+        },
+        {
+          "upstreamPath": "skills/nature-response/tests/major-revision-missing-evidence.md",
+          "installedPath": "skills/nature-response/tests/major-revision-missing-evidence.md",
+          "originalSha256": "674fbaba184b16c2dd50978414afcfb9a827cfeb8de75d97bd35656f4dbea151",
+          "adaptedSha256": "674fbaba184b16c2dd50978414afcfb9a827cfeb8de75d97bd35656f4dbea151",
+          "modified": false
+        },
+        {
+          "upstreamPath": "skills/nature-response/tests/minor-revision.md",
+          "installedPath": "skills/nature-response/tests/minor-revision.md",
+          "originalSha256": "b4ae5dcaeda4cb262e65d0d6e05c78fa5e7803659a3402b0d94850550227b6b7",
+          "adaptedSha256": "b4ae5dcaeda4cb262e65d0d6e05c78fa5e7803659a3402b0d94850550227b6b7",
+          "modified": false
+        },
+        {
+          "upstreamPath": "skills/nature-response/tests/reviewer-visibility.md",
+          "installedPath": "skills/nature-response/tests/reviewer-visibility.md",
+          "originalSha256": "cd192d210643ce8f226ea69b754d3c2647918fba994c121ca65d5bd5c555297e",
+          "adaptedSha256": "cd192d210643ce8f226ea69b754d3c2647918fba994c121ca65d5bd5c555297e",
+          "modified": false
+        },
+        {
+          "upstreamPath": "skills/nature-response/tests/rubric.md",
+          "installedPath": "skills/nature-response/tests/rubric.md",
+          "originalSha256": "912054957fdf7b79a8360aa0a1b469c6a15eac31f9e6580b4c729ec38e408479",
+          "adaptedSha256": "912054957fdf7b79a8360aa0a1b469c6a15eac31f9e6580b4c729ec38e408479",
+          "modified": false
+        },
+        {
+          "upstreamPath": "skills/nature-response/tests/task-status-tracking.md",
+          "installedPath": "skills/nature-response/tests/task-status-tracking.md",
+          "originalSha256": "8613930663e1fc96694505260fe4779695c8249fc3a52a271d0be13072e7e2e9",
+          "adaptedSha256": "8613930663e1fc96694505260fe4779695c8249fc3a52a271d0be13072e7e2e9",
+          "modified": false
+        },
+        {
+          "upstreamPath": "skills/nature-response/tests/test_package_consistency.py",
+          "installedPath": "skills/nature-response/tests/test_package_consistency.py",
+          "originalSha256": "cabae96f0f087c2282984a83d295dc4671b614713ba7bc2eb1cd86d1ae7f5712",
+          "adaptedSha256": "6a70507be3fe840561152a72d4c8ad0d7801f891d1c18efdf5653aa922536fce",
+          "modified": true
+        },
+        {
+          "upstreamPath": "skills/nature-response/tests/test_response_instruction_contracts.py",
+          "installedPath": "skills/nature-response/tests/test_response_instruction_contracts.py",
+          "originalSha256": "b5ff4e2582c4ea12b7ea87e50b2af9fe8b15254d4d429734079ba33f83f5694c",
+          "adaptedSha256": "b5ff4e2582c4ea12b7ea87e50b2af9fe8b15254d4d429734079ba33f83f5694c",
+          "modified": false
+        },
+        {
+          "upstreamPath": "skills/nature-response/tests/unclear-decision-type.md",
+          "installedPath": "skills/nature-response/tests/unclear-decision-type.md",
+          "originalSha256": "3ee2949a9e6882090d0c5994ac894769a7e4982032ac57f528b121b360bc9560",
+          "adaptedSha256": "3ee2949a9e6882090d0c5994ac894769a7e4982032ac57f528b121b360bc9560",
+          "modified": false
+        }
+      ]
+    },
+    {
+      "name": "nature-shared",
+      "upstreamRepository": "https://github.com/Yuan1z0825/nature-skills",
+      "upstreamCommit": "84880815fb37317b3766bff2c2abba395b8993c3",
+      "licensePath": "provenance/licenses/Nature-Apache-2.0.txt",
+      "files": [
+        {
+          "upstreamPath": "skills/nature-shared/agents/openai.yaml",
+          "installedPath": "skills/nature-shared/agents/openai.yaml",
+          "originalSha256": "4bbf2e58b350269cf231f73ca12af1d097b9d64637023b037e238083151fbd67",
+          "adaptedSha256": "4bbf2e58b350269cf231f73ca12af1d097b9d64637023b037e238083151fbd67",
+          "modified": false
+        },
+        {
+          "upstreamPath": "skills/nature-shared/core/consistency-sweep.md",
+          "installedPath": "skills/nature-shared/core/consistency-sweep.md",
+          "originalSha256": "35a540c10a2c14415b7181588f612e16943cbc4e49f1428010d67c480051f0f9",
+          "adaptedSha256": "35a540c10a2c14415b7181588f612e16943cbc4e49f1428010d67c480051f0f9",
+          "modified": false
+        },
+        {
+          "upstreamPath": "skills/nature-shared/core/discussion-argument-language.md",
+          "installedPath": "skills/nature-shared/core/discussion-argument-language.md",
+          "originalSha256": "a3b0ddcadc47efc029e923ae8133ba0bd99e6a6eb27fdbc791d0e1096d98c169",
+          "adaptedSha256": "a3b0ddcadc47efc029e923ae8133ba0bd99e6a6eb27fdbc791d0e1096d98c169",
+          "modified": false
+        },
+        {
+          "upstreamPath": "skills/nature-shared/core/ethics.md",
+          "installedPath": "skills/nature-shared/core/ethics.md",
+          "originalSha256": "065db5761d72c295eb1ed5c231deb0b0bcbb0f1065d530f994c044398bd75056",
+          "adaptedSha256": "065db5761d72c295eb1ed5c231deb0b0bcbb0f1065d530f994c044398bd75056",
+          "modified": false
+        },
+        {
+          "upstreamPath": "skills/nature-shared/core/main-text-discipline.md",
+          "installedPath": "skills/nature-shared/core/main-text-discipline.md",
+          "originalSha256": "d43190c4d617096c1088bb5452cec5b0ae13f5d4947c2b21c28315181f051b8e",
+          "adaptedSha256": "d43190c4d617096c1088bb5452cec5b0ae13f5d4947c2b21c28315181f051b8e",
+          "modified": false
+        },
+        {
+          "upstreamPath": "skills/nature-shared/core/nature-abstract.md",
+          "installedPath": "skills/nature-shared/core/nature-abstract.md",
+          "originalSha256": "92c0f1e78df5a9b4dc7ad276ed625e371d211124a47a9eed0a4de82c9c1526cb",
+          "adaptedSha256": "92c0f1e78df5a9b4dc7ad276ed625e371d211124a47a9eed0a4de82c9c1526cb",
+          "modified": false
+        },
+        {
+          "upstreamPath": "skills/nature-shared/core/nature-introduction.md",
+          "installedPath": "skills/nature-shared/core/nature-introduction.md",
+          "originalSha256": "813fb8acb9b5c76e9c8f1d8c1616fefa82a1ec949d4aba98935b0485fb4cd4f7",
+          "adaptedSha256": "813fb8acb9b5c76e9c8f1d8c1616fefa82a1ec949d4aba98935b0485fb4cd4f7",
+          "modified": false
+        },
+        {
+          "upstreamPath": "skills/nature-shared/core/nature-results-discussion.md",
+          "installedPath": "skills/nature-shared/core/nature-results-discussion.md",
+          "originalSha256": "16f1ce1ed6d2aad7853eabf304cdbd661530931747bce4cf3f10b3dfb655adc1",
+          "adaptedSha256": "16f1ce1ed6d2aad7853eabf304cdbd661530931747bce4cf3f10b3dfb655adc1",
+          "modified": false
+        },
+        {
+          "upstreamPath": "skills/nature-shared/core/paper-type-taxonomy.md",
+          "installedPath": "skills/nature-shared/core/paper-type-taxonomy.md",
+          "originalSha256": "84878907fd0416f628c8e3969e583569b9930f0129e6553167112435d93a3ad1",
+          "adaptedSha256": "84878907fd0416f628c8e3969e583569b9930f0129e6553167112435d93a3ad1",
+          "modified": false
+        },
+        {
+          "upstreamPath": "skills/nature-shared/core/reader-workflow.md",
+          "installedPath": "skills/nature-shared/core/reader-workflow.md",
+          "originalSha256": "acf54e59da3cd29d9179748895c7b5ed0da2d948704e97bee83771698ecbe10d",
+          "adaptedSha256": "acf54e59da3cd29d9179748895c7b5ed0da2d948704e97bee83771698ecbe10d",
+          "modified": false
+        },
+        {
+          "upstreamPath": "skills/nature-shared/core/research-compliance.md",
+          "installedPath": "skills/nature-shared/core/research-compliance.md",
+          "originalSha256": "0ac172d2af0c2089acd7280712a89b23a5f232d4e436e9ae78dd501ff30cd855",
+          "adaptedSha256": "0ac172d2af0c2089acd7280712a89b23a5f232d4e436e9ae78dd501ff30cd855",
+          "modified": false
+        },
+        {
+          "upstreamPath": "skills/nature-shared/core/terminology-ledger.md",
+          "installedPath": "skills/nature-shared/core/terminology-ledger.md",
+          "originalSha256": "c8ff387fc55439dbec9835d624fb1c1e544cca06ae8d007f8e4f726f68080784",
+          "adaptedSha256": "d835f42c21d283e5cf28cd7a3b69d237caad992e0d758d990a4362497c8b1317",
+          "modified": true
+        },
+        {
+          "upstreamPath": "skills/nature-shared/journal-formats/nat-comms.md",
+          "installedPath": "skills/nature-shared/journal-formats/nat-comms.md",
+          "originalSha256": "5a9eef685502e35d2289478d0b3815d5dbfbb6b2ed7d758accedfc7fd930e975",
+          "adaptedSha256": "5a9eef685502e35d2289478d0b3815d5dbfbb6b2ed7d758accedfc7fd930e975",
+          "modified": false
+        },
+        {
+          "upstreamPath": "skills/nature-shared/journal-formats/nature-machine-intelligence.md",
+          "installedPath": "skills/nature-shared/journal-formats/nature-machine-intelligence.md",
+          "originalSha256": "d62a418fbd67841e745f553b98a267b5a01c9445457a07a0121095ce76fad0af",
+          "adaptedSha256": "d62a418fbd67841e745f553b98a267b5a01c9445457a07a0121095ce76fad0af",
+          "modified": false
+        },
+        {
+          "upstreamPath": "skills/nature-shared/journal-formats/nature.md",
+          "installedPath": "skills/nature-shared/journal-formats/nature.md",
+          "originalSha256": "2c4d007f69b64a2e083f9511748c3726b349a4dce4bfccbdac3bf97d1c1afc10",
+          "adaptedSha256": "2c4d007f69b64a2e083f9511748c3726b349a4dce4bfccbdac3bf97d1c1afc10",
+          "modified": false
+        },
+        {
+          "upstreamPath": "skills/nature-shared/manifest.yaml",
+          "installedPath": "skills/nature-shared/manifest.yaml",
+          "originalSha256": "c3c4d2f5fcee7889505a3e10c3d5d5d973dd249dfb424581acc4cce52fc89054",
+          "adaptedSha256": "c3c4d2f5fcee7889505a3e10c3d5d5d973dd249dfb424581acc4cce52fc89054",
+          "modified": false
+        },
+        {
+          "upstreamPath": "skills/nature-shared/README.md",
+          "installedPath": "skills/nature-shared/README.md",
+          "originalSha256": "2e42d487b9aa4985933dfb230ac57c88e8dfeba97644bb30d2c222de9a65e61e",
+          "adaptedSha256": "2e42d487b9aa4985933dfb230ac57c88e8dfeba97644bb30d2c222de9a65e61e",
+          "modified": false
+        },
+        {
+          "upstreamPath": "skills/nature-shared/README_EN.md",
+          "installedPath": "skills/nature-shared/README_EN.md",
+          "originalSha256": "1d2fd257264aa512f52dfc131d9adfd67c7dcf2b6f1e3c059c693360b027b245",
+          "adaptedSha256": "1d2fd257264aa512f52dfc131d9adfd67c7dcf2b6f1e3c059c693360b027b245",
+          "modified": false
+        },
+        {
+          "upstreamPath": "skills/nature-shared/scripts/check_consistency.py",
+          "installedPath": "skills/nature-shared/scripts/check_consistency.py",
+          "originalSha256": "670ccc43aad4639fe3525d8dce7443d85f462f99958b560a539cc5b6b0b072a6",
+          "adaptedSha256": "f169c8cbf3167f4fd8664d04be512b1f6b68cb28cc16c0f1ab39585f755d3764",
+          "modified": true
+        },
+        {
+          "upstreamPath": "skills/nature-shared/SKILL.md",
+          "installedPath": "skills/nature-shared/SKILL.md",
+          "originalSha256": "3d914e73f023cab4f247d82f906a948307de8a867fd6c33df999badf67c5d5f2",
+          "adaptedSha256": "2432816443ebdece34de651dd396ee9277e8adac6cb872ea6c7f33d5f4b17f05",
+          "modified": true
+        },
+        {
+          "upstreamPath": "skills/nature-shared/tests/test_check_consistency.py",
+          "installedPath": "skills/nature-shared/tests/test_check_consistency.py",
+          "originalSha256": "c70abcc137513cf947e44e0c35f99dd4438fbe4477faf89a6aa671ffa8fac1de",
+          "adaptedSha256": "4700eec386075fe15650f81d85a54330e5f435a5b848da468757852c505ec5fc",
+          "modified": true
+        }
+      ]
+    }
+  ]
+}

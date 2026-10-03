@@ -1,0 +1,11 @@
+# Direct Python dependencies of the retained executable helpers.
+# Versions recorded from PyPI 2026-10-02, except pydoe pinned by the upstream design implementation.
+requests==2.34.2
+numpy==2.5.3
+pandas==3.0.6
+scipy==1.18.1
+matplotlib==3.11.2
+Pillow==12.3.0
+pypdf==6.19.0
+statsmodels==0.15.0
+pydoe==1.5.0
