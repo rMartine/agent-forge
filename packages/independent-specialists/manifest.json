@@ -1,0 +1,77 @@
+{
+  "schemaVersion": 1,
+  "packageName": "independent-specialists",
+  "version": "1.0.0",
+  "skillDirectory": "skills",
+  "agents": [
+    {
+      "name": "marketing-and-sales-specialist",
+      "displayName": "Especialista en marketing y ventas",
+      "model": "gpt-6-astra",
+      "reasoningEffort": "high",
+      "skills": ["independent-content-strategy", "independent-copywriting", "independent-seo-audit", "independent-social", "independent-sales-enablement", "independent-natural-writing", "independent-video-scriptwriting"],
+      "completionChecks": ["Entregar lo solicitado para el público y oferta definidos.", "Distinguir evidencia, supuestos y propuestas comerciales.", "Identificar operaciones externas realizadas y pendientes conforme al encargo."]
+    },
+    {
+      "name": "brand-and-graphic-design-specialist",
+      "displayName": "Especialista en marca y diseño gráfico",
+      "model": "gpt-6.1-sol",
+      "reasoningEffort": "high",
+      "skills": ["independent-copywriting", "independent-natural-writing"],
+      "completionChecks": ["Proporcionar diseño editable en Canva y las exportaciones solicitadas.", "Comprobar legibilidad y coherencia con la identidad aprobada.", "Informar limitaciones reales de acceso, licencias o exportación."]
+    },
+    {
+      "name": "adult-education-specialist",
+      "displayName": "Especialista en educación para adultos",
+      "model": "gpt-6-astra",
+      "reasoningEffort": "high",
+      "skills": ["independent-adult-learning", "independent-natural-writing", "independent-video-scriptwriting", "independent-shotstack", "independent-elevenlabs"],
+      "completionChecks": ["Relacionar objetivos, actividades y evaluación para el público adulto.", "Entregar materiales claros y accesibles con los criterios de finalización solicitados.", "No atribuir acreditaciones o reconocimientos institucionales sin evidencia."]
+    },
+    {
+      "name": "audiovisual-production-specialist",
+      "displayName": "Especialista en producción audiovisual",
+      "model": "gpt-6.1-sol",
+      "reasoningEffort": "high",
+      "skills": ["independent-natural-writing", "independent-video-scriptwriting", "independent-shotstack", "independent-elevenlabs"],
+      "completionChecks": ["Separar narración, texto en pantalla e indicaciones de producción.", "Comprobar ritmo, pronunciación, sincronización y subtítulos cuando corresponda.", "Distinguir archivo final, trabajo en proceso y generación pendiente, conservando los identificadores necesarios."]
+    }
+  ],
+  "externalTools": [
+    "mcp__codex_apps__canva_autofill_design",
+    "mcp__codex_apps__canva_commit_editing_transaction",
+    "mcp__codex_apps__canva_copy_design",
+    "mcp__codex_apps__canva_create_design",
+    "mcp__codex_apps__canva_create_design_from_brand_template",
+    "mcp__codex_apps__canva_create_folder",
+    "mcp__codex_apps__canva_create_upload_url",
+    "mcp__codex_apps__canva_generate_image",
+    "mcp__codex_apps__canva_image_to_design",
+    "mcp__codex_apps__canva_import_design_from_url",
+    "mcp__codex_apps__canva_merge_designs",
+    "mcp__codex_apps__canva_move_item_to_folder",
+    "mcp__codex_apps__canva_perform_editing_operations",
+    "mcp__codex_apps__canva_remove_background",
+    "mcp__codex_apps__canva_resize_design",
+    "mcp__codex_apps__canva_start_editing_transaction",
+    "mcp__codex_apps__canva_upload_asset_from_url",
+    "mcp__codex_apps__elevenlabs_creative_add_flow_asset_node",
+    "mcp__codex_apps__elevenlabs_creative_add_flow_node",
+    "mcp__codex_apps__elevenlabs_creative_attach_reference_file",
+    "mcp__codex_apps__elevenlabs_creative_connect_flow_nodes",
+    "mcp__codex_apps__elevenlabs_creative_create_asset_upload",
+    "mcp__codex_apps__elevenlabs_creative_create_flow",
+    "mcp__codex_apps__elevenlabs_creative_design_voice",
+    "mcp__codex_apps__elevenlabs_creative_finalize_asset_upload",
+    "mcp__codex_apps__elevenlabs_creative_generate_in_flow",
+    "mcp__codex_apps__elevenlabs_creative_generate_speech",
+    "mcp__codex_apps__elevenlabs_creative_run_flow_nodes",
+    "mcp__codex_apps__elevenlabs_creative_save_designed_voice",
+    "mcp__codex_apps__elevenlabs_creative_transcribe_audio",
+    "mcp__codex_apps__elevenlabs_creative_update_node",
+    "mcp__codex_apps__elevenlabs_creative_upload_flow_reference",
+    "mcp__shotstack__studio",
+    "mcp__shotstack__render_video",
+    "mcp__shotstack__create_studio_link"
+]
+}
