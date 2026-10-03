@@ -1,0 +1,14 @@
+{
+  "name": "agent-forge-independent-specialists",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "engines": { "node": ">=22" },
+  "scripts": {
+    "preview": "node install.mjs preview",
+    "install:agents": "node install.mjs install",
+    "verify": "node install.mjs verify",
+    "rollback": "node install.mjs rollback",
+    "uninstall:agents": "node install.mjs uninstall"
+  }
+}
