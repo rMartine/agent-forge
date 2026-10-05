@@ -1,3 +1,4 @@
+import * as vscode from 'vscode';
 import {
   applyCleanupPlan,
   applyDeploymentPlan,
@@ -26,6 +27,12 @@ import { discoverAvailableModelIds } from './modelPolicyService';
 export class DeploymentService {
   constructor(readonly repoPath: string) {}
 
+  private copilotOptions(): { rosters: 'all'; harness: 'copilot' | 'local' } {
+    const harness = vscode.workspace.getConfiguration('agentForge').get<string>('copilotHarness', 'copilot');
+    if (harness !== 'copilot' && harness !== 'local') throw new Error('agentForge.copilotHarness must be copilot or local.');
+    return { rosters: 'all', harness };
+  }
+
   async validate(target: RuntimeSelection = 'all') {
     const manifest = await loadManifest(this.repoPath);
     return validateRoster(this.repoPath, manifest, await loadCapabilityCatalog(this.repoPath, manifest.capabilityCatalog), { target });
@@ -34,18 +41,20 @@ export class DeploymentService {
   async doctor(target: RuntimeSelection = 'all') {
     const manifest = await loadManifest(this.repoPath);
     const roster = await this.validate(target);
-    const mcp = target === 'codex' ? undefined : await doctorMcp(await loadMcpProviders(this.repoPath, manifest.mcpProviders));
+    const fourRosters = Boolean(manifest.copilotFourRosters);
+    const mcp = target === 'codex' ? undefined : await doctorMcp(await loadMcpProviders(this.repoPath, manifest.copilotFourRosters?.mcpProviders ?? manifest.mcpProviders));
     const codex = target === 'vscode' ? undefined : await discoverCodexEnvironment();
     const tools = discoverAvailableToolIds();
     const models = await discoverAvailableModelIds();
     const preview = await createDeploymentPlan(this.repoPath, {
       target,
+      ...(target === 'codex' ? {} : this.copilotOptions()),
       availableTools: tools,
       availableModels: models,
       codexModelAvailability: codex,
       strictCapabilities: target !== 'codex',
     });
-    const ready = roster.valid && (mcp?.ready ?? true) && (codex?.supported ?? true) && !preview.diagnostics.some(item => item.severity === 'error');
+    const ready = roster.valid && (fourRosters || (mcp?.ready ?? true)) && (codex?.supported ?? true) && !preview.diagnostics.some(item => item.severity === 'error');
     return { ready, roster, mcp, codex, preview, tools, models };
   }
 
@@ -53,6 +62,7 @@ export class DeploymentService {
     const codex = target === 'vscode' ? undefined : await discoverCodexEnvironment();
     const plan = await createDeploymentPlan(this.repoPath, {
       target,
+      ...(target === 'codex' ? {} : this.copilotOptions()),
       availableTools: discoverAvailableToolIds(),
       availableModels: await discoverAvailableModelIds(),
       codexModelAvailability: codex,
@@ -75,6 +85,7 @@ export class DeploymentService {
   async cleanupPreview(target: RuntimeSelection = 'all'): Promise<CleanupPlan> {
     const plan = await createCleanupPlan(this.repoPath, {
       target,
+      ...(target === 'codex' ? {} : this.copilotOptions()),
       availableTools: discoverAvailableToolIds(),
       availableModels: await discoverAvailableModelIds(),
       strictCapabilities: target !== 'codex',

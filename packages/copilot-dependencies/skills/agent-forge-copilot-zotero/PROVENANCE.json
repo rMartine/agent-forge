@@ -1,0 +1,9 @@
+{
+  "kind": "original-agent-forge-portable-implementation",
+  "authoredFor": "Copilot four-roster migration",
+  "thirdPartySourceCopied": false,
+  "references": [
+    "https://www.zotero.org/support/dev/web_api/v3/basics"
+  ],
+  "license": "Repository-owner terms; third-party runtimes retain their upstream licenses"
+}

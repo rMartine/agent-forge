@@ -1,0 +1,1633 @@
+{
+  "schemaVersion": 1,
+  "generatedFrom": "source rosters and compiled renderer; no models executed",
+  "expected": {
+    "coordinators": 4,
+    "specialists": 41,
+    "ownSkills": 60
+  },
+  "rosters": [
+    {
+      "id": "development",
+      "name": "Desarrollo",
+      "coordinator": {
+        "id": "agent-forge-development",
+        "name": "Desarrollo"
+      },
+      "specialistCount": 16,
+      "skillCount": 18,
+      "coordinationSkill": "agent-forge-copilot-build-software-products"
+    },
+    {
+      "id": "research",
+      "name": "Investigación",
+      "coordinator": {
+        "id": "agent-forge-research",
+        "name": "Investigación",
+        "model": "gpt-6-astra",
+        "reasoning": "high"
+      },
+      "specialistCount": 20,
+      "skillCount": 21,
+      "coordinationSkill": "agent-forge-copilot-research-direct-research"
+    },
+    {
+      "id": "communication",
+      "name": "Comunicación y Formación",
+      "coordinator": {
+        "id": "agent-forge-communication",
+        "name": "Comunicación y Formación"
+      },
+      "specialistCount": 4,
+      "skillCount": 12,
+      "coordinationSkill": "agent-forge-copilot-independent-specialist-coordination"
+    },
+    {
+      "id": "consulting",
+      "name": "Consultoría",
+      "coordinator": {
+        "id": "agent-forge-consulting",
+        "name": "Consultoría"
+      },
+      "specialistCount": 1,
+      "skillCount": 9,
+      "coordinationSkill": "agent-forge-copilot-consulting-specialist-coordination"
+    }
+  ],
+  "agents": [
+    {
+      "id": "software-architect",
+      "copilotName": "agent-forge-copilot-software-architect",
+      "roster": "development",
+      "coordinator": false,
+      "readOnly": true,
+      "model": "gpt-6.1-sol",
+      "reasoning": "high",
+      "source": "agents/software-architect.agent.md",
+      "sourceHash": "5d0a0c1eb5582da828b365bad425e414cfe63c3bf18bcc93f4e8584d359b343e",
+      "skills": [
+        "agent-forge-copilot-lifecycle",
+        "agent-forge-copilot-security-operations"
+      ]
+    },
+    {
+      "id": "principal-engineer",
+      "copilotName": "agent-forge-copilot-principal-engineer",
+      "roster": "development",
+      "coordinator": false,
+      "readOnly": false,
+      "model": "gpt-6.1-sol",
+      "reasoning": "high",
+      "source": "agents/principal-engineer.agent.md",
+      "sourceHash": "73ebfc5ee0f8be3768dec066bd0ab15e39dda92edfd998cc342eeb7491976b88",
+      "skills": [
+        "agent-forge-copilot-lifecycle",
+        "agent-forge-copilot-engineering",
+        "agent-forge-copilot-security-operations"
+      ]
+    },
+    {
+      "id": "backend-developer",
+      "copilotName": "agent-forge-copilot-backend-developer",
+      "roster": "development",
+      "coordinator": false,
+      "readOnly": false,
+      "model": "gpt-6-luna",
+      "reasoning": "high",
+      "source": "agents/backend-developer.agent.md",
+      "sourceHash": "8b92ffa6102644a33c5939e1f4cdee53d064c0c54d139503074051c219611909",
+      "skills": [
+        "agent-forge-copilot-engineering"
+      ]
+    },
+    {
+      "id": "frontend-developer",
+      "copilotName": "agent-forge-copilot-frontend-developer",
+      "roster": "development",
+      "coordinator": false,
+      "readOnly": false,
+      "model": "gpt-6.1-sol",
+      "reasoning": "medium",
+      "source": "agents/frontend-developer.agent.md",
+      "sourceHash": "8963371fbbf2a1dd0ea0092377e239377dec372cc52b05a53df24f980cad4ef8",
+      "skills": [
+        "agent-forge-copilot-engineering",
+        "agent-forge-copilot-frontend-design",
+        "agent-forge-copilot-impeccable",
+        "agent-forge-copilot-emil-design-eng",
+        "agent-forge-copilot-review-animations",
+        "agent-forge-copilot-taste-frontend"
+      ]
+    },
+    {
+      "id": "database-engineer",
+      "copilotName": "agent-forge-copilot-database-engineer",
+      "roster": "development",
+      "coordinator": false,
+      "readOnly": false,
+      "model": "gpt-6.1-sol",
+      "reasoning": "high",
+      "source": "agents/database-engineer.agent.md",
+      "sourceHash": "6beb19ae9d0cd3f01e3ad68266e38daa2d3cc8d184713d0adc793fa71783a078",
+      "skills": [
+        "agent-forge-copilot-engineering",
+        "agent-forge-copilot-security-operations",
+        "agent-forge-copilot-supabase-postgres-best-practices"
+      ]
+    },
+    {
+      "id": "dotnet-engineer",
+      "copilotName": "agent-forge-copilot-dotnet-engineer",
+      "roster": "development",
+      "coordinator": false,
+      "readOnly": false,
+      "model": "gpt-6-luna",
+      "reasoning": "high",
+      "source": "agents/dotnet-engineer.agent.md",
+      "sourceHash": "a88fb22792bcce1f085c7af3b0ce873784a0082fa0b9d47f17d1401ffcc33acc",
+      "skills": [
+        "agent-forge-copilot-engineering",
+        "agent-forge-copilot-create-datadriven-aspnetcore"
+      ]
+    },
+    {
+      "id": "desktop-app-engineer",
+      "copilotName": "agent-forge-copilot-desktop-app-engineer",
+      "roster": "development",
+      "coordinator": false,
+      "readOnly": false,
+      "model": "gpt-6.1-sol",
+      "reasoning": "high",
+      "source": "agents/desktop-app-engineer.agent.md",
+      "sourceHash": "0ab713f903630d68bd8660c1eaa8e04906a568d75af1df71885cf7cbfa28b143",
+      "skills": [
+        "agent-forge-copilot-engineering"
+      ]
+    },
+    {
+      "id": "mobile-engineer",
+      "copilotName": "agent-forge-copilot-mobile-engineer",
+      "roster": "development",
+      "coordinator": false,
+      "readOnly": false,
+      "model": "gpt-6-luna",
+      "reasoning": "high",
+      "source": "agents/mobile-engineer.agent.md",
+      "sourceHash": "465df8f5380be2fdc877716fc3d35bbc6fcc414a9cd898489884fec098447d45",
+      "skills": [
+        "agent-forge-copilot-engineering",
+        "agent-forge-copilot-impeccable",
+        "agent-forge-copilot-review-animations",
+        "agent-forge-copilot-animate-expo"
+      ]
+    },
+    {
+      "id": "ml-engineer",
+      "copilotName": "agent-forge-copilot-ml-engineer",
+      "roster": "development",
+      "coordinator": false,
+      "readOnly": false,
+      "model": "gpt-6.1-sol",
+      "reasoning": "high",
+      "source": "agents/ml-engineer.agent.md",
+      "sourceHash": "e73ab04974f9f86ef837dd6e09ab654d573b744ce1b2092eb1a52120df061a07",
+      "skills": [
+        "agent-forge-copilot-engineering"
+      ]
+    },
+    {
+      "id": "agentic-systems-engineer",
+      "copilotName": "agent-forge-copilot-agentic-systems-engineer",
+      "roster": "development",
+      "coordinator": false,
+      "readOnly": false,
+      "model": "gpt-6.1-sol",
+      "reasoning": "high",
+      "source": "agents/agentic-systems-engineer.agent.md",
+      "sourceHash": "5cbd60d8dd9fa607bd125fb1777c8bb810507a480488a075c4b8a5e82d80dddd",
+      "skills": [
+        "agent-forge-copilot-agentic-knowledge",
+        "agent-forge-copilot-engineering",
+        "agent-forge-copilot-langchain"
+      ]
+    },
+    {
+      "id": "digital-twin-engineer",
+      "copilotName": "agent-forge-copilot-digital-twin-engineer",
+      "roster": "development",
+      "coordinator": false,
+      "readOnly": false,
+      "model": "gpt-6.1-sol",
+      "reasoning": "high",
+      "source": "agents/digital-twin-engineer.agent.md",
+      "sourceHash": "4fe2f7a4da795ec4ebf20e3e583e01256d11eb94e496a5bbf6bb092f001480b4",
+      "skills": [
+        "agent-forge-copilot-engineering",
+        "agent-forge-copilot-security-operations"
+      ]
+    },
+    {
+      "id": "qa-engineer",
+      "copilotName": "agent-forge-copilot-qa-engineer",
+      "roster": "development",
+      "coordinator": false,
+      "readOnly": false,
+      "model": "gpt-6-luna",
+      "reasoning": "high",
+      "source": "agents/qa-engineer.agent.md",
+      "sourceHash": "de1f586a5f2c0a5fa293b796b835c044966f14d093e96e627fc51a76225dc075",
+      "skills": [
+        "agent-forge-copilot-engineering",
+        "agent-forge-copilot-playwright-cli",
+        "agent-forge-copilot-review-animations",
+        "agent-forge-copilot-break-ui"
+      ]
+    },
+    {
+      "id": "cybersecurity-engineer",
+      "copilotName": "agent-forge-copilot-cybersecurity-engineer",
+      "roster": "development",
+      "coordinator": false,
+      "readOnly": true,
+      "model": "gpt-6.1-sol",
+      "reasoning": "high",
+      "source": "agents/cybersecurity-engineer.agent.md",
+      "sourceHash": "03c1f8113997e3826ec721bd9776451134e692ebd54dd1214ece553e9086199b",
+      "skills": [
+        "agent-forge-copilot-security-operations",
+        "agent-forge-copilot-code-review-security"
+      ]
+    },
+    {
+      "id": "devops-engineer",
+      "copilotName": "agent-forge-copilot-devops-engineer",
+      "roster": "development",
+      "coordinator": false,
+      "readOnly": false,
+      "model": "gpt-6.1-sol",
+      "reasoning": "high",
+      "source": "agents/devops-engineer.agent.md",
+      "sourceHash": "a60058de4ea7c3d8c86b86f9b0b36d6792075a89c1bfd25add486b5d380d513c",
+      "skills": [
+        "agent-forge-copilot-security-operations",
+        "agent-forge-copilot-lifecycle"
+      ]
+    },
+    {
+      "id": "ux-engineer",
+      "copilotName": "agent-forge-copilot-ux-engineer",
+      "roster": "development",
+      "coordinator": false,
+      "readOnly": false,
+      "model": "gpt-6.1-sol",
+      "reasoning": "medium",
+      "source": "agents/ux-engineer.agent.md",
+      "sourceHash": "c10fafe8ec89e3bd84947dd350a2e4cf8937fe7bacce77d2bea54fe09938834b",
+      "skills": [
+        "agent-forge-copilot-design",
+        "agent-forge-copilot-engineering",
+        "agent-forge-copilot-frontend-design",
+        "agent-forge-copilot-impeccable",
+        "agent-forge-copilot-emil-design-eng",
+        "agent-forge-copilot-review-animations",
+        "agent-forge-copilot-break-ui",
+        "agent-forge-copilot-taste-frontend"
+      ]
+    },
+    {
+      "id": "technical-writer",
+      "copilotName": "agent-forge-copilot-technical-writer",
+      "roster": "development",
+      "coordinator": false,
+      "readOnly": false,
+      "model": "gpt-6-luna",
+      "reasoning": "high",
+      "source": "agents/technical-writer.agent.md",
+      "sourceHash": "b44f2e11b962db891b98d2fa8b269841cce66512d5a296de565d35117b7e2eac",
+      "skills": [
+        "agent-forge-copilot-lifecycle",
+        "agent-forge-copilot-engineering"
+      ]
+    },
+    {
+      "id": "research-literature-search",
+      "copilotName": "agent-forge-copilot-research-literature-search",
+      "roster": "research",
+      "coordinator": false,
+      "readOnly": false,
+      "model": "gpt-6.1-sol",
+      "reasoning": "high",
+      "source": "packages/research-specialists/roles/research-literature-search.md",
+      "sourceHash": "9eee808a6d843957011dd0c1c4a9ec207a8273969d32cbd94aa3293ea3a6b8a6",
+      "skills": [
+        "agent-forge-copilot-research-literature-review"
+      ]
+    },
+    {
+      "id": "research-evidence-synthesis",
+      "copilotName": "agent-forge-copilot-research-evidence-synthesis",
+      "roster": "research",
+      "coordinator": false,
+      "readOnly": false,
+      "model": "gpt-6-astra",
+      "reasoning": "high",
+      "source": "packages/research-specialists/roles/research-evidence-synthesis.md",
+      "sourceHash": "4cf09d2b499201ace0b1b137abc3c06313765e2a2586aa8439f067987d15d77f",
+      "skills": [
+        "agent-forge-copilot-research-literature-review",
+        "agent-forge-copilot-research-scientific-critical-thinking"
+      ]
+    },
+    {
+      "id": "research-bibliographic-references",
+      "copilotName": "agent-forge-copilot-research-bibliographic-references",
+      "roster": "research",
+      "coordinator": false,
+      "readOnly": false,
+      "model": "gpt-6.1-sol",
+      "reasoning": "medium",
+      "source": "packages/research-specialists/roles/research-bibliographic-references.md",
+      "sourceHash": "0b67992b0540b2980f400f2498ba740bee9e220ca83b23c1f5e54f038e58098a",
+      "skills": [
+        "agent-forge-copilot-research-citation-management"
+      ]
+    },
+    {
+      "id": "research-experimental-design",
+      "copilotName": "agent-forge-copilot-research-experimental-design",
+      "roster": "research",
+      "coordinator": false,
+      "readOnly": false,
+      "model": "gpt-6-astra",
+      "reasoning": "high",
+      "source": "packages/research-specialists/roles/research-experimental-design.md",
+      "sourceHash": "678a9a523b55407eff1fd694590260bd54845f1dc784ec86800bee1dc86a290c",
+      "skills": [
+        "agent-forge-copilot-research-experimental-design",
+        "agent-forge-copilot-research-scientific-critical-thinking"
+      ]
+    },
+    {
+      "id": "research-human-participant-studies",
+      "copilotName": "agent-forge-copilot-research-human-participant-studies",
+      "roster": "research",
+      "coordinator": false,
+      "readOnly": false,
+      "model": "gpt-6-astra",
+      "reasoning": "high",
+      "source": "packages/research-specialists/roles/research-human-participant-studies.md",
+      "sourceHash": "a6cd5063d9cd374da46499247bb70d75be4df5c4bee635408c1118c58a7e65e0",
+      "skills": [
+        "agent-forge-copilot-research-research-human-participants",
+        "agent-forge-copilot-research-experimental-design"
+      ]
+    },
+    {
+      "id": "research-statistical-analysis",
+      "copilotName": "agent-forge-copilot-research-statistical-analysis",
+      "roster": "research",
+      "coordinator": false,
+      "readOnly": false,
+      "model": "gpt-6-astra",
+      "reasoning": "high",
+      "source": "packages/research-specialists/roles/research-statistical-analysis.md",
+      "sourceHash": "3a19e5fc25eae076d73a946fdabcf98be89f9719720c67b47b6caf93bec45bad",
+      "skills": [
+        "agent-forge-copilot-research-statistical-analysis"
+      ]
+    },
+    {
+      "id": "research-computational-reproducibility",
+      "copilotName": "agent-forge-copilot-research-computational-reproducibility",
+      "roster": "research",
+      "coordinator": false,
+      "readOnly": false,
+      "model": "gpt-6.1-sol",
+      "reasoning": "high",
+      "source": "packages/research-specialists/roles/research-computational-reproducibility.md",
+      "sourceHash": "4d81dc1531a27d8ab7ae0b2d76f500ed2627c7518d7ea9bff75ff9e2d1d10a29",
+      "skills": []
+    },
+    {
+      "id": "research-scientific-figures",
+      "copilotName": "agent-forge-copilot-research-scientific-figures",
+      "roster": "research",
+      "coordinator": false,
+      "readOnly": false,
+      "model": "gpt-6.1-sol",
+      "reasoning": "high",
+      "source": "packages/research-specialists/roles/research-scientific-figures.md",
+      "sourceHash": "568fae993f0d3ca1084332af0d00c40ceafc486e75fa060ddbbb94cea869df8e",
+      "skills": [
+        "agent-forge-copilot-research-scientific-visualization"
+      ]
+    },
+    {
+      "id": "research-scientific-writing",
+      "copilotName": "agent-forge-copilot-research-scientific-writing",
+      "roster": "research",
+      "coordinator": false,
+      "readOnly": false,
+      "model": "gpt-6-astra",
+      "reasoning": "medium",
+      "source": "packages/research-specialists/roles/research-scientific-writing.md",
+      "sourceHash": "33fa49e513a34c24293b5c32ec3aaeef95ef4fd119de0e43d8095bbeae1459bc",
+      "skills": [
+        "agent-forge-copilot-research-nature-writing",
+        "agent-forge-copilot-research-nature-shared",
+        "agent-forge-copilot-research-research-latex"
+      ]
+    },
+    {
+      "id": "research-reviewer-responses",
+      "copilotName": "agent-forge-copilot-research-reviewer-responses",
+      "roster": "research",
+      "coordinator": false,
+      "readOnly": false,
+      "model": "gpt-6-astra",
+      "reasoning": "high",
+      "source": "packages/research-specialists/roles/research-reviewer-responses.md",
+      "sourceHash": "d091154833878ce987ab5cb3a5b5db90863f2f3653457577aad615190fdd532e",
+      "skills": [
+        "agent-forge-copilot-research-nature-response",
+        "agent-forge-copilot-research-nature-shared"
+      ]
+    },
+    {
+      "id": "research-independent-scientific-review",
+      "copilotName": "agent-forge-copilot-research-independent-scientific-review",
+      "roster": "research",
+      "coordinator": false,
+      "readOnly": true,
+      "model": "gpt-6-astra",
+      "reasoning": "high",
+      "source": "packages/research-specialists/roles/research-independent-scientific-review.md",
+      "sourceHash": "a35aa679151ce26ef383a2ab21a50652912a28adaa7c7f65f4720dc331a45ff4",
+      "skills": [
+        "agent-forge-copilot-research-scientific-critical-thinking"
+      ]
+    },
+    {
+      "id": "research-machine-learning",
+      "copilotName": "agent-forge-copilot-research-machine-learning",
+      "roster": "research",
+      "coordinator": false,
+      "readOnly": false,
+      "model": "gpt-6-astra",
+      "reasoning": "high",
+      "source": "packages/research-specialists/roles/research-machine-learning.md",
+      "sourceHash": "0fba24653460cd0785125e4a4d2c424cff0c2b79c16cd0e55297b3752dd4ad5a",
+      "skills": [
+        "agent-forge-copilot-research-research-machine-learning",
+        "agent-forge-copilot-research-scientific-critical-thinking"
+      ]
+    },
+    {
+      "id": "research-language-models",
+      "copilotName": "agent-forge-copilot-research-language-models",
+      "roster": "research",
+      "coordinator": false,
+      "readOnly": false,
+      "model": "gpt-6-astra",
+      "reasoning": "high",
+      "source": "packages/research-specialists/roles/research-language-models.md",
+      "sourceHash": "47f150f0a15a7719a73ea835247e35d1ad582a69de2a6d868452f3ec407a33b4",
+      "skills": [
+        "agent-forge-copilot-research-research-language-models",
+        "agent-forge-copilot-research-scientific-critical-thinking"
+      ]
+    },
+    {
+      "id": "research-computer-vision",
+      "copilotName": "agent-forge-copilot-research-computer-vision",
+      "roster": "research",
+      "coordinator": false,
+      "readOnly": false,
+      "model": "gpt-6-astra",
+      "reasoning": "high",
+      "source": "packages/research-specialists/roles/research-computer-vision.md",
+      "sourceHash": "6fb9ed31b7daf99436b787bc8e74de1766772c41ee4e11e64fc543f16993450a",
+      "skills": [
+        "agent-forge-copilot-research-research-computer-vision",
+        "agent-forge-copilot-research-scientific-critical-thinking"
+      ]
+    },
+    {
+      "id": "research-human-ai-interaction",
+      "copilotName": "agent-forge-copilot-research-human-ai-interaction",
+      "roster": "research",
+      "coordinator": false,
+      "readOnly": false,
+      "model": "gpt-6-astra",
+      "reasoning": "high",
+      "source": "packages/research-specialists/roles/research-human-ai-interaction.md",
+      "sourceHash": "3d37d5af9e2090074280cefc43abf7eac4da99cffdc2a7859c85b95bf51db086",
+      "skills": [
+        "agent-forge-copilot-research-research-human-ai-interaction",
+        "agent-forge-copilot-research-scientific-critical-thinking"
+      ]
+    },
+    {
+      "id": "research-extended-reality",
+      "copilotName": "agent-forge-copilot-research-extended-reality",
+      "roster": "research",
+      "coordinator": false,
+      "readOnly": false,
+      "model": "gpt-6-astra",
+      "reasoning": "high",
+      "source": "packages/research-specialists/roles/research-extended-reality.md",
+      "sourceHash": "d78533851900bebbd8d27efe5c47ccc4a5a936d6af96e32d615e013d8dbe626e",
+      "skills": [
+        "agent-forge-copilot-research-research-extended-reality",
+        "agent-forge-copilot-research-scientific-critical-thinking"
+      ]
+    },
+    {
+      "id": "research-physical-ai",
+      "copilotName": "agent-forge-copilot-research-physical-ai",
+      "roster": "research",
+      "coordinator": false,
+      "readOnly": false,
+      "model": "gpt-6-astra",
+      "reasoning": "high",
+      "source": "packages/research-specialists/roles/research-physical-ai.md",
+      "sourceHash": "c43df7b1d906401f92d0e56d7cc90aa83d33cab58fdaa2110a4d8df353701546",
+      "skills": [
+        "agent-forge-copilot-research-research-physical-ai",
+        "agent-forge-copilot-research-scientific-critical-thinking"
+      ]
+    },
+    {
+      "id": "research-mathematical-modeling",
+      "copilotName": "agent-forge-copilot-research-mathematical-modeling",
+      "roster": "research",
+      "coordinator": false,
+      "readOnly": false,
+      "model": "gpt-6-astra",
+      "reasoning": "high",
+      "source": "packages/research-specialists/roles/research-mathematical-modeling.md",
+      "sourceHash": "b502b67b4d2b6ee8e64e3a2e918b2da5a7bb7408da0c013b8c9b7194d03cd942",
+      "skills": [
+        "agent-forge-copilot-research-research-mathematical-modeling",
+        "agent-forge-copilot-research-scientific-critical-thinking"
+      ]
+    },
+    {
+      "id": "research-mathematics",
+      "copilotName": "agent-forge-copilot-research-mathematics",
+      "roster": "research",
+      "coordinator": false,
+      "readOnly": false,
+      "model": "gpt-6-astra",
+      "reasoning": "high",
+      "source": "packages/research-specialists/roles/research-mathematics.md",
+      "sourceHash": "095ac2ec5ef46109af7b6dd6d7cd1ca0e1835fd8ab031de18e069e7aa03f8c10",
+      "skills": [
+        "agent-forge-copilot-research-research-mathematics",
+        "agent-forge-copilot-research-scientific-critical-thinking"
+      ]
+    },
+    {
+      "id": "research-robotics",
+      "copilotName": "agent-forge-copilot-research-robotics",
+      "roster": "research",
+      "coordinator": false,
+      "readOnly": false,
+      "model": "gpt-6-astra",
+      "reasoning": "high",
+      "source": "packages/research-specialists/roles/research-robotics.md",
+      "sourceHash": "afa82fff29221fe2f49484536de12b204cd8c7679ab93c4a184047a6539354bf",
+      "skills": [
+        "agent-forge-copilot-research-research-robotics",
+        "agent-forge-copilot-research-scientific-critical-thinking"
+      ]
+    },
+    {
+      "id": "adult-education-specialist",
+      "copilotName": "agent-forge-copilot-adult-education-specialist",
+      "roster": "communication",
+      "coordinator": false,
+      "readOnly": false,
+      "model": "gpt-6-astra",
+      "reasoning": "high",
+      "source": "packages/independent-specialists/agents/adult-education-specialist.toml",
+      "sourceHash": "daafba4531c268c668a67bcd13e5a77e62148c4f980c9661ec593be4e7df8d1a",
+      "skills": [
+        "agent-forge-copilot-independent-adult-learning",
+        "agent-forge-copilot-independent-natural-writing",
+        "agent-forge-copilot-independent-video-scriptwriting",
+        "agent-forge-copilot-independent-shotstack",
+        "agent-forge-copilot-independent-elevenlabs",
+        "agent-forge-copilot-communication-design-styles"
+      ]
+    },
+    {
+      "id": "audiovisual-production-specialist",
+      "copilotName": "agent-forge-copilot-audiovisual-production-specialist",
+      "roster": "communication",
+      "coordinator": false,
+      "readOnly": false,
+      "model": "gpt-6.1-sol",
+      "reasoning": "high",
+      "source": "packages/independent-specialists/agents/audiovisual-production-specialist.toml",
+      "sourceHash": "7356dc02688ba270359f8f762ae9c13197492aa98b6c38953429e3b38ddf5841",
+      "skills": [
+        "agent-forge-copilot-independent-natural-writing",
+        "agent-forge-copilot-independent-video-scriptwriting",
+        "agent-forge-copilot-independent-shotstack",
+        "agent-forge-copilot-independent-elevenlabs",
+        "agent-forge-copilot-communication-design-styles"
+      ]
+    },
+    {
+      "id": "brand-and-graphic-design-specialist",
+      "copilotName": "agent-forge-copilot-brand-and-graphic-design-specialist",
+      "roster": "communication",
+      "coordinator": false,
+      "readOnly": false,
+      "model": "gpt-6.1-sol",
+      "reasoning": "high",
+      "source": "packages/independent-specialists/agents/brand-and-graphic-design-specialist.toml",
+      "sourceHash": "55c92555b744dc381ffb4dc1a925d3aa7f3ae50e5da117f9650c8e5fc83a7d6b",
+      "skills": [
+        "agent-forge-copilot-independent-copywriting",
+        "agent-forge-copilot-independent-natural-writing",
+        "agent-forge-copilot-communication-design-styles"
+      ]
+    },
+    {
+      "id": "marketing-and-sales-specialist",
+      "copilotName": "agent-forge-copilot-marketing-and-sales-specialist",
+      "roster": "communication",
+      "coordinator": false,
+      "readOnly": false,
+      "model": "gpt-6-astra",
+      "reasoning": "high",
+      "source": "packages/independent-specialists/agents/marketing-and-sales-specialist.toml",
+      "sourceHash": "9f65206b67233a9fc472726ce9ab0568501ff5afbe15a3382a99cc7185dc59da",
+      "skills": [
+        "agent-forge-copilot-independent-content-strategy",
+        "agent-forge-copilot-independent-copywriting",
+        "agent-forge-copilot-independent-seo-audit",
+        "agent-forge-copilot-independent-social",
+        "agent-forge-copilot-independent-sales-enablement",
+        "agent-forge-copilot-independent-natural-writing",
+        "agent-forge-copilot-independent-video-scriptwriting",
+        "agent-forge-copilot-communication-design-styles"
+      ]
+    },
+    {
+      "id": "technology-ai-logistics-consultant",
+      "copilotName": "agent-forge-copilot-technology-ai-logistics-consultant",
+      "roster": "consulting",
+      "coordinator": false,
+      "readOnly": false,
+      "model": null,
+      "reasoning": null,
+      "source": "packages/consulting-specialist/agents/technology-ai-logistics-consultant.toml",
+      "sourceHash": "489d49f49a54c1a3abe0e9e622940e4463ca28409949797919202b79a66c7978",
+      "skills": [
+        "agent-forge-copilot-consulting-strategic-analysis",
+        "agent-forge-copilot-consulting-process-excellence",
+        "agent-forge-copilot-consulting-financial-modeling",
+        "agent-forge-copilot-consulting-proposal-development",
+        "agent-forge-copilot-consulting-implementation-planning",
+        "agent-forge-copilot-consulting-client-deliverables",
+        "agent-forge-copilot-consulting-logistics-customs-transport",
+        "agent-forge-copilot-consulting-technology-ai-solutions"
+      ]
+    },
+    {
+      "id": "agent-forge-development",
+      "copilotName": "agent-forge-development",
+      "roster": "development",
+      "coordinator": true,
+      "readOnly": false,
+      "model": null,
+      "reasoning": null,
+      "source": "skills/direct-software-product-development/SKILL.md",
+      "sourceHash": "ad567412e3d209d18fb42e1bd4049c04276a8a8f3ba137e52653f79335cd4bdf",
+      "skills": [
+        "agent-forge-copilot-build-software-products"
+      ]
+    },
+    {
+      "id": "agent-forge-research",
+      "copilotName": "agent-forge-research",
+      "roster": "research",
+      "coordinator": true,
+      "readOnly": false,
+      "model": "gpt-6-astra",
+      "reasoning": "high",
+      "source": "packages/research-specialists/skills/direct-research/SKILL.md",
+      "sourceHash": "b75f450944617ef4ecc70da0cd2f36b3ff21bfc6e8e17b1f02d6913c6534c114",
+      "skills": [
+        "agent-forge-copilot-research-direct-research"
+      ]
+    },
+    {
+      "id": "agent-forge-communication",
+      "copilotName": "agent-forge-communication",
+      "roster": "communication",
+      "coordinator": true,
+      "readOnly": false,
+      "model": null,
+      "reasoning": null,
+      "source": "packages/independent-specialists/skills/independent-specialist-coordination/SKILL.md",
+      "sourceHash": "39902c938404f20b7898b5a13a15e20ab34dbcdcab7018a80f7468335af9d4d6",
+      "skills": [
+        "agent-forge-copilot-independent-specialist-coordination"
+      ]
+    },
+    {
+      "id": "agent-forge-consulting",
+      "copilotName": "agent-forge-consulting",
+      "roster": "consulting",
+      "coordinator": true,
+      "readOnly": false,
+      "model": null,
+      "reasoning": null,
+      "source": "packages/consulting-specialist/skills/consulting-specialist-coordination/SKILL.md",
+      "sourceHash": "323448442faeb980b572cd91f9048d74097cb0501f58647f533d6df995c679eb",
+      "skills": [
+        "agent-forge-copilot-consulting-specialist-coordination"
+      ]
+    }
+  ],
+  "skills": [
+    {
+      "id": "agent-forge-copilot-lifecycle",
+      "roster": "development",
+      "source": "SKILL.md",
+      "dependency": false
+    },
+    {
+      "id": "agent-forge-copilot-engineering",
+      "roster": "development",
+      "source": "SKILL.md",
+      "dependency": false
+    },
+    {
+      "id": "agent-forge-copilot-security-operations",
+      "roster": "development",
+      "source": "SKILL.md",
+      "dependency": false
+    },
+    {
+      "id": "agent-forge-copilot-design",
+      "roster": "development",
+      "source": "SKILL.md",
+      "dependency": false
+    },
+    {
+      "id": "agent-forge-copilot-agentic-knowledge",
+      "roster": "development",
+      "source": "SKILL.md",
+      "dependency": false
+    },
+    {
+      "id": "agent-forge-copilot-frontend-design",
+      "roster": "development",
+      "source": "https://github.com/anthropics/skills",
+      "dependency": false
+    },
+    {
+      "id": "agent-forge-copilot-playwright-cli",
+      "roster": "development",
+      "source": "https://github.com/microsoft/playwright-cli",
+      "dependency": false
+    },
+    {
+      "id": "agent-forge-copilot-code-review-security",
+      "roster": "development",
+      "source": "https://github.com/OWASP/secure-agent-playbook",
+      "dependency": false
+    },
+    {
+      "id": "agent-forge-copilot-langchain",
+      "roster": "development",
+      "source": "https://github.com/langchain-ai/docs",
+      "dependency": false
+    },
+    {
+      "id": "agent-forge-copilot-create-datadriven-aspnetcore",
+      "roster": "development",
+      "source": "https://github.com/dotnet/skills",
+      "dependency": false
+    },
+    {
+      "id": "agent-forge-copilot-supabase-postgres-best-practices",
+      "roster": "development",
+      "source": "https://github.com/supabase/agent-skills",
+      "dependency": false
+    },
+    {
+      "id": "agent-forge-copilot-impeccable",
+      "roster": "development",
+      "source": "https://github.com/pbakaus/impeccable",
+      "dependency": false
+    },
+    {
+      "id": "agent-forge-copilot-emil-design-eng",
+      "roster": "development",
+      "source": "https://github.com/emilkowalski/skills",
+      "dependency": false
+    },
+    {
+      "id": "agent-forge-copilot-review-animations",
+      "roster": "development",
+      "source": "https://github.com/emilkowalski/skills",
+      "dependency": false
+    },
+    {
+      "id": "agent-forge-copilot-animate-expo",
+      "roster": "development",
+      "source": "https://github.com/emilkowalski/skills",
+      "dependency": false
+    },
+    {
+      "id": "agent-forge-copilot-break-ui",
+      "roster": "development",
+      "source": "https://github.com/emilkowalski/skills",
+      "dependency": false
+    },
+    {
+      "id": "agent-forge-copilot-taste-frontend",
+      "roster": "development",
+      "source": "https://github.com/Leonxlnx/taste-skill",
+      "dependency": false
+    },
+    {
+      "id": "agent-forge-copilot-build-software-products",
+      "roster": "development",
+      "source": "skills/direct-software-product-development",
+      "dependency": false
+    },
+    {
+      "id": "agent-forge-copilot-research-citation-management",
+      "roster": "research",
+      "source": "packages/research-specialists/skills/citation-management",
+      "dependency": false
+    },
+    {
+      "id": "agent-forge-copilot-research-direct-research",
+      "roster": "research",
+      "source": "packages/research-specialists/skills/direct-research",
+      "dependency": false
+    },
+    {
+      "id": "agent-forge-copilot-research-experimental-design",
+      "roster": "research",
+      "source": "packages/research-specialists/skills/experimental-design",
+      "dependency": false
+    },
+    {
+      "id": "agent-forge-copilot-research-literature-review",
+      "roster": "research",
+      "source": "packages/research-specialists/skills/literature-review",
+      "dependency": false
+    },
+    {
+      "id": "agent-forge-copilot-research-nature-response",
+      "roster": "research",
+      "source": "packages/research-specialists/skills/nature-response",
+      "dependency": false
+    },
+    {
+      "id": "agent-forge-copilot-research-nature-shared",
+      "roster": "research",
+      "source": "packages/research-specialists/skills/nature-shared",
+      "dependency": false
+    },
+    {
+      "id": "agent-forge-copilot-research-nature-writing",
+      "roster": "research",
+      "source": "packages/research-specialists/skills/nature-writing",
+      "dependency": false
+    },
+    {
+      "id": "agent-forge-copilot-research-research-computer-vision",
+      "roster": "research",
+      "source": "packages/research-specialists/skills/research-computer-vision",
+      "dependency": false
+    },
+    {
+      "id": "agent-forge-copilot-research-research-extended-reality",
+      "roster": "research",
+      "source": "packages/research-specialists/skills/research-extended-reality",
+      "dependency": false
+    },
+    {
+      "id": "agent-forge-copilot-research-research-human-ai-interaction",
+      "roster": "research",
+      "source": "packages/research-specialists/skills/research-human-ai-interaction",
+      "dependency": false
+    },
+    {
+      "id": "agent-forge-copilot-research-research-human-participants",
+      "roster": "research",
+      "source": "packages/research-specialists/skills/research-human-participants",
+      "dependency": false
+    },
+    {
+      "id": "agent-forge-copilot-research-research-language-models",
+      "roster": "research",
+      "source": "packages/research-specialists/skills/research-language-models",
+      "dependency": false
+    },
+    {
+      "id": "agent-forge-copilot-research-research-latex",
+      "roster": "research",
+      "source": "packages/research-specialists/skills/research-latex",
+      "dependency": false
+    },
+    {
+      "id": "agent-forge-copilot-research-research-machine-learning",
+      "roster": "research",
+      "source": "packages/research-specialists/skills/research-machine-learning",
+      "dependency": false
+    },
+    {
+      "id": "agent-forge-copilot-research-research-mathematical-modeling",
+      "roster": "research",
+      "source": "packages/research-specialists/skills/research-mathematical-modeling",
+      "dependency": false
+    },
+    {
+      "id": "agent-forge-copilot-research-research-mathematics",
+      "roster": "research",
+      "source": "packages/research-specialists/skills/research-mathematics",
+      "dependency": false
+    },
+    {
+      "id": "agent-forge-copilot-research-research-physical-ai",
+      "roster": "research",
+      "source": "packages/research-specialists/skills/research-physical-ai",
+      "dependency": false
+    },
+    {
+      "id": "agent-forge-copilot-research-research-robotics",
+      "roster": "research",
+      "source": "packages/research-specialists/skills/research-robotics",
+      "dependency": false
+    },
+    {
+      "id": "agent-forge-copilot-research-scientific-critical-thinking",
+      "roster": "research",
+      "source": "packages/research-specialists/skills/scientific-critical-thinking",
+      "dependency": false
+    },
+    {
+      "id": "agent-forge-copilot-research-scientific-visualization",
+      "roster": "research",
+      "source": "packages/research-specialists/skills/scientific-visualization",
+      "dependency": false
+    },
+    {
+      "id": "agent-forge-copilot-research-statistical-analysis",
+      "roster": "research",
+      "source": "packages/research-specialists/skills/statistical-analysis",
+      "dependency": false
+    },
+    {
+      "id": "agent-forge-copilot-communication-design-styles",
+      "roster": "communication",
+      "source": "packages/independent-specialists/skills/communication-design-styles",
+      "dependency": false
+    },
+    {
+      "id": "agent-forge-copilot-independent-adult-learning",
+      "roster": "communication",
+      "source": "packages/independent-specialists/skills/independent-adult-learning",
+      "dependency": false
+    },
+    {
+      "id": "agent-forge-copilot-independent-content-strategy",
+      "roster": "communication",
+      "source": "packages/independent-specialists/skills/independent-content-strategy",
+      "dependency": false
+    },
+    {
+      "id": "agent-forge-copilot-independent-copywriting",
+      "roster": "communication",
+      "source": "packages/independent-specialists/skills/independent-copywriting",
+      "dependency": false
+    },
+    {
+      "id": "agent-forge-copilot-independent-elevenlabs",
+      "roster": "communication",
+      "source": "packages/independent-specialists/skills/independent-elevenlabs",
+      "dependency": false
+    },
+    {
+      "id": "agent-forge-copilot-independent-natural-writing",
+      "roster": "communication",
+      "source": "packages/independent-specialists/skills/independent-natural-writing",
+      "dependency": false
+    },
+    {
+      "id": "agent-forge-copilot-independent-sales-enablement",
+      "roster": "communication",
+      "source": "packages/independent-specialists/skills/independent-sales-enablement",
+      "dependency": false
+    },
+    {
+      "id": "agent-forge-copilot-independent-seo-audit",
+      "roster": "communication",
+      "source": "packages/independent-specialists/skills/independent-seo-audit",
+      "dependency": false
+    },
+    {
+      "id": "agent-forge-copilot-independent-shotstack",
+      "roster": "communication",
+      "source": "packages/independent-specialists/skills/independent-shotstack",
+      "dependency": false
+    },
+    {
+      "id": "agent-forge-copilot-independent-social",
+      "roster": "communication",
+      "source": "packages/independent-specialists/skills/independent-social",
+      "dependency": false
+    },
+    {
+      "id": "agent-forge-copilot-independent-specialist-coordination",
+      "roster": "communication",
+      "source": "packages/independent-specialists/skills/independent-specialist-coordination",
+      "dependency": false
+    },
+    {
+      "id": "agent-forge-copilot-independent-video-scriptwriting",
+      "roster": "communication",
+      "source": "packages/independent-specialists/skills/independent-video-scriptwriting",
+      "dependency": false
+    },
+    {
+      "id": "agent-forge-copilot-consulting-client-deliverables",
+      "roster": "consulting",
+      "source": "packages/consulting-specialist/skills/consulting-client-deliverables",
+      "dependency": false
+    },
+    {
+      "id": "agent-forge-copilot-consulting-financial-modeling",
+      "roster": "consulting",
+      "source": "packages/consulting-specialist/skills/consulting-financial-modeling",
+      "dependency": false
+    },
+    {
+      "id": "agent-forge-copilot-consulting-implementation-planning",
+      "roster": "consulting",
+      "source": "packages/consulting-specialist/skills/consulting-implementation-planning",
+      "dependency": false
+    },
+    {
+      "id": "agent-forge-copilot-consulting-logistics-customs-transport",
+      "roster": "consulting",
+      "source": "packages/consulting-specialist/skills/consulting-logistics-customs-transport",
+      "dependency": false
+    },
+    {
+      "id": "agent-forge-copilot-consulting-process-excellence",
+      "roster": "consulting",
+      "source": "packages/consulting-specialist/skills/consulting-process-excellence",
+      "dependency": false
+    },
+    {
+      "id": "agent-forge-copilot-consulting-proposal-development",
+      "roster": "consulting",
+      "source": "packages/consulting-specialist/skills/consulting-proposal-development",
+      "dependency": false
+    },
+    {
+      "id": "agent-forge-copilot-consulting-specialist-coordination",
+      "roster": "consulting",
+      "source": "packages/consulting-specialist/skills/consulting-specialist-coordination",
+      "dependency": false
+    },
+    {
+      "id": "agent-forge-copilot-consulting-strategic-analysis",
+      "roster": "consulting",
+      "source": "packages/consulting-specialist/skills/consulting-strategic-analysis",
+      "dependency": false
+    },
+    {
+      "id": "agent-forge-copilot-consulting-technology-ai-solutions",
+      "roster": "consulting",
+      "source": "packages/consulting-specialist/skills/consulting-technology-ai-solutions",
+      "dependency": false
+    },
+    {
+      "id": "agent-forge-copilot-elevenlabs-creative-studio",
+      "roster": "dependencies",
+      "source": "packages/copilot-dependencies/skills/agent-forge-copilot-elevenlabs-creative-studio",
+      "dependency": true
+    },
+    {
+      "id": "agent-forge-copilot-elevenlabs-text-to-speech",
+      "roster": "dependencies",
+      "source": "packages/copilot-dependencies/skills/agent-forge-copilot-elevenlabs-text-to-speech",
+      "dependency": true
+    },
+    {
+      "id": "agent-forge-copilot-elevenlabs-speech-to-text",
+      "roster": "dependencies",
+      "source": "packages/copilot-dependencies/skills/agent-forge-copilot-elevenlabs-speech-to-text",
+      "dependency": true
+    },
+    {
+      "id": "agent-forge-copilot-jupyter-notebook",
+      "roster": "dependencies",
+      "source": "packages/copilot-dependencies/skills/agent-forge-copilot-jupyter-notebook",
+      "dependency": true
+    },
+    {
+      "id": "agent-forge-copilot-zotero",
+      "roster": "dependencies",
+      "source": "packages/copilot-dependencies/skills/agent-forge-copilot-zotero",
+      "dependency": true
+    },
+    {
+      "id": "agent-forge-copilot-documents",
+      "roster": "dependencies",
+      "source": "packages/copilot-dependencies/skills/agent-forge-copilot-documents",
+      "dependency": true
+    },
+    {
+      "id": "agent-forge-copilot-presentations",
+      "roster": "dependencies",
+      "source": "packages/copilot-dependencies/skills/agent-forge-copilot-presentations",
+      "dependency": true
+    },
+    {
+      "id": "agent-forge-copilot-spreadsheets",
+      "roster": "dependencies",
+      "source": "packages/copilot-dependencies/skills/agent-forge-copilot-spreadsheets",
+      "dependency": true
+    },
+    {
+      "id": "agent-forge-copilot-pdf",
+      "roster": "dependencies",
+      "source": "packages/copilot-dependencies/skills/agent-forge-copilot-pdf",
+      "dependency": true
+    },
+    {
+      "id": "agent-forge-copilot-latex",
+      "roster": "dependencies",
+      "source": "packages/copilot-dependencies/skills/agent-forge-copilot-latex",
+      "dependency": true
+    }
+  ],
+  "dependencies": {
+    "schemaVersion": 1,
+    "name": "agent-forge-copilot-dependencies",
+    "runtimeDir": "runtime",
+    "runtimeInstallSubdirectory": "dependencies",
+    "runtimeToken": "__COPILOT_RUNTIME__",
+    "skillCount": 10,
+    "skills": [
+      {
+        "id": "agent-forge-copilot-elevenlabs-creative-studio",
+        "source": "packages/copilot-dependencies/skills/agent-forge-copilot-elevenlabs-creative-studio",
+        "provenance": {
+          "kind": "original-agent-forge-portable-implementation",
+          "authoredFor": "Copilot four-roster migration",
+          "thirdPartySourceCopied": false,
+          "references": [
+            "https://elevenlabs.io/mcp"
+          ],
+          "license": "Repository-owner terms; third-party runtimes retain their upstream licenses"
+        },
+        "dependencies": {
+          "pythonPackages": [],
+          "mcpProviders": [
+            "elevenlabs"
+          ],
+          "python": "not-required",
+          "optionalEngines": []
+        },
+        "files": [
+          {
+            "path": "skills/agent-forge-copilot-elevenlabs-creative-studio/assets/production-brief.json",
+            "sha256": "7d9dedc54d00566d69ffb2881578a89a3c08fc846200c020f4cf16e72fa4a529",
+            "bytes": 190
+          },
+          {
+            "path": "skills/agent-forge-copilot-elevenlabs-creative-studio/PROVENANCE.json",
+            "sha256": "b4b553f65ef89d20888e259f10997bf4dc8f388a251c6a0f3656a49bd7aef2b3",
+            "bytes": 293
+          },
+          {
+            "path": "skills/agent-forge-copilot-elevenlabs-creative-studio/SKILL.md",
+            "sha256": "28e8eaca91f70349ded3f1664bab3ac24abf7fb48d4cf58ba67f97b9acf3021d",
+            "bytes": 2833
+          }
+        ]
+      },
+      {
+        "id": "agent-forge-copilot-elevenlabs-text-to-speech",
+        "source": "packages/copilot-dependencies/skills/agent-forge-copilot-elevenlabs-text-to-speech",
+        "provenance": {
+          "kind": "original-agent-forge-portable-implementation",
+          "authoredFor": "Copilot four-roster migration",
+          "thirdPartySourceCopied": false,
+          "references": [
+            "https://elevenlabs.io/mcp",
+            "https://elevenlabs.io/docs/api-reference/text-to-speech/convert"
+          ],
+          "license": "Repository-owner terms; third-party runtimes retain their upstream licenses"
+        },
+        "dependencies": {
+          "pythonPackages": [],
+          "mcpProviders": [
+            "elevenlabs"
+          ],
+          "python": "not-required",
+          "optionalEngines": []
+        },
+        "files": [
+          {
+            "path": "skills/agent-forge-copilot-elevenlabs-text-to-speech/PROVENANCE.json",
+            "sha256": "7f8c761341c5da4a5951be3305ddfc63f0fc28bb38b02823ac51f94fb59f2794",
+            "bytes": 364
+          },
+          {
+            "path": "skills/agent-forge-copilot-elevenlabs-text-to-speech/SKILL.md",
+            "sha256": "a0c2fef15b842569ab73383453c870d1fce74b4cbb728cceea4d4e75cdca8ccf",
+            "bytes": 2443
+          }
+        ]
+      },
+      {
+        "id": "agent-forge-copilot-elevenlabs-speech-to-text",
+        "source": "packages/copilot-dependencies/skills/agent-forge-copilot-elevenlabs-speech-to-text",
+        "provenance": {
+          "kind": "original-agent-forge-portable-implementation",
+          "authoredFor": "Copilot four-roster migration",
+          "thirdPartySourceCopied": false,
+          "references": [
+            "https://elevenlabs.io/mcp",
+            "https://elevenlabs.io/docs/api-reference/speech-to-text/convert"
+          ],
+          "license": "Repository-owner terms; third-party runtimes retain their upstream licenses"
+        },
+        "dependencies": {
+          "pythonPackages": [],
+          "mcpProviders": [
+            "elevenlabs"
+          ],
+          "python": "3.11+",
+          "optionalEngines": []
+        },
+        "files": [
+          {
+            "path": "skills/agent-forge-copilot-elevenlabs-speech-to-text/PROVENANCE.json",
+            "sha256": "73501e52a6058747b1356abc14175428757435802eb7734a500f54ade8309a26",
+            "bytes": 364
+          },
+          {
+            "path": "skills/agent-forge-copilot-elevenlabs-speech-to-text/scripts/subtitles.py",
+            "sha256": "700fb4e8e98d0fab16eda1483fe278df5823c9b0e13eca0d82542e12a95c8bed",
+            "bytes": 1555
+          },
+          {
+            "path": "skills/agent-forge-copilot-elevenlabs-speech-to-text/SKILL.md",
+            "sha256": "d9465210eba83c7a8bafaeb0911e78d80a86af0faff380965a9928855795a441",
+            "bytes": 2190
+          }
+        ]
+      },
+      {
+        "id": "agent-forge-copilot-jupyter-notebook",
+        "source": "packages/copilot-dependencies/skills/agent-forge-copilot-jupyter-notebook",
+        "provenance": {
+          "kind": "original-agent-forge-portable-implementation",
+          "authoredFor": "Copilot four-roster migration",
+          "thirdPartySourceCopied": false,
+          "references": [
+            "https://nbformat.readthedocs.io/en/latest/format_description.html",
+            "https://nbclient.readthedocs.io/en/latest/"
+          ],
+          "license": "Repository-owner terms; third-party runtimes retain their upstream licenses"
+        },
+        "dependencies": {
+          "pythonPackages": [
+            "nbformat",
+            "nbclient",
+            "ipykernel"
+          ],
+          "mcpProviders": [],
+          "python": "3.11+",
+          "optionalEngines": []
+        },
+        "files": [
+          {
+            "path": "skills/agent-forge-copilot-jupyter-notebook/PROVENANCE.json",
+            "sha256": "929e98a99e22c395e8385ebf295dcbd0f90c24bc174e53e3e9a47bac77ba6d40",
+            "bytes": 383
+          },
+          {
+            "path": "skills/agent-forge-copilot-jupyter-notebook/scripts/notebook.py",
+            "sha256": "fa6431df4ca38d1bd817f0fd8f2b73ec53112a54fbac280be4e290814d5a9593",
+            "bytes": 2560
+          },
+          {
+            "path": "skills/agent-forge-copilot-jupyter-notebook/SKILL.md",
+            "sha256": "b8788de829aa43dfcf2b6056f9b433c98b8ad0212fe321e4aeee23b41e4ad9c9",
+            "bytes": 1894
+          }
+        ]
+      },
+      {
+        "id": "agent-forge-copilot-zotero",
+        "source": "packages/copilot-dependencies/skills/agent-forge-copilot-zotero",
+        "provenance": {
+          "kind": "original-agent-forge-portable-implementation",
+          "authoredFor": "Copilot four-roster migration",
+          "thirdPartySourceCopied": false,
+          "references": [
+            "https://www.zotero.org/support/dev/web_api/v3/basics"
+          ],
+          "license": "Repository-owner terms; third-party runtimes retain their upstream licenses"
+        },
+        "dependencies": {
+          "pythonPackages": [],
+          "mcpProviders": [],
+          "python": "3.11+",
+          "optionalEngines": []
+        },
+        "files": [
+          {
+            "path": "skills/agent-forge-copilot-zotero/PROVENANCE.json",
+            "sha256": "b4620d01c6a8c3fea4d60797cf1d13fb559d4bd6d55de2e655244f47701a8ab9",
+            "bytes": 320
+          },
+          {
+            "path": "skills/agent-forge-copilot-zotero/scripts/zotero.py",
+            "sha256": "e2c1e88053b8e36ea10cf6cb8d8f646ea8d407a5d8f463bc44ff5f622b5a51bf",
+            "bytes": 4590
+          },
+          {
+            "path": "skills/agent-forge-copilot-zotero/SKILL.md",
+            "sha256": "dfc4ca06c3afa2fce50b92342610b47c958a009e05a28db548473e60ec0faf3d",
+            "bytes": 2247
+          }
+        ]
+      },
+      {
+        "id": "agent-forge-copilot-documents",
+        "source": "packages/copilot-dependencies/skills/agent-forge-copilot-documents",
+        "provenance": {
+          "kind": "original-agent-forge-portable-implementation",
+          "authoredFor": "Copilot four-roster migration",
+          "thirdPartySourceCopied": false,
+          "references": [
+            "https://python-docx.readthedocs.io/en/latest/"
+          ],
+          "license": "Repository-owner terms; third-party runtimes retain their upstream licenses"
+        },
+        "dependencies": {
+          "pythonPackages": [
+            "python-docx"
+          ],
+          "mcpProviders": [],
+          "python": "3.11+",
+          "optionalEngines": [
+            "Microsoft Office",
+            "LibreOffice"
+          ]
+        },
+        "files": [
+          {
+            "path": "skills/agent-forge-copilot-documents/assets/brief.json",
+            "sha256": "7f0114b9e5299f74e18eabdbfd9123a481dec3b7a96b401d41d0a32e64bccf32",
+            "bytes": 187
+          },
+          {
+            "path": "skills/agent-forge-copilot-documents/PROVENANCE.json",
+            "sha256": "c0859537752cb1296ffa7649631f1fb970ecb75fcd4cad2625c58bab59431dbf",
+            "bytes": 313
+          },
+          {
+            "path": "skills/agent-forge-copilot-documents/scripts/document.py",
+            "sha256": "10dc4598d8f230294e01a621ebe5d70606eb04bcfc49674fbd855846693934e3",
+            "bytes": 1870
+          },
+          {
+            "path": "skills/agent-forge-copilot-documents/SKILL.md",
+            "sha256": "16d771c2d10b7fd48448ad4c40eb35475c7591ac7423aa1de714c60374f7e698",
+            "bytes": 2176
+          }
+        ]
+      },
+      {
+        "id": "agent-forge-copilot-presentations",
+        "source": "packages/copilot-dependencies/skills/agent-forge-copilot-presentations",
+        "provenance": {
+          "kind": "original-agent-forge-portable-implementation",
+          "authoredFor": "Copilot four-roster migration",
+          "thirdPartySourceCopied": false,
+          "references": [
+            "https://python-pptx.readthedocs.io/en/latest/"
+          ],
+          "license": "Repository-owner terms; third-party runtimes retain their upstream licenses"
+        },
+        "dependencies": {
+          "pythonPackages": [
+            "python-pptx"
+          ],
+          "mcpProviders": [],
+          "python": "3.11+",
+          "optionalEngines": [
+            "Microsoft Office",
+            "LibreOffice"
+          ]
+        },
+        "files": [
+          {
+            "path": "skills/agent-forge-copilot-presentations/assets/brief.json",
+            "sha256": "c35461e7fc815eeff7eb8d82dd7c15697e5fee7bea8aff658d53250d22a1f3c5",
+            "bytes": 134
+          },
+          {
+            "path": "skills/agent-forge-copilot-presentations/PROVENANCE.json",
+            "sha256": "d0f24c7a1109078dd931f68d07c0e0e6809c99be5b9fff5fef2189da881ff8de",
+            "bytes": 313
+          },
+          {
+            "path": "skills/agent-forge-copilot-presentations/scripts/presentation.py",
+            "sha256": "e1b1e04bfbd90c60473c0146b524e6fd0bcc5d61ed2ef928796597063db2af5a",
+            "bytes": 2093
+          },
+          {
+            "path": "skills/agent-forge-copilot-presentations/SKILL.md",
+            "sha256": "497c562b5b1cf51b57dda728ea4de7212bef4a93933e7cd1914ea0855713a05f",
+            "bytes": 2082
+          }
+        ]
+      },
+      {
+        "id": "agent-forge-copilot-spreadsheets",
+        "source": "packages/copilot-dependencies/skills/agent-forge-copilot-spreadsheets",
+        "provenance": {
+          "kind": "original-agent-forge-portable-implementation",
+          "authoredFor": "Copilot four-roster migration",
+          "thirdPartySourceCopied": false,
+          "references": [
+            "https://openpyxl.readthedocs.io/en/stable/"
+          ],
+          "license": "Repository-owner terms; third-party runtimes retain their upstream licenses"
+        },
+        "dependencies": {
+          "pythonPackages": [
+            "openpyxl"
+          ],
+          "mcpProviders": [],
+          "python": "3.11+",
+          "optionalEngines": [
+            "Microsoft Office",
+            "LibreOffice"
+          ]
+        },
+        "files": [
+          {
+            "path": "skills/agent-forge-copilot-spreadsheets/assets/brief.json",
+            "sha256": "fc7da2a6cfd9fb345f21e8255baffbd45c2ae62792967e7ea7eda9d97c797424",
+            "bytes": 106
+          },
+          {
+            "path": "skills/agent-forge-copilot-spreadsheets/PROVENANCE.json",
+            "sha256": "f84c60b140a23cb4f368fbe25677473fb9c9cd229a57512cbe7863b54d58561b",
+            "bytes": 310
+          },
+          {
+            "path": "skills/agent-forge-copilot-spreadsheets/scripts/workbook.py",
+            "sha256": "a901da347265084b91e2316edf1492aa2e443935002cde02a5e78a90183ec4af",
+            "bytes": 2139
+          },
+          {
+            "path": "skills/agent-forge-copilot-spreadsheets/SKILL.md",
+            "sha256": "81af4e8f07e3790b88312b363b41d9536ba72a468e5af34ca76b1e6eaf63a5e8",
+            "bytes": 2123
+          }
+        ]
+      },
+      {
+        "id": "agent-forge-copilot-pdf",
+        "source": "packages/copilot-dependencies/skills/agent-forge-copilot-pdf",
+        "provenance": {
+          "kind": "original-agent-forge-portable-implementation",
+          "authoredFor": "Copilot four-roster migration",
+          "thirdPartySourceCopied": false,
+          "references": [
+            "https://pymupdf.readthedocs.io/en/latest/"
+          ],
+          "license": "Repository-owner terms; third-party runtimes retain their upstream licenses"
+        },
+        "dependencies": {
+          "pythonPackages": [
+            "PyMuPDF"
+          ],
+          "mcpProviders": [],
+          "python": "3.11+",
+          "optionalEngines": []
+        },
+        "files": [
+          {
+            "path": "skills/agent-forge-copilot-pdf/PROVENANCE.json",
+            "sha256": "2cdfd0d21133290d7c361f33b69b1244499fd74c362805c92114d5482f1b4041",
+            "bytes": 309
+          },
+          {
+            "path": "skills/agent-forge-copilot-pdf/scripts/pdf.py",
+            "sha256": "d5c74d13bfc88579daff6be8b0d915620ea7524d9a096dce6b7fa6c7975fb598",
+            "bytes": 2440
+          },
+          {
+            "path": "skills/agent-forge-copilot-pdf/SKILL.md",
+            "sha256": "07a152361cb8e3b9a4961d44fb8c3e1d5e0443863b2367df491d4a4b213b6792",
+            "bytes": 2130
+          }
+        ]
+      },
+      {
+        "id": "agent-forge-copilot-latex",
+        "source": "packages/copilot-dependencies/skills/agent-forge-copilot-latex",
+        "provenance": {
+          "kind": "original-agent-forge-portable-implementation",
+          "authoredFor": "Copilot four-roster migration",
+          "thirdPartySourceCopied": false,
+          "references": [
+            "https://www.latex-project.org/help/documentation/"
+          ],
+          "license": "Repository-owner terms; third-party runtimes retain their upstream licenses"
+        },
+        "dependencies": {
+          "pythonPackages": [],
+          "mcpProviders": [],
+          "python": "3.11+",
+          "optionalEngines": [
+            "latexmk",
+            "pdflatex",
+            "tectonic"
+          ]
+        },
+        "files": [
+          {
+            "path": "skills/agent-forge-copilot-latex/assets/document.tex",
+            "sha256": "6c72803ff073bb56ed9d838c2c0c19edf3a8c242a804190af0a8b0e370aa9ea9",
+            "bytes": 350
+          },
+          {
+            "path": "skills/agent-forge-copilot-latex/PROVENANCE.json",
+            "sha256": "4f67ec61775b8acc3a41f53609a980bee512a981c5af5c855ed11b59778cd9c8",
+            "bytes": 317
+          },
+          {
+            "path": "skills/agent-forge-copilot-latex/scripts/compile.py",
+            "sha256": "8e6317c174fb1c0adc112a43ab46255abbd7bb07bfe255606b83769d974e4f80",
+            "bytes": 1678
+          },
+          {
+            "path": "skills/agent-forge-copilot-latex/SKILL.md",
+            "sha256": "7d8616e4af79c5f1e3a0f8981ab9af249ef68a32763c9d845e93408a72ba2765",
+            "bytes": 2174
+          }
+        ]
+      }
+    ],
+    "runtime": [
+      {
+        "path": "runtime/discover.mjs",
+        "sha256": "42625ef7c1d9519e1005ad557f8377c8c161846be2f83d0a27ee52528d7c7766",
+        "bytes": 3591
+      },
+      {
+        "path": "runtime/requirements.txt",
+        "sha256": "8bca5cb841c59bef608517154e97bd33103a927f35e191d5281d2e7218342cbb",
+        "bytes": 192
+      },
+      {
+        "path": "runtime/requirements.windows-py312.lock.txt",
+        "sha256": "620b8a9473064f02599321afc59e8327b1fd753af3fa0dac6cadf36a74a2746f",
+        "bytes": 4352
+      }
+    ],
+    "limitations": [
+      "Python libraries and optional TeX/Office engines are discovered locally and are not bundled or automatically installed.",
+      "MCP provider authentication and actual live schemas require VS Code connection; no authenticated status is implied.",
+      "No functional generation, agent execution, notebook execution or model tests are part of preparation.",
+      "Portable artifact workflows are original implementations; vendor-only cloud artifact editing APIs are not available."
+    ]
+  },
+  "hookProfiles": {
+    "default": "copilot",
+    "exclusive": true,
+    "source": "packages/core/src/copilotHooks.ts",
+    "adapter": "hooks/copilot/adapter.mjs",
+    "session": "hooks/copilot/session.mjs",
+    "manual": [
+      "Interrupt: suspend",
+      "Local SessionEnd: end"
+    ],
+    "coverage": "runtime/hooks/coverage.json"
+  }
+}

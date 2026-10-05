@@ -16,6 +16,7 @@ import {
 import { RosterTreeViewProvider } from './rosterTreeView';
 import { SidebarViewProvider } from './sidebarViewProvider';
 import { DiagnosticsService } from './services/diagnosticsService';
+import { copilotInventoryUriHandler, exportCopilotInventory } from './copilotInventory';
 
 function repoPath(): string | undefined {
   return vscode.workspace.getConfiguration('agentForge').get<string>('repoPath') || undefined;
@@ -44,22 +45,24 @@ export async function activate(context: vscode.ExtensionContext): Promise<void> 
     output,
     diagnostics,
     roster,
+    vscode.commands.registerCommand('agentForge.exportCopilotInventory', () => exportCopilotInventory(output)),
+    vscode.window.registerUriHandler(copilotInventoryUriHandler()),
     vscode.window.registerWebviewViewProvider(SidebarViewProvider.viewType, sidebar),
     vscode.window.registerTreeDataProvider('agentForge.roster', roster),
     vscode.commands.registerCommand('agentForge.validate', async () => {
-      const valid = await handleValidate(output, diagnostics);
+      const valid = await handleValidate(output, diagnostics, 'vscode');
       updateContext(sidebar, valid ? 'Roster valid' : 'Validation failed');
       roster.refresh();
     }),
     vscode.commands.registerCommand('agentForge.doctor', async () => {
-      const ready = await handleDoctor(output, diagnostics);
+      const ready = await handleDoctor(output, diagnostics, 'vscode');
       updateContext(sidebar, ready ? 'Ready' : 'Doctor found blockers');
       roster.refresh();
     }),
-    vscode.commands.registerCommand('agentForge.preview', () => handlePreview(output, diagnostics)),
-    vscode.commands.registerCommand('agentForge.deploy', async () => { await handleDeploy(output, diagnostics); roster.refresh(); }),
-    vscode.commands.registerCommand('agentForge.status', () => handleStatus(output)),
-    vscode.commands.registerCommand('agentForge.cleanup', async () => { await handleCleanup(output, diagnostics, 'all'); roster.refresh(); }),
+    vscode.commands.registerCommand('agentForge.preview', () => handlePreview(output, diagnostics, 'vscode')),
+    vscode.commands.registerCommand('agentForge.deploy', async () => { await handleDeploy(output, diagnostics, 'vscode'); roster.refresh(); }),
+    vscode.commands.registerCommand('agentForge.status', () => handleStatus(output, 'vscode')),
+    vscode.commands.registerCommand('agentForge.cleanup', async () => { await handleCleanup(output, diagnostics, 'vscode'); roster.refresh(); }),
     vscode.commands.registerCommand('agentForge.rollback', async () => { await handleRollback(output, diagnostics, 'vscode'); roster.refresh(); }),
     vscode.commands.registerCommand('agentForge.wipe', async () => { await handleWipe(output, diagnostics, 'vscode'); roster.refresh(); }),
     vscode.commands.registerCommand('agentForge.codexDoctor', async () => { await handleDoctor(output, diagnostics, 'codex'); roster.refresh(); }),

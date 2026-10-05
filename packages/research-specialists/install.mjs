@@ -61,20 +61,30 @@ function parseHooks(bytes) {
   return document;
 }
 function replaceGroups(document, oldGroups, newGroups) {
-  const next = structuredClone(document);
-  next.hooks ??= {};
-  for (const { event, group } of oldGroups) {
-    const matches = (next.hooks[event] || []).filter(existing => same(existing, group));
-    if (matches.length !== 1) throw new Error(`Un grupo propio de ${event} fue modificado o eliminado; se conserva hooks.json`);
-    next.hooks[event] = next.hooks[event].filter(existing => !same(existing, group));
+  const next = structuredClone(document); next.hooks ??= {};
+  const used = new Set();
+  for (const old of oldGroups) {
+    const matches = (next.hooks[old.event] || []).filter(group => same(group, old.group));
+    if (matches.length !== 1) throw new Error('Un grupo administrado fue modificado, eliminado o duplicado; se conserva hooks.json');
+  }
+  for (const [event, groups] of Object.entries(next.hooks)) {
+    next.hooks[event] = groups.flatMap(group => {
+      if (!oldGroups.some(old => old.event === event && same(old.group, group))) return [group];
+      const index = newGroups.findIndex((item,i) => !used.has(i) && item.event === event && (item.group.matcher ?? '') === (group.matcher ?? ''));
+      if (index < 0) return [];
+      used.add(index); return [newGroups[index].group];
+    });
     if (!next.hooks[event].length) delete next.hooks[event];
   }
-  for (const { event, group } of newGroups) {
-    if ((next.hooks[event] || []).some(existing => same(existing, group))) throw new Error(`Colisión con grupo no administrado: ${event}`);
-    (next.hooks[event] ??= []).push(group);
+  for (let i=0;i<newGroups.length;i++) {
+    const {event,group}=newGroups[i];
+    const foreign=(document.hooks?.[event]??[]).filter(g=>!oldGroups.some(old=>old.event===event&&same(old.group,g)));
+    if (foreign.some(g=>same(g,group))) throw new Error('Colisión con grupo ajeno');
+    if (!used.has(i)) (next.hooks[event]??=[]).push(group);
   }
   return next;
 }
+
 async function desiredGroups() {
   const script = path.join(runtimeRoot, 'scripts', 'research-hooks.mjs').replaceAll('\\', '/');
   const executable = process.execPath.replaceAll('\\', '/');

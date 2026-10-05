@@ -82,17 +82,24 @@ function replaceGroups(document: HooksDocument, current: SharedHooksGroup[], des
   assertGroupsIntact(document, current);
   validateOwnership(desired);
   const hooks = document.hooks ?? {};
-  for (const item of current) {
-    const remaining = hooks[item.event].filter(group => fingerprint(item.event, group) !== item.fingerprint);
-    if (remaining.length) hooks[item.event] = remaining;
-    else delete hooks[item.event];
+  const used = new Set<number>();
+  for (const [event, groups] of Object.entries(hooks)) {
+    hooks[event] = groups.flatMap(group => {
+      if (!current.some(item => item.event === event && item.fingerprint === fingerprint(event, group))) return [group];
+      const index = desired.findIndex((item,i) => !used.has(i) && item.event === event && (item.group.matcher ?? '') === (group.matcher ?? ''));
+      if (index < 0) return [];
+      used.add(index); return [desired[index].group];
+    });
+    if (!hooks[event].length) delete hooks[event];
   }
-  for (const item of desired) {
-    const existing = hooks[item.event] ?? [];
-    if (existing.some(group => fingerprint(item.event, group) === item.fingerprint)) {
-      throw new Error(`AF009: desired ${item.event} hook group collides with an unmanaged group`);
+  for (let i=0;i<desired.length;i++) {
+    const item=desired[i];
+    if (!used.has(i)) {
+      if ((hooks[item.event]??[]).some(group=>fingerprint(item.event,group)===item.fingerprint)) throw new Error('AF009: desired hook group collides with an unmanaged group');
+      (hooks[item.event]??=[]).push(item.group);
+    } else if ((hooks[item.event]??[]).filter(group=>fingerprint(item.event,group)===item.fingerprint).length!==1) {
+      throw new Error('AF009: desired hook group collides with an unmanaged group');
     }
-    hooks[item.event] = [...existing, item.group];
   }
   document.hooks = hooks;
 }

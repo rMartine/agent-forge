@@ -34,10 +34,10 @@ export class SidebarViewProvider implements vscode.WebviewViewProvider {
     const path = escapeHtml(this.state.repoPath ?? 'Not configured');
     const readiness = escapeHtml(this.state.readiness ?? 'Run Doctor');
     const actionButtons = this.state.repoConfigured ? `
-      <button data-command="agentForge.validate">Validate roster</button>
-      <button data-command="agentForge.doctor">Doctor capabilities</button>
-      <button data-command="agentForge.preview">Preview deployment</button>
-      <button class="primary" data-command="agentForge.deploy">Deploy to user profile</button>
+      <button data-command="agentForge.validate">Validate Copilot rosters</button>
+      <button data-command="agentForge.doctor">Copilot readiness</button>
+      <button data-command="agentForge.preview">Preview Copilot deployment</button>
+      <button class="primary" data-command="agentForge.deploy">Deploy Copilot to user profile</button>
       <button data-command="agentForge.status">Deployment status</button>
       <button data-command="agentForge.cleanup">Managed cleanup</button>
       <button data-command="agentForge.rollback">Rollback deployment</button>

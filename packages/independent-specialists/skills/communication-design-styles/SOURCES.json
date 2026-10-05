@@ -1,0 +1,101 @@
+{
+  "schemaVersion": 1,
+  "skill": "communication-design-styles",
+  "repository": "https://github.com/bergside/awesome-design-skills",
+  "commit": "f631a09b4fcc0166f2e2c1a8c81906ef680c57e8",
+  "license": "MIT",
+  "copyright": "Copyright (c) 2026 Bergside",
+  "upstreamAuthor": "typeui.sh",
+  "reviewDate": "2026-10-05",
+  "reviewScope": "Revisión documental de los 12 archivos fijados y LICENSE. No certifica otras versiones, servicios, fuentes tipográficas ni recursos gráficos. No se incluyeron ejecutables de terceros.",
+  "updates": "Solo por encargo explícito; revisar diferencias y fijar nuevo commit y hashes.",
+  "changes": [
+    "Traducción y adaptación local al español; separación de reglas originales y aplicaciones por medio.",
+    "Conserva estilo, paletas y fuentes como bases ajustables a la marca; no interpreta todos los pesos tipográficos como disponibles.",
+    "Elimina del flujo activo la misión de escribir guías completas, estructura obligatoria de informe, listas extensas y exigencia de ejemplos por cada regla.",
+    "Los requisitos de interacción web no se aplican a slides, videos o material impreso. Las referencias no certifican accesibilidad.",
+    "Omite la misión de producto de comunicación genérica del original Glassmorphism porque no define la marca del usuario.",
+    "Consulta antes de diseñar cursos sin identidad ni estilo indicado; Clean + Editorial no se activa automáticamente.",
+    "Carga progresiva; sin ejecutables, descargas en tiempo de uso ni actualización automática."
+  ],
+  "documents": [
+    {
+      "sourcePath": "LICENSE",
+      "localPath": "LICENSE",
+      "url": "https://raw.githubusercontent.com/bergside/awesome-design-skills/f631a09b4fcc0166f2e2c1a8c81906ef680c57e8/LICENSE",
+      "sha256": "56e2dc0100744b958d87e5fc790f4e5ed2b5f483d6f2cbade4b6f7a0f5a03862"
+    },
+    {
+      "sourcePath": "skills/futuristic/SKILL.md",
+      "localPath": "references/upstream/futuristic/SKILL.source.md",
+      "url": "https://raw.githubusercontent.com/bergside/awesome-design-skills/f631a09b4fcc0166f2e2c1a8c81906ef680c57e8/skills/futuristic/SKILL.md",
+      "sha256": "940992fe1fa8fa660d9108752378d6ada7f4261edc9600aab85291c26c9cc997"
+    },
+    {
+      "sourcePath": "skills/futuristic/DESIGN.md",
+      "localPath": "references/upstream/futuristic/DESIGN.source.md",
+      "url": "https://raw.githubusercontent.com/bergside/awesome-design-skills/f631a09b4fcc0166f2e2c1a8c81906ef680c57e8/skills/futuristic/DESIGN.md",
+      "sha256": "22b9eb1d1ecc88886a05f1e1b88ca6c15e2531cc8ae0f43f9e30736ddb98161d"
+    },
+    {
+      "sourcePath": "skills/levels/SKILL.md",
+      "localPath": "references/upstream/levels/SKILL.source.md",
+      "url": "https://raw.githubusercontent.com/bergside/awesome-design-skills/f631a09b4fcc0166f2e2c1a8c81906ef680c57e8/skills/levels/SKILL.md",
+      "sha256": "48618f1c13088e6a3b7f3bc784d80512da1660ba9b232928633170bcafcbf776"
+    },
+    {
+      "sourcePath": "skills/levels/DESIGN.md",
+      "localPath": "references/upstream/levels/DESIGN.source.md",
+      "url": "https://raw.githubusercontent.com/bergside/awesome-design-skills/f631a09b4fcc0166f2e2c1a8c81906ef680c57e8/skills/levels/DESIGN.md",
+      "sha256": "a559f4d114cbefa1d2fb8c677aecbde8cf92e875a8750b294bdecd56464865f1"
+    },
+    {
+      "sourcePath": "skills/clean/SKILL.md",
+      "localPath": "references/upstream/clean/SKILL.source.md",
+      "url": "https://raw.githubusercontent.com/bergside/awesome-design-skills/f631a09b4fcc0166f2e2c1a8c81906ef680c57e8/skills/clean/SKILL.md",
+      "sha256": "2422a64f5037d8e3c16a04f657d295f82f0bbf528648e703ba32148f3f7d9526"
+    },
+    {
+      "sourcePath": "skills/clean/DESIGN.md",
+      "localPath": "references/upstream/clean/DESIGN.source.md",
+      "url": "https://raw.githubusercontent.com/bergside/awesome-design-skills/f631a09b4fcc0166f2e2c1a8c81906ef680c57e8/skills/clean/DESIGN.md",
+      "sha256": "602622a6de325629ef9d907357d97b99de9c6b0dcb4dc31b2b415e45170ed3c1"
+    },
+    {
+      "sourcePath": "skills/dithered/SKILL.md",
+      "localPath": "references/upstream/dithered/SKILL.source.md",
+      "url": "https://raw.githubusercontent.com/bergside/awesome-design-skills/f631a09b4fcc0166f2e2c1a8c81906ef680c57e8/skills/dithered/SKILL.md",
+      "sha256": "2097b8bdff6828c202856b12e0d3b4d42fb32e2aeca361394d79d10493e08672"
+    },
+    {
+      "sourcePath": "skills/dithered/DESIGN.md",
+      "localPath": "references/upstream/dithered/DESIGN.source.md",
+      "url": "https://raw.githubusercontent.com/bergside/awesome-design-skills/f631a09b4fcc0166f2e2c1a8c81906ef680c57e8/skills/dithered/DESIGN.md",
+      "sha256": "538402153914b387e13e043c95ade599831d3c5dbd325985d00a9760c63bfa94"
+    },
+    {
+      "sourcePath": "skills/editorial/SKILL.md",
+      "localPath": "references/upstream/editorial/SKILL.source.md",
+      "url": "https://raw.githubusercontent.com/bergside/awesome-design-skills/f631a09b4fcc0166f2e2c1a8c81906ef680c57e8/skills/editorial/SKILL.md",
+      "sha256": "132941e9dcc911519004605a49543f93e00dc2dec249790dbbdbe2fa810ed348"
+    },
+    {
+      "sourcePath": "skills/editorial/DESIGN.md",
+      "localPath": "references/upstream/editorial/DESIGN.source.md",
+      "url": "https://raw.githubusercontent.com/bergside/awesome-design-skills/f631a09b4fcc0166f2e2c1a8c81906ef680c57e8/skills/editorial/DESIGN.md",
+      "sha256": "623b3da2e61c5744da42318fd20680bd674a15aa91ba48be36f3e0fed9aaa949"
+    },
+    {
+      "sourcePath": "skills/glassmorphism/SKILL.md",
+      "localPath": "references/upstream/glassmorphism/SKILL.source.md",
+      "url": "https://raw.githubusercontent.com/bergside/awesome-design-skills/f631a09b4fcc0166f2e2c1a8c81906ef680c57e8/skills/glassmorphism/SKILL.md",
+      "sha256": "aa8057f8e81f8dafa63ef80e5dc4870b4b74229c552a4958623da5bf25fb7b76"
+    },
+    {
+      "sourcePath": "skills/glassmorphism/DESIGN.md",
+      "localPath": "references/upstream/glassmorphism/DESIGN.source.md",
+      "url": "https://raw.githubusercontent.com/bergside/awesome-design-skills/f631a09b4fcc0166f2e2c1a8c81906ef680c57e8/skills/glassmorphism/DESIGN.md",
+      "sha256": "a9ab735bff17d6d2c37e18c10e82904dbe5cd13c26a16f68ae362aa941b9a631"
+    }
+  ]
+}

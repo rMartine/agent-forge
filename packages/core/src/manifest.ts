@@ -104,6 +104,12 @@ export async function loadManifest(repoPath: string): Promise<DeploymentManifest
 export function validateManifest(raw: unknown): DeploymentManifestV3 {
   if (!raw || typeof raw !== 'object') throw new ManifestValidationError('Manifest must be an object');
   const manifest = raw as Record<string, unknown>;
+  if (manifest.copilotFourRosters !== undefined) {
+    const four = manifest.copilotFourRosters as Record<string, unknown>;
+    if (!four || typeof four !== 'object' || Array.isArray(four)) throw new ManifestValidationError('copilotFourRosters must be an object');
+    for (const field of ['catalog', 'runtimeRoot', 'mcpProviders']) nonEmpty(four[field], `copilotFourRosters.${field}`);
+    if (!['copilot', 'local'].includes(String(four.defaultHarness))) throw new ManifestValidationError('Invalid default Copilot harness');
+  }
   if (![3, 4, 5].includes(manifest.schemaVersion as number)) throw new ManifestValidationError('schemaVersion must be 3, 4 or 5; manifest v2 is no longer deployable');
   if (!Array.isArray(manifest.platforms) || manifest.platforms.join(',') !== 'vscode,codex') throw new ManifestValidationError('platforms must be ["vscode", "codex"]');
   if (manifest.scope !== 'user') throw new ManifestValidationError('scope must be user');

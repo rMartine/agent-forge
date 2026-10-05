@@ -2,7 +2,7 @@
   "name": "agent-forge",
   "displayName": "Agent Forge",
   "description": "Validate and atomically deploy Agent Forge rosters for VS Code Copilot and OpenAI Codex",
-  "version": "0.2.0",
+  "version": "0.3.0",
   "publisher": "agent-forge",
   "icon": "media/agent-forge-icon.png",
   "engines": {
@@ -12,6 +12,7 @@
     "Other"
   ],
   "activationEvents": [
+    "onUri",
     "onView:agentForge.dashboard",
     "onView:agentForge.roster"
   ],
@@ -41,6 +42,11 @@
       ]
     },
     "commands": [
+      {
+        "command": "agentForge.exportCopilotInventory",
+        "title": "Export Copilot Model and Tool Metadata",
+        "category": "Agent Forge"
+      },
       {
         "command": "agentForge.validate",
         "title": "Validate Roster",
@@ -201,6 +207,13 @@
           },
           "default": [],
           "description": "Additional exact MCP tool IDs validated outside the VS Code Language Model API"
+        },
+        "agentForge.copilotHarness": {
+          "type": "string",
+          "enum": ["copilot", "local"],
+          "default": "copilot",
+          "scope": "application",
+          "description": "Hook engine for the four Copilot rosters. Preview and redeploy after changing this setting; only one hook profile is installed."
         },
         "agentForge.availableModelIds": {
           "type": "array",

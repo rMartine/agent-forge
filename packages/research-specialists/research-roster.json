@@ -305,9 +305,7 @@
         "skills/research-physical-ai/SKILL.md",
         "skills/scientific-critical-thinking/SKILL.md"
       ],
-      "externalSkills": [
-        "digital-twin-researcher"
-      ],
+      "externalSkills": [],
       "completionEvidence": [
         "The physical task, environment assumptions, observations, actions and learning objective.",
         "Model or policy evidence and simulation-to-reality differences.",
@@ -325,9 +323,7 @@
         "skills/research-mathematical-modeling/SKILL.md",
         "skills/scientific-critical-thinking/SKILL.md"
       ],
-      "externalSkills": [
-        "digital-twin-researcher"
-      ],
+      "externalSkills": [],
       "completionEvidence": [
         "Equations, units, assumptions, parameters and initial or boundary conditions.",
         "Implementation, numerical verification, sensitivity and applicable convergence evidence.",

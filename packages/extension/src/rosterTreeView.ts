@@ -1,4 +1,5 @@
 import * as path from 'node:path';
+import { readFile } from 'node:fs/promises';
 import * as vscode from 'vscode';
 import {
   getDeploymentStatus,
@@ -15,7 +16,14 @@ function iconForState(state: FileStatus['state']): vscode.ThemeIcon {
   return new vscode.ThemeIcon('close', new vscode.ThemeColor('testing.iconFailed'));
 }
 
-type GroupKey = 'vscode-managed' | 'codex-managed' | 'codex-roster' | 'codex-skills';
+type GroupKey = 'vscode-managed' | 'vscode-rosters' | 'codex-managed' | 'codex-roster' | 'codex-skills';
+
+interface CopilotRosterSummary {
+  name: string;
+  coordinator: { id: string; name: string; model?: string; reasoning?: string };
+  specialistCount: number;
+  skillCount: number;
+}
 
 export class RosterItem extends vscode.TreeItem {
   constructor(
@@ -40,12 +48,14 @@ export class RosterTreeViewProvider implements vscode.TreeDataProvider<RosterIte
   readonly onDidChangeTreeData = this.changeEmitter.event;
   private result?: RuntimeStatusResult;
   private manifest?: DeploymentManifestV3;
+  private copilotRosters?: CopilotRosterSummary[];
 
   constructor(private readonly getRepoPath: () => string | undefined) {}
 
   refresh(): void {
     this.result = undefined;
     this.manifest = undefined;
+    this.copilotRosters = undefined;
     this.changeEmitter.fire();
   }
 
@@ -57,6 +67,10 @@ export class RosterTreeViewProvider implements vscode.TreeDataProvider<RosterIte
     try {
       this.result ??= await getDeploymentStatus(repoPath, { target: 'all' });
       this.manifest ??= await loadManifest(repoPath);
+      if (this.manifest.copilotFourRosters && !this.copilotRosters) {
+        const catalog = JSON.parse(await readFile(path.resolve(repoPath, this.manifest.copilotFourRosters.catalog), 'utf8')) as { rosters: CopilotRosterSummary[] };
+        this.copilotRosters = catalog.rosters;
+      }
     } catch { return []; }
 
     if (!element) {
@@ -71,11 +85,23 @@ export class RosterTreeViewProvider implements vscode.TreeDataProvider<RosterIte
       const codexCount = this.result.targets.codex?.files.length ?? 0;
       return [
         ...statuses,
+        ...(this.copilotRosters ? [new RosterItem('group', 'Copilot rosters (' + this.copilotRosters.length + ')', undefined, 'vscode-rosters')] : []),
         new RosterItem('group', 'VS Code managed files (' + vscodeCount + ')', undefined, 'vscode-managed'),
         new RosterItem('group', 'Codex managed files (' + codexCount + ')', undefined, 'codex-managed'),
-        new RosterItem('group', 'Codex roster (16)', undefined, 'codex-roster'),
-        new RosterItem('group', 'Codex skill bundles (5)', undefined, 'codex-skills'),
+        new RosterItem('group', 'Codex roster (' + Object.keys(this.manifest.codex.agents).length + ')', undefined, 'codex-roster'),
+        new RosterItem('group', 'Codex skill bundles (' + Object.keys(this.manifest.codex.skillBundles).length + ')', undefined, 'codex-skills'),
       ];
+    }
+
+    if (element.groupKey === 'vscode-rosters') {
+      const harness = vscode.workspace.getConfiguration('agentForge').get<string>('copilotHarness', 'copilot');
+      return (this.copilotRosters ?? []).map(roster => {
+        const item = new RosterItem('entry', roster.name);
+        item.description = roster.specialistCount + ' specialists · ' + roster.skillCount + ' skills';
+        item.tooltip = 'Coordinator: ' + roster.coordinator.name + '\nModel: ' + (roster.coordinator.model ?? 'inherit chat selection') + '\nHooks: ' + harness + '\nSpecialists are available through delegation.';
+        item.iconPath = new vscode.ThemeIcon('organization');
+        return item;
+      });
     }
 
     if (element.groupKey === 'vscode-managed' || element.groupKey === 'codex-managed') {
@@ -85,7 +111,7 @@ export class RosterTreeViewProvider implements vscode.TreeDataProvider<RosterIte
     if (element.groupKey === 'codex-roster') {
       return Object.values(this.manifest.codex.agents).map(agent => {
         const item = new RosterItem('entry', agent.id);
-        item.description = agent.sandboxMode + ' · model inherit';
+        item.description = agent.sandboxMode + ' · ' + (agent.model ?? 'model inherit');
         item.tooltip = 'Bundles: ' + agent.requiredSkillBundles.join(', ');
         item.iconPath = new vscode.ThemeIcon(agent.sandboxMode === 'read-only' ? 'lock' : 'edit');
         return item;

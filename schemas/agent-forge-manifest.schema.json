@@ -18,6 +18,17 @@
     "codex"
   ],
   "properties": {
+    "copilotFourRosters": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["catalog", "runtimeRoot", "defaultHarness", "mcpProviders"],
+      "properties": {
+        "catalog": { "type": "string", "minLength": 1 },
+        "runtimeRoot": { "type": "string", "minLength": 1 },
+        "defaultHarness": { "enum": ["copilot", "local"] },
+        "mcpProviders": { "type": "string", "minLength": 1 }
+      }
+    },
     "schemaVersion": {
       "enum": [
         3,

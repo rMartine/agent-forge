@@ -8,6 +8,7 @@ import { parseCodexToml, renderCodexAgent } from './renderCodex.js';
 import { codexSkillMap } from './skillBundles.js';
 import { loadJsonc } from './manifest.js';
 import { loadExternalSkillCatalog } from './externalSkills.js';
+import { renderCopilotRosters } from './copilotRosters.js';
 
 async function exists(filePath: string): Promise<boolean> {
   try { await access(filePath); return true; } catch { return false; }
@@ -53,7 +54,7 @@ export async function validateRoster(
   repoPath: string,
   manifest: DeploymentManifestV3,
   catalog?: CapabilityCatalog,
-  options: { target?: RuntimeSelection; env?: NodeJS.ProcessEnv } = {},
+  options: { target?: RuntimeSelection; env?: NodeJS.ProcessEnv; checkCopilot?: boolean } = {},
 ): Promise<ValidationResult> {
   const diagnostics: Diagnostic[] = [];
   const visible = Object.values(manifest.agents).filter(agent => agent.visibility === 'entry');
@@ -266,6 +267,10 @@ export async function validateRoster(
         current = parent;
       }
     }
+  }
+  if (manifest.copilotFourRosters && targets.includes('vscode') && options.checkCopilot !== false) {
+    try { diagnostics.push(...(await renderCopilotRosters(repoPath, manifest)).diagnostics); }
+    catch (error) { diagnostics.push(diagnostic('AF001', 'error', `Invalid Copilot four-roster rendering: ${(error as Error).message}`)); }
   }
   return { valid: !hasErrors(diagnostics), diagnostics };
 }

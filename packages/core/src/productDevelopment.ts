@@ -22,14 +22,14 @@ function describeProductHooks(manifest: DeploymentManifestV3): ProductHookDescri
     return [
       {
         event: 'SubagentStart', agentType: agent.id, timeout: 10,
-        statusMessage: `${name}: preparar contexto y requisitos`,
+        statusMessage: `Roster de Desarrollo | ${name} | SubagentStart | Preparar contexto y requisitos`,
         explanation: 'Registra la participación del especialista y el modelo observado cuando Codex lo proporciona. Entrega instrucciones, guías condicionadas por la tarea y la tecnología, contexto y versiones suministrados por el principal, metadatos del índice y requisitos de evidencia. Advierte diferencias entre modelo configurado y observado sin cambiarlo. No ejecuta Graphify ni deduce datos faltantes. El agente principal conserva la coordinación.',
       },
       {
         event: 'SubagentStop', agentType: agent.id, timeout: 10,
         statusMessage: principalRecordsEvidence
-          ? `${name}: dejar el registro de resultados al agente principal`
-          : `${name}: comprobar resultados registrados`,
+          ? `Roster de Desarrollo | ${name} | SubagentStop | Dejar el registro al principal`
+          : `Roster de Desarrollo | ${name} | SubagentStop | Comprobar resultados registrados`,
         explanation: principalRecordsEvidence
           ? 'Permite terminar al especialista de solo lectura. El agente principal debe registrar la evidencia que recibió de él antes de cerrar el trabajo del producto; este hook no exige escritura ni comprueba el contenido de su respuesta.'
           : 'Comprueba que exista el registro de resultados y comprobaciones del especialista. Si falta, puede pedir una sola continuación para registrar el resultado real o el impedimento. Señala comprobaciones fallidas u omitidas; el agente principal evalúa su importancia.',
@@ -39,17 +39,17 @@ function describeProductHooks(manifest: DeploymentManifestV3): ProductHookDescri
   return [...specialists,
     {
       event: 'Stop', timeout: 10,
-      statusMessage: 'Producto: comprobar evidencias y cerrar el trabajo',
+      statusMessage: 'Roster de Desarrollo | Sesión | Stop | Comprobar evidencias y cerrar el trabajo',
       explanation: 'Comprueba los registros del agente principal y de los especialistas participantes. Puede pedir una sola continuación por evidencias ausentes. Después desactiva el registro e informa sus limitaciones; no certifica la calidad del producto.',
     },
     {
       event: 'Interrupt', timeout: 3,
-      statusMessage: 'Producto: registrar la interrupción del trabajo',
+      statusMessage: 'Roster de Desarrollo | Sesión | Interrupt | Registrar interrupción',
       explanation: 'Marca como interrumpido el registro activo para respetar la interrupción del usuario. No reanuda trabajo ni solicita continuaciones.',
     },
     {
       event: 'SessionEnd', timeout: 3,
-      statusMessage: 'Producto: cerrar el registro al terminar la sesión',
+      statusMessage: 'Roster de Desarrollo | Sesión | SessionEnd | Cerrar registro de sesión',
       explanation: 'Marca el registro existente como terminado cuando finaliza la sesión. No inicia otra sesión ni realiza un despliegue.',
     },
   ];
@@ -93,7 +93,7 @@ export async function renderProductDevelopmentSkill(repoPath: string, manifest: 
     }
   }
   await visit(sourceRoot);
-  for (const script of ['product-session.mjs', 'product-hooks.mjs']) {
+  for (const script of ['product-session.mjs', 'product-hooks.mjs', 'hook-storage.mjs']) {
     const sourcePath = resolveRepoFilePath(repoPath, `${product.hooksSource}/${script}`);
     files.push({ relativePath: `scripts/${script}`, sourcePath, content: await readFile(sourcePath) });
   }
@@ -121,6 +121,8 @@ export async function renderProductDevelopmentSkill(repoPath: string, manifest: 
   ].join('\n');
   files.push({ relativePath: 'references/agent-responsibilities.md', sourcePath: path.join(repoPath, 'agent-forge.manifest.jsonc'), content: Buffer.from(matrix) });
   files.push({ relativePath: 'references/hooks.md', sourcePath: path.join(repoPath, 'agent-forge.manifest.jsonc'), content: Buffer.from(renderProductHookReference(manifest)) });
+  const maintenancePath = resolveRepoFilePath(repoPath, `${product.hooksSource}/HOOK-MAINTENANCE.md`);
+  files.push({relativePath:'references/hook-maintenance.md',sourcePath:maintenancePath,content:await readFile(maintenancePath)});
   return files;
 }
 

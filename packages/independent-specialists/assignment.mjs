@@ -1,3 +1,4 @@
+import {identityFile, resolveRegistered} from './hook-storage.mjs';
 import { createHash, randomUUID } from 'node:crypto';
 import { lstat, mkdir, open, readFile, realpath, rename, unlink } from 'node:fs/promises';
 import os from 'node:os';
@@ -142,7 +143,10 @@ async function atomicJson(file, value) {
     const handle = await open(temporary, 'wx', 0o600);
     try { await handle.writeFile(serialized, 'utf8'); await handle.sync(); }
     finally { await handle.close(); }
-    await rename(temporary, file);
+    for (let attempt=0;;attempt++) {
+      try {await rename(temporary, file);break;}
+      catch(error){if(process.platform!=='win32'||!['EPERM','EACCES','EBUSY'].includes(error.code)||attempt>=4)throw error;await new Promise(resolve=>setTimeout(resolve,20*(attempt+1)));}
+    }
   } finally { await unlink(temporary).catch(error => { if (error.code !== 'ENOENT') throw error; }); }
 }
 
@@ -159,6 +163,7 @@ export async function updateState(context, callback, create = false) {
     }
   }
   try {
+    await lock.writeFile(JSON.stringify({processId:process.pid, createdAt:now()}));
     const previous = await readState(context);
     const next = await callback(previous);
     if (next) { next.updatedAt = now(); validateState(next, context); await atomicJson(context.recordPath, next); }
@@ -172,16 +177,12 @@ function linkFile(context, agentId) {
   return path.join(context.root, `agent-${digest(JSON.stringify([agentId, project]))}.json`);
 }
 export async function writeAgentLink(context, agentId) {
-  await atomicJson(linkFile(context, agentId), { version: 1, sessionId: context.sessionId, project: context.project, agentId });
+  const identity = { version: 1, sessionId: context.sessionId, project: context.project, agentId };
+  await atomicJson(linkFile(context, agentId), identity);
+  await atomicJson(identityFile(context, agentId), identity);
 }
 export async function resolveHookContext(input, options = {}) {
-  const direct = await sessionContext(input.session_id, input.cwd, options);
-  if (await readState(direct)) return { context: direct, actorId: input.agent_id ?? null };
-  let link;
-  try { link = await readJson(linkFile(direct, input.session_id)); }
-  catch (error) { if (error.code === 'ENOENT') return { context: direct, actorId: input.agent_id ?? null }; throw error; }
-  if (link.version !== 1 || link.agentId !== input.session_id || link.project !== direct.project) throw new Error('Identidad vinculada inválida.');
-  return { context: await sessionContext(link.sessionId, direct.project, options), actorId: input.session_id };
+  return resolveRegistered(input, {makeContext:(sessionId, project)=>sessionContext(sessionId, project, options), readState, readJson});
 }
 
 export function findAssignment(record, actorId) {

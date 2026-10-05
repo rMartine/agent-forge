@@ -8,6 +8,9 @@ const manifest = JSON.parse(await readFile(path.join(root, 'manifest.json'), 'ut
 const binary = process.argv[2];
 const cwd = process.argv[3];
 const confirmCatalog = process.argv.includes('--confirm-agent-catalog');
+const hookHealth = hooks => hooks.length === 7 && hooks.every(hook => hook.enabled && hook.trustStatus === 'trusted');
+const smoke = spawn(process.env.ComSpec ? 'powershell.exe' : 'pwsh', ['-NoProfile','-NonInteractive','-Command',`node "${path.join(root,'hooks.mjs')}"`], {windowsHide:true,stdio:['pipe','pipe','pipe']});
+const commandCheck = await new Promise(resolve=>{let stdout='',stderr='';const timer=setTimeout(()=>{smoke.kill();resolve(false)},5000);smoke.on('error',()=>{clearTimeout(timer);resolve(false)});smoke.stdout.on('data',b=>stdout+=b);smoke.stderr.on('data',b=>stderr+=b);smoke.on('close',code=>{clearTimeout(timer);resolve(code===0&&stdout.trim()==='{}'&&!stderr.trim())});smoke.stdin.end('{}');});
 if (!binary || !cwd || !path.isAbsolute(binary) || !path.isAbsolute(cwd)) throw new Error('Indica rutas absolutas de codex.exe y del proyecto.');
 const report = { checkedAt: new Date().toISOString(), method: 'Proceso nuevo del cliente nativo para metadatos; consulta opcional del catálogo mediante una respuesta efímera sin herramientas ni producción.', agents: [], skills: [], hooks: [] };
 
@@ -79,10 +82,10 @@ try {
   report.hookErrors = (hooks.data || []).flatMap(entry => (entry.errors || []).filter(error => JSON.stringify(error).includes('independent-specialists')));
 } catch (error) { report.clientError = error.message; }
 finally { child.stdin.end(); child.kill(); }
-report.recognized = report.agents.length === 4 && report.agents.every(agent => agent.recognizedInNativeContext) && report.skills.length >= 11 && report.hooks.length === 7 && !(report.skillErrors?.length || report.hookErrors?.length || report.clientError);
+report.recognized = report.agents.length === 4 && report.agents.every(agent => agent.recognizedInNativeContext) && report.skills.length >= 11 && hookHealth(report.hooks) && commandCheck && !(report.skillErrors?.length || report.hookErrors?.length || report.clientError);
 if (confirmCatalog && report.agents.some(agent => !agent.recognizedInNativeContext)) {
   report.catalogCheck = await new Promise(resolve => {
-    const prompt = 'Comprobación mínima de instalación. No uses herramientas, no leas archivos, no crees subagentes ni materiales. Consulta únicamente los roles declarados en la definición nativa de la herramienta spawn_agent de esta sesión. Devuelve una lista JSON de los identificadores disponibles que correspondan a especialistas independientes en marketing y ventas, marca y diseño gráfico, educación para adultos y producción audiovisual. No deduzcas identificadores a partir de las skills ni inventes roles. Si no aparecen en la definición de la herramienta, devuelve un arreglo vacío.';
+    const prompt = 'Comprobación mínima de instalación. No uses herramientas, no leas archivos, no crees subagentes ni materiales. Consulta únicamente los roles declarados en la definición nativa de la herramienta spawn_agent de esta sesión. Devuelve una lista JSON de los identificadores disponibles que correspondan al Roster de Comunicación y Formación: marketing y ventas, marca y diseño gráfico, educación para adultos y producción audiovisual. No deduzcas identificadores a partir de las skills ni inventes roles. Si no aparecen en la definición de la herramienta, devuelve un arreglo vacío.';
     const args = ['exec', '--ephemeral', '--json', '--skip-git-repo-check', '--sandbox', 'read-only', '--model', 'gpt-6.1-sol', '-c', 'model_reasoning_effort="low"', '-C', cwd, prompt];
     const verification = spawn(binary, args, { cwd, shell: false, windowsHide: true, stdio: ['ignore', 'pipe', 'pipe'] });
     let text = '', partial = '', toolsCalled = 0;
@@ -109,7 +112,7 @@ if (confirmCatalog && report.agents.some(agent => !agent.recognizedInNativeConte
   });
   if (report.catalogCheck.exitCode === 0 && report.catalogCheck.toolsCalled === 0) {
     report.agents = manifest.agents.map(agent => ({ name: agent.name, recognizedInNativeCatalog: report.catalogCheck.names.includes(agent.name) }));
-    report.recognized = report.agents.every(agent => agent.recognizedInNativeCatalog) && report.skills.length >= 11 && report.hooks.length === 7 && !(report.skillErrors?.length || report.hookErrors?.length || report.clientError);
+    report.recognized = report.agents.every(agent => agent.recognizedInNativeCatalog) && report.skills.length >= 11 && hookHealth(report.hooks) && commandCheck && !(report.skillErrors?.length || report.hookErrors?.length || report.clientError);
   }
 }
 console.log(JSON.stringify(report, null, 2));

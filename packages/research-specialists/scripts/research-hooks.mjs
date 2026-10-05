@@ -179,17 +179,18 @@ async function checkPackagedHelper(input, record, options) {
 async function preTool(context, actorId, input, options) {
   let output = {};
   await updateState(context, async record => {
-    if (record?.status !== 'active') return record;
+    if (!record) return record;
     const actor = actorAssignment(record, actorId);
     const tool = input.tool_name;
     if (actor) {
       if (isSpawn(tool)) output = deny('Research specialists must return work to the principal; they may not delegate.');
       else if ((actor.modelMismatch || actor.roleMismatch) && !knownRead(tool)) output = deny('The research agent model or global role differs from its assignment. This action requires the principal to resolve that mismatch first.');
       else if (actor.readOnly && writingOrExecution(tool)) output = deny('This research role is read-only. Return proposed changes to the principal; shell execution and known writing tools are unavailable to this role.');
+      else if ((record.status !== 'active' || actor.status !== 'running') && !knownRead(tool)) output = deny('This research assignment is not running. The principal must explicitly resume or prepare the authorized assignment before operations.');
       else output = (await checkPackagedHelper(input, record, options)) ?? output;
       return record;
     }
-    if (!isSpawn(tool)) return record;
+    if (record.status !== 'active' || !isSpawn(tool)) return record;
     const selected = assignmentFromInput(record, input);
     if (!selected.entry && !selected.marked) {
       if (typeof input.tool_input?.agent_type === 'string' && /^research-/.test(input.tool_input.agent_type)) { output = deny('This global research role has no matching prepared assignment. Obtain spawn-input from the active principal session.'); return record; }
@@ -388,12 +389,14 @@ async function stop(context, actorId, input) {
   return output;
 }
 
-export async function runResearchHook(input, options = {}) {
+async function runResearchHookUnchecked(input, options = {}) {
   if (!input || typeof input !== 'object' || Array.isArray(input)) throw new Error('Invalid hook input.');
   if (!EVENTS.has(input.hook_event_name)) return {};
-  const { context, actorId } = await resolveHookContext(input, options);
+  const { context, actorId, owned } = await resolveHookContext(input, options);
   const record = await readState(context);
-  if (!record || record.status !== 'active') return {};
+  if (!record) { if (owned) throw new Error('Registered research identity has no state.'); return {}; }
+  if (input.hook_event_name === 'PreToolUse') return preTool(context, actorId, input, options);
+  if (record.status !== 'active') return {};
   if (input.hook_event_name === 'Interrupt' || input.hook_event_name === 'SessionEnd') {
     await updateState(context, current => {
       if (current?.status !== 'active') return current;
@@ -412,6 +415,17 @@ export async function runResearchHook(input, options = {}) {
   if (input.hook_event_name === 'PostToolUse') return postTool(context, actorId, input);
   if (input.hook_event_name === 'SubagentStart') return subagentStart(context, input);
   return stop(context, actorId, input);
+}
+
+export async function runResearchHook(input, options = {}) {
+ try {return await runResearchHookUnchecked(input,options);}
+ catch(error){
+  let owned=error.rosterOwned===true;
+  if(!owned){try{owned=(await resolveHookContext(input,options)).owned===true;}catch(e){owned=e.rosterOwned===true;}}
+  const marked=input?.hook_event_name==='PreToolUse' && isSpawn(input.tool_name) && (JSON.stringify(input.tool_input??{}).includes(MARKER)||/^research-/.test(input.tool_input?.agent_type??''));
+  process.stderr.write('Research state verification failed; no source material or credentials were logged.\n');
+  return input?.hook_event_name==='PreToolUse' && (owned||marked) ? deny('The registered research assignment could not be verified. Recover its state before continuing.') : owned ? note('Research state verification was unavailable; retain the assignment restrictions.') : {};
+ }
 }
 
 async function readInput() {

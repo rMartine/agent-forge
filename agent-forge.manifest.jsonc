@@ -1,5 +1,11 @@
 {
   "schemaVersion": 5,
+  "copilotFourRosters": {
+    "catalog": "config/copilot-four-rosters.json",
+    "runtimeRoot": "%USERPROFILE%/.agent-forge/copilot/runtime",
+    "defaultHarness": "copilot",
+    "mcpProviders": "config/copilot-mcp-providers.json"
+  },
   "platforms": [
     "vscode",
     "codex"
@@ -703,7 +709,7 @@
         "requiredSkillBundles": [
           "agent-forge-engineering"
         ],
-        "instructionOverlay": "Do not delegate or spawn subagents.",
+        "instructionOverlay": "Do not delegate or spawn subagents. For assigned visual/interface work, consult the shared $communication-design-styles skill when relevant and read only the selected style reference. It is installed in CODEX_HOME/skills/communication-design-styles (default ~/.codex/skills) and owned by the Communication and Training roster; do not deploy a second copy. Preserve the approved project identity and existing Impeccable activation. For a course without an established identity or an explicitly selected style, ask the principal to obtain Roberto’s choice before visual design; Clean + Editorial is not automatic. If the library is missing when requested, report that limitation without downloading or recreating it.",
         "requiredCapabilities": [],
         "optionalCapabilities": [],
         "completionEvidence": [
@@ -917,7 +923,7 @@
           "agent-forge-design",
           "agent-forge-engineering"
         ],
-        "instructionOverlay": "Use the design bundle for visual production. Do not delegate or spawn subagents.",
+        "instructionOverlay": "Use the design bundle for visual production. Do not delegate or spawn subagents. For assigned visual/interface work, consult the shared $communication-design-styles skill when relevant and read only the selected style reference. It is installed in CODEX_HOME/skills/communication-design-styles (default ~/.codex/skills) and owned by the Communication and Training roster; do not deploy a second copy. Preserve the approved project identity and existing Impeccable activation. For a course without an established identity or an explicitly selected style, ask the principal to obtain Roberto’s choice before visual design; Clean + Editorial is not automatic. If the library is missing when requested, report that limitation without downloading or recreating it.",
         "requiredCapabilities": [],
         "optionalCapabilities": [],
         "completionEvidence": [

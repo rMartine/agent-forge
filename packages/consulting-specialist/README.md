@@ -44,7 +44,7 @@ La siguiente tabla es el inventario completo de eventos registrados por este mó
 | `PreToolUse` | Comprueba límites explícitos de herramientas concretas; rechaza contradicciones observables y advierte cuando no puede verificar un campo. |
 | `PostToolUse` | Conserva únicamente identificadores, hora y estado observable; no copia argumentos, documentos, salidas completas o credenciales. |
 | `SubagentStop` | Advierte sobre entregas sin constancia y resultados inconclusos. |
-| `Stop` | Cierra las asignaciones del consultor y comunica pendientes registrados. |
+| `Stop` | Informa el estado y pendientes sin cerrar la asignación ni repetir avisos idénticos. |
 | `Interrupt` | Marca las asignaciones interrumpidas; no las reanuda. |
 | `SessionEnd` | Termina el contexto operativo; conserva el contexto persistente del cliente. |
 
@@ -62,3 +62,15 @@ node verify-native.mjs RUTA_ABSOLUTA_CODEX_EXE RUTA_ABSOLUTA_PROYECTO
 Las pruebas usan directorios temporales y comprueban contexto, asignaciones, restricciones observables, eventos y conservación al instalar y revertir. El segundo comando abre un proceso nativo nuevo para consultar el catálogo y hooks; no concede confianza ni inicia una tarea de consultoría. `--confirm-agent-catalog` permite una respuesta efímera sobre los roles nativos si los metadatos no los exponen, sin cambiar modelos ni generar materiales. La ejecución real de hooks y los ejercicios consultivos se informan por separado.
 
 La procedencia de runtime y scripts nativos es el paquete de especialistas independientes de Agent Forge, commit `fee1628`. Las adaptaciones propias separan el contexto por cliente, heredan el modelo, evitan bloquear por falta de registro y limitan las denegaciones a contradicciones explícitas.
+
+## Hooks: nombres, estado y recuperación
+
+Los nombres visibles usan `Roster de {nombre} | {ámbito} | {evento} | {acción}` en statusMessage. Los cuatro nombres son Roster de Desarrollo, Roster de Investigación, Roster de Comunicación y Formación y Roster de Consultoría. El ámbito es el agente cuando el hook es exclusivo, Especialistas cuando es compartido y Sesión para Stop, Interrupt y SessionEnd. No se cambian identificadores técnicos ni se duplican hooks para mostrar etiquetas.
+
+Las actualizaciones reemplazan cada grupo en su posición; no mueven los grupos ajenos. Cambiar una definición puede requerir renovar su confianza en Codex. El registro del instalador debe acompañar cualquier cambio de archivos administrados; no editar solamente la copia instalada.
+
+La resolución usa la identidad registrada del agente y su proyecto. Los subdirectorios conservan las restricciones; cambiar a otro proyecto o a un repositorio anidado requiere registrar el encargo correspondiente. Un estado corrupto produce un diagnóstico sin datos del encargo y bloquea PreToolUse para el agente propio identificado. Un agente ajeno no queda bloqueado por ese error.
+
+Los archivos .lock no se eliminan automáticamente por antigüedad. Para recuperar uno, con los encargos detenidos, ejecutar el helper hook-storage.mjs junto a los scripts con `recover-lock RUTA_ABSOLUTA.lock`. Solo si identifica un PID terminado devolverá sha256; aplicar con `recover-lock RUTA_ABSOLUTA.lock --apply --expected SHA256`. Conserva un recibo local. Un propietario activo o desconocido impide la recuperación: conservar el archivo y revisar offline el proceso y el registro antes de una intervención manual. No borrar bloqueos en lote.
+
+En Comunicación y Consultoría, Stop conserva el estado de la asignación. SubagentStop marca returned; Interrupt marca interrupted. Reanudar exige el comando resume desde la conversación principal correspondiente; SubagentStart no reanuda una interrupción. El cierre explícito o SessionEnd termina el encargo. Consultoría mantiene las prohibiciones después del cierre.

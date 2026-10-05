@@ -29,7 +29,9 @@ export async function discoverVsCodeEnvironment(options: {
   let version = env.AGENT_FORGE_VSCODE_VERSION;
   if (!version) {
     try {
-      const result = await execFileAsync(options.codeCommand ?? 'code', ['--version'], { timeout: 8_000, windowsHide: true, env });
+      const result = process.platform === 'win32' && !options.codeCommand
+        ? await execFileAsync(process.env.ComSpec ?? 'cmd.exe', ['/d', '/c', 'code', '--version'], { timeout: 8_000, windowsHide: true, env })
+        : await execFileAsync(options.codeCommand ?? 'code', ['--version'], { timeout: 8_000, windowsHide: true, env });
       version = result.stdout.trim().split(/\r?\n/)[0];
     } catch {
       version = undefined;

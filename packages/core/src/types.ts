@@ -3,6 +3,7 @@ import type { SharedHooksOwnership, SharedHooksPlan } from './sharedHooks.js';
 export type DeploymentScope = 'user';
 export type RuntimeTarget = 'vscode' | 'codex';
 export type RuntimeSelection = RuntimeTarget | 'all';
+export type CopilotHarness = 'copilot' | 'local';
 export type CodexSandboxMode = 'read-only' | 'workspace-write';
 export type ModelProfile = 'inherit' | 'reasoning' | 'coding' | 'creative' | 'balanced';
 export type CodexReasoningEffort = 'none' | 'minimal' | 'low' | 'medium' | 'high' | 'xhigh' | 'max' | 'ultra';
@@ -60,6 +61,12 @@ export interface CodexSkillBundleEntry {
 }
 
 export interface DeploymentManifestV3 {
+  copilotFourRosters?: {
+    catalog: string;
+    runtimeRoot: string;
+    defaultHarness: CopilotHarness;
+    mcpProviders: string;
+  };
   schemaVersion: 3 | 4 | 5;
   platforms: RuntimeTarget[];
   scope: DeploymentScope;
@@ -244,7 +251,7 @@ export interface CodexEnvironment {
 
 export interface McpSetupChange {
   provider: string;
-  action: 'add' | 'manual';
+  action: 'add' | 'manual' | 'preserve';
   cliPayload?: Record<string, unknown>;
   message: string;
 }
@@ -252,6 +259,9 @@ export interface McpSetupChange {
 export interface McpSetupPlan {
   changes: McpSetupChange[];
   diagnostics: Diagnostic[];
+  /** Exact user profile and its reviewed bytes; existing configuration is never embedded. */
+  configPath?: string;
+  expectedConfigHash?: string | null;
 }
 
 export interface McpSetupResult {
@@ -259,4 +269,5 @@ export interface McpSetupResult {
   applied: string[];
   skipped: string[];
   diagnostics: Diagnostic[];
+  backupDirectory?: string;
 }

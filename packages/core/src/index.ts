@@ -30,3 +30,5 @@ export * from './scaffold.js';
 export * from './graphify.js';
 export * from './graphifyCommand.js';
 export * from './graphifyDeployment.js';
+export * from './copilotRosters.js';
+export { renderCopilotHooks } from './copilotHooks.js';

@@ -28,6 +28,7 @@ import { loadExternalSkillCatalog, resolveExternalSkillFiles } from './externalS
 import { renderProductDevelopmentSkill, productDevelopmentHookGroups } from './productDevelopment.js';
 import { prepareSharedHooks } from './sharedHooks.js';
 import { prepareGraphifyDeployment } from './graphifyDeployment.js';
+import { renderCopilotRosters } from './copilotRosters.js';
 
 const execFileAsync = promisify(execFile);
 
@@ -37,6 +38,8 @@ async function exists(filePath: string): Promise<boolean> {
 
 export interface DeploymentPlanOptions {
   target?: RuntimeSelection;
+  rosters?: 'all';
+  harness?: 'copilot' | 'local';
   availableTools?: string[];
   availableModels?: string[];
   strictCapabilities?: boolean;
@@ -91,17 +94,25 @@ export async function createDeploymentPlan(
   options: DeploymentPlanOptions = {},
 ): Promise<DeploymentPlan> {
   const manifest = await loadManifest(repoPath);
+  if (options.rosters !== undefined && options.rosters !== 'all') throw new Error('Only --rosters all is supported');
+  if (options.harness !== undefined && !['copilot', 'local'].includes(options.harness)) throw new Error('Harness must be copilot or local');
   const targets = selectedTargets(options.target);
   const catalog = await loadCapabilityCatalog(repoPath, manifest.capabilityCatalog);
   const models = await loadModelPolicy(repoPath, manifest.modelProfiles);
-  const validation = await validateRoster(repoPath, manifest, catalog, { target: options.target ?? 'vscode' });
+  const validation = await validateRoster(repoPath, manifest, catalog, { target: options.target ?? 'vscode', checkCopilot: false });
   const diagnostics: Diagnostic[] = [...validation.diagnostics];
   const artifacts: DeploymentArtifact[] = [];
   let graphify: GraphifyDeploymentPlan | undefined;
   const statePath = resolveStatePath(manifest.targets.state);
   const state = await loadDeploymentState(statePath);
 
-  if (targets.includes('vscode')) {
+  if (targets.includes('vscode') && manifest.copilotFourRosters) {
+    const rendered = await renderCopilotRosters(repoPath, manifest, options);
+    artifacts.push(...rendered.artifacts);
+    diagnostics.push(...rendered.diagnostics);
+  }
+
+  if (targets.includes('vscode') && !manifest.copilotFourRosters) {
     const agentTarget = resolveTargetPath(manifest.targets.vscode.agents);
     const instructionTarget = resolveTargetPath(manifest.targets.vscode.instructions);
     const skillTarget = resolveTargetPath(manifest.targets.vscode.skills);
@@ -224,6 +235,14 @@ export async function createDeploymentPlan(
     const active = state.deployments.find(item => item.id === activeId && item.runtime === runtime);
     for (const item of active?.artifacts ?? []) {
       if (!plannedPaths.has(path.resolve(item.targetPath).toLowerCase())) {
+        if (runtime === 'vscode' && manifest.copilotFourRosters && !await exists(item.targetPath)) {
+          diagnostics.push(diagnostic('AF012', 'warning', 'Obsolete managed customization is already absent; no deletion required', { path: item.targetPath }));
+          continue;
+        }
+        if (runtime === 'vscode' && manifest.copilotFourRosters && await exists(item.targetPath) && await hashFile(item.targetPath) !== item.deployedHash) {
+          diagnostics.push(diagnostic('AF012', 'warning', 'Obsolete managed customization was modified; preserved without claiming ownership', { path: item.targetPath }));
+          continue;
+        }
         cleanupActions.push({ runtime, targetPath: item.targetPath, expectedHash: item.deployedHash, type: item.type, reason: 'stale-managed', ...(item.sharedHooks ? { sharedHooks: item.sharedHooks } : {}) });
       }
     }

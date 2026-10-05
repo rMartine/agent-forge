@@ -18,7 +18,7 @@ export interface McpSetupPreview {
 
 export async function createMcpSetupPreview(repoPath: string): Promise<McpSetupPreview> {
   const manifest = await loadManifest(repoPath);
-  const catalog = await loadMcpProviders(repoPath, manifest.mcpProviders);
+  const catalog = await loadMcpProviders(repoPath, manifest.copilotFourRosters?.mcpProviders ?? manifest.mcpProviders);
   return { catalog, doctor: await doctorMcp(catalog), plan: createMcpSetupPlan(catalog) };
 }
 
