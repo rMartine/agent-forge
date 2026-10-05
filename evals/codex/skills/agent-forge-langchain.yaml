@@ -1,0 +1,7 @@
+schemaVersion: 1
+id: agent-forge-langchain
+runtime: codex
+prompt: "Implement the agreed structured tool call in the LangChain product already under construction."
+explicitPrompt: "Use $agent-forge-langchain. Implement the agreed structured tool call in the LangChain product already under construction."
+negativePrompt: "Compare LangChain and other frameworks for an independent research note."
+expect: { trigger: true, negativeTrigger: false, noForcedPlatform: true, noUnrequestedDependencyUpgrade: true }

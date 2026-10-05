@@ -32,6 +32,10 @@ try {
         throw "Prebuilt CLI not found: $Cli"
     }
 
+    if ($Target -ne 'vscode') {
+        & npm.cmd run prepare:skills
+        if ($LASTEXITCODE -ne 0) { throw 'Pinned skill preparation failed.' }
+    }
     & node $Cli --repo $RepoRoot validate --strict --target $Target
     if ($LASTEXITCODE -ne 0) { throw 'Roster validation failed.' }
     & node $Cli --repo $RepoRoot doctor --profile full --target $Target

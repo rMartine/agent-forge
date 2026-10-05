@@ -1,0 +1,7 @@
+schemaVersion: 1
+id: agent-forge-break-ui
+runtime: codex
+prompt: "While completing the assigned product component, verify it with schema-backed long names, missing avatars, one item, and an empty result; fix defects within the implementation scope."
+explicitPrompt: "Use $agent-forge-break-ui for the assigned component; keep fixtures in the existing test harness."
+negativePrompt: "Invent funny user names for a fictional story."
+expect: { trigger: true, negativeTrigger: false, realisticFixtures: true, noLiveDataMutation: true, noMandatoryToggle: true, completesAuthorizedFixes: true, noInventedVisualEvidence: true }

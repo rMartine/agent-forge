@@ -1,0 +1,260 @@
+{
+  "schemaVersion": 1,
+  "graphifyVersion": "0.9.74",
+  "sourceRevision": "e10df08877f8819a625a1afa38c3297a31fda296",
+  "python": {
+    "version": "3.12.13",
+    "platform": "win32",
+    "architecture": "x64"
+  },
+  "wheels": [
+    {
+      "name": "graphifyy",
+      "version": "0.9.74",
+      "filename": "graphifyy-0.9.74-py3-none-any.whl",
+      "url": "https://files.pythonhosted.org/packages/ef/f1/54603d7c70713418a94e90cf8f6ccf310d768e780f9712129fee875eeda8/graphifyy-0.9.74-py3-none-any.whl",
+      "sha256": "7d7f2475be6f3dd5723743989d1a5a02f323f715ff6938cff999f3014cde41c5",
+      "size": 1525542
+    },
+    {
+      "name": "networkx",
+      "version": "3.7",
+      "filename": "networkx-3.7-py3-none-any.whl",
+      "url": "https://files.pythonhosted.org/packages/7e/cd/fe58041e9011f307c490e3e17dd48cc516448f7c698a3f2d9d9d65d7e6a8/networkx-3.7-py3-none-any.whl",
+      "sha256": "e3fd2c13a7814cee3746340d8d7f8598a67f16a58bf47fb7f8793fab6efca1b0",
+      "size": 2142205
+    },
+    {
+      "name": "numpy",
+      "version": "2.5.3",
+      "filename": "numpy-2.5.3-cp312-cp312-win_amd64.whl",
+      "url": "https://files.pythonhosted.org/packages/3c/a1/accf6d4f0c80c5d9ba9735d6b1550e444180599f34dec69ca01360f717ad/numpy-2.5.3-cp312-cp312-win_amd64.whl",
+      "sha256": "0a59a421a32580a009e8a1751345bf829631b990dc1794b80514ab722b435def",
+      "size": 12567828
+    },
+    {
+      "name": "pip",
+      "version": "26.2.1",
+      "filename": "pip-26.2.1-py3-none-any.whl",
+      "url": "https://files.pythonhosted.org/packages/f3/6e/1736e5b4ae2b778ef2f81c47d797de9f891d4d8acb047a24ca37a60294dd/pip-26.2.1-py3-none-any.whl",
+      "sha256": "71138adf1f4ca900cdb7d289c21b7494329f2332b6d85f0e1c42108c0384ed3e",
+      "size": 1816632
+    },
+    {
+      "name": "rapidfuzz",
+      "version": "3.14.6",
+      "filename": "rapidfuzz-3.14.6-cp312-cp312-win_amd64.whl",
+      "url": "https://files.pythonhosted.org/packages/84/c4/12f01df5778227c8655fcd9b429fc001d43270f5d8d154edc9066bab1de3/rapidfuzz-3.14.6-cp312-cp312-win_amd64.whl",
+      "sha256": "cfca36e4612208875e08611a779164b6cb8900ab8bbd3d82d4cfdfae9efbfac9",
+      "size": 1731992
+    },
+    {
+      "name": "tree-sitter",
+      "version": "0.25.2",
+      "filename": "tree_sitter-0.25.2-cp312-cp312-win_amd64.whl",
+      "url": "https://files.pythonhosted.org/packages/46/f2/5f654994f36d10c64d50a192239599fcae46677491c8dd53e7579c35a3e3/tree_sitter-0.25.2-cp312-cp312-win_amd64.whl",
+      "sha256": "6d0302550bbe4620a5dc7649517c4409d74ef18558276ce758419cf09e578897",
+      "size": 127156
+    },
+    {
+      "name": "tree-sitter-bash",
+      "version": "0.25.1",
+      "filename": "tree_sitter_bash-0.25.1-cp310-abi3-win_amd64.whl",
+      "url": "https://files.pythonhosted.org/packages/71/0f/203fe6b27211387f4b9ba8c4a321567ca4ded2624dae6ccdbd2b6e940e17/tree_sitter_bash-0.25.1-cp310-abi3-win_amd64.whl",
+      "sha256": "52a6802d9218f86278aa3e8b459c3abdad67eed0fde1f9f13aca5b6c634217a6",
+      "size": 195574
+    },
+    {
+      "name": "tree-sitter-c",
+      "version": "0.24.2",
+      "filename": "tree_sitter_c-0.24.2-cp310-abi3-win_amd64.whl",
+      "url": "https://files.pythonhosted.org/packages/c1/f7/72a1d6b42dd31fd37e03ff67e7dc5ee572301499e6b216002b8dd42a1714/tree_sitter_c-0.24.2-cp310-abi3-win_amd64.whl",
+      "sha256": "abb549225091f7b25df2dd3a0143ece6e208f7055d8bcb4700b41ee79b9ef1e1",
+      "size": 84669
+    },
+    {
+      "name": "tree-sitter-c-sharp",
+      "version": "0.23.5",
+      "filename": "tree_sitter_c_sharp-0.23.5-cp310-abi3-win_amd64.whl",
+      "url": "https://files.pythonhosted.org/packages/2b/e0/bd287b092d611df95a9149117fd27b5947ce75527113d6898a4b4e2c8858/tree_sitter_c_sharp-0.23.5-cp310-abi3-win_amd64.whl",
+      "sha256": "41a28cfa3d9ea50f5629e44550a03188c8fbd5079803dfc03554b6fd594b33fa",
+      "size": 338756
+    },
+    {
+      "name": "tree-sitter-cpp",
+      "version": "0.23.4",
+      "filename": "tree_sitter_cpp-0.23.4-cp39-abi3-win_amd64.whl",
+      "url": "https://files.pythonhosted.org/packages/37/7e/909e52b3dec09c475140b0e175511e275d0d00ba2dbd7c68102d377ae0f6/tree_sitter_cpp-0.23.4-cp39-abi3-win_amd64.whl",
+      "sha256": "68606a45bea92669d155399e1239f771a7767d8683cd8f8e30e7d813107030ca",
+      "size": 290997
+    },
+    {
+      "name": "tree-sitter-elixir",
+      "version": "0.3.5",
+      "filename": "tree_sitter_elixir-0.3.5-cp39-abi3-win_amd64.whl",
+      "url": "https://files.pythonhosted.org/packages/c6/a5/634b505a4c349becc753c1faef5350f32ca027297c16a45fb0942967db2a/tree_sitter_elixir-0.3.5-cp39-abi3-win_amd64.whl",
+      "sha256": "c0b5df229405d42ba5c94254d92e414b1f200be8422561d243ae5b3558e84f76",
+      "size": 167219
+    },
+    {
+      "name": "tree-sitter-fortran",
+      "version": "0.6.0",
+      "filename": "tree_sitter_fortran-0.6.0-cp39-abi3-win_amd64.whl",
+      "url": "https://files.pythonhosted.org/packages/9d/eb/a52219602f674fd5acf4df7e2ce940b86e0d2a73409c42b136efc171d867/tree_sitter_fortran-0.6.0-cp39-abi3-win_amd64.whl",
+      "sha256": "cccd5bce1cdebcf34d3a130ecf4944bc409ddc93096317e3249838ffdaf927eb",
+      "size": 383305
+    },
+    {
+      "name": "tree-sitter-go",
+      "version": "0.25.0",
+      "filename": "tree_sitter_go-0.25.0-cp310-abi3-win_amd64.whl",
+      "url": "https://files.pythonhosted.org/packages/6e/b6/d9142583374720e79aca9ccb394b3795149a54c012e1dfd80738df2d984e/tree_sitter_go-0.25.0-cp310-abi3-win_amd64.whl",
+      "sha256": "30d4ada57a223dfc2c32d942f44d284d40f3d1215ddcf108f96807fd36d53022",
+      "size": 48152
+    },
+    {
+      "name": "tree-sitter-groovy",
+      "version": "0.1.2",
+      "filename": "tree_sitter_groovy-0.1.2-cp39-abi3-win_amd64.whl",
+      "url": "https://files.pythonhosted.org/packages/7a/2d/7e8fd76d9c1993c4b4f85a75e87698d85e845068d65972c9bf0458cb2dd5/tree_sitter_groovy-0.1.2-cp39-abi3-win_amd64.whl",
+      "sha256": "bb8b20e2c92a18509ad3b830aeba9f5754778903e7dfd6999c3efb3c79c43d76",
+      "size": 104517
+    },
+    {
+      "name": "tree-sitter-java",
+      "version": "0.23.5",
+      "filename": "tree_sitter_java-0.23.5-cp39-abi3-win_amd64.whl",
+      "url": "https://files.pythonhosted.org/packages/da/d6/0528c7e1e88a18221dbd8ccee3825bf274b1fa300f745fd74eb343878043/tree_sitter_java-0.23.5-cp39-abi3-win_amd64.whl",
+      "sha256": "1ee45e790f8d31d416bc84a09dac2e2c6bc343e89b8a2e1d550513498eedfde7",
+      "size": 60650
+    },
+    {
+      "name": "tree-sitter-javascript",
+      "version": "0.25.0",
+      "filename": "tree_sitter_javascript-0.25.0-cp310-abi3-win_amd64.whl",
+      "url": "https://files.pythonhosted.org/packages/3b/dc/d90cb1790f8cec9b4878d278ad9faf7c8f893189ce0f855304fd704fc274/tree_sitter_javascript-0.25.0-cp310-abi3-win_amd64.whl",
+      "sha256": "e5ed840f5bd4a3f0272e441d19429b26eedc257abe5574c8546da6b556865e3c",
+      "size": 62975
+    },
+    {
+      "name": "tree-sitter-json",
+      "version": "0.24.8",
+      "filename": "tree_sitter_json-0.24.8-cp39-abi3-win_amd64.whl",
+      "url": "https://files.pythonhosted.org/packages/53/df/31daab1eedb445bef208a04fc35428de3afe2b37075fec84d7737e1c69de/tree_sitter_json-0.24.8-cp39-abi3-win_amd64.whl",
+      "sha256": "e4849a03cd7197267b2688a4506a90a13568a8e0e8588080bd0212fcb38974e3",
+      "size": 11457
+    },
+    {
+      "name": "tree-sitter-julia",
+      "version": "0.23.1",
+      "filename": "tree_sitter_julia-0.23.1-cp39-abi3-win_amd64.whl",
+      "url": "https://files.pythonhosted.org/packages/b8/00/931594dfe150b0aa77035d984bae5a0c433ccc03e36b91d95598b77ba601/tree_sitter_julia-0.23.1-cp39-abi3-win_amd64.whl",
+      "sha256": "13031aa4c9ac7d0665aa3ecd9fbc6f9c6afd601c68f6ae67a8eeaca01465aeed",
+      "size": 624152
+    },
+    {
+      "name": "tree-sitter-kotlin",
+      "version": "1.1.0",
+      "filename": "tree_sitter_kotlin-1.1.0-cp39-abi3-win_amd64.whl",
+      "url": "https://files.pythonhosted.org/packages/24/c9/5cca0a44db41224f7f10992450af17ff432c1a336852efb312246d5705e5/tree_sitter_kotlin-1.1.0-cp39-abi3-win_amd64.whl",
+      "sha256": "d4d3f330f515ba8b91da04a5335eb9ff3ce071c7b7855958912f2560f6e14976",
+      "size": 315933
+    },
+    {
+      "name": "tree-sitter-lua",
+      "version": "0.5.0",
+      "filename": "tree_sitter_lua-0.5.0-cp310-abi3-win_amd64.whl",
+      "url": "https://files.pythonhosted.org/packages/25/20/8973f4049d81b2920ef496cf61b9b947ccee63dfb1aa89cb73810cb22784/tree_sitter_lua-0.5.0-cp310-abi3-win_amd64.whl",
+      "sha256": "ace3dd61218124ee08410a55601cb5fbbb00be3ee004b30e705cef9ef25165a9",
+      "size": 24755
+    },
+    {
+      "name": "tree-sitter-objc",
+      "version": "3.0.2",
+      "filename": "tree_sitter_objc-3.0.2-cp39-abi3-win_amd64.whl",
+      "url": "https://files.pythonhosted.org/packages/93/0a/1653cd34758bd5436980ad8e68e2893f323a487afef4a6504bbfc654b1cc/tree_sitter_objc-3.0.2-cp39-abi3-win_amd64.whl",
+      "sha256": "f3c93e991a86e96b8996cc735a4b31b38c65820913bf5a96904d07a51a8d9423",
+      "size": 305006
+    },
+    {
+      "name": "tree-sitter-php",
+      "version": "0.24.1",
+      "filename": "tree_sitter_php-0.24.1-cp310-abi3-win_amd64.whl",
+      "url": "https://files.pythonhosted.org/packages/4e/c4/6c690c33b1ae9cae9505c0a2896f046fda174d72c46bdafce6aab3b2f2e7/tree_sitter_php-0.24.1-cp310-abi3-win_amd64.whl",
+      "sha256": "1a1b65b72a8410d421f914ee13d38fd546a94d01cb834f69b27c78ba7589a5b5",
+      "size": 208014
+    },
+    {
+      "name": "tree-sitter-powershell",
+      "version": "0.26.4",
+      "filename": "tree_sitter_powershell-0.26.4-cp310-abi3-win_amd64.whl",
+      "url": "https://files.pythonhosted.org/packages/6a/0e/48df1017fda824627a7508080a8a9ef654b4ffc85e55f50185eae419ca0f/tree_sitter_powershell-0.26.4-cp310-abi3-win_amd64.whl",
+      "sha256": "702eadf70ec8b1fd0bbf9b4169ed58f0ee0bcab333e5103e97c0f562be299088",
+      "size": 116092
+    },
+    {
+      "name": "tree-sitter-python",
+      "version": "0.25.0",
+      "filename": "tree_sitter_python-0.25.0-cp310-abi3-win_amd64.whl",
+      "url": "https://files.pythonhosted.org/packages/ed/a2/996fc2dfa1076dc460d3e2f3c75974ea4b8f02f6bc925383aaae519920e8/tree_sitter_python-0.25.0-cp310-abi3-win_amd64.whl",
+      "sha256": "9bcde33f18792de54ee579b00e1b4fe186b7926825444766f849bf7181793a76",
+      "size": 76073
+    },
+    {
+      "name": "tree-sitter-ruby",
+      "version": "0.23.1",
+      "filename": "tree_sitter_ruby-0.23.1-cp39-abi3-win_amd64.whl",
+      "url": "https://files.pythonhosted.org/packages/dd/4a/f5bcca350b84cdf75a53e918b8efa06c46ed650d99d3ef22195e9d8020cc/tree_sitter_ruby-0.23.1-cp39-abi3-win_amd64.whl",
+      "sha256": "02e2c19ebefe29226c14aa63e11e291d990f5b5c20a99940ab6e7eda44e744e5",
+      "size": 179843
+    },
+    {
+      "name": "tree-sitter-rust",
+      "version": "0.24.2",
+      "filename": "tree_sitter_rust-0.24.2-cp39-abi3-win_amd64.whl",
+      "url": "https://files.pythonhosted.org/packages/34/71/7ef609894dbfe5699eb16f7471f9b8af1d958d8ba3e29c238d7607e8cb47/tree_sitter_rust-0.24.2-cp39-abi3-win_amd64.whl",
+      "sha256": "4529c125d928882ddfb879fdc6bc0704913261ecc078b6fa7902559e0daf200d",
+      "size": 129422
+    },
+    {
+      "name": "tree-sitter-scala",
+      "version": "0.26.2",
+      "filename": "tree_sitter_scala-0.26.2-cp39-abi3-win_amd64.whl",
+      "url": "https://files.pythonhosted.org/packages/af/b0/89e63b1f66dbdc6d51d927a1c64685fd0d03527cdcd354f6e312938bd1c3/tree_sitter_scala-0.26.2-cp39-abi3-win_amd64.whl",
+      "sha256": "eba630fc41cee1093005883fa70e275ecb26351e3ca6471ac2f6f83779478d07",
+      "size": 460912
+    },
+    {
+      "name": "tree-sitter-swift",
+      "version": "0.7.3",
+      "filename": "tree_sitter_swift-0.7.3-cp38-abi3-win_amd64.whl",
+      "url": "https://files.pythonhosted.org/packages/6b/bb/e4e12fa0523c1acb2f9c4cebc454cd5415e94c915ad7f0b4b151ad13bc30/tree_sitter_swift-0.7.3-cp38-abi3-win_amd64.whl",
+      "sha256": "4b1de6122cbd82b2cea6d3a295f9f5f9297601b829061119e161da17a7ba7d17",
+      "size": 365047
+    },
+    {
+      "name": "tree-sitter-typescript",
+      "version": "0.23.2",
+      "filename": "tree_sitter_typescript-0.23.2-cp39-abi3-win_amd64.whl",
+      "url": "https://files.pythonhosted.org/packages/8b/ab/dd84f0e2337296a5f09749f7b5483215d75c8fa9e33738522e5ed81f7254/tree_sitter_typescript-0.23.2-cp39-abi3-win_amd64.whl",
+      "sha256": "3f730b66396bc3e11811e4465c41ee45d9e9edd6de355a58bbbc49fa770da8f9",
+      "size": 278015
+    },
+    {
+      "name": "tree-sitter-verilog",
+      "version": "1.0.3",
+      "filename": "tree_sitter_verilog-1.0.3-cp39-abi3-win_amd64.whl",
+      "url": "https://files.pythonhosted.org/packages/ba/0d/c0cc641f75e64c9d2afa8c71bba74de42365a35fe7ee07217fcb5cc5b640/tree_sitter_verilog-1.0.3-cp39-abi3-win_amd64.whl",
+      "sha256": "da82da153a8d515941da26d84d51b6b79d0fe42d0a0de19845562c3b1dd091c1",
+      "size": 751592
+    },
+    {
+      "name": "tree-sitter-zig",
+      "version": "1.1.2",
+      "filename": "tree_sitter_zig-1.1.2-cp39-abi3-win_amd64.whl",
+      "url": "https://files.pythonhosted.org/packages/ab/5c/f5fb2ce355bbd381e647b04e8b2078a4043e663b6df6145d87550d3c3fe5/tree_sitter_zig-1.1.2-cp39-abi3-win_amd64.whl",
+      "sha256": "7b94f00a0e69231ac4ebf0aa763734b9b5637e0ff13634ebfe6d13fadece71e9",
+      "size": 65105
+    }
+  ]
+}

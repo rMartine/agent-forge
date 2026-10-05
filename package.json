@@ -9,6 +9,7 @@
   "scripts": {
     "check:research": "node scripts/research-specialists.mjs check",
     "test:research": "node scripts/test-research-specialists.mjs",
+    "prepare:skills": "node scripts/prepare-external-skills.mjs",
     "build": "npm run build -w packages/core && npm run build -w packages/extension && npm run build -w packages/cli",
     "build:core": "npm run build -w packages/core",
     "build:extension": "npm run build -w packages/extension",

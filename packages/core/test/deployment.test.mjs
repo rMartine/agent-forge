@@ -3,7 +3,25 @@ import assert from 'node:assert/strict';
 import { access, mkdir, mkdtemp, readFile, rm, writeFile } from 'node:fs/promises';
 import os from 'node:os';
 import path from 'node:path';
-import { applyDeploymentPlan, hashBuffer, rollbackDeployment } from '../dist/index.js';
+import { applyDeploymentPlan, hashBuffer, rollbackDeployment, saveDeploymentPlan, loadDeploymentPlan } from '../dist/index.js';
+
+test('immutable plans preserve zero-byte resources through save, load, apply and rollback', async t => {
+  const root = await mkdtemp(path.join(os.tmpdir(), 'agent-forge-empty-resource-'));
+  t.after(() => rm(root, { recursive: true, force: true }));
+  const state = path.join(root, 'state.json');
+  const target = path.join(root, 'empty-resource');
+  const content = Buffer.alloc(0);
+  const plan = { deploymentId: 'empty-resource', repoPath: root, createdAt: new Date().toISOString(), targets: ['codex'], diagnostics: [], cleanupActions: [], artifacts: [
+    { runtime: 'codex', id: 'empty', type: 'skill', sourcePath: 'source', targetPath: target, content, sourceHash: hashBuffer(content) },
+  ] };
+  await saveDeploymentPlan(plan, state);
+  const restored = await loadDeploymentPlan(state, plan.deploymentId);
+  assert.deepEqual(restored.artifacts[0].content, content);
+  assert.equal((await applyDeploymentPlan(restored, state)).success, true);
+  assert.deepEqual(await readFile(target), content);
+  assert.equal((await rollbackDeployment(state, 'codex')).success, true);
+  await assert.rejects(readFile(target), /ENOENT/);
+});
 
 test('deployment is ownership-tracked and rollback removes newly created files', async () => {
   const root = await mkdtemp(path.join(os.tmpdir(), 'agent-forge-test-'));

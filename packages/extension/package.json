@@ -214,7 +214,7 @@
     }
   },
   "scripts": {
-    "build": "esbuild src/extension.ts --bundle --outfile=out/extension.js --external:vscode --format=cjs --platform=node --main-fields=module,main",
+    "build": "esbuild src/extension.ts --bundle --outfile=out/extension.js --external:vscode --format=cjs --platform=node --main-fields=module,main && node ../../scripts/package-graphify-client.mjs",
     "build:test-host": "tsc -p tsconfig.test.json",
     "test": "node --test test/*.test.mjs",
     "test:host": "npm run build && npm run build:test-host && node out/test/test/runTest.js",

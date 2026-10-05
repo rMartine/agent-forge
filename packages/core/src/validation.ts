@@ -7,6 +7,7 @@ import { resolveRepoFilePath } from './paths.js';
 import { parseCodexToml, renderCodexAgent } from './renderCodex.js';
 import { codexSkillMap } from './skillBundles.js';
 import { loadJsonc } from './manifest.js';
+import { loadExternalSkillCatalog } from './externalSkills.js';
 
 async function exists(filePath: string): Promise<boolean> {
   try { await access(filePath); return true; } catch { return false; }
@@ -194,15 +195,20 @@ export async function validateRoster(
   const targets = options.target === 'all' ? ['vscode', 'codex'] : [options.target ?? 'vscode'];
   if (targets.includes('codex')) {
     const codexAgents = Object.values(manifest.codex.agents);
-    const readOnly = codexAgents.filter(agent => agent.sandboxMode === 'read-only').map(agent => agent.id).sort();
-    if (codexAgents.length !== 16) diagnostics.push(diagnostic('AF001', 'error', `Expected 16 Codex agents, found ${codexAgents.length}`));
-    if (readOnly.join(',') !== 'cybersecurity-engineer,software-architect') {
-      diagnostics.push(diagnostic('AF001', 'error', 'Only software-architect and cybersecurity-engineer may use the Codex read-only sandbox'));
+    const skillNames = new Set(Object.values(manifest.codex.skillBundles).map(bundle => bundle.deploymentName));
+    if (manifest.codex.productDevelopment) {
+      skillNames.add(manifest.codex.productDevelopment.deploymentName);
+      const source = resolveRepoFilePath(repoPath, manifest.codex.productDevelopment.source);
+      if (!(await exists(path.join(source, 'SKILL.md')))) diagnostics.push(diagnostic('AF005', 'error', 'Product development skill is missing SKILL.md', { path: source }));
+      for (const agent of codexAgents) if (!agent.completionEvidence?.length) diagnostics.push(diagnostic('AF005', 'error', 'Product specialist requires completion evidence', { agentId: agent.id }));
     }
+    try {
+      const external = await loadExternalSkillCatalog(repoPath, manifest);
+      for (const skill of external.skills) skillNames.add(skill.deploymentName);
+    } catch (error: unknown) { diagnostics.push(diagnostic('AF005', 'error', (error as Error).message)); }
     let mapping: Map<string, string> | undefined;
     try { mapping = codexSkillMap(manifest); }
     catch (error: unknown) { diagnostics.push(diagnostic('AF005', 'error', (error as Error).message)); }
-    if (Object.keys(manifest.codex.skillBundles).length !== 5) diagnostics.push(diagnostic('AF005', 'error', 'Codex must expose exactly five Agent Forge skill bundles'));
     if (mapping) {
       for (const agent of codexAgents) {
         try {
@@ -210,7 +216,10 @@ export async function validateRoster(
           const rendered = renderCodexAgent(await readFile(resolveRepoFilePath(repoPath, source.source), 'utf8'), agent, manifest);
           const parsed = parseCodexToml(rendered);
           const keys = Object.keys(parsed).sort();
-          if (keys.join(',') !== 'description,developer_instructions,name,sandbox_mode') {
+          const expectedKeys = manifest.schemaVersion === 5
+            ? 'description,developer_instructions,model,model_reasoning_effort,name,sandbox_mode'
+            : 'description,developer_instructions,name,sandbox_mode';
+          if (keys.join(',') !== expectedKeys) {
             diagnostics.push(diagnostic('AF001', 'error', 'Codex TOML contains unsupported or Copilot-only fields', { agentId: agent.id }));
           }
           if (!/do not[\s\S]{0,120}spawn subagents/i.test(String(parsed.developer_instructions))) {
@@ -238,8 +247,8 @@ export async function validateRoster(
       const personalSkills = path.join(userProfile, '.codex', 'skills');
       if (await exists(personalSkills)) {
         const names = new Set((await readdir(personalSkills, { withFileTypes: true })).filter(item => item.isDirectory()).map(item => item.name));
-        for (const bundle of Object.values(manifest.codex.skillBundles)) {
-          if (names.has(bundle.deploymentName)) diagnostics.push(diagnostic('AF002', 'error', `Personal Codex skill duplicates managed bundle ${bundle.deploymentName}`, { path: path.join(personalSkills, bundle.deploymentName) }));
+        for (const name of skillNames) {
+          if (names.has(name)) diagnostics.push(diagnostic('AF002', 'error', `Personal Codex skill duplicates managed skill ${name}`, { path: path.join(personalSkills, name) }));
         }
       }
       let current = path.resolve(repoPath);
@@ -248,8 +257,8 @@ export async function validateRoster(
         const candidate = path.join(current, '.agents', 'skills');
         if (path.resolve(candidate).toLowerCase() !== globalManagedSkills && await containsEntries(candidate)) {
           const names = new Set((await readdir(candidate, { withFileTypes: true })).filter(item => item.isDirectory()).map(item => item.name));
-          for (const bundle of Object.values(manifest.codex.skillBundles)) {
-            if (names.has(bundle.deploymentName)) diagnostics.push(diagnostic('AF002', 'error', `Repository-chain skill duplicates managed bundle ${bundle.deploymentName}`, { path: path.join(candidate, bundle.deploymentName) }));
+          for (const name of skillNames) {
+            if (names.has(name)) diagnostics.push(diagnostic('AF002', 'error', `Repository-chain skill duplicates managed skill ${name}`, { path: path.join(candidate, name) }));
           }
         }
         const parent = path.dirname(current);

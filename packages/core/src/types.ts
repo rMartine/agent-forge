@@ -1,8 +1,11 @@
+import type { SharedHooksOwnership, SharedHooksPlan } from './sharedHooks.js';
+
 export type DeploymentScope = 'user';
 export type RuntimeTarget = 'vscode' | 'codex';
 export type RuntimeSelection = RuntimeTarget | 'all';
 export type CodexSandboxMode = 'read-only' | 'workspace-write';
 export type ModelProfile = 'inherit' | 'reasoning' | 'coding' | 'creative' | 'balanced';
+export type CodexReasoningEffort = 'none' | 'minimal' | 'low' | 'medium' | 'high' | 'xhigh' | 'max' | 'ultra';
 export type AgentVisibility = 'entry' | 'worker';
 export type CapabilityAccess = 'read' | 'write' | 'admin';
 export type DiagnosticSeverity = 'info' | 'warning' | 'error';
@@ -34,12 +37,17 @@ export interface RuntimeDeploymentTargets {
 export interface CodexAgentManifestEntry {
   id: string;
   sourceAgent: string;
+  displayName?: string;
   sandboxMode: CodexSandboxMode;
   modelProfile: ModelProfile;
+  /** Required together in manifest v5; absent in legacy v3/v4. */
+  model?: string;
+  modelReasoningEffort?: CodexReasoningEffort;
   requiredSkillBundles: string[];
   instructionOverlay: string;
   requiredCapabilities: string[];
   optionalCapabilities: string[];
+  completionEvidence?: string[];
 }
 
 export interface CodexSkillBundleEntry {
@@ -52,7 +60,7 @@ export interface CodexSkillBundleEntry {
 }
 
 export interface DeploymentManifestV3 {
-  schemaVersion: 3;
+  schemaVersion: 3 | 4 | 5;
   platforms: RuntimeTarget[];
   scope: DeploymentScope;
   targets: RuntimeDeploymentTargets;
@@ -66,8 +74,18 @@ export interface DeploymentManifestV3 {
   codex: {
     agents: Record<string, CodexAgentManifestEntry>;
     skillBundles: Record<string, CodexSkillBundleEntry>;
+    externalSkillCatalog?: string;
+    graphify?: { managedRoot: string; lockFile: string };
+    productDevelopment?: {
+      source: string;
+      deploymentName: string;
+      hooksSource: string;
+      hooksTarget: string;
+    };
   };
 }
+
+export type DeploymentManifest = DeploymentManifestV3;
 
 /** @deprecated Use DeploymentManifestV3. */
 export type DeploymentManifestV2 = DeploymentManifestV3;
@@ -108,6 +126,7 @@ export interface DeploymentArtifact {
   targetPath: string;
   content?: Buffer;
   sourceHash: string;
+  sharedHooks?: SharedHooksPlan;
 }
 export interface DeploymentPlan {
   deploymentId: string;
@@ -118,13 +137,23 @@ export interface DeploymentPlan {
   artifacts: DeploymentArtifact[];
   cleanupActions: CleanupAction[];
   diagnostics: Diagnostic[];
+  graphify?: GraphifyDeploymentPlan;
 }
+export interface GraphifyDeploymentPlan {
+  managedRoot: string;
+  runtimeId: string;
+  lockHash: string;
+  runtimeHash?: string;
+  provisionPlanId?: string;
+}
+export interface GraphifyDeploymentReceipt extends GraphifyDeploymentPlan { runtimeHash: string; }
 export interface CleanupAction {
   runtime: RuntimeTarget;
   targetPath: string;
   expectedHash: string;
   type: ArtifactType;
   reason: 'stale-managed';
+  sharedHooks?: SharedHooksOwnership;
 }
 export interface CleanupPlan {
   planId: string;
@@ -142,8 +171,9 @@ export interface ManagedArtifactState {
   backupPath?: string;
   existedBefore: boolean;
   runtime: RuntimeTarget;
+  sharedHooks?: SharedHooksOwnership;
 }
-export interface RuntimeDeploymentRecord { id: string; runtime: RuntimeTarget; createdAt: string; repoPath: string; sourceCommit?: string; artifacts: ManagedArtifactState[]; removedArtifacts?: ManagedArtifactState[]; }
+export interface RuntimeDeploymentRecord { id: string; runtime: RuntimeTarget; createdAt: string; repoPath: string; sourceCommit?: string; previousDeploymentId?: string | null; artifacts: ManagedArtifactState[]; removedArtifacts?: ManagedArtifactState[]; graphify?: GraphifyDeploymentReceipt; }
 export type DeploymentRecord = RuntimeDeploymentRecord;
 export interface DeploymentStateV2 {
   schemaVersion: 2;
@@ -206,6 +236,9 @@ export interface CodexEnvironment {
   agentsTarget: string;
   skillsTarget: string;
   integrationDetected: boolean;
+  availableModels?: string[];
+  availableReasoningEfforts?: Record<string, string[]>;
+  modelCatalogSource?: string;
   diagnostics: Diagnostic[];
 }
 

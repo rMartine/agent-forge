@@ -1,0 +1,7 @@
+schemaVersion: 1
+id: agent-forge-impeccable
+runtime: codex
+prompt: "During the assigned product dashboard work, compare Impeccable's interface review with the current general guide while preserving the existing identity."
+explicitPrompt: "Use $agent-forge-impeccable to complete the assigned dashboard layout change."
+negativePrompt: "Continue the assigned product dashboard: fix its layout using the current general interface guide."
+expect: { trigger: true, negativeTrigger: false, explicitImpeccableRequestOnly: true, provisionalPendingVisualValidation: true, preservesIdentity: true, noLauncher: true, noHookManager: true, noRecursiveDelegation: true, evidenceDistinguished: true }

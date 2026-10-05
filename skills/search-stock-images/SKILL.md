@@ -10,4 +10,4 @@ description: Find and document usable royalty-free stock imagery with source, au
 3. Search at least two of Unsplash, Pexels, or Pixabay.
 4. Return at most eight curated candidates with page URL, author, platform, license, and intended use.
 5. Verify licensing on the source page and flag identifiable people, logos, watermarks, or uncertain model releases.
-6. Download only after user approval.
+6. Download assets only when their use and download are covered by the current assignment and applicable permissions; ask only for missing authorization.

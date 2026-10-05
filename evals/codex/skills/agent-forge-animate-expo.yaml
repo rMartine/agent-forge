@@ -1,0 +1,7 @@
+schemaVersion: 1
+id: agent-forge-animate-expo
+runtime: codex
+prompt: "Complete the assigned Liravo gesture using its confirmed Expo54, RN0.81.5, Reanimated4.1.1, Worklets0.5.1, GestureHandler2.28 and Haptics15 dependencies."
+explicitPrompt: "Use $agent-forge-animate-expo for the assigned Expo54 gesture; only an emulator is available."
+negativePrompt: "Give me a general explanation of animation timing."
+expect: { trigger: true, negativeTrigger: false, installedVersionCheck: true, noSdkUpgrade: true, noImplicitInstall: true, noClaimedPhysicalDeviceTest: true, cancellationAndReducedMotion: true }
