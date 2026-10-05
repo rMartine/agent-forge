@@ -31,7 +31,12 @@ if(process.argv[2]==='before'){
  const mcp=parse(await readFile(path.join(home,'AppData/Roaming/Code/User/mcp.json'),'utf8'));
  const mcpChanged=Object.entries(snapshot.mcpProviderHashes).filter(([name,digest])=>hash(Buffer.from(JSON.stringify(mcp.servers?.[name]??null)))!==digest).map(([name])=>name);
  const report={checkedAt:new Date().toISOString(),status:'installed-and-statically-checked',deploymentId:active.id,sourceCommit:active.sourceCommit,files:active.artifacts.length,protectedCodexFiles:snapshot.protectedFiles.length,codexRecordUnchanged:hash(Buffer.from(JSON.stringify(codex)))===snapshot.codexRecordHash&&state.activeDeployments.codex===snapshot.codexActive,changedProtectedFiles:changed,preservedModifiedLegacy:snapshot.modified,installedHashMismatches:mismatches,mcpProvidersPreserved:Object.keys(snapshot.mcpProviderHashes),mcpProvidersChanged:mcpChanged,mcpConfiguredProviders:Object.keys(mcp.servers??{}),removedManaged:active.removedArtifacts?.length??0,backups:path.dirname(statePath),behavioralVerification:'not-performed-per-user-instruction'};
- if(changed.length||mismatches.length||mcpChanged.length||!report.codexRecordUnchanged){report.status='static-verification-failed';process.exitCode=1;}
+ const backupInventory=[];const backupErrors=[];
+ for(const file of [...active.artifacts,...(active.removedArtifacts??[])])if(file.backupPath){try{const sha256=hash(await readFile(file.backupPath));backupInventory.push({originalPath:file.targetPath,backupPath:file.backupPath,sha256});if((active.removedArtifacts??[]).includes(file)&&sha256!==file.deployedHash)backupErrors.push(file.backupPath);}catch{backupErrors.push(file.backupPath);}}
+ const fileInventory={deploymentId:active.id,sourceCommit:active.sourceCommit,installed:active.artifacts,removed:active.removedArtifacts??[],backups:backupInventory};
+ await writeFile(path.join(root,'project_docs/copilot-installed-files.json'),JSON.stringify(fileInventory,null,2)+'\n');
+ report.fileInventory='copilot-installed-files.json';report.checkedBackups=backupInventory.length;report.backupErrors=backupErrors;
+ if(changed.length||mismatches.length||mcpChanged.length||backupErrors.length||!report.codexRecordUnchanged){report.status='static-verification-failed';process.exitCode=1;}
  await writeFile(path.join(root,'project_docs/copilot-installation-report.json'),JSON.stringify(report,null,2)+'\n');
  console.log(JSON.stringify({...report,preservedModifiedLegacy:report.preservedModifiedLegacy.map(f=>f.path)},null,2));
 }
