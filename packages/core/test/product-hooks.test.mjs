@@ -1,7 +1,7 @@
 import assert from 'node:assert/strict';
 import { spawn } from 'node:child_process';
 import { createHash } from 'node:crypto';
-import { copyFile, mkdtemp, mkdir, readFile, readdir, rm, symlink, writeFile } from 'node:fs/promises';
+import { copyFile, mkdtemp, mkdir, readFile, readdir, realpath, rm, symlink, writeFile } from 'node:fs/promises';
 import os from 'node:os';
 import path from 'node:path';
 import test from 'node:test';
@@ -57,7 +57,8 @@ function indexObservation(project) {
 }
 
 async function fixture(t) {
-  const temporary = await mkdtemp(path.join(os.tmpdir(), 'agent-forge-product-hooks-'));
+  // Windows runners may expose TEMP through a DOS 8.3 alias; match the runtime's canonical paths.
+  const temporary = await realpath(await mkdtemp(path.join(os.tmpdir(), 'agent-forge-product-hooks-')));
   const project = path.join(temporary, 'project');
   const sessionRoot = path.join(temporary, 'sessions');
   const rolesPath = path.join(temporary, 'product-roles.json');
