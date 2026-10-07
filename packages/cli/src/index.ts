@@ -17,7 +17,7 @@ import { registerMigrateRosters } from './commands/migrate-rosters.js';
 
 const program = new Command()
   .name('agent-forge')
-  .version('0.2.0')
+  .version('0.4.0')
   .description('Validate and deploy Agent Forge customizations for VS Code Copilot and OpenAI Codex')
   .option('--repo <path>', 'Path to the Agent Forge repository', process.cwd());
 
