@@ -33,9 +33,13 @@ test('all four rosters use 45 neutral agent sources and one preserved skill inve
   assert.ok(licenses.length >= 10);
   for (const resource of licenses) {
     assert.equal(resource.adaptation, 'none');
-    assert.deepEqual(resource.content, await readFile(resource.sourcePath));
+    assert.equal(resource.content.toString('utf8'), (await readFile(resource.sourcePath,'utf8')).replaceAll('\r\n','\n'), 'license text is preserved with canonical LF endings');
   }
   assert.equal(catalogFingerprint(await loadRosterCatalog(repo)), catalogFingerprint(catalog));
+  for (const id of ['skill/agent-forge-latex/assets/document.tex','runtime/development/product-hooks.mjs']) {
+    assert.ok(catalog.resources.some(resource=>resource.id===id));
+    assert.equal(catalog.resources.find(resource=>resource.id===id).content.includes(Buffer.from('\r\n')),false,'text artifact EOL is independent of checkout settings');
+  }
 });
 
 test('v6 requires a canonical catalog and neutral deployment roots', async () => {

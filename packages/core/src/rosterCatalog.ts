@@ -110,6 +110,12 @@ export async function loadRosterCatalog(repoPath: string, options: { downloadSki
   const sourceFiles = new Set<string>();
   function add(kind: CanonicalResource['kind'], roster: string, resourcePath: string, sourcePath: string, content: Buffer, dependency = false): void {
     resourcePath = relative(posix(resourcePath));
+    // Checkout EOL settings must not change an edition or its integrity hashes.
+    // Upstream cache verification runs before this output normalization.
+    if (/\.(?:md|txt|mjs|cjs|js|ts|py|jsonc?|toml|ya?ml|ps1|sh|csv|xml|html|css|tex|bib)$/i.test(resourcePath)
+      || /(?:^|\/)(?:LICENSE|NOTICE|COPYING)$/i.test(resourcePath)) {
+      content = Buffer.from(content.toString('utf8').replaceAll('\r\n', '\n'));
+    }
     const key = `${kind}/${resourcePath}`.toLowerCase();
     if (keys.has(key)) throw new Error(`Duplicate canonical resource ${key}`);
     keys.add(key);
