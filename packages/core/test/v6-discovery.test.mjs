@@ -53,6 +53,21 @@ test('v6 discovery rejects project agents, project skills and personal canonical
   assert.equal(duplicates.length >= 3, true, JSON.stringify(result.diagnostics));
 });
 
+test('v6 discovery ignores empty canonical skill directories but still blocks a discoverable duplicate', async t => {
+  const f = await fixture(t);
+  const personalSkill = path.join(f.profile, '.codex/skills', skillId);
+  await mkdir(personalSkill, { recursive: true });
+
+  const empty = await validate(f);
+  assert.equal(empty.diagnostics.some(item => item.code === 'AF002' && item.severity === 'error'), false, JSON.stringify(empty.diagnostics));
+
+  await writeFile(path.join(personalSkill, 'SKILL.md'), skillBytes);
+  const discoverable = await validate(f);
+  const duplicate = discoverable.diagnostics.filter(item => item.code === 'AF002' && item.severity === 'error');
+  assert.equal(duplicate.length, 1, JSON.stringify(discoverable.diagnostics));
+  assert.match(duplicate[0].message, /Personal Codex skill duplicates managed skill/);
+});
+
 test('v6 migration exempts only hash-intact active files scheduled for removal', async t => {
   const f = await fixture(t);
   const skillDirectory = path.join(f.profile, '.codex/skills', skillId);

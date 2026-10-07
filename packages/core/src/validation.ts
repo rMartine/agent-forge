@@ -1,4 +1,4 @@
-import { access, readFile, readdir } from 'node:fs/promises';
+import { access, readFile, readdir, stat } from 'node:fs/promises';
 import * as path from 'node:path';
 import { parseDocument } from 'yaml';
 import type { CapabilityCatalog, DeploymentManifestV3, Diagnostic, RuntimeSelection, ValidationResult } from './types.js';
@@ -20,6 +20,11 @@ async function exists(filePath: string): Promise<boolean> {
 
 async function containsEntries(directory: string): Promise<boolean> {
   try { return (await readdir(directory, { withFileTypes: true })).some(item => item.isFile() || item.isDirectory()); }
+  catch { return false; }
+}
+
+async function hasDiscoverableSkill(directory: string): Promise<boolean> {
+  try { return (await stat(path.join(directory, 'SKILL.md'))).isFile(); }
   catch { return false; }
 }
 
@@ -125,7 +130,7 @@ async function canonicalDiscovery(
       const codexHome = env.CODEX_HOME || path.join(userProfile, '.codex');
       const personal = path.join(codexHome, 'skills');
       if (await exists(personal)) {
-        for (const entry of await readdir(personal, { withFileTypes: true })) if (entry.isDirectory() && skillNames.has(entry.name)) await duplicateSkill(path.join(personal, entry.name), entry.name, 'Personal Codex skill duplicates managed skill');
+        for (const entry of await readdir(personal, { withFileTypes: true })) if (entry.isDirectory() && skillNames.has(entry.name) && await hasDiscoverableSkill(path.join(personal, entry.name))) await duplicateSkill(path.join(personal, entry.name), entry.name, 'Personal Codex skill duplicates managed skill');
       }
       const legacy = path.join(userProfile, 'AppData', 'Roaming', 'Code', 'User', 'prompts');
       if (await containsEntries(legacy)) diagnostics.push(diagnostic('AF002', 'error', 'Legacy VS Code prompt files may duplicate the managed roster', { path: legacy }));
@@ -134,7 +139,7 @@ async function canonicalDiscovery(
       for (;;) {
         const candidate = path.join(current, '.agents', 'skills');
         if (normalize(candidate) !== globalManaged && await exists(candidate)) {
-          for (const entry of await readdir(candidate, { withFileTypes: true })) if (entry.isDirectory() && skillNames.has(entry.name)) await duplicateSkill(path.join(candidate, entry.name), entry.name, 'Repository-chain skill duplicates managed skill');
+          for (const entry of await readdir(candidate, { withFileTypes: true })) if (entry.isDirectory() && skillNames.has(entry.name) && await hasDiscoverableSkill(path.join(candidate, entry.name))) await duplicateSkill(path.join(candidate, entry.name), entry.name, 'Repository-chain skill duplicates managed skill');
         }
         const parent = path.dirname(current);
         if (parent === current) break;
