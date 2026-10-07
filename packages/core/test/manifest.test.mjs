@@ -2,23 +2,27 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
+import { readFile } from 'node:fs/promises';
 import { loadManifest, validateManifest } from '../dist/index.js';
 
 const repo = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..', '..', '..');
+const legacyV5 = async () => JSON.parse(await readFile(path.join(repo, 'packages/core/test/fixtures/legacy-v5/agent-forge.manifest.jsonc'), 'utf8'));
 
-test('manifest v5 validates explicit product-agent models without fixing roster quantities', async () => {
+test('manifest v6 uses one canonical source and transport-only deployment metadata', async () => {
   const manifest = await loadManifest(repo);
-  assert.equal(manifest.schemaVersion, 5);
+  assert.equal(manifest.schemaVersion, 6);
   assert.deepEqual(manifest.platforms, ['vscode', 'codex']);
-  assert.equal(Object.keys(manifest.agents).length, 24);
-  assert.ok(manifest.codex.productDevelopment);
-  assert.ok(manifest.codex.externalSkillCatalog);
+  assert.equal(Object.keys(manifest.agents).length, 0);
+  assert.equal(manifest.codex.productDevelopment, undefined);
+  assert.equal(manifest.codex.externalSkillCatalog, undefined);
+  assert.equal(Object.keys(manifest.codex.agents).length, 0);
+  assert.match(manifest.targets.codex.hooks, /\.codex\/hooks.json$/);
   assert.match(manifest.targets.vscode.agents, /\.copilot\/agents$/);
   assert.match(manifest.targets.codex.agents, /\.codex\/agents$/);
 });
 
 test('existing v3 manifests remain readable and quantities can change coherently', async () => {
-  const manifest = structuredClone(await loadManifest(repo));
+  const manifest = await legacyV5();
   manifest.schemaVersion = 3;
   delete manifest.codex.productDevelopment;
   delete manifest.codex.externalSkillCatalog;
@@ -32,7 +36,7 @@ test('existing v3 manifests remain readable and quantities can change coherently
 });
 
 test('existing v4 manifests retain product development and inherited models', async () => {
-  const manifest = structuredClone(await loadManifest(repo));
+  const manifest = await legacyV5();
   manifest.schemaVersion = 4;
   delete manifest.codex.graphify;
   for (const agent of Object.values(manifest.codex.agents)) {
@@ -45,7 +49,7 @@ test('existing v4 manifests retain product development and inherited models', as
 });
 
 test('v5 requires both valid model fields while legacy versions require explicit migration', async () => {
-  const base = await loadManifest(repo);
+  const base = await legacyV5();
   for (const [field, value] of [['model', undefined], ['model', 'bad model'], ['modelReasoningEffort', undefined], ['modelReasoningEffort', 'extreme']]) {
     const manifest = structuredClone(base);
     manifest.codex.agents['backend-developer'][field] = value;
@@ -61,7 +65,7 @@ test('manifest v2 is rejected rather than silently deployed', () => {
 });
 
 test('Graphify manifest configuration is optional in v5 and explicitly unsupported by legacy versions', async () => {
-  const base = await loadManifest(repo);
+  const base = await legacyV5();
   const withoutGraphify = structuredClone(base);
   delete withoutGraphify.codex.graphify;
   assert.equal(validateManifest(withoutGraphify), withoutGraphify);
@@ -77,7 +81,7 @@ test('Graphify manifest configuration is optional in v5 and explicitly unsupport
 });
 
 test('manifest rejects broken Codex source references', async () => {
-  const manifest = structuredClone(await loadManifest(repo));
+  const manifest = await legacyV5();
   manifest.codex.agents['backend-developer'].sourceAgent = 'missing';
   assert.throws(() => validateManifest(manifest), /sourceAgent is unknown/);
 });

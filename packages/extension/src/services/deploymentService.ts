@@ -41,7 +41,7 @@ export class DeploymentService {
   async doctor(target: RuntimeSelection = 'all') {
     const manifest = await loadManifest(this.repoPath);
     const roster = await this.validate(target);
-    const fourRosters = Boolean(manifest.copilotFourRosters);
+    const fourRosters = manifest.schemaVersion === 6 || Boolean(manifest.copilotFourRosters);
     const mcp = target === 'codex' ? undefined : await doctorMcp(await loadMcpProviders(this.repoPath, manifest.copilotFourRosters?.mcpProviders ?? manifest.mcpProviders));
     const codex = target === 'vscode' ? undefined : await discoverCodexEnvironment();
     const tools = discoverAvailableToolIds();

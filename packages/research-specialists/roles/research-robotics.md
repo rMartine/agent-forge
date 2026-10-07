@@ -19,4 +19,4 @@ Use research-robotics for the assigned robotic system question. Coordinate learn
 - Frames, units, time, sensing, actuation constraints and reproducible experiment conditions.
 - Simulated and physical results identified separately, with execution authority and observed limitations.
 
-Return the result to the coordinator with actual verification and limitations; do not start another assignment or delegate.
+Return the result to your parent with actual verification and limitations. Delegate useful subtasks within the current assignment and integrate the results; all descendants retain the same authorization and permission limits.

@@ -51,7 +51,7 @@ function validateCodexAgent(id: string, raw: unknown, manifest: Record<string, u
   if (!(agent.sourceAgent in manifest)) throw new ManifestValidationError(`codex.agents.${id}.sourceAgent is unknown`);
   if (agent.sandboxMode !== 'read-only' && agent.sandboxMode !== 'workspace-write') throw new ManifestValidationError(`codex.agents.${id}.sandboxMode is invalid`);
   if (agent.modelProfile !== 'inherit') throw new ManifestValidationError(`codex.agents.${id}.modelProfile must be inherit`);
-  if (schemaVersion === 5) {
+  if (schemaVersion === 5 || schemaVersion === 6) {
     const problem = validateCodexModelConfiguration(agent.model, agent.modelReasoningEffort);
     if (problem) throw new ManifestValidationError(`codex.agents.${id}: ${problem}`);
   } else if (agent.model !== undefined || agent.modelReasoningEffort !== undefined) {
@@ -110,7 +110,13 @@ export function validateManifest(raw: unknown): DeploymentManifestV3 {
     for (const field of ['catalog', 'runtimeRoot', 'mcpProviders']) nonEmpty(four[field], `copilotFourRosters.${field}`);
     if (!['copilot', 'local'].includes(String(four.defaultHarness))) throw new ManifestValidationError('Invalid default Copilot harness');
   }
-  if (![3, 4, 5].includes(manifest.schemaVersion as number)) throw new ManifestValidationError('schemaVersion must be 3, 4 or 5; manifest v2 is no longer deployable');
+  if (![3, 4, 5, 6].includes(manifest.schemaVersion as number)) throw new ManifestValidationError('schemaVersion must be 3, 4, 5 or 6; manifest v2 is no longer deployable');
+  if (manifest.schemaVersion === 6) {
+    nonEmpty(manifest.rosterCatalog, 'rosterCatalog');
+    if (path.isAbsolute(String(manifest.rosterCatalog)) || /[\\:\u0000-\u001f]/.test(String(manifest.rosterCatalog)) || String(manifest.rosterCatalog).split('/').some(part => !part || part === '.' || part === '..')) throw new ManifestValidationError('rosterCatalog must be a repository-relative path');
+    if (!manifest.rosterRuntimeRoots || typeof manifest.rosterRuntimeRoots !== 'object' || Array.isArray(manifest.rosterRuntimeRoots)) throw new ManifestValidationError('rosterRuntimeRoots is required for v6');
+    for (const edition of ['codex', 'vscode', 'opencode']) nonEmpty((manifest.rosterRuntimeRoots as Record<string, unknown>)[edition], `rosterRuntimeRoots.${edition}`);
+  }
   if (!Array.isArray(manifest.platforms) || manifest.platforms.join(',') !== 'vscode,codex') throw new ManifestValidationError('platforms must be ["vscode", "codex"]');
   if (manifest.scope !== 'user') throw new ManifestValidationError('scope must be user');
   if (!manifest.targets || typeof manifest.targets !== 'object') throw new ManifestValidationError('targets is required');
@@ -121,6 +127,25 @@ export function validateManifest(raw: unknown): DeploymentManifestV3 {
   for (const key of ['agents', 'skills']) nonEmpty((targets.codex as Record<string, unknown>)[key], `targets.codex.${key}`);
   nonEmpty(targets.state, 'targets.state');
   for (const key of ['capabilityCatalog', 'modelProfiles', 'mcpProviders']) nonEmpty(manifest[key], key);
+  if (manifest.schemaVersion === 6) {
+    nonEmpty((targets.codex as Record<string, unknown>).hooks, 'targets.codex.hooks');
+    for (const field of ['agents', 'skills', 'instructions', 'hooks']) {
+      const value = manifest[field];
+      if (field === 'agents' ? !value || typeof value !== 'object' || Array.isArray(value) || Object.keys(value).length !== 0 : !Array.isArray(value) || value.length !== 0) throw new ManifestValidationError(`v6 ${field} must be empty; canonical roster metadata belongs in rosterCatalog`);
+    }
+    const codex = manifest.codex as Record<string, unknown>;
+    if (!codex || typeof codex !== 'object' || Array.isArray(codex)) throw new ManifestValidationError('codex must be an object');
+    for (const field of ['agents', 'skillBundles']) if (!codex[field] || typeof codex[field] !== 'object' || Array.isArray(codex[field]) || Object.keys(codex[field] as object).length) throw new ManifestValidationError(`v6 codex.${field} must be empty; canonical metadata belongs in rosterCatalog`);
+    if (codex.productDevelopment !== undefined || codex.externalSkillCatalog !== undefined) throw new ManifestValidationError('v6 resource definitions belong in rosterCatalog');
+    if (codex.graphify !== undefined) {
+      const graphify = codex.graphify as Record<string, unknown>;
+      if (!graphify || typeof graphify !== 'object' || Array.isArray(graphify)) throw new ManifestValidationError('codex.graphify must be an object');
+      for (const field of ['managedRoot', 'lockFile']) nonEmpty(graphify[field], `codex.graphify.${field}`);
+      if (Object.keys(graphify).some(field => !['managedRoot', 'lockFile'].includes(field))) throw new ManifestValidationError('codex.graphify contains unsupported fields');
+      if (path.isAbsolute(String(graphify.lockFile)) || /[\\:\u0000-\u001f]/.test(String(graphify.lockFile)) || String(graphify.lockFile).split('/').some(part => !part || part === '.' || part === '..')) throw new ManifestValidationError('codex.graphify.lockFile must be a repository-relative path');
+    }
+    return raw as DeploymentManifestV3;
+  }
   if (!manifest.agents || typeof manifest.agents !== 'object' || Array.isArray(manifest.agents)) throw new ManifestValidationError('agents must be an object keyed by stable agent id');
   const agents = manifest.agents as Record<string, unknown>;
   if (Object.keys(agents).length === 0) throw new ManifestValidationError('agents must contain at least one canonical agent');
@@ -169,7 +194,7 @@ export function validateManifest(raw: unknown): DeploymentManifestV3 {
     nonEmpty(codex.externalSkillCatalog, 'codex.externalSkillCatalog');
   }
   if (codex.graphify !== undefined) {
-    if (manifest.schemaVersion !== 5) throw new ManifestValidationError('codex.graphify requires manifest schemaVersion 5');
+    if (manifest.schemaVersion !== 5 && manifest.schemaVersion !== 6) throw new ManifestValidationError('codex.graphify requires manifest schemaVersion 5 or 6');
     const graphify = codex.graphify as Record<string, unknown>;
     if (!graphify || typeof graphify !== 'object' || Array.isArray(graphify)) throw new ManifestValidationError('codex.graphify must be an object');
     for (const field of ['managedRoot', 'lockFile']) nonEmpty(graphify[field], `codex.graphify.${field}`);

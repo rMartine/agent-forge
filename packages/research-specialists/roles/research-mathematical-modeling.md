@@ -19,4 +19,4 @@ Use research-mathematical-modeling to formalize the assigned question and implem
 - Implementation, numerical verification, sensitivity and applicable convergence evidence.
 - Calibration provenance and empirical validation distinguished from agreement with a simulation.
 
-Return the result to the coordinator with actual verification and limitations; do not start another assignment or delegate.
+Return the result to your parent with actual verification and limitations. Delegate useful subtasks within the current assignment and integrate the results; all descendants retain the same authorization and permission limits.

@@ -21,19 +21,39 @@
     "copilotFourRosters": {
       "type": "object",
       "additionalProperties": false,
-      "required": ["catalog", "runtimeRoot", "defaultHarness", "mcpProviders"],
+      "required": [
+        "catalog",
+        "runtimeRoot",
+        "defaultHarness",
+        "mcpProviders"
+      ],
       "properties": {
-        "catalog": { "type": "string", "minLength": 1 },
-        "runtimeRoot": { "type": "string", "minLength": 1 },
-        "defaultHarness": { "enum": ["copilot", "local"] },
-        "mcpProviders": { "type": "string", "minLength": 1 }
+        "catalog": {
+          "type": "string",
+          "minLength": 1
+        },
+        "runtimeRoot": {
+          "type": "string",
+          "minLength": 1
+        },
+        "defaultHarness": {
+          "enum": [
+            "copilot",
+            "local"
+          ]
+        },
+        "mcpProviders": {
+          "type": "string",
+          "minLength": 1
+        }
       }
     },
     "schemaVersion": {
       "enum": [
         3,
         4,
-        5
+        5,
+        6
       ]
     },
     "platforms": {
@@ -98,6 +118,10 @@
             "skills": {
               "type": "string",
               "minLength": 1
+            },
+            "hooks": {
+              "type": "string",
+              "minLength": 1
             }
           }
         },
@@ -121,7 +145,7 @@
     },
     "agents": {
       "type": "object",
-      "minProperties": 1,
+      "minProperties": 0,
       "additionalProperties": {
         "$ref": "#/$defs/agent"
       }
@@ -154,7 +178,7 @@
       "properties": {
         "agents": {
           "type": "object",
-          "minProperties": 1,
+          "minProperties": 0,
           "additionalProperties": {
             "$ref": "#/$defs/codexAgent"
           }
@@ -215,6 +239,33 @@
               "pattern": "^(?!/)(?!.*(?:^|/)\\.{1,2}(?:/|$))(?!.*//)(?!.*\\/$)[^\\\\:\\u0000-\\u001f]+$"
             }
           }
+        }
+      }
+    },
+    "rosterCatalog": {
+      "type": "string",
+      "minLength": 1
+    },
+    "rosterRuntimeRoots": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "codex",
+        "vscode",
+        "opencode"
+      ],
+      "properties": {
+        "codex": {
+          "type": "string",
+          "minLength": 1
+        },
+        "vscode": {
+          "type": "string",
+          "minLength": 1
+        },
+        "opencode": {
+          "type": "string",
+          "minLength": 1
         }
       }
     }
@@ -447,7 +498,10 @@
       "if": {
         "properties": {
           "schemaVersion": {
-            "const": 5
+            "enum": [
+              5,
+              6
+            ]
           }
         }
       },
@@ -512,6 +566,93 @@
               "required": [
                 "graphify"
               ]
+            }
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "schemaVersion": {
+            "const": 6
+          }
+        }
+      },
+      "then": {
+        "required": [
+          "rosterCatalog",
+          "rosterRuntimeRoots"
+        ]
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "schemaVersion": {
+            "const": 6
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "agents": {
+            "maxProperties": 0
+          },
+          "skills": {
+            "maxItems": 0
+          },
+          "instructions": {
+            "maxItems": 0
+          },
+          "hooks": {
+            "maxItems": 0
+          },
+          "targets": {
+            "properties": {
+              "codex": {
+                "required": [
+                  "hooks"
+                ]
+              }
+            }
+          },
+          "codex": {
+            "properties": {
+              "agents": {
+                "maxProperties": 0
+              },
+              "skillBundles": {
+                "maxProperties": 0
+              }
+            },
+            "not": {
+              "anyOf": [
+                {
+                  "required": [
+                    "productDevelopment"
+                  ]
+                },
+                {
+                  "required": [
+                    "externalSkillCatalog"
+                  ]
+                }
+              ]
+            }
+          }
+        }
+      },
+      "else": {
+        "properties": {
+          "agents": {
+            "minProperties": 1
+          },
+          "codex": {
+            "properties": {
+              "agents": {
+                "minProperties": 1
+              }
             }
           }
         }

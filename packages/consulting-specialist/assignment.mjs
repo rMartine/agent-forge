@@ -132,6 +132,16 @@ function validateState(record, context) {
     identifier(key, 'asignación');
     if (!ROLES.has(assignment.role) || !['prepared', 'running', 'returned', 'interrupted', 'ended', 'closed'].includes(assignment.status)) throw new Error('Asignación inválida.');
     if (assignment.agentId) identifier(assignment.agentId, 'agente');
+    for (const field of ['assignmentId', 'parentAgentId', 'instanceId']) if (assignment[field] !== undefined && assignment[field] !== null) identifier(assignment[field], field);
+    if (assignment.rootSessionId !== undefined && assignment.rootSessionId !== context.sessionId) throw new Error('La sesión raíz no coincide.');
+    if (assignment.readOnly !== undefined && typeof assignment.readOnly !== 'boolean') throw new Error('Permiso heredado inválido.');
+    if (assignment.inheritedConstraintGroups !== undefined) {
+      if (!Array.isArray(assignment.inheritedConstraintGroups) || assignment.inheritedConstraintGroups.length > 100) throw new Error('Límites heredados inválidos.');
+      for (const group of assignment.inheritedConstraintGroups) {
+        if (!Array.isArray(group) || group.length > 100) throw new Error('Grupo de límites heredados inválido.');
+        group.forEach(validateToolConstraint);
+      }
+    }
     validateAssignmentInput(Object.fromEntries(['role', 'objective', 'expectedDeliverables', 'authorizationReference', 'toolConstraints', 'clientId', 'engagementId'].filter(key => assignment[key] !== null).map(key => [key, assignment[key]])));
     summaries(assignment.delivered ?? [], 'entregables registrados');
   }
@@ -210,7 +220,7 @@ export async function readStdinJson() {
 }
 
 function status(record) {
-  return record ? { sessionId: record.sessionId, assignments: Object.values(record.assignments).map(({ role, agentId, status, clientId, engagementId, expectedDeliverables, delivered }) => ({ role, agentId, status, clientId, engagementId, expectedDeliverables, delivered })) } : { status: 'unregistered' };
+  return record ? { sessionId: record.sessionId, assignments: Object.values(record.assignments).map(({ role, agentId, assignmentId, parentAgentId, rootSessionId, status, clientId, engagementId, expectedDeliverables, delivered }) => ({ role, agentId, assignmentId, parentAgentId, rootSessionId, status, clientId, engagementId, expectedDeliverables, delivered })) } : { status: 'unregistered' };
 }
 
 export async function runCommand(args, options = {}) {
@@ -218,7 +228,7 @@ export async function runCommand(args, options = {}) {
   if (!['open', 'status', 'record', 'close', 'resume'].includes(command)) throw new Error('Use open, status, record, close o resume; --session ID --project RUTA [--agent ID]. open y record leen JSON por stdin.');
   const flags = {};
   for (let i = 0; i < rest.length; i += 2) {
-    if (!['--session', '--project', '--agent'].includes(rest[i]) || !rest[i + 1] || flags[rest[i]]) throw new Error('Argumentos inválidos.');
+    if (!['--session', '--project', '--agent', '--assignment', '--parent'].includes(rest[i]) || !rest[i + 1] || flags[rest[i]]) throw new Error('Argumentos inválidos.');
     flags[rest[i]] = rest[i + 1];
   }
   const environment = options.environment ?? process.env;
@@ -232,14 +242,17 @@ export async function runCommand(args, options = {}) {
     const input = validateAssignmentInput(options.input ?? await readStdinJson());
     const state = await updateState(context, async current => {
       const record = current ?? { version: 1, sessionId, project: context.project, assignments: {}, createdAt: now() };
-      const pending = record.assignments[`pending-${input.role}`];
+      const selectedId = flags['--assignment'];
+      const pending = selectedId ? record.assignments[selectedId] : undefined;
       const existing = actorId ? findAssignment(record, actorId) : pending?.status === 'prepared' ? pending : undefined;
       if (actorId && (!existing || existing.role !== input.role)) throw new Error('El agente no está vinculado a ese rol en esta sesión.');
       if (existing && ['closed', 'ended'].includes(existing.status)) throw new Error('El encargo terminó; prepare un agente nuevo.');
       if (existing && existing.clientId && (existing.clientId !== input.clientId || existing.engagementId !== input.engagementId)) throw new Error('Un agente conserva el contexto de su cliente; use una asignación y un agente nuevos al cambiar de cliente o proyecto.');
       if (input.clientId) await clientDirectory(context.project, input.clientId, input.engagementId, true);
-      const key = actorId ?? `pending-${input.role}`;
-      record.assignments[key] = { ...existing, ...input, agentId: actorId ?? null, status: actorId ? existing.status : 'prepared', delivered: existing?.delivered ?? [], operations: existing?.operations ?? [], createdAt: existing?.createdAt ?? now() };
+      const key = actorId ?? flags['--assignment'] ?? (record.assignments[`pending-${input.role}`] ? `assignment-${randomUUID()}` : `pending-${input.role}`);
+      const parent = flags['--parent'] ? findAssignment(record, flags['--parent']) : undefined;
+      if (flags['--parent'] && (!parent || parent.status !== 'running')) throw new Error('Parent assignment must be running.');
+      record.assignments[key] = { ...existing, ...input, ...(parent ? { inheritedConstraintGroups: [...(parent.inheritedConstraintGroups ?? []), ...(parent.toolConstraints?.length ? [parent.toolConstraints] : [])], inheritedAuthorizationGroups: [...(parent.inheritedAuthorizationGroups ?? []), ...(parent.toolAuthorizations?.length ? [parent.toolAuthorizations] : [])], readOnly: parent.readOnly === true } : {}), agentId: actorId ?? null, assignmentId: existing?.assignmentId ?? key, rootSessionId: context.sessionId, parentAgentId: flags['--parent'] ?? existing?.parentAgentId ?? null, status: actorId ? existing.status : 'prepared', delivered: existing?.delivered ?? [], operations: existing?.operations ?? [], createdAt: existing?.createdAt ?? now() };
       return record;
     }, true);
     return status(state);

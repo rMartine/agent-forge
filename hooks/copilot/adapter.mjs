@@ -18,13 +18,13 @@ export function normalizeInput(raw, harness, event) {
   if (harness === 'local' && raw.hook_event_name && raw.hook_event_name !== eventName) throw new Error('Event mismatch.');
   const input = { hook_event_name: eventName, session_id: harness === 'copilot' ? text(raw.sessionId) : text(raw.session_id), cwd: text(raw.cwd) };
   const pairs = harness === 'copilot'
-    ? { agent_id: 'agentId', agent_type: 'agentName', tool_name: 'toolName', tool_use_id: 'toolUseId', turn_id: 'turnId', model: 'model' }
-    : { agent_id: 'agent_id', agent_type: 'agent_type', tool_name: 'tool_name', tool_use_id: 'tool_use_id', turn_id: 'turn_id', model: 'model' };
+    ? { agent_id: 'agentId', parent_agent_id: 'parentAgentId', root_session_id: 'rootSessionId', assignment_id: 'assignmentId', task_name: 'taskName', agent_type: 'agentName', tool_name: 'toolName', tool_use_id: 'toolUseId', turn_id: 'turnId', model: 'model' }
+    : { agent_id: 'agent_id', parent_agent_id: 'parent_agent_id', root_session_id: 'root_session_id', assignment_id: 'assignment_id', task_name: 'task_name', agent_type: 'agent_type', tool_name: 'tool_name', tool_use_id: 'tool_use_id', turn_id: 'turn_id', model: 'model' };
   for (const [target, source] of Object.entries(pairs)) if (text(raw[source])) input[target] = raw[source];
   if (harness === 'copilot' && !input.agent_type && text(raw.agentType)) input.agent_type = raw.agentType;
   // Keep the exact host-supplied name until the installed roster catalog can
   // validate it. Do not strip an arbitrary prefix or turn a role into an ID.
-  for (const key of ['agent_id', 'agent_type', 'tool_use_id', 'turn_id']) if (input[key] && !safeIdentifier.test(input[key])) throw new Error('Invalid event identifier.');
+  for (const key of ['agent_id', 'parent_agent_id', 'root_session_id', 'assignment_id', 'agent_type', 'tool_use_id', 'turn_id']) if (input[key] && !safeIdentifier.test(input[key])) throw new Error('Invalid event identifier.');
   const toolInput = harness === 'copilot' ? raw.toolArgs : raw.tool_input;
   if (toolInput !== undefined) input.tool_input = object(toolInput);
   const response = harness === 'copilot' ? raw.toolResult : raw.tool_response;

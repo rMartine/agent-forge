@@ -19,4 +19,4 @@ Use research-physical-ai for learning and intelligence connected to physical act
 - Model or policy evidence and simulation-to-reality differences.
 - Operating conditions, uncertainty and a separation of simulated results from physical execution.
 
-Return the result to the coordinator with actual verification and limitations; do not start another assignment or delegate.
+Return the result to your parent with actual verification and limitations. Delegate useful subtasks within the current assignment and integrate the results; all descendants retain the same authorization and permission limits.

@@ -5,22 +5,36 @@ import {fileURLToPath} from 'node:url';
 
 const samePath=(a,b)=>process.platform==='win32'?a.toLowerCase()===b.toLowerCase():a===b;
 const within=(root,file)=>{const relative=path.relative(root,file);return !relative || (!relative.startsWith('..'+path.sep)&&relative!=='..'&&!path.isAbsolute(relative));};
+const READ_ONLY_DELEGATION_TOOLS=new Set(['agent','spawn_agent','collaboration.spawn_agent','functions.collaboration.spawn_agent','collaborationspawn_agent']);
+const READ_ONLY_MUTATION_WORDS=new Set(['apply','patch','write','edit','delete','remove','upload','send','publish','deploy','install','update','create','generate','execute','exec','run','commit','merge','push','shell','bash','powershell','terminal','command','perform','save','modify','change','set','put','post','submit','approve','grant','revoke','connect']);
+const READ_ONLY_READ_WORDS=new Set(['read','list','find','search','fetch','view','get','open','inspect']);
+const READ_ONLY_NATIVE_TOOLS=new Set(['glob','grep','web.run','web__run','collaboration.wait_agent','collaboration.list_agents','collaboration.send_message','collaboration.followup_task','collaboration.interrupt_agent']);
+export function classifyReadOnlyTool(name){
+ if(typeof name!=='string'||!name.trim())return 'deny';
+ const normalized=name.trim().replace(/^functions\./i,'');
+ if(READ_ONLY_DELEGATION_TOOLS.has(normalized.toLowerCase()))return 'delegate';
+ if(READ_ONLY_NATIVE_TOOLS.has(normalized.toLowerCase()))return 'read';
+ const words=normalized.replace(/([a-z0-9])([A-Z])/g,'$1 $2').toLowerCase().match(/[a-z0-9]+/g)??[];
+ if(words.some(word=>READ_ONLY_MUTATION_WORDS.has(word)))return 'deny';
+ return words.some(word=>READ_ONLY_READ_WORDS.has(word))?'read':'deny';
+}
 export const identityFile=(context,agentId)=>path.join(context.root,`identity-${createHash('sha256').update(agentId).digest('hex')}.json`);
 
 // Resolve registered identities before interpreting cwd. Legacy links are read,
 // never rewritten by a hook merely looking up an assignment.
 export async function resolveRegistered(input,{makeContext,readState,readJson}) {
- const direct=await makeContext(input.session_id,input.cwd);
+ const direct=await makeContext(input.root_session_id ?? input.session_id,input.cwd);
  const actorId=input.agent_id??input.session_id;
+ const lookupId=input.hook_event_name==='SubagentStart' && input.parent_agent_id ? input.parent_agent_id : actorId;
  let owned=false, link;
  try {
-  try {link=await readJson(identityFile(direct,actorId));owned=true;} catch(e){if(e.code!=='ENOENT'){owned=true;throw e;}}
+  try {link=await readJson(identityFile(direct,lookupId));owned=true;} catch(e){if(e.code!=='ENOENT'){owned=true;throw e;}}
   if(!link){
    let names;try{names=await readdir(direct.root)}catch(e){if(e.code!=='ENOENT')throw e;names=[];}
    if(names.length>4000)throw Error('Identity directory exceeds lookup limit.');
    for(const name of names.filter(name=>/^agent-[a-f0-9]{64}\.json$/.test(name))){
     let candidate;try{candidate=await readJson(path.join(direct.root,name));}catch{continue;}
-    if(candidate.agentId===actorId){
+    if(candidate.agentId===lookupId){
      owned=true;
      if(link&&(!samePath(link.project,candidate.project)||link.sessionId!==candidate.sessionId))throw Error('Ambiguous registered identity.');
      link=candidate;
@@ -28,8 +42,8 @@ export async function resolveRegistered(input,{makeContext,readState,readJson}) 
    }
   }
   if(link){
-   if(link.version!==1||link.agentId!==actorId||typeof link.project!=='string'||!path.isAbsolute(link.project))throw Error('Invalid registered identity.');
-   if(input.agent_id&&input.session_id!==link.sessionId&&input.session_id!==actorId)throw Error('Parent session identity differs.');
+   if(link.version!==1||link.agentId!==lookupId||typeof link.project!=='string'||!path.isAbsolute(link.project))throw Error('Invalid registered identity.');
+   if(input.agent_id&&input.session_id!==link.sessionId&&input.session_id!==actorId&&input.session_id!==lookupId&&input.root_session_id!==link.sessionId)throw Error('Parent session identity differs.');
    const context=await makeContext(link.sessionId,link.project);
    if(!within(context.project,direct.project))throw Error('Working directory is outside the registered project.');
    // A nested repository/worktree is a distinct project, even inside this root.
@@ -38,7 +52,7 @@ export async function resolveRegistered(input,{makeContext,readState,readJson}) 
     try{await lstat(path.join(cursor,'.git'));throw Error('Working directory belongs to another repository.');}catch(e){if(e.code!=='ENOENT')throw e;}
     cursor=path.dirname(cursor);
    }
-   return {context,actorId,owned:true};
+   return {context,actorId:input.hook_event_name==='SubagentStart'?input.agent_id:actorId,owned:true};
   }
   // Parent events have no agent ID. Find only the same session in cwd/ancestors.
   let context=direct;
@@ -48,7 +62,7 @@ export async function resolveRegistered(input,{makeContext,readState,readJson}) 
    try{await lstat(path.join(context.project,'.git'));break;}catch(e){if(e.code!=='ENOENT')throw e;}
    const parent=path.dirname(context.project);if(parent===context.project)break;
    try { context=await makeContext(input.session_id,parent); }
-   catch(error) { if (['EPERM','EACCES'].includes(error.code)) break; throw error; }
+   catch(error) { if (['EPERM','EACCES'].includes(error.code) || /storage must be outside|records must be stored outside/i.test(error.message)) break; throw error; }
   }
   return {context:direct,actorId:input.agent_id??null,owned:false};
  }catch(error){error.rosterOwned=owned;throw error;}

@@ -4,6 +4,8 @@ import * as vscode from 'vscode';
 import {
   getDeploymentStatus,
   loadManifest,
+  loadRosterCatalog,
+  type RosterCatalog,
   type DeploymentManifestV3,
   type FileStatus,
   type RuntimeStatusResult,
@@ -49,6 +51,7 @@ export class RosterTreeViewProvider implements vscode.TreeDataProvider<RosterIte
   private result?: RuntimeStatusResult;
   private manifest?: DeploymentManifestV3;
   private copilotRosters?: CopilotRosterSummary[];
+  private canonical?: RosterCatalog;
 
   constructor(private readonly getRepoPath: () => string | undefined) {}
 
@@ -56,6 +59,7 @@ export class RosterTreeViewProvider implements vscode.TreeDataProvider<RosterIte
     this.result = undefined;
     this.manifest = undefined;
     this.copilotRosters = undefined;
+    this.canonical = undefined;
     this.changeEmitter.fire();
   }
 
@@ -67,6 +71,13 @@ export class RosterTreeViewProvider implements vscode.TreeDataProvider<RosterIte
     try {
       this.result ??= await getDeploymentStatus(repoPath, { target: 'all' });
       this.manifest ??= await loadManifest(repoPath);
+      if (this.manifest.schemaVersion === 6 && !this.canonical) {
+        this.canonical = await loadRosterCatalog(repoPath);
+        this.copilotRosters = this.canonical.rosters.map(roster => {
+          const coordinator = this.canonical!.agents.find(agent => agent.id === roster.coordinatorId)!;
+          return {name:roster.name,coordinator:{id:coordinator.id,name:coordinator.id,model:coordinator.model,reasoning:coordinator.reasoning},specialistCount:this.canonical!.agents.filter(agent=>agent.roster===roster.id&&!agent.coordinator).length,skillCount:new Set(this.canonical!.resources.filter(resource=>resource.kind==='skill'&&resource.roster===roster.id).map(resource=>resource.relativePath.split('/')[0])).size};
+        });
+      }
       if (this.manifest.copilotFourRosters && !this.copilotRosters) {
         const catalog = JSON.parse(await readFile(path.resolve(repoPath, this.manifest.copilotFourRosters.catalog), 'utf8')) as { rosters: CopilotRosterSummary[] };
         this.copilotRosters = catalog.rosters;
@@ -88,8 +99,8 @@ export class RosterTreeViewProvider implements vscode.TreeDataProvider<RosterIte
         ...(this.copilotRosters ? [new RosterItem('group', 'Copilot rosters (' + this.copilotRosters.length + ')', undefined, 'vscode-rosters')] : []),
         new RosterItem('group', 'VS Code managed files (' + vscodeCount + ')', undefined, 'vscode-managed'),
         new RosterItem('group', 'Codex managed files (' + codexCount + ')', undefined, 'codex-managed'),
-        new RosterItem('group', 'Codex roster (' + Object.keys(this.manifest.codex.agents).length + ')', undefined, 'codex-roster'),
-        new RosterItem('group', 'Codex skill bundles (' + Object.keys(this.manifest.codex.skillBundles).length + ')', undefined, 'codex-skills'),
+        new RosterItem('group', 'Codex roster (' + (this.canonical?.agents.length ?? Object.keys(this.manifest.codex.agents).length) + ')', undefined, 'codex-roster'),
+        new RosterItem('group', 'Codex skills (' + (this.canonical ? new Set(this.canonical.resources.filter(r=>r.kind==='skill').map(r=>r.relativePath.split('/')[0])).size : Object.keys(this.manifest.codex.skillBundles).length) + ')', undefined, 'codex-skills'),
       ];
     }
 
@@ -109,6 +120,13 @@ export class RosterTreeViewProvider implements vscode.TreeDataProvider<RosterIte
       return (this.result.targets[runtime]?.files ?? []).map(item => new RosterItem('entry', path.basename(item.path), item));
     }
     if (element.groupKey === 'codex-roster') {
+      if (this.canonical) return this.canonical.agents.map(agent => {
+        const item = new RosterItem('entry',agent.id);
+        item.description = (agent.readOnly?'read-only':'workspace-write')+' · '+(agent.model??'model inherit');
+        item.tooltip = 'Skills: '+agent.skills.join(', ');
+        item.iconPath = new vscode.ThemeIcon(agent.readOnly?'lock':'edit');
+        return item;
+      });
       return Object.values(this.manifest.codex.agents).map(agent => {
         const item = new RosterItem('entry', agent.id);
         item.description = agent.sandboxMode + ' · ' + (agent.model ?? 'model inherit');
@@ -118,6 +136,9 @@ export class RosterTreeViewProvider implements vscode.TreeDataProvider<RosterIte
       });
     }
     if (element.groupKey === 'codex-skills') {
+      if (this.canonical) return [...new Set(this.canonical.resources.filter(r=>r.kind==='skill').map(r=>r.relativePath.split('/')[0]))].sort().map(id => {
+        const item = new RosterItem('entry',id);item.iconPath=new vscode.ThemeIcon('book');return item;
+      });
       return Object.values(this.manifest.codex.skillBundles).map(bundle => {
         const item = new RosterItem('entry', bundle.deploymentName);
         item.description = bundle.componentSkills.length + ' workflows';

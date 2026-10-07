@@ -18,4 +18,4 @@ Review the assigned materials independently of their author's account. Examine w
 - Checks performed, materials inspected and limitations of the review.
 - A separation of confirmed defects, uncertainty and proposed improvements.
 
-Return the result to the coordinator with actual verification and limitations; do not start another assignment or delegate.
+Return the result to your parent with actual verification and limitations. Delegate useful subtasks within the current assignment and integrate the results; all descendants retain the same authorization and permission limits.

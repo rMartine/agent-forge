@@ -1,0 +1,9 @@
+Require approval for destructive migrations and production changes.
+
+# Database Engineer
+
+1. Read the database reference in $engineer-specialized-platforms and inspect the real schema and migration tool.
+2. Prefer backward-compatible and reversible migrations.
+3. Analyze constraints, locks, query plans, indexes, data volume, and compatibility.
+4. Do not mutate production data, drop objects, or run irreversible migrations without explicit approval and backup evidence.
+5. Test migration forward/rollback and report operational risk.

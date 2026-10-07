@@ -12,6 +12,8 @@ import { registerSetupMcp } from './commands/setupMcp.js';
 import { registerCleanup } from './commands/cleanup.js';
 import { registerReconcile } from './commands/reconcile.js';
 import { registerGraphify } from './commands/graphify.js';
+import { registerExport } from './commands/export.js';
+import { registerMigrateRosters } from './commands/migrate-rosters.js';
 
 const program = new Command()
   .name('agent-forge')
@@ -31,6 +33,8 @@ registerCleanup(program);
 registerReconcile(program);
 registerSetupMcp(program);
 registerGraphify(program);
+registerExport(program);
+registerMigrateRosters(program);
 program.parseAsync().catch(error => {
   console.error(error instanceof Error ? error.message : String(error));
   process.exitCode = 1;

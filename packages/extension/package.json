@@ -2,7 +2,7 @@
   "name": "agent-forge",
   "displayName": "Agent Forge",
   "description": "Validate and atomically deploy Agent Forge rosters for VS Code Copilot and OpenAI Codex",
-  "version": "0.3.0",
+  "version": "0.4.0",
   "publisher": "agent-forge",
   "icon": "media/agent-forge-icon.png",
   "engines": {
@@ -210,7 +210,10 @@
         },
         "agentForge.copilotHarness": {
           "type": "string",
-          "enum": ["copilot", "local"],
+          "enum": [
+            "copilot",
+            "local"
+          ],
           "default": "copilot",
           "scope": "application",
           "description": "Hook engine for the four Copilot rosters. Preview and redeploy after changing this setting; only one hook profile is installed."

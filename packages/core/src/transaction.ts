@@ -176,9 +176,16 @@ export async function applyDeploymentPlan(plan: DeploymentPlan, statePath: strin
       }
       await assertUnchanged(item.targetPath, reviewedHashes.get(normalizedPath(item.targetPath))!);
       if (present && await hashFile(item.targetPath) === item.sourceHash) {
-        managed.get(item.runtime)!.push(previous ?? {
+        // Each release needs its own preimage even when no bytes are written.
+        // Reusing the previous record could delete an unchanged file when that
+        // older release originally created it, or restore the wrong preimage.
+        const undoEntry = await backupForUndo(item.targetPath, storage, undoEntries.length);
+        await assertUnchanged(item.targetPath, reviewedHashes.get(normalizedPath(item.targetPath))!);
+        undoEntry.expectedAfterHash = item.sourceHash;
+        undoEntries.push(undoEntry);
+        managed.get(item.runtime)!.push({
           id: item.id, type: item.type, runtime: item.runtime, targetPath: item.targetPath,
-          deployedHash: item.sourceHash, existedBefore: false,
+          deployedHash: item.sourceHash, existedBefore: true, backupPath: undoEntry.backupPath,
         });
         skipped++;
         continue;

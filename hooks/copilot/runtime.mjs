@@ -108,9 +108,9 @@ export async function observe(input, harness) {
       if (Object.keys(record.agents).length >= 256 && !Object.hasOwn(record.agents, input.agent_id)) throw new Error('Observed identity limit reached.');
       const existing = Object.hasOwn(record.agents, input.agent_id) ? record.agents[input.agent_id] : null;
       if (existing && existing.role !== input.agent_type) throw new Error('Observed identity changed roles.');
-      Object.defineProperty(record.agents, input.agent_id, { value: { role: input.agent_type, event: input.hook_event_name }, enumerable: true, writable: true, configurable: true });
+      Object.defineProperty(record.agents, input.agent_id, { value: { ...existing, role: input.agent_type, event: input.hook_event_name, rootSessionId: input.root_session_id ?? context.sessionId, parentAgentId: input.parent_agent_id ?? existing?.parentAgentId ?? null, instanceId: input.agent_id, assignmentId: input.assignment_id ?? existing?.assignmentId ?? input.agent_id, identityCoverage: input.parent_agent_id ? 'host-parent' : 'parent-not-supplied' }, enumerable: true, writable: true, configurable: true });
     }
-    if (input.hook_event_name === 'SessionEnd') record.status = 'ended';
+    if (input.hook_event_name === 'SessionEnd' && !input.agent_id && input.session_id === context.sessionId) record.status = 'ended';
     return record;
   });
   return context;
@@ -129,25 +129,10 @@ export async function stateFor(roster, input) {
 }
 
 export async function runRoster(roster, input) {
-  if (['PreToolUse', 'PostToolUse'].includes(input.hook_event_name)) {
-    // Source handlers resolve their own registered identity links and retain
-    // their ownership-aware failure policy, including nested project checks.
-    return handlers[roster](input, optionsFor(roster, input.session_id));
-  }
-  const { record, options } = await stateFor(roster, input);
-  if (!record) return {};
-  if (input.hook_event_name === 'SubagentStart') {
-    if (!input.agent_id || !input.agent_type) return {};
-    if (roster === 'communication' || roster === 'consulting') {
-      const pending = record.assignments?.[`pending-${input.agent_type}`];
-      const existing = Object.values(record.assignments ?? {}).find(item => item.agentId === input.agent_id);
-      // The source handlers support auto-start; the Copilot adapter requires a
-      // prepared human-authorized assignment instead.
-      if (!existing && pending?.status !== 'prepared') return {};
-    }
-  }
-  if (roster === 'development' && input.hook_event_name.startsWith('Subagent') && (!input.agent_id || !input.agent_type)) return {};
-  return handlers[roster](input, options);
+  if (!rosters.includes(roster)) throw new Error('Unknown roster.');
+  // Source modules resolve registered child and parent identity links. A child
+  // session ID must not be mistaken for an unregistered root session here.
+  return handlers[roster](input, optionsFor(roster, input.root_session_id ?? input.session_id));
 }
 
 export async function readInput() {

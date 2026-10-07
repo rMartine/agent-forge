@@ -1,4 +1,8 @@
 export type * from './types.js';
+export type * from './rosterTypes.js';
+export * from './rosterCatalog.js';
+export * from './rosterAdapters.js';
+export * from './exportEditions.js';
 export * from './errors.js';
 export * from './hash.js';
 export * from './paths.js';
@@ -15,6 +19,7 @@ export * from './externalSkills.js';
 export * from './productDevelopment.js';
 export * from './sharedHooks.js';
 export * from './reconciliation.js';
+export * from './rosterMigration.js';
 export * from './codex.js';
 export * from './validation.js';
 export * from './deploymentPlan.js';

@@ -31,7 +31,7 @@ export interface DeploymentTargets { agents: string; instructions: string; skill
 
 export interface RuntimeDeploymentTargets {
   vscode: Omit<DeploymentTargets, 'state'>;
-  codex: { agents: string; skills: string };
+  codex: { agents: string; skills: string; hooks?: string };
   state: string;
 }
 
@@ -61,13 +61,16 @@ export interface CodexSkillBundleEntry {
 }
 
 export interface DeploymentManifestV3 {
+  /** Manifest v6 uses this neutral catalog for every deployed edition. */
+  rosterCatalog?: string;
+  rosterRuntimeRoots?: { codex: string; vscode: string; opencode: string };
   copilotFourRosters?: {
     catalog: string;
     runtimeRoot: string;
     defaultHarness: CopilotHarness;
     mcpProviders: string;
   };
-  schemaVersion: 3 | 4 | 5;
+  schemaVersion: 3 | 4 | 5 | 6;
   platforms: RuntimeTarget[];
   scope: DeploymentScope;
   targets: RuntimeDeploymentTargets;

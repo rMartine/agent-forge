@@ -245,7 +245,7 @@ async function roleSource(pluginRoot, relative) {
 
 export async function assignResearch(context, input, { pluginRoot = MODULE_ROOT } = {}) {
   requireObject(input, 'assignment input');
-  onlyKeys(input, ['roleId', 'task', 'taskName', 'authorizationReference'], 'assignment input');
+  onlyKeys(input, ['roleId', 'task', 'taskName', 'authorizationReference', 'parentAgentId'], 'assignment input');
   const catalog = await loadCatalog(pluginRoot);
   const role = catalog.specialists.find(item => item.id === input.roleId);
   if (!role) throw new Error('Unknown research specialist.');
@@ -257,12 +257,13 @@ export async function assignResearch(context, input, { pluginRoot = MODULE_ROOT 
   const token = randomUUID();
   await updateState(context, record => {
     if (record?.status !== 'active') throw new Error('No active research session.');
-    if (Object.values(record.assignments).some(entry => ['prepared', 'spawning'].includes(entry.status))) throw new Error('Only one unbound research assignment can be prepared at a time.');
+    const parent = input.parentAgentId ? Object.values(record.assignments).find(entry => entry.agentId === input.parentAgentId) : undefined;
+    if (input.parentAgentId && (!parent || parent.status !== 'running')) throw new Error('The parent research assignment must be running.');
     if (Object.values(record.assignments).some(entry => entry.taskName === taskName)) throw new Error('Research task name must be unique within the session.');
     if (input.authorizationReference && input.authorizationReference !== record.authorization.reference) throw new Error('Assignment authorization does not match the human reference.');
     const message = [
       `${MARKER}${JSON.stringify({ assignmentId: id, token, parentSessionId: context.sessionId, taskName })}`,
-      `Research role: ${role.id}. Follow only the authorized assignment described below. Do not delegate or spawn subagents.`,
+      `Research role: ${role.id}. You may delegate useful subtasks within this authorization, preserving all scope and permission limits. Integrate your descendants' results.`,
       `Human authorization reference: ${record.authorization.reference}`,
       `Authorized purpose: ${record.authorization.purpose}`,
       `Authorized sources: ${JSON.stringify(record.authorization.sources)}`,
@@ -279,7 +280,7 @@ export async function assignResearch(context, input, { pluginRoot = MODULE_ROOT 
       `Required evidence: ${JSON.stringify(role.completionEvidence)}`,
       '', source, '', 'Assigned task:', task,
     ].join('\n');
-    record.assignments[id] = { id, token, roleId: role.id, task, taskName, model: role.model, reasoning: role.reasoning, readOnly: role.readOnly, completionEvidence: role.completionEvidence, status: 'prepared', continuationRequested: false, modelMismatch: false, message, createdAt: new Date().toISOString() };
+    record.assignments[id] = { id, token, roleId: role.id, task, taskName, model: role.model, reasoning: role.reasoning, readOnly: role.readOnly || parent?.readOnly === true, rootSessionId: context.sessionId, parentAgentId: input.parentAgentId ?? null, assignmentId: id, completionEvidence: role.completionEvidence, status: 'prepared', continuationRequested: false, modelMismatch: false, message, createdAt: new Date().toISOString() };
     return record;
   });
   const record = await readState(context);

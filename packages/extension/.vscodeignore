@@ -6,3 +6,4 @@ test/**
 **/*.ts
 !out/**
 node_modules/**
+out/test/**

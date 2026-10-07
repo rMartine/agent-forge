@@ -19,4 +19,4 @@ Synthesize the authorized set of documents against the assigned question. Read t
 - An account of contradictory findings, differences in methods and uncertainty.
 - Separation of supported findings, interpretation and proposed research.
 
-Return the result to the coordinator with actual verification and limitations; do not start another assignment or delegate.
+Return the result to your parent with actual verification and limitations. Delegate useful subtasks within the current assignment and integrate the results; all descendants retain the same authorization and permission limits.

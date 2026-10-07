@@ -1,13 +1,12 @@
-# Agent Forge Repository Instructions
+# Agent Forge repository instructions
 
-Agent Forge is a dual-runtime VS Code Copilot and OpenAI Codex roster compiler and deployment tool.
-
-- Treat `agents/*.agent.md` as the canonical agent source.
-- Treat `skills/*` as canonical workflow modules; Codex bundles are rendered outputs, not editable source copies.
-- Keep stable agent IDs aligned with `agent-forge.manifest.jsonc`.
-- El asistente que desarrolla Agent Forge no debe añadir ni generar en .claude/agents una copia adicional que el entorno cargaría como los mismos agentes ya entregados por el producto. Cuando un encargo de desarrollo necesite representar esa ruta o esas definiciones como datos o dentro de un entorno temporal aislado, puede hacerlo sin instalarlas como otra copia cargable en el entorno del usuario.
-- El asistente que desarrolla Agent Forge no debe añadir en .codex/agents o .agents/skills del proyecto copias adicionales que el entorno cargaría como los mismos agentes o procedimientos canónicos ya entregados por el producto, ni modificar el descubrimiento del espacio de trabajo para cargar otra copia de ellos. Cuando el encargo necesite representar esas rutas o contenidos como datos o dentro de un entorno temporal aislado, puede hacerlo sin introducir otra copia cargable en el proyecto real o en el perfil personal.
-- El asistente que desarrolla Agent Forge debe mantener una implementación coherente de las operaciones de instalación, conservación de archivos ajenos, estado y recuperación que comparten las interfaces. Actualmente esa implementación se encuentra en packages/core, y la interfaz de comandos, la extensión y los scripts de PowerShell la utilizan. Cada interfaz puede resolver las responsabilidades propias de su entorno. Si el encargo requiere reorganizar responsabilidades o ubicaciones, el asistente debe realizar los cambios técnicos necesarios dentro de ese encargo y conservar la coherencia de las operaciones compartidas entre los consumidores afectados.
-- Never write to real `~/.copilot`, `~/.codex`, or `~/.agents` profile paths from tests.
-- Preserve global `~/.codex/AGENTS.md`, `~/.codex/config.toml`, personal `~/.codex/skills`, and every unmanaged customization.
-- Antes de realizar una instalación, limpieza, recuperación, eliminación de archivos administrados, instalación de proveedores u otra operación con efectos externos, el asistente debe comprobar que la autorización vigente de Roberto cubre esa acción, sus efectos y su destino. Para una operación que utiliza un plan o una instalación identificada, debe utilizar el identificador concreto correspondiente y respetar el protocolo de confirmación que exige la herramienta. No debe exigir un identificador de instalación a una operación que no lo utiliza ni pedir de nuevo una autorización suficiente que siga vigente. Si la interfaz exige una interacción humana que el asistente no puede realizar, debe solicitar únicamente esa interacción y explicar a qué operación autorizada corresponde. El mantenimiento autorizado del programa se rige por el alcance de ese encargo y no equivale a aplicar una operación sobre un perfil real.
+- The source of truth for agent metadata is `config/roster-catalog.json`; canonical instructions are in `rosters/<roster>/<agent-id>.md`.
+- The root `agent-forge.manifest.jsonc` contains transport and deployment settings. Do not duplicate roster definitions in it.
+- Generate Codex, Copilot, and OpenCode artifacts through the shared core adapters. Do not add a format-specific parallel catalog or convert one client's rendered files into another client's source.
+- All roster agents may delegate useful subtasks when their host supports it. Preserve the child's role, assignment scope, permissions, and inherited client restrictions. Delegation does not authorize an otherwise restricted action.
+- Preserve model and reasoning assignments. Report unavailable model mappings instead of substituting silently.
+- Do not install additional discoverable copies of these agents or skills into workspace-local `.codex/agents`, `.agents/skills`, or `.claude/agents` directories.
+- Keep installation, hooks, ownership, rollback, and cleanup behind `packages/core`; CLI and extension code are adapters.
+- Never write tests into real user profile paths. Use isolated profiles.
+- Keep licenses and third-party provenance alongside the resources they cover. Do not commit profile receipts, client data, credentials, or generated exports.
+- Before a profile mutation, review the exact immutable plan and use its ID for confirmation. Preserve user customizations and foreign hook groups.

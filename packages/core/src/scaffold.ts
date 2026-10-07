@@ -1,7 +1,7 @@
 import * as fs from 'node:fs';
 import * as path from 'node:path';
 
-const SCAFFOLD_DIRS = ['agents', 'instructions', 'skills', 'config', 'hooks', 'schemas', 'project_docs'];
+const SCAFFOLD_DIRS = ['agents', 'instructions', 'skills', 'config', 'hooks', 'schemas', 'docs'];
 const STARTER_MANIFEST = `{
   "schemaVersion": 3,
   "platforms": ["vscode", "codex"],

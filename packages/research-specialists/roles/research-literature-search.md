@@ -18,4 +18,4 @@ Search only the sources, date ranges, languages and inclusion criteria authorize
 - Records selected or excluded with reasons and unresolved access limitations.
 - A reproducible record of authorized deduplication and selection decisions.
 
-Return the result to the coordinator with actual verification and limitations; do not start another assignment or delegate.
+Return the result to your parent with actual verification and limitations. Delegate useful subtasks within the current assignment and integrate the results; all descendants retain the same authorization and permission limits.

@@ -53,6 +53,35 @@ function evidence(roleId, extra = {}) {
   return { roleId, status: 'completed', summary: 'Synthetic evidence only.', checks: [{ name: 'Fixture check', result: 'passed', details: 'Checked a synthetic fixture; no scientific validation of real data.' }], ...extra };
 }
 
+test('read-only research parent may spawn same-role siblings and a grandchild without widening permissions', async t => {
+  const f = await fixture(t);
+  await f.start();
+  await f.preparedSpawn('research-review', 'review-parent');
+  for (const [agentId, toolUseId] of [['child-a', 'spawn-a'], ['child-b', 'spawn-b']]) {
+    const tool = { agent_id: 'review-parent', tool_name: 'spawn_agent', tool_use_id: toolUseId, tool_input: { agent_type: 'research-analysis', task_name: agentId.replaceAll('-', '_'), message: 'Inspect the same authorized synthetic example.' } };
+    assert.notEqual((await f.hook('PreToolUse', tool)).hookSpecificOutput?.permissionDecision, 'deny');
+  }
+  for (const [agentId, toolUseId] of [['child-b', 'spawn-b'], ['child-a', 'spawn-a']]) await f.hook('PostToolUse', { agent_id: 'review-parent', tool_name: 'spawn_agent', tool_use_id: toolUseId, tool_response: { agent_id: agentId } });
+  let state = await readState(f.context);
+  const child = Object.values(state.assignments).find(entry => entry.agentId === 'child-a');
+  assert.equal(child.parentAgentId, 'review-parent');
+  assert.equal(child.readOnly, true);
+  assert.equal(Object.values(state.assignments).filter(entry => entry.parentAgentId === 'review-parent').length, 2);
+  const denied = await f.hook('PreToolUse', { session_id: 'child-a', tool_name: 'functions.exec_command', tool_input: { cmd: 'write' } });
+  assert.equal(denied.hookSpecificOutput.permissionDecision, 'deny');
+  const nested = { session_id: 'child-a', tool_name: 'spawn_agent', tool_use_id: 'spawn-grandchild', tool_input: { agent_type: 'research-analysis', task_name: 'grandchild', message: 'Inspect the same authorized material.' } };
+  assert.notEqual((await f.hook('PreToolUse', nested)).hookSpecificOutput?.permissionDecision, 'deny');
+  await f.hook('PostToolUse', { ...nested, tool_response: { agent_id: 'grandchild' } });
+  await f.hook('SubagentStart', { session_id: 'child-a', parent_agent_id: 'child-a', agent_id: 'grandchild', agent_type: 'research-analysis' });
+  await f.hook('SessionEnd', { session_id: 'grandchild' });
+  await f.hook('Interrupt', { session_id: 'child-b' });
+  state = await readState(f.context);
+  assert.equal(state.status, 'active');
+  assert.equal(Object.values(state.assignments).find(entry => entry.agentId === 'grandchild').parentAgentId, 'child-a');
+  assert.equal(Object.values(state.assignments).find(entry => entry.agentId === 'child-b').status, 'interrupted');
+  assert.deepEqual(state.authorization, authorization);
+});
+
 async function addIntegrityInventory(f) {
   const runtime = ['manifest.json', 'scripts/research-definitions.mjs', 'scripts/research-session.mjs', 'scripts/research-hooks.mjs', 'scripts/research-integrity.mjs', 'scripts/run-research-python.mjs', 'hooks/hooks.json'];
   for (const file of runtime) {
@@ -197,12 +226,12 @@ test('unrelated default spawns remain available and are never identified solely 
   assert.equal(Object.values((await readState(f.context)).assignments).some(entry => entry.agentId === 'unrelated-agent'), false);
 });
 
-test('global research types without a prepared task or with an altered token cannot dispatch', async t => {
+test('native research subtasks can dispatch within active authorization but altered prepared tokens cannot', async t => {
   const f = await fixture(t);
   await f.start();
   const entry = await f.assign();
   const unknown = await f.hook('PreToolUse', { tool_name: 'spawn_agent', tool_use_id: 'unknown-role', tool_input: { agent_type: entry.roleId, task_name: 'unprepared', fork_turns: 'none', message: 'Missing prepared research assignment.' } });
-  assert.equal(unknown.hookSpecificOutput.permissionDecision, 'deny');
+  assert.notEqual(unknown.hookSpecificOutput?.permissionDecision, 'deny');
   const supplied = spawnInput(entry);
   supplied.message = supplied.message.replace(entry.token, 'invalid-token');
   const altered = await f.hook('PreToolUse', { tool_name: 'spawn_agent', tool_use_id: 'altered-token', tool_input: supplied });
@@ -272,12 +301,12 @@ test('opaque native transport cannot skip installed integrity verification', asy
   assert.equal(result.hookSpecificOutput.updatedInput, undefined);
 });
 
-test('only one unbound assignment is created under concurrent assign attempts', async t => {
+test('multiple unbound assignments are created atomically under concurrent assign attempts', async t => {
   const f = await fixture(t);
   await f.start();
   const outcomes = await Promise.allSettled([f.assign(), f.assign(), f.assign(), f.assign()]);
-  assert.equal(outcomes.filter(item => item.status === 'fulfilled').length, 1);
-  assert.equal(Object.keys((await readState(f.context)).assignments).length, 1);
+  assert.equal(outcomes.filter(item => item.status === 'fulfilled').length, 4);
+  assert.equal(Object.keys((await readState(f.context)).assignments).length, 4);
 });
 
 test('SubagentStart before PostToolUse binds a unique candidate through a canonical task name', async t => {
@@ -354,7 +383,7 @@ test('observed model mismatch refuses sensitive actions and cannot be accepted a
   await recordEvidence(f.context, evidence(entry.roleId, { status: 'blocked' }), entry.id);
 });
 
-test('read-only agents cannot use known writing or shell tools but unknown tools are not falsely declared covered', async t => {
+test('read-only agents deny writing, shell, and unknown tools while preserving known read tools', async t => {
   const f = await fixture(t);
   await f.start();
   await f.preparedSpawn();
@@ -363,9 +392,9 @@ test('read-only agents cannot use known writing or shell tools but unknown tools
     assert.equal(output.hookSpecificOutput.permissionDecision, 'deny', tool);
   }
   assert.deepEqual(await f.hook('PreToolUse', { agent_id: 'child-one', tool_name: 'Read', tool_input: {} }), {});
-  assert.deepEqual(await f.hook('PreToolUse', { agent_id: 'child-one', tool_name: 'unknown_tool', tool_input: {} }), {});
+  assert.equal((await f.hook('PreToolUse', { agent_id: 'child-one', tool_name: 'unknown_tool', tool_input: {} })).hookSpecificOutput.permissionDecision, 'deny');
   const delegate = await f.hook('PreToolUse', { agent_id: 'child-one', tool_name: 'spawn_agent', tool_input: {} });
-  assert.equal(delegate.hookSpecificOutput.permissionDecision, 'deny');
+  assert.notEqual(delegate.hookSpecificOutput?.permissionDecision, 'deny');
 });
 
 test('covered observed operations store bounded metadata without arguments or response material', async t => {

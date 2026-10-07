@@ -52,13 +52,14 @@ async function openAssignment(environment, project, options, assignment, agentId
   return runCommand(['open', '--session', environment.CODEX_THREAD_ID, '--project', project, ...(agentId ? ['--agent', agentId] : [])], { ...options, input: assignment });
 }
 
-async function startConsultant(project, options, agentId = 'consultant-child') {
+async function startConsultant(project, options, agentId = 'consultant-child', assignmentId = `pending-${role}`) {
   return runConsultingHook({
     hook_event_name: 'SubagentStart',
     session_id: 'parent-session',
     cwd: project,
     agent_type: role,
     agent_id: agentId,
+    ...(assignmentId ? { assignment_id: assignmentId } : {}),
   }, options);
 }
 
@@ -121,6 +122,38 @@ test('estado separado por sesión y proyecto, y el mismo actor no puede cambiar 
   const anotherProject = path.join(path.dirname(project), 'another-project');
   await mkdir(anotherProject);
   assert.deepEqual(await runCommand(['status', '--session', 'parent-session', '--project', anotherProject], options), { status: 'unregistered' });
+});
+
+test('un hijo sin assignment_id no adopta la única asignación pendiente ni su autorización', async t => {
+  const { environment, project, options } = await fixture(t);
+  const authorization = [{ toolName: 'mcp__codex_apps__canva_create_design', inputMaxima: { count: 5 } }];
+  await openAssignment(environment, project, options, input('client-one', 'shipment-modernization', {
+    authorizationReference: 'human-approved task A',
+    toolConstraints: authorization,
+  }));
+
+  const started = await startConsultant(project, options, 'unrelated-role-instance', null);
+  assert.match(started.hookSpecificOutput.additionalContext, /no recibió su autorización ni su contexto de cliente/i);
+  assert.doesNotMatch(started.hookSpecificOutput.additionalContext, /client-one|shipment-modernization|human-approved task A/);
+
+  const state = await readState(await sessionContext(environment.CODEX_THREAD_ID, project, options));
+  const pending = state.assignments[`pending-${role}`];
+  const unrelated = state.assignments['unrelated-role-instance'];
+  assert.equal(pending.status, 'prepared');
+  assert.equal(pending.authorizationReference, 'human-approved task A');
+  assert.deepEqual(pending.toolConstraints, authorization);
+  assert.equal(unrelated.status, 'running');
+  assert.equal(unrelated.authorizationReference, null);
+  assert.deepEqual(unrelated.toolConstraints, []);
+  assert.equal(unrelated.clientId, null);
+  assert.equal(unrelated.engagementId, null);
+
+  const denied = await runConsultingHook(childHook('PreToolUse', project, {
+    tool_name: authorization[0].toolName,
+    tool_input: { count: 3 },
+  }, 'unrelated-role-instance'), options);
+  assert.equal(denied.hookSpecificOutput.permissionDecision, 'deny');
+  assert.match(denied.hookSpecificOutput.permissionDecisionReason, /no está vinculada a una autorización vigente/i);
 });
 
 test('eventos de otros perfiles quedan inactivos y el agente hijo conserva el vínculo con la sesión principal', async t => {
@@ -198,7 +231,7 @@ test('Stop, Interrupt y SessionEnd no provocan continuación', async t => {
     assert.equal(JSON.stringify(response).toLowerCase().includes('continue'), false);
     assert.equal(response.hookSpecificOutput, undefined);
     const state = await readState(await sessionContext('parent-session', project, options));
-    assert.equal(state.assignments['consultant-child'].status, event === 'Stop' ? 'closed' : event === 'Interrupt' ? 'interrupted' : 'ended');
+    assert.equal(state.assignments['consultant-child'].status, event === 'Stop' ? 'running' : event === 'Interrupt' ? 'interrupted' : 'ended');
   }
 });
 
@@ -217,7 +250,8 @@ async function createInstallFixture(t) {
   const codexHome = path.join(profileRoot, '.codex');
   const stateHome = path.join(profileRoot, '.consulting-state');
   await mkdir(sourceRoot, { recursive: true });
-  for (const name of ['install.mjs', 'assignment.mjs', 'context.mjs', 'hooks.mjs']) await cp(path.join(packageRoot, name), path.join(sourceRoot, name));
+  await cp(path.join(packageRoot, 'test', 'fixtures', 'legacy-native', 'install.mjs'), path.join(sourceRoot, 'install.mjs'));
+  for (const name of ['assignment.mjs', 'context.mjs', 'hooks.mjs', 'hook-storage.mjs']) await cp(path.join(packageRoot, name), path.join(sourceRoot, name));
   await mkdir(path.join(sourceRoot, 'agents'));
   await mkdir(path.join(sourceRoot, 'skills', 'proposal-writing'), { recursive: true });
   await writeFile(path.join(sourceRoot, 'agents', `${role}.toml`), 'name = "fixture consultant"\n');

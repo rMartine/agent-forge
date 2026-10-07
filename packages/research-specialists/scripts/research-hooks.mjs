@@ -1,9 +1,11 @@
 import path from 'node:path';
 import { lstat, realpath } from 'node:fs/promises';
 import { fileURLToPath } from 'node:url';
+import { randomUUID } from 'node:crypto';
 import {
-  MARKER, MAX_BYTES, MODULE_ROOT, readJson, readState, resolveHookContext, spawnInput, updateState, writeAgentLink,
+  MARKER, MAX_BYTES, MODULE_ROOT, loadCatalog, readJson, readState, resolveHookContext, spawnInput, updateState, writeAgentLink,
 } from './research-session.mjs';
+import { classifyReadOnlyTool } from './hook-storage.mjs';
 import { verifyResearchPackageIntegrity } from './research-integrity.mjs';
 
 const EVENTS = new Set(['PreToolUse', 'PostToolUse', 'SubagentStart', 'SubagentStop', 'Stop', 'Interrupt', 'SessionEnd']);
@@ -26,8 +28,8 @@ function deny(reason) {
 
 function note(message) { return { systemMessage: message }; }
 function isSpawn(name) { return SPAWN_TOOLS.has(name); }
-function writingOrExecution(name) { return WRITING_TOOLS.has(name) || SHELL_TOOLS.has(name) || SENSITIVE_WORDS.test(name); }
-function knownRead(name) { return /(?:^|[_.:/])(read|list|find|search|fetch|view|get|open)(?:$|[_.:/])/i.test(name) && !writingOrExecution(name); }
+function writingOrExecution(name) { return classifyReadOnlyTool(name) === 'deny' && !isSpawn(name); }
+function knownRead(name) { return classifyReadOnlyTool(name) === 'read'; }
 
 function assignmentFromInput(record, input) {
   const body = input.tool_input;
@@ -52,7 +54,7 @@ function actorAssignment(record, actorId) {
 function observeModel(entry, model) {
   if (typeof model !== 'string' || !model.trim()) return;
   entry.observedModel = model;
-  if (model !== entry.model) {
+  if (entry.model && model !== entry.model) {
     entry.modelMismatch = true;
     entry.diagnostic = 'The model reported by the subagent event differs from the prepared assignment. Sensitive actions must stop; the principal must resolve this before accepting completion.';
   }
@@ -183,22 +185,38 @@ async function preTool(context, actorId, input, options) {
     const actor = actorAssignment(record, actorId);
     const tool = input.tool_name;
     if (actor) {
-      if (isSpawn(tool)) output = deny('Research specialists must return work to the principal; they may not delegate.');
-      else if ((actor.modelMismatch || actor.roleMismatch) && !knownRead(tool)) output = deny('The research agent model or global role differs from its assignment. This action requires the principal to resolve that mismatch first.');
-      else if (actor.readOnly && writingOrExecution(tool)) output = deny('This research role is read-only. Return proposed changes to the principal; shell execution and known writing tools are unavailable to this role.');
+      if ((actor.modelMismatch || actor.roleMismatch) && !knownRead(tool)) output = deny('The research agent model or global role differs from its assignment. This action requires the principal to resolve that mismatch first.');
+      else if (actor.readOnly && !isSpawn(tool) && writingOrExecution(tool)) output = deny('This research role is read-only. Return proposed changes to the principal; shell execution and known writing tools are unavailable to this role.');
       else if ((record.status !== 'active' || actor.status !== 'running') && !knownRead(tool)) output = deny('This research assignment is not running. The principal must explicitly resume or prepare the authorized assignment before operations.');
       else output = (await checkPackagedHelper(input, record, options)) ?? output;
-      return record;
+      if (output.hookSpecificOutput?.permissionDecision === 'deny' || !isSpawn(tool)) return record;
     }
     if (record.status !== 'active' || !isSpawn(tool)) return record;
     const selected = assignmentFromInput(record, input);
     if (!selected.entry && !selected.marked) {
-      if (typeof input.tool_input?.agent_type === 'string' && /^research-/.test(input.tool_input.agent_type)) { output = deny('This global research role has no matching prepared assignment. Obtain spawn-input from the active principal session.'); return record; }
+      const requestedRole = input.tool_input?.agent_type ?? 'default';
+      const catalogRole = (await loadCatalog(options.pluginRoot)).specialists.find(role => role.id === requestedRole);
+      const role = catalogRole ?? (actor && typeof requestedRole === 'string' && /^[a-z0-9][a-z0-9-]{0,99}$/.test(requestedRole) ? { id: requestedRole, readOnly: false, completionEvidence: ['Actual delegated result and limitations'] } : undefined);
+      if (role && typeof input.tool_use_id === 'string' && SAFE_TOOL_IDENTIFIER.test(input.tool_use_id)) {
+        if (catalogRole && (input.tool_input.model !== undefined || input.tool_input.reasoning_effort !== undefined)) { output = deny('Use the configured research role model and reasoning without per-spawn overrides.'); return record; }
+        try { await verifyResearchPackageIntegrity(options.pluginRoot); }
+        catch { output = deny('Research module integrity verification failed; this subtask cannot be dispatched.'); return record; }
+        const id = `assignment-${randomUUID()}`;
+        const supplied = input.tool_input;
+        const task = typeof supplied.message === 'string' ? supplied.message : typeof supplied.prompt === 'string' ? supplied.prompt : 'Complete the authorized delegated research subtask.';
+        if (task.length > 16000) { output = deny('Delegated task exceeds the research assignment size limit.'); return record; }
+        record.assignments[id] = { id, assignmentId: id, token: randomUUID(), roleId: role.id, task, taskName: supplied.task_name ?? id.replaceAll('-', '_'), model: role.model, reasoning: role.reasoning, readOnly: role.readOnly || actor?.readOnly === true, rootSessionId: context.sessionId, parentAgentId: actorId ?? null, status: 'spawning', continuationRequested: false, modelMismatch: false, completionEvidence: role.completionEvidence, toolUseId: input.tool_use_id, startCandidates: [], spawnWindowContested: false, instructionVerification: 'native-task-with-inherited-authorization', message: task, createdAt: new Date().toISOString() };
+        return record;
+      }
       for (const entry of Object.values(record.assignments)) if (entry.status === 'spawning') entry.spawnWindowContested = true;
       return record;
     }
     if (!selected.entry) { output = deny('Research spawn refers to an unknown or invalid prepared assignment. Obtain fresh spawn-input from the principal session.'); return record; }
     const entry = selected.entry;
+    if (entry.parentAgentId && entry.parentAgentId !== actorId) { output = deny('The prepared assignment belongs to another parent agent.'); return record; }
+    entry.parentAgentId ??= actorId ?? null;
+    entry.rootSessionId = context.sessionId;
+    if (actor?.readOnly) entry.readOnly = true;
     if (entry.status !== 'prepared' && !(entry.status === 'spawning' && entry.toolUseId === input.tool_use_id)) {
       output = deny('This research assignment has already been dispatched or closed. Prepare a new assignment if authorized.'); return record;
     }
@@ -272,7 +290,7 @@ async function postTool(context, actorId, input) {
   let bind;
   await updateState(context, record => {
     if (record?.status !== 'active') return record;
-    const entry = Object.values(record.assignments).find(item => item.status === 'spawning' && item.toolUseId === input.tool_use_id);
+    const entry = Object.values(record.assignments).find(item => item.status === 'spawning' && item.toolUseId === input.tool_use_id && (item.parentAgentId ?? null) === (actorId ?? null));
     if (!entry) return record;
     if (identity.failed) {
       entry.status = 'blocked';
@@ -299,6 +317,7 @@ async function postTool(context, actorId, input) {
         return record;
       }
       entry.agentId = agentId;
+      entry.instanceId = agentId;
       entry.status = 'running';
       if (candidate) observeModel(entry, candidate.model);
       observeModel(entry, identity.model);
@@ -327,7 +346,7 @@ async function subagentStart(context, input) {
     if (record?.status !== 'active') return record;
     let entry = actorAssignment(record, input.agent_id);
     if (!entry) {
-      const pending = Object.values(record.assignments).filter(item => item.status === 'spawning');
+      const pending = Object.values(record.assignments).filter(item => item.status === 'spawning' && item.roleId === input.agent_type && (!input.parent_agent_id || item.parentAgentId === input.parent_agent_id) && (!input.assignment_id || item.id === input.assignment_id) && (!input.tool_use_id || item.toolUseId === input.tool_use_id) && (!input.task_name || taskNamesMatch(item.taskName, input.task_name)));
       if (pending.length !== 1 || input.agent_type !== pending[0].roleId) return record;
       const item = pending[0];
       if (typeof input.task_name === 'string' && !taskNamesMatch(item.taskName, input.task_name)) { item.spawnWindowContested = true; return record; }
@@ -349,7 +368,8 @@ async function subagentStart(context, input) {
     output = { hookSpecificOutput: { hookEventName: 'SubagentStart', additionalContext: [
       `Research assignment ${entry.id}, role ${entry.roleId}, parent session ${context.sessionId}.`,
       `Prepared task for this assignment: ${entry.task}`,
-      'Return evidence to the principal. Do not write research session records or spawn other agents. Hooks verify recorded structure and known tool patterns; they do not certify scientific validity or provide a complete security sandbox.',
+      `Root session: ${context.sessionId}. Immediate parent: ${entry.parentAgentId ?? 'not supplied; parentage is unverified'}. Instance: ${input.agent_id}.`,
+      'You may delegate useful subtasks, including to another roster, within the current human authorization. Preserve scope, data, spending, read-only restrictions and platform approvals in every descendant. Integrate their results and return evidence to your parent. Only the root records research evidence. Hooks verify recorded structure and known tool patterns; they do not certify scientific validity or provide a complete security sandbox.',
       entry.readOnly ? 'This role is read-only. Return proposed edits; do not execute writing tools or shell commands.' : 'Current platform permissions and the referenced human authorization remain in force.',
       entry.modelMismatch || entry.roleMismatch ? entry.diagnostic : `Configured model: ${entry.model}. Reasoning effort is configured as ${entry.reasoning} in the global agent definition; hooks do not independently observe the executed effort.`,
     ].join('\n') } };

@@ -19,4 +19,4 @@ Use research-human-participants for the approved study. Develop study procedures
 - Consent, access, retention and institutional conditions relevant to the assigned study.
 - A distinction between planned procedures, simulated exercises and observations from actual participants.
 
-Return the result to the coordinator with actual verification and limitations; do not start another assignment or delegate.
+Return the result to your parent with actual verification and limitations. Delegate useful subtasks within the current assignment and integrate the results; all descendants retain the same authorization and permission limits.

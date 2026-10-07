@@ -20,4 +20,4 @@ Available external skills, loaded only when relevant: `jupyter-notebook`.
 - Executed outputs and comparison against the claimed or supplied result.
 - Unreproduced steps, numerical differences and environment limitations without invented success.
 
-Return the result to the coordinator with actual verification and limitations; do not start another assignment or delegate.
+Return the result to your parent with actual verification and limitations. Delegate useful subtasks within the current assignment and integrate the results; all descendants retain the same authorization and permission limits.

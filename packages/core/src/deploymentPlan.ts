@@ -29,6 +29,9 @@ import { renderProductDevelopmentSkill, productDevelopmentHookGroups } from './p
 import { prepareSharedHooks } from './sharedHooks.js';
 import { prepareGraphifyDeployment } from './graphifyDeployment.js';
 import { renderCopilotRosters } from './copilotRosters.js';
+import { loadRosterCatalog } from './rosterCatalog.js';
+import { renderRosterEdition, editionFileTarget } from './rosterAdapters.js';
+import type { RosterCatalog } from './rosterTypes.js';
 
 const execFileAsync = promisify(execFile);
 
@@ -99,20 +102,68 @@ export async function createDeploymentPlan(
   const targets = selectedTargets(options.target);
   const catalog = await loadCapabilityCatalog(repoPath, manifest.capabilityCatalog);
   const models = await loadModelPolicy(repoPath, manifest.modelProfiles);
-  const validation = await validateRoster(repoPath, manifest, catalog, { target: options.target ?? 'vscode', checkCopilot: false });
+  const canonical: RosterCatalog | undefined = manifest.schemaVersion === 6 ? await loadRosterCatalog(repoPath, { downloadSkills: options.downloadSkills }) : undefined;
+  const validation = canonical ? { diagnostics: [] } : await validateRoster(repoPath, manifest, catalog, { target: options.target ?? 'vscode', checkCopilot: false });
   const diagnostics: Diagnostic[] = [...validation.diagnostics];
   const artifacts: DeploymentArtifact[] = [];
   let graphify: GraphifyDeploymentPlan | undefined;
   const statePath = resolveStatePath(manifest.targets.state);
   const state = await loadDeploymentState(statePath);
 
-  if (targets.includes('vscode') && manifest.copilotFourRosters) {
+  if (canonical) {
+    if (manifest.codex.graphify && targets.includes('codex')) {
+      const managedRoot = resolveTargetPath(manifest.codex.graphify.managedRoot);
+      try {
+        graphify = await prepareGraphifyDeployment(managedRoot, options.graphifyProvisionPlanId);
+        const expectedLock = JSON.parse(await readFile(resolveRepoFilePath(repoPath, manifest.codex.graphify.lockFile), 'utf8'));
+        if (hashBuffer(Buffer.from(JSON.stringify(expectedLock))) !== graphify.lockHash) throw new Error('Installed Graphify dependencies differ from the reviewed manifest lock');
+      } catch (error) {
+        graphify = undefined;
+        diagnostics.push(diagnostic('AF012', options.graphifyProvisionPlanId ? 'error' : 'warning', `Graphify is unavailable for this deployment: ${(error as Error).message}`, { path: managedRoot }));
+      }
+    }
+    for (const runtime of targets) {
+      const context = { repoPath,
+        agentRoot: resolveTargetPath(manifest.targets[runtime].agents),
+        skillRoot: resolveTargetPath(manifest.targets[runtime].skills),
+        runtimeRoot: resolveTargetPath(manifest.rosterRuntimeRoots![runtime]),
+        ...(runtime === 'vscode' ? { hooksRoot: resolveTargetPath(manifest.targets.vscode.hooks) } : {}),
+        harness: options.harness ?? manifest.copilotFourRosters?.defaultHarness ?? 'copilot',
+        availableModels: options.availableModels, availableTools: options.availableTools,
+      };
+      const rendered = await renderRosterEdition(canonical, runtime, context);
+      diagnostics.push(...rendered.diagnostics);
+      for (const file of rendered.files) {
+        const targetPath = editionFileTarget(file, context);
+        artifacts.push(artifact(runtime, file.id, file.type, file.sourcePath, targetPath, file.content));
+      }
+      if (runtime === 'codex') {
+        const modelAgents = Object.fromEntries(canonical.agents.filter(agent => agent.model).map(agent => [agent.id, {
+          ...manifest.codex.agents[agent.id], id: agent.id, model: agent.model,
+          modelReasoningEffort: agent.reasoning,
+        }])) as Parameters<typeof validateCodexModelAvailability>[0];
+        diagnostics.push(...validateCodexModelAvailability(modelAgents, options.codexModelAvailability ?? {}));
+        if (rendered.hookGroups) {
+          const hookTarget = resolveTargetPath(manifest.targets.codex.hooks ?? manifest.codex.productDevelopment?.hooksTarget ?? '%USERPROFILE%/.codex/hooks.json');
+          const active = state.deployments.find(item => item.id === state.activeDeployments.codex && item.runtime === 'codex');
+          const previous = active?.artifacts.find(item => path.resolve(item.targetPath).toLowerCase() === path.resolve(hookTarget).toLowerCase());
+          try {
+            const before = await exists(hookTarget) ? await readFile(hookTarget) : undefined;
+            const prepared = prepareSharedHooks(before, rendered.hookGroups, previous?.sharedHooks);
+            artifacts.push({ ...artifact('codex', 'agent-forge-roster-hooks', 'hook', resolveRepoFilePath(repoPath, manifest.rosterCatalog!), hookTarget, prepared.content), sharedHooks: prepared.sharedHooks });
+          } catch (error) { diagnostics.push(diagnostic('AF012', 'error', `Cannot safely prepare shared roster hooks: ${(error as Error).message}`, { path: hookTarget })); }
+        }
+      }
+    }
+  }
+
+  if (!canonical && targets.includes('vscode') && manifest.copilotFourRosters) {
     const rendered = await renderCopilotRosters(repoPath, manifest, options);
     artifacts.push(...rendered.artifacts);
     diagnostics.push(...rendered.diagnostics);
   }
 
-  if (targets.includes('vscode') && !manifest.copilotFourRosters) {
+  if (!canonical && targets.includes('vscode') && !manifest.copilotFourRosters) {
     const agentTarget = resolveTargetPath(manifest.targets.vscode.agents);
     const instructionTarget = resolveTargetPath(manifest.targets.vscode.instructions);
     const skillTarget = resolveTargetPath(manifest.targets.vscode.skills);
@@ -152,7 +203,7 @@ export async function createDeploymentPlan(
     }
   }
 
-  if (targets.includes('codex')) {
+  if (!canonical && targets.includes('codex')) {
     diagnostics.push(...validateCodexModelAvailability(manifest.codex.agents, options.codexModelAvailability ?? {}));
     const agentTarget = resolveTargetPath(manifest.targets.codex.agents);
     const skillTarget = resolveTargetPath(manifest.targets.codex.skills);
@@ -248,6 +299,13 @@ export async function createDeploymentPlan(
     }
   }
 
+  if (canonical) {
+    const validated = await validateRoster(repoPath, manifest, catalog, {
+      target: options.target ?? 'vscode', checkCopilot: false, resolvedCatalog: canonical,
+      plannedCleanupPaths: new Set(cleanupActions.map(action => path.resolve(action.targetPath).toLowerCase())),
+    });
+    diagnostics.push(...validated.diagnostics);
+  }
   const deploymentId = `${new Date().toISOString().replace(/[:.]/g, '-')}-${randomBytes(3).toString('hex')}`;
   return {
     deploymentId,

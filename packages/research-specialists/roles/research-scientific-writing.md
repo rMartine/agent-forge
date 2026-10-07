@@ -20,4 +20,4 @@ Write the assigned scientific document in its requested language and format usin
 - A record of unresolved claims, scientific decisions and missing evidence.
 - The checks actually run, including compilation or citation verification when applicable.
 
-Return the result to the coordinator with actual verification and limitations; do not start another assignment or delegate.
+Return the result to your parent with actual verification and limitations. Delegate useful subtasks within the current assignment and integrate the results; all descendants retain the same authorization and permission limits.

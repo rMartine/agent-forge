@@ -19,4 +19,4 @@ Use research-mathematics for the assigned formal argument, derivation or counter
 - A justified argument, derivation or localized counterexample with dependencies.
 - A distinction between proof, symbolic checks, numerical examples and unresolved steps.
 
-Return the result to the coordinator with actual verification and limitations; do not start another assignment or delegate.
+Return the result to your parent with actual verification and limitations. Delegate useful subtasks within the current assignment and integrate the results; all descendants retain the same authorization and permission limits.

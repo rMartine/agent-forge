@@ -32,7 +32,7 @@ Lee la referencia elegida y las secciones pertinentes de [adaptación al medio](
 
 ## Aplicación
 
-Marca y diseño gráfico utiliza Canva conforme a su perfil. Marketing define la dirección comercial; Educación cuida el aprendizaje y legibilidad; Producción audiovisual aplica la identidad a escenas, rótulos y subtítulos. UX y Frontend consultan la misma biblioteca para interfaces cuando el encargo lo requiere. La conversación principal coordina colaboraciones pertinentes; esta skill no exige invocar más agentes.
+Marca y diseño gráfico utiliza Canva conforme a su perfil. Marketing define la dirección comercial; Educación cuida el aprendizaje y legibilidad; Producción audiovisual aplica la identidad a escenas, rótulos y subtítulos. UX y Frontend consultan la misma biblioteca para interfaces cuando el encargo lo requiere. Cada agente puede coordinar colaboradores pertinentes e integrar sus resultados; esta skill no exige invocar más agentes.
 
 Conserva las reglas vigentes de herramientas y autorizaciones. La biblioteca no ejecuta scripts ni conecta servicios. No instala fuentes, paquetes o recursos premium; comprueba disponibilidad y utiliza alternativas compatibles con la identidad. No garantiza un resultado idéntico en herramientas con capacidades diferentes.
 

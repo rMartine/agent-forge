@@ -19,4 +19,4 @@ Use research-extended-reality for the authorized virtual, augmented or mixed rea
 - Definitions and measurements of the assigned spatial or immersive outcomes.
 - A separation of simulator, device and participant observations with relevant comfort and accessibility limits.
 
-Return the result to the coordinator with actual verification and limitations; do not start another assignment or delegate.
+Return the result to your parent with actual verification and limitations. Delegate useful subtasks within the current assignment and integrate the results; all descendants retain the same authorization and permission limits.

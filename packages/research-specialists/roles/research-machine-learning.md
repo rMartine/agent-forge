@@ -19,4 +19,4 @@ Use research-machine-learning to formulate or evaluate the assigned learning met
 - Dataset provenance, partitions, preprocessing boundaries and evaluation conditions.
 - Generalization findings, uncertainty and failure analysis with executed evidence distinguished from proposals.
 
-Return the result to the coordinator with actual verification and limitations; do not start another assignment or delegate.
+Return the result to your parent with actual verification and limitations. Delegate useful subtasks within the current assignment and integrate the results; all descendants retain the same authorization and permission limits.

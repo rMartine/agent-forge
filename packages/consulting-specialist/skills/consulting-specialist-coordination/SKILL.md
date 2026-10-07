@@ -7,7 +7,7 @@ description: Invocar y coordinar al consultor sénior de tecnología e IA para l
 
 Invoca el perfil nativo `technology-ai-logistics-consultant` cuando Roberto pida al consultor o cuando el encargo de consultoría sectorial necesite esa especialidad. Usa las herramientas de colaboración disponibles, sin crear otro chat. Pasa el encargo, las decisiones vigentes, materiales mínimos, audiencia y resultado esperado; no transfieras el historial de otros clientes. El perfil hereda modelo y permisos: no los sustituyas al invocarlo. Si la sesión todavía no descubre el perfil, informa que hace falta una sesión nueva; puedes realizar directamente el trabajo autorizado con las skills pertinentes sin afirmar que hubo delegación.
 
-La principal conserva la asignación, coordinación, integración y entrega. El consultor puede solicitar otro especialista con una tarea concreta; no activa por sí mismo equipos de investigación o desarrollo ni autoriza una implementación. Una pregunta breve necesita una respuesta útil, no un proceso completo. No solicites confirmaciones para recuperar decisiones o autorizaciones ya dadas.
+Cada padre conserva la coordinación, integración y entrega de su asignación. El consultor puede crear subagentes de cualquier roster con una tarea concreta dentro del alcance vigente; delegar no autoriza una implementación fuera del encargo. Una pregunta breve necesita una respuesta útil, no un proceso completo. No solicites confirmaciones para recuperar decisiones o autorizaciones ya dadas.
 
 ## Contexto del cliente
 
@@ -31,9 +31,9 @@ El comando recibe JSON por stdin. El siguiente objeto es solo un ejemplo de estr
 }
 ```
 
-`open` prepara una sola instancia pendiente y crea, sin sobrescribir archivos previos, el contexto en `<proyecto>/.consulting/<cliente>/<proyecto-del-cliente>/`. Contiene `context.md`, `decisions.md`, `sources.md` y `deliverables.md`. Son archivos de trabajo del cliente; no se incluyen en commits de código ni en bibliotecas generales. Lee solo los pertinentes, conserva decisiones con su fundamento y fecha, distingue propuestas y acuerdos, y enlaza fuentes realmente consultadas y entregables comprobados. No guardes claves, datos ajenos ni transcripciones completas.
+`open` prepara una asignación identificada mediante `--assignment ID` y admite varias instancias pendientes. `--parent ID` identifica un padre registrado. También crea, sin sobrescribir archivos previos, el contexto en `<proyecto>/.consulting/<cliente>/<proyecto-del-cliente>/`. Contiene `context.md`, `decisions.md`, `sources.md` y `deliverables.md`. Son archivos de trabajo del cliente; no se incluyen en commits de código ni en bibliotecas generales. Lee solo los pertinentes, conserva decisiones con su fundamento y fecha, distingue propuestas y acuerdos, y enlaza fuentes realmente consultadas y entregables comprobados. No guardes claves, datos ajenos ni transcripciones completas.
 
-`SubagentStart` vincula la instancia pendiente al identificador real del consultor. Sin registro previo, proporciona las instrucciones generales y permite responder desde el material del encargo. Para otra asignación del mismo cliente puedes reanudar al especialista si corresponde; para cambiar de cliente o proyecto crea uno nuevo y pasa solo su contexto. Una conversación antigua conserva lo que leyó: cambiar un identificador no la aísla.
+`SubagentStart` vincula una asignación preparada únicamente si el evento aporta correlación explícita. Cuando el cliente no aporta esa identidad, usa `open --agent IDENTIFICADOR_REAL` tras el inicio; no se hereda una autorización por coincidir el rol. Sin registro previo, proporciona las instrucciones generales y permite responder desde el material del encargo. Para otra asignación del mismo cliente puedes reanudar al especialista si corresponde; para cambiar de cliente o proyecto crea uno nuevo y pasa solo su contexto. Una conversación antigua conserva lo que leyó: cambiar un identificador no la aísla.
 
 ## Límites explícitos y comprobaciones
 

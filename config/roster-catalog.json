@@ -1,0 +1,1667 @@
+{
+  "schemaVersion": 1,
+  "rosters": [
+    {
+      "id": "development",
+      "name": "Desarrollo",
+      "coordinatorId": "agent-forge-development",
+      "coordinationSkill": "agent-forge-build-software-products"
+    },
+    {
+      "id": "research",
+      "name": "Investigación",
+      "coordinatorId": "agent-forge-research",
+      "coordinationSkill": "agent-forge-research-direct-research"
+    },
+    {
+      "id": "communication",
+      "name": "Comunicación y Formación",
+      "coordinatorId": "agent-forge-communication",
+      "coordinationSkill": "independent-specialist-coordination"
+    },
+    {
+      "id": "consulting",
+      "name": "Consultoría",
+      "coordinatorId": "agent-forge-consulting",
+      "coordinationSkill": "consulting-specialist-coordination"
+    }
+  ],
+  "agents": [
+    {
+      "id": "software-architect",
+      "roster": "development",
+      "description": "Define system boundaries, interfaces, data flow, quality attributes, architecture decisions, and technical risk.",
+      "model": "gpt-6.1-sol",
+      "reasoning": "high",
+      "readOnly": true,
+      "coordinator": false,
+      "skills": [
+        "agent-forge-lifecycle",
+        "agent-forge-security-operations"
+      ],
+      "completionEvidence": [
+        "Architecture decisions tied to product requirements and repository evidence",
+        "Compatibility, trust boundaries and risks requiring a decision"
+      ],
+      "sourcePath": "rosters/development/software-architect.md",
+      "delegation": "allowed"
+    },
+    {
+      "id": "principal-engineer",
+      "roster": "development",
+      "description": "Implement and integrate the assigned software changes, preserve repository conventions, and report verification evidence.",
+      "model": "gpt-6.1-sol",
+      "reasoning": "high",
+      "readOnly": false,
+      "coordinator": false,
+      "skills": [
+        "agent-forge-lifecycle",
+        "agent-forge-engineering",
+        "agent-forge-security-operations"
+      ],
+      "completionEvidence": [
+        "Integrated behavior and files owned by this assignment",
+        "Commands actually executed, results and remaining integration issues"
+      ],
+      "sourcePath": "rosters/development/principal-engineer.md",
+      "delegation": "allowed"
+    },
+    {
+      "id": "backend-developer",
+      "roster": "development",
+      "description": "Implement polyglot APIs, services, workers, integrations, and server-side tests within established boundaries.",
+      "model": "gpt-6-luna",
+      "reasoning": "high",
+      "readOnly": false,
+      "coordinator": false,
+      "skills": [
+        "agent-forge-engineering"
+      ],
+      "completionEvidence": [
+        "Service contracts, error handling and authorization behavior changed",
+        "Focused checks of the changed request and data paths"
+      ],
+      "sourcePath": "rosters/development/backend-developer.md",
+      "delegation": "allowed"
+    },
+    {
+      "id": "frontend-developer",
+      "roster": "development",
+      "description": "Implement accessible, framework-aware web interfaces, state, interactions, and tests.",
+      "model": "gpt-6.1-sol",
+      "reasoning": "medium",
+      "readOnly": false,
+      "coordinator": false,
+      "skills": [
+        "agent-forge-engineering",
+        "agent-forge-frontend-design",
+        "agent-forge-impeccable",
+        "agent-forge-emil-design-eng",
+        "agent-forge-review-animations",
+        "agent-forge-taste-frontend",
+        "communication-design-styles"
+      ],
+      "completionEvidence": [
+        "Implemented user flows and relevant loading, empty, error and keyboard states",
+        "Observed browser behavior and applicable build or type checks"
+      ],
+      "sourcePath": "rosters/development/frontend-developer.md",
+      "delegation": "allowed"
+    },
+    {
+      "id": "database-engineer",
+      "roster": "development",
+      "description": "Design and implement safe schemas, queries, migrations, indexes, backup, and rollback evidence.",
+      "model": "gpt-6.1-sol",
+      "reasoning": "high",
+      "readOnly": false,
+      "coordinator": false,
+      "skills": [
+        "agent-forge-engineering",
+        "agent-forge-security-operations",
+        "agent-forge-supabase-postgres-best-practices"
+      ],
+      "completionEvidence": [
+        "Schema invariants, data compatibility and migration effects",
+        "Forward and recovery checks on disposable data when a migration changes"
+      ],
+      "sourcePath": "rosters/development/database-engineer.md",
+      "delegation": "allowed"
+    },
+    {
+      "id": "dotnet-engineer",
+      "roster": "development",
+      "description": "Implement and verify .NET services, applications, libraries, tests, and packaging.",
+      "model": "gpt-6-luna",
+      "reasoning": "high",
+      "readOnly": false,
+      "coordinator": false,
+      "skills": [
+        "agent-forge-engineering",
+        "agent-forge-create-datadriven-aspnetcore"
+      ],
+      "completionEvidence": [
+        "Affected target frameworks and public behavior",
+        "Applicable build and test results, with unavailable platforms identified"
+      ],
+      "sourcePath": "rosters/development/dotnet-engineer.md",
+      "delegation": "allowed"
+    },
+    {
+      "id": "desktop-app-engineer",
+      "roster": "development",
+      "description": "Implement secure desktop application behavior, native integration, IPC, updates, and packaging.",
+      "model": "gpt-6.1-sol",
+      "reasoning": "high",
+      "readOnly": false,
+      "coordinator": false,
+      "skills": [
+        "agent-forge-engineering"
+      ],
+      "completionEvidence": [
+        "Native boundaries, packaging or update behavior changed",
+        "Results on the operating systems actually available"
+      ],
+      "sourcePath": "rosters/development/desktop-app-engineer.md",
+      "delegation": "allowed"
+    },
+    {
+      "id": "mobile-engineer",
+      "roster": "development",
+      "description": "Implement mobile application behavior with Expo or React Native when appropriate and native integration when required.",
+      "model": "gpt-6-luna",
+      "reasoning": "high",
+      "readOnly": false,
+      "coordinator": false,
+      "skills": [
+        "agent-forge-engineering",
+        "agent-forge-impeccable",
+        "agent-forge-review-animations",
+        "agent-forge-animate-expo"
+      ],
+      "completionEvidence": [
+        "Implemented device flows, permissions and relevant offline states",
+        "Device or simulator results explicitly distinguished"
+      ],
+      "sourcePath": "rosters/development/mobile-engineer.md",
+      "delegation": "allowed"
+    },
+    {
+      "id": "ml-engineer",
+      "roster": "development",
+      "description": "Build reproducible training, evaluation, inference, and model-artifact pipelines; excludes general agent orchestration.",
+      "model": "gpt-6.1-sol",
+      "reasoning": "high",
+      "readOnly": false,
+      "coordinator": false,
+      "skills": [
+        "agent-forge-engineering"
+      ],
+      "completionEvidence": [
+        "Authorized data, split and artifact provenance",
+        "Reproducible measurements with uncertainty and evaluation limitations"
+      ],
+      "sourcePath": "rosters/development/ml-engineer.md",
+      "delegation": "allowed"
+    },
+    {
+      "id": "agentic-systems-engineer",
+      "roster": "development",
+      "description": "Implement agent, RAG, MCP, structured-output, tool-loop, trace, and evaluation workflows.",
+      "model": "gpt-6.1-sol",
+      "reasoning": "high",
+      "readOnly": false,
+      "coordinator": false,
+      "skills": [
+        "agent-forge-agentic-knowledge",
+        "agent-forge-engineering",
+        "agent-forge-langchain"
+      ],
+      "completionEvidence": [
+        "Tool and state contracts, failure handling and authorization boundaries",
+        "Observed routing, argument validation and recovery results"
+      ],
+      "sourcePath": "rosters/development/agentic-systems-engineer.md",
+      "delegation": "allowed"
+    },
+    {
+      "id": "digital-twin-engineer",
+      "roster": "development",
+      "description": "Implement telemetry, simulation, state synchronization, replay, and safety boundaries for digital twins.",
+      "model": "gpt-6.1-sol",
+      "reasoning": "high",
+      "readOnly": false,
+      "coordinator": false,
+      "skills": [
+        "agent-forge-engineering",
+        "agent-forge-security-operations"
+      ],
+      "completionEvidence": [
+        "Telemetry, timing, units and simulation boundaries",
+        "Relevant replay, duplicate event, disconnect and stale-data checks"
+      ],
+      "sourcePath": "rosters/development/digital-twin-engineer.md",
+      "delegation": "allowed"
+    },
+    {
+      "id": "qa-engineer",
+      "roster": "development",
+      "description": "Design, implement, and execute proportional tests and provide reproducible regression evidence.",
+      "model": "gpt-6-luna",
+      "reasoning": "high",
+      "readOnly": false,
+      "coordinator": false,
+      "skills": [
+        "agent-forge-engineering",
+        "agent-forge-playwright-cli",
+        "agent-forge-review-animations",
+        "agent-forge-break-ui"
+      ],
+      "completionEvidence": [
+        "Requirement-to-test correspondence and observed failures",
+        "Reproduction steps, actual results and unverified cases"
+      ],
+      "sourcePath": "rosters/development/qa-engineer.md",
+      "delegation": "allowed"
+    },
+    {
+      "id": "cybersecurity-engineer",
+      "roster": "development",
+      "description": "Perform evidence-based security review, scanning, exploitability assessment, and release-risk disposition without editing product code.",
+      "model": "gpt-6.1-sol",
+      "reasoning": "high",
+      "readOnly": true,
+      "coordinator": false,
+      "skills": [
+        "agent-forge-security-operations",
+        "agent-forge-code-review-security"
+      ],
+      "completionEvidence": [
+        "Evidence-backed findings with affected boundaries and exploit conditions",
+        "Uncertainty, residual risk and recommendation for the scoped change"
+      ],
+      "sourcePath": "rosters/development/cybersecurity-engineer.md",
+      "delegation": "allowed"
+    },
+    {
+      "id": "devops-engineer",
+      "roster": "development",
+      "description": "Operate scoped local containers and prepare approved GitHub and DigitalOcean release workflows with health and rollback evidence.",
+      "model": "gpt-6.1-sol",
+      "reasoning": "high",
+      "readOnly": false,
+      "coordinator": false,
+      "skills": [
+        "agent-forge-security-operations",
+        "agent-forge-lifecycle"
+      ],
+      "completionEvidence": [
+        "Exact authorized environment, artifact and external operation",
+        "Observed health, persistence and recovery evidence or the outstanding authorization"
+      ],
+      "sourcePath": "rosters/development/devops-engineer.md",
+      "delegation": "allowed"
+    },
+    {
+      "id": "ux-engineer",
+      "roster": "development",
+      "description": "Define and validate user flows, interactions, accessibility, information architecture, and design-system behavior.",
+      "model": "gpt-6.1-sol",
+      "reasoning": "medium",
+      "readOnly": false,
+      "coordinator": false,
+      "skills": [
+        "agent-forge-design",
+        "agent-forge-engineering",
+        "agent-forge-frontend-design",
+        "agent-forge-impeccable",
+        "agent-forge-emil-design-eng",
+        "agent-forge-review-animations",
+        "agent-forge-break-ui",
+        "agent-forge-taste-frontend",
+        "communication-design-styles"
+      ],
+      "completionEvidence": [
+        "User flows, interaction and accessibility decisions tied to the product",
+        "Acceptance criteria and observed or explicitly unverified interface behavior"
+      ],
+      "sourcePath": "rosters/development/ux-engineer.md",
+      "delegation": "allowed"
+    },
+    {
+      "id": "technical-writer",
+      "roster": "development",
+      "description": "Create and validate precise user, developer, API, operational, and release documentation.",
+      "model": "gpt-6-luna",
+      "reasoning": "high",
+      "readOnly": false,
+      "coordinator": false,
+      "skills": [
+        "agent-forge-lifecycle",
+        "agent-forge-engineering"
+      ],
+      "completionEvidence": [
+        "Documentation tied to implemented behavior and its audience",
+        "Verified references and commands, distinguishing execution from static review"
+      ],
+      "sourcePath": "rosters/development/technical-writer.md",
+      "delegation": "allowed"
+    },
+    {
+      "id": "research-literature-search",
+      "roster": "research",
+      "description": "Búsqueda bibliográfica",
+      "model": "gpt-6.1-sol",
+      "reasoning": "high",
+      "readOnly": false,
+      "coordinator": false,
+      "skills": [
+        "agent-forge-research-literature-review"
+      ],
+      "completionEvidence": [
+        "Search sources, complete queries, search dates and result counts for the searches actually run.",
+        "Records selected or excluded with reasons and unresolved access limitations.",
+        "A reproducible record of authorized deduplication and selection decisions."
+      ],
+      "sourcePath": "rosters/research/research-literature-search.md",
+      "delegation": "allowed"
+    },
+    {
+      "id": "research-evidence-synthesis",
+      "roster": "research",
+      "description": "Síntesis de evidencia",
+      "model": "gpt-6-astra",
+      "reasoning": "high",
+      "readOnly": false,
+      "coordinator": false,
+      "skills": [
+        "agent-forge-research-literature-review",
+        "agent-forge-research-scientific-critical-thinking"
+      ],
+      "completionEvidence": [
+        "A claim-to-source mapping with identifiers and page, section, table or other available locations.",
+        "An account of contradictory findings, differences in methods and uncertainty.",
+        "Separation of supported findings, interpretation and proposed research."
+      ],
+      "sourcePath": "rosters/research/research-evidence-synthesis.md",
+      "delegation": "allowed"
+    },
+    {
+      "id": "research-bibliographic-references",
+      "roster": "research",
+      "description": "Referencias bibliográficas",
+      "model": "gpt-6.1-sol",
+      "reasoning": "medium",
+      "readOnly": false,
+      "coordinator": false,
+      "skills": [
+        "agent-forge-research-citation-management"
+      ],
+      "completionEvidence": [
+        "Verified identities and bibliographic fields with their provenance.",
+        "A mapping between in-text citations and bibliography entries.",
+        "Duplicate decisions, unresolved metadata and a record of authorized library changes."
+      ],
+      "sourcePath": "rosters/research/research-bibliographic-references.md",
+      "delegation": "allowed"
+    },
+    {
+      "id": "research-experimental-design",
+      "roster": "research",
+      "description": "Diseño experimental",
+      "model": "gpt-6-astra",
+      "reasoning": "high",
+      "readOnly": false,
+      "coordinator": false,
+      "skills": [
+        "agent-forge-research-experimental-design",
+        "agent-forge-research-scientific-critical-thinking"
+      ],
+      "completionEvidence": [
+        "The research question and authorized comparison or estimand.",
+        "Experimental units, allocation, measurements, analysis linkage and design assumptions.",
+        "Threats to validity, design limitations and scientific decisions still reserved to Roberto."
+      ],
+      "sourcePath": "rosters/research/research-experimental-design.md",
+      "delegation": "allowed"
+    },
+    {
+      "id": "research-human-participant-studies",
+      "roster": "research",
+      "description": "Estudios con participantes",
+      "model": "gpt-6-astra",
+      "reasoning": "high",
+      "readOnly": false,
+      "coordinator": false,
+      "skills": [
+        "agent-forge-research-research-human-participants",
+        "agent-forge-research-experimental-design"
+      ],
+      "completionEvidence": [
+        "Versioned instruments, participant procedures and the authorized analysis procedure.",
+        "Consent, access, retention and institutional conditions relevant to the assigned study.",
+        "A distinction between planned procedures, simulated exercises and observations from actual participants."
+      ],
+      "sourcePath": "rosters/research/research-human-participant-studies.md",
+      "delegation": "allowed"
+    },
+    {
+      "id": "research-statistical-analysis",
+      "roster": "research",
+      "description": "Análisis estadístico",
+      "model": "gpt-6-astra",
+      "reasoning": "high",
+      "readOnly": false,
+      "coordinator": false,
+      "skills": [
+        "agent-forge-research-statistical-analysis"
+      ],
+      "completionEvidence": [
+        "Data provenance, inclusion and exclusion decisions, transformations and missingness treatment.",
+        "The specified analysis, assumptions, effect sizes and uncertainty with reproducible outputs.",
+        "A distinction between prespecified, exploratory and changed analyses, including resulting limitations."
+      ],
+      "sourcePath": "rosters/research/research-statistical-analysis.md",
+      "delegation": "allowed"
+    },
+    {
+      "id": "research-computational-reproducibility",
+      "roster": "research",
+      "description": "Reproducibilidad computacional",
+      "model": "gpt-6.1-sol",
+      "reasoning": "high",
+      "readOnly": false,
+      "coordinator": false,
+      "skills": [],
+      "completionEvidence": [
+        "Identified input versions, transformation steps, dependency versions, seeds where relevant and commands.",
+        "Executed outputs and comparison against the claimed or supplied result.",
+        "Unreproduced steps, numerical differences and environment limitations without invented success."
+      ],
+      "sourcePath": "rosters/research/research-computational-reproducibility.md",
+      "delegation": "allowed"
+    },
+    {
+      "id": "research-scientific-figures",
+      "roster": "research",
+      "description": "Figuras científicas",
+      "model": "gpt-6.1-sol",
+      "reasoning": "high",
+      "readOnly": false,
+      "coordinator": false,
+      "skills": [
+        "agent-forge-research-scientific-visualization"
+      ],
+      "completionEvidence": [
+        "The data and transformations underlying each plotted element.",
+        "Editable figure sources, labels, units, uncertainty representations and output locations.",
+        "Visual verification performed and any renderer, resolution or accessibility limitations."
+      ],
+      "sourcePath": "rosters/research/research-scientific-figures.md",
+      "delegation": "allowed"
+    },
+    {
+      "id": "research-scientific-writing",
+      "roster": "research",
+      "description": "Escritura científica",
+      "model": "gpt-6-astra",
+      "reasoning": "medium",
+      "readOnly": false,
+      "coordinator": false,
+      "skills": [
+        "agent-forge-research-nature-writing",
+        "agent-forge-research-nature-shared",
+        "agent-forge-research-research-latex"
+      ],
+      "completionEvidence": [
+        "A manuscript or revision grounded in the supplied evidence, with citation locations.",
+        "A record of unresolved claims, scientific decisions and missing evidence.",
+        "The checks actually run, including compilation or citation verification when applicable."
+      ],
+      "sourcePath": "rosters/research/research-scientific-writing.md",
+      "delegation": "allowed"
+    },
+    {
+      "id": "research-reviewer-responses",
+      "roster": "research",
+      "description": "Respuestas a revisores",
+      "model": "gpt-6-astra",
+      "reasoning": "high",
+      "readOnly": false,
+      "coordinator": false,
+      "skills": [
+        "agent-forge-research-nature-response",
+        "agent-forge-research-nature-shared"
+      ],
+      "completionEvidence": [
+        "Every reviewer comment mapped to a response and decision.",
+        "Actual manuscript changes and verified locations for changes claimed in responses.",
+        "Requests requiring new analyses or evidence, disagreements and unresolved decisions."
+      ],
+      "sourcePath": "rosters/research/research-reviewer-responses.md",
+      "delegation": "allowed"
+    },
+    {
+      "id": "research-independent-scientific-review",
+      "roster": "research",
+      "description": "Revisión científica independiente",
+      "model": "gpt-6-astra",
+      "reasoning": "high",
+      "readOnly": true,
+      "coordinator": false,
+      "skills": [
+        "agent-forge-research-scientific-critical-thinking"
+      ],
+      "completionEvidence": [
+        "Localized findings with source, argument or result evidence and their consequences.",
+        "Checks performed, materials inspected and limitations of the review.",
+        "A separation of confirmed defects, uncertainty and proposed improvements."
+      ],
+      "sourcePath": "rosters/research/research-independent-scientific-review.md",
+      "delegation": "allowed"
+    },
+    {
+      "id": "research-machine-learning",
+      "roster": "research",
+      "description": "Aprendizaje automático y aprendizaje profundo",
+      "model": "gpt-6-astra",
+      "reasoning": "high",
+      "readOnly": false,
+      "coordinator": false,
+      "skills": [
+        "agent-forge-research-research-machine-learning",
+        "agent-forge-research-scientific-critical-thinking"
+      ],
+      "completionEvidence": [
+        "The question, learning objective, architecture or method and justified comparisons.",
+        "Dataset provenance, partitions, preprocessing boundaries and evaluation conditions.",
+        "Generalization findings, uncertainty and failure analysis with executed evidence distinguished from proposals."
+      ],
+      "sourcePath": "rosters/research/research-machine-learning.md",
+      "delegation": "allowed"
+    },
+    {
+      "id": "research-language-models",
+      "roster": "research",
+      "description": "Modelos de lenguaje y sistemas con agentes",
+      "model": "gpt-6-astra",
+      "reasoning": "high",
+      "readOnly": false,
+      "coordinator": false,
+      "skills": [
+        "agent-forge-research-research-language-models",
+        "agent-forge-research-scientific-critical-thinking"
+      ],
+      "completionEvidence": [
+        "The question and separately identified model, instructions, retrieval, tools and orchestration.",
+        "Versioned evaluation materials, contamination considerations and scoring procedure.",
+        "Observed errors, uncertainty, permitted tool actions and limits on inference."
+      ],
+      "sourcePath": "rosters/research/research-language-models.md",
+      "delegation": "allowed"
+    },
+    {
+      "id": "research-computer-vision",
+      "roster": "research",
+      "description": "Visión por computadora y percepción multimodal",
+      "model": "gpt-6-astra",
+      "reasoning": "high",
+      "readOnly": false,
+      "coordinator": false,
+      "skills": [
+        "agent-forge-research-research-computer-vision",
+        "agent-forge-research-scientific-critical-thinking"
+      ],
+      "completionEvidence": [
+        "Sensor or modality provenance, annotation conditions and partition boundaries.",
+        "Transformations, calibration, synchronization and applicable geometry assumptions.",
+        "Metrics and errors by relevant observed conditions with limits on generalization."
+      ],
+      "sourcePath": "rosters/research/research-computer-vision.md",
+      "delegation": "allowed"
+    },
+    {
+      "id": "research-human-ai-interaction",
+      "roster": "research",
+      "description": "Interacción entre personas y sistemas de inteligencia artificial",
+      "model": "gpt-6-astra",
+      "reasoning": "high",
+      "readOnly": false,
+      "coordinator": false,
+      "skills": [
+        "agent-forge-research-research-human-ai-interaction",
+        "agent-forge-research-scientific-critical-thinking"
+      ],
+      "completionEvidence": [
+        "Definitions of the human interaction concepts and a reasoned mapping to measures.",
+        "The system behavior, participant activity and interaction conditions under study.",
+        "Evidence and limitations concerning interpretation, control, reliance or recovery."
+      ],
+      "sourcePath": "rosters/research/research-human-ai-interaction.md",
+      "delegation": "allowed"
+    },
+    {
+      "id": "research-extended-reality",
+      "roster": "research",
+      "description": "Realidad extendida",
+      "model": "gpt-6-astra",
+      "reasoning": "high",
+      "readOnly": false,
+      "coordinator": false,
+      "skills": [
+        "agent-forge-research-research-extended-reality",
+        "agent-forge-research-scientific-critical-thinking"
+      ],
+      "completionEvidence": [
+        "Experience, device, rendering and interaction conditions relevant to the question.",
+        "Definitions and measurements of the assigned spatial or immersive outcomes.",
+        "A separation of simulator, device and participant observations with relevant comfort and accessibility limits."
+      ],
+      "sourcePath": "rosters/research/research-extended-reality.md",
+      "delegation": "allowed"
+    },
+    {
+      "id": "research-physical-ai",
+      "roster": "research",
+      "description": "Inteligencia artificial para sistemas físicos",
+      "model": "gpt-6-astra",
+      "reasoning": "high",
+      "readOnly": false,
+      "coordinator": false,
+      "skills": [
+        "agent-forge-research-research-physical-ai",
+        "agent-forge-research-scientific-critical-thinking"
+      ],
+      "completionEvidence": [
+        "The physical task, environment assumptions, observations, actions and learning objective.",
+        "Model or policy evidence and simulation-to-reality differences.",
+        "Operating conditions, uncertainty and a separation of simulated results from physical execution."
+      ],
+      "sourcePath": "rosters/research/research-physical-ai.md",
+      "delegation": "allowed"
+    },
+    {
+      "id": "research-mathematical-modeling",
+      "roster": "research",
+      "description": "Modelado matemático y simulaciones",
+      "model": "gpt-6-astra",
+      "reasoning": "high",
+      "readOnly": false,
+      "coordinator": false,
+      "skills": [
+        "agent-forge-research-research-mathematical-modeling",
+        "agent-forge-research-scientific-critical-thinking"
+      ],
+      "completionEvidence": [
+        "Equations, units, assumptions, parameters and initial or boundary conditions.",
+        "Implementation, numerical verification, sensitivity and applicable convergence evidence.",
+        "Calibration provenance and empirical validation distinguished from agreement with a simulation."
+      ],
+      "sourcePath": "rosters/research/research-mathematical-modeling.md",
+      "delegation": "allowed"
+    },
+    {
+      "id": "research-mathematics",
+      "roster": "research",
+      "description": "Matemáticas",
+      "model": "gpt-6-astra",
+      "reasoning": "high",
+      "readOnly": false,
+      "coordinator": false,
+      "skills": [
+        "agent-forge-research-research-mathematics",
+        "agent-forge-research-scientific-critical-thinking"
+      ],
+      "completionEvidence": [
+        "Precisely stated objects, domains, assumptions and proposition or derivation.",
+        "A justified argument, derivation or localized counterexample with dependencies.",
+        "A distinction between proof, symbolic checks, numerical examples and unresolved steps."
+      ],
+      "sourcePath": "rosters/research/research-mathematics.md",
+      "delegation": "allowed"
+    },
+    {
+      "id": "research-robotics",
+      "roster": "research",
+      "description": "Robótica",
+      "model": "gpt-6-astra",
+      "reasoning": "high",
+      "readOnly": false,
+      "coordinator": false,
+      "skills": [
+        "agent-forge-research-research-robotics",
+        "agent-forge-research-scientific-critical-thinking"
+      ],
+      "completionEvidence": [
+        "Kinematic, dynamic, estimation, planning or control assumptions for the assigned system.",
+        "Frames, units, time, sensing, actuation constraints and reproducible experiment conditions.",
+        "Simulated and physical results identified separately, with execution authority and observed limitations."
+      ],
+      "sourcePath": "rosters/research/research-robotics.md",
+      "delegation": "allowed"
+    },
+    {
+      "id": "adult-education-specialist",
+      "roster": "communication",
+      "description": "Especialista independiente en educación para adultos: currícula, cursos, evaluación, materiales didácticos, certificaciones y reconocimientos; también escribe guiones y usa Canva, Shotstack y ElevenLabs cuando lo requiere el encargo.",
+      "model": "gpt-6-astra",
+      "reasoning": "high",
+      "readOnly": false,
+      "coordinator": false,
+      "skills": [
+        "independent-adult-learning",
+        "independent-natural-writing",
+        "independent-video-scriptwriting",
+        "independent-shotstack",
+        "independent-elevenlabs",
+        "communication-design-styles"
+      ],
+      "completionEvidence": [
+        "Relacionar objetivos, actividades y evaluación para el público adulto.",
+        "Entregar materiales claros y accesibles con los criterios de finalización solicitados.",
+        "No atribuir acreditaciones o reconocimientos institucionales sin evidencia."
+      ],
+      "sourcePath": "rosters/communication/adult-education-specialist.md",
+      "delegation": "allowed"
+    },
+    {
+      "id": "audiovisual-production-specialist",
+      "roster": "communication",
+      "description": "Especialista independiente en guiones naturales y producción audiovisual con Shotstack y ElevenLabs; coordina recursos gráficos de Canva y contenidos con los agentes de educación, marca y marketing.",
+      "model": "gpt-6.1-sol",
+      "reasoning": "high",
+      "readOnly": false,
+      "coordinator": false,
+      "skills": [
+        "independent-natural-writing",
+        "independent-video-scriptwriting",
+        "independent-shotstack",
+        "independent-elevenlabs",
+        "communication-design-styles"
+      ],
+      "completionEvidence": [
+        "Separar narración, texto en pantalla e indicaciones de producción.",
+        "Comprobar ritmo, pronunciación, sincronización y subtítulos cuando corresponda.",
+        "Distinguir archivo final, trabajo en proceso y generación pendiente, conservando los identificadores necesarios."
+      ],
+      "sourcePath": "rosters/communication/audiovisual-production-specialist.md",
+      "delegation": "allowed"
+    },
+    {
+      "id": "brand-and-graphic-design-specialist",
+      "roster": "communication",
+      "description": "Especialista independiente en identidad de marca y diseño gráfico en Canva; crea materiales comerciales y educativos editables, coordinándose con marketing, educación o desarrollo cuando el encargo lo requiera.",
+      "model": "gpt-6.1-sol",
+      "reasoning": "high",
+      "readOnly": false,
+      "coordinator": false,
+      "skills": [
+        "independent-copywriting",
+        "independent-natural-writing",
+        "communication-design-styles"
+      ],
+      "completionEvidence": [
+        "Proporcionar diseño editable en Canva y las exportaciones solicitadas.",
+        "Comprobar legibilidad y coherencia con la identidad aprobada.",
+        "Informar limitaciones reales de acceso, licencias o exportación."
+      ],
+      "sourcePath": "rosters/communication/brand-and-graphic-design-specialist.md",
+      "delegation": "allowed"
+    },
+    {
+      "id": "marketing-and-sales-specialist",
+      "roster": "communication",
+      "description": "Especialista independiente en estrategia comercial, campañas, SEO, redes sociales y materiales para vender; ejecuta encargos autorizados y colabora con marca, educación, investigación o desarrollo según la necesidad.",
+      "model": "gpt-6-astra",
+      "reasoning": "high",
+      "readOnly": false,
+      "coordinator": false,
+      "skills": [
+        "independent-content-strategy",
+        "independent-copywriting",
+        "independent-seo-audit",
+        "independent-social",
+        "independent-sales-enablement",
+        "independent-natural-writing",
+        "independent-video-scriptwriting",
+        "communication-design-styles"
+      ],
+      "completionEvidence": [
+        "Entregar lo solicitado para el público y oferta definidos.",
+        "Distinguir evidencia, supuestos y propuestas comerciales.",
+        "Identificar operaciones externas realizadas y pendientes conforme al encargo."
+      ],
+      "sourcePath": "rosters/communication/marketing-and-sales-specialist.md",
+      "delegation": "allowed"
+    },
+    {
+      "id": "technology-ai-logistics-consultant",
+      "roster": "consulting",
+      "description": "Consultor sénior independiente de tecnología e IA aplicada a logística, aduanas, transporte y actividades adyacentes; diseña soluciones y prepara propuestas, respuestas y presentaciones para la consultoría de Roberto.",
+      "readOnly": false,
+      "coordinator": false,
+      "skills": [
+        "consulting-strategic-analysis",
+        "consulting-process-excellence",
+        "consulting-financial-modeling",
+        "consulting-proposal-development",
+        "consulting-implementation-planning",
+        "consulting-client-deliverables",
+        "consulting-logistics-customs-transport",
+        "consulting-technology-ai-solutions"
+      ],
+      "completionEvidence": [
+        "Entregar el análisis, solución, propuesta, respuesta o archivo solicitado para la audiencia indicada.",
+        "Relacionar recomendaciones con evidencia; distinguir datos, hipótesis, escenarios y resultados observados.",
+        "Comprobar cálculos y archivos realmente producidos; indicar límites y decisiones pendientes.",
+        "Consultar únicamente el contexto del cliente y proyecto asignados; conservar sus decisiones y fuentes pertinentes."
+      ],
+      "sourcePath": "rosters/consulting/technology-ai-logistics-consultant.md",
+      "delegation": "allowed"
+    },
+    {
+      "id": "agent-forge-development",
+      "roster": "development",
+      "description": "Coordinar el Roster de Desarrollo; asignar especialistas e integrar entregables.",
+      "readOnly": false,
+      "coordinator": true,
+      "skills": [
+        "agent-forge-build-software-products"
+      ],
+      "completionEvidence": [
+        "Entregables solicitados y resultados integrados.",
+        "Comprobaciones ejecutadas, límites y decisiones pendientes."
+      ],
+      "sourcePath": "rosters/development/agent-forge-development.md",
+      "delegation": "allowed"
+    },
+    {
+      "id": "agent-forge-research",
+      "roster": "research",
+      "description": "Coordinar el Roster de Investigación; asignar especialistas e integrar entregables.",
+      "model": "gpt-6-astra",
+      "reasoning": "high",
+      "readOnly": false,
+      "coordinator": true,
+      "skills": [
+        "agent-forge-research-direct-research"
+      ],
+      "completionEvidence": [
+        "Entregables solicitados y resultados integrados.",
+        "Comprobaciones ejecutadas, límites y decisiones pendientes."
+      ],
+      "sourcePath": "rosters/research/agent-forge-research.md",
+      "delegation": "allowed"
+    },
+    {
+      "id": "agent-forge-communication",
+      "roster": "communication",
+      "description": "Coordinar el Roster de Comunicación y Formación; asignar especialistas e integrar entregables.",
+      "readOnly": false,
+      "coordinator": true,
+      "skills": [
+        "independent-specialist-coordination"
+      ],
+      "completionEvidence": [
+        "Entregables solicitados y resultados integrados.",
+        "Comprobaciones ejecutadas, límites y decisiones pendientes."
+      ],
+      "sourcePath": "rosters/communication/agent-forge-communication.md",
+      "delegation": "allowed"
+    },
+    {
+      "id": "agent-forge-consulting",
+      "roster": "consulting",
+      "description": "Coordinar el Roster de Consultoría; asignar especialistas e integrar entregables.",
+      "readOnly": false,
+      "coordinator": true,
+      "skills": [
+        "consulting-specialist-coordination"
+      ],
+      "completionEvidence": [
+        "Entregables solicitados y resultados integrados.",
+        "Comprobaciones ejecutadas, límites y decisiones pendientes."
+      ],
+      "sourcePath": "rosters/consulting/agent-forge-consulting.md",
+      "delegation": "allowed"
+    }
+  ],
+  "skills": [
+    {
+      "id": "agent-forge-lifecycle",
+      "roster": "development",
+      "kind": "bundle",
+      "bundle": {
+        "id": "agent-forge-lifecycle",
+        "deploymentName": "agent-forge-lifecycle",
+        "entrypoint": "SKILL.md",
+        "description": "During an assigned software-product build, inspect its repository, clarify requirements, record architecture decisions or scaffold the requested project. The primary agent coordinates delivery through agent-forge-build-software-products.",
+        "componentSkills": [
+          "discover-repository",
+          "trace-requirements",
+          "record-architecture-decision",
+          "scaffold-project"
+        ],
+        "flattenedReferences": []
+      }
+    },
+    {
+      "id": "agent-forge-engineering",
+      "roster": "development",
+      "kind": "bundle",
+      "bundle": {
+        "id": "agent-forge-engineering",
+        "deploymentName": "agent-forge-engineering",
+        "entrypoint": "SKILL.md",
+        "description": "During an assigned software-product build, implement or verify a change using the relevant backend, frontend, database, .NET, desktop, mobile, ML, XR or digital-twin guidance.",
+        "componentSkills": [
+          "verify-implementation",
+          "engineer-specialized-platforms"
+        ],
+        "flattenedReferences": [
+          "backend",
+          "frontend",
+          "database",
+          "dotnet",
+          "desktop",
+          "mobile",
+          "ml-data",
+          "xr",
+          "digital-twin"
+        ]
+      }
+    },
+    {
+      "id": "agent-forge-security-operations",
+      "roster": "development",
+      "kind": "bundle",
+      "bundle": {
+        "id": "agent-forge-security-operations",
+        "deploymentName": "agent-forge-security-operations",
+        "entrypoint": "SKILL.md",
+        "description": "During an assigned software-product build, review a changed security boundary or carry out authorized Git, container or deployment work. Select only the procedure required by the task.",
+        "componentSkills": [
+          "review-change-security",
+          "operate-docker",
+          "deploy-digitalocean",
+          "manage-github-gitkraken"
+        ],
+        "flattenedReferences": []
+      }
+    },
+    {
+      "id": "agent-forge-design",
+      "roster": "development",
+      "kind": "bundle",
+      "bundle": {
+        "id": "agent-forge-design",
+        "deploymentName": "agent-forge-design",
+        "entrypoint": "SKILL.md",
+        "description": "During an assigned software-product build, define interface flows, accessibility or visual assets. Use Canva or stock assets only when the product calls for them and the tools are available.",
+        "componentSkills": [
+          "design-with-canva",
+          "search-stock-images"
+        ],
+        "flattenedReferences": []
+      }
+    },
+    {
+      "id": "agent-forge-agentic-knowledge",
+      "roster": "development",
+      "kind": "bundle",
+      "bundle": {
+        "id": "agent-forge-agentic-knowledge",
+        "deploymentName": "agent-forge-agentic-knowledge",
+        "entrypoint": "SKILL.md",
+        "description": "During an assigned software-product build, retrieve and curate repository knowledge for an agentic application. Research questions unrelated to building the product do not activate this skill.",
+        "componentSkills": [
+          "query-knowledge-base"
+        ],
+        "flattenedReferences": [
+          "postgres"
+        ]
+      }
+    },
+    {
+      "id": "agent-forge-frontend-design",
+      "roster": "development",
+      "kind": "external",
+      "externalId": "frontend-design"
+    },
+    {
+      "id": "agent-forge-playwright-cli",
+      "roster": "development",
+      "kind": "external",
+      "externalId": "playwright-cli"
+    },
+    {
+      "id": "agent-forge-code-review-security",
+      "roster": "development",
+      "kind": "external",
+      "externalId": "code-review-security"
+    },
+    {
+      "id": "agent-forge-langchain",
+      "roster": "development",
+      "kind": "external",
+      "externalId": "langchain"
+    },
+    {
+      "id": "agent-forge-create-datadriven-aspnetcore",
+      "roster": "development",
+      "kind": "external",
+      "externalId": "create-datadriven-aspnetcore"
+    },
+    {
+      "id": "agent-forge-supabase-postgres-best-practices",
+      "roster": "development",
+      "kind": "external",
+      "externalId": "supabase-postgres-best-practices"
+    },
+    {
+      "id": "agent-forge-impeccable",
+      "roster": "development",
+      "kind": "external",
+      "externalId": "impeccable"
+    },
+    {
+      "id": "agent-forge-emil-design-eng",
+      "roster": "development",
+      "kind": "external",
+      "externalId": "emil-design-eng"
+    },
+    {
+      "id": "agent-forge-review-animations",
+      "roster": "development",
+      "kind": "external",
+      "externalId": "review-animations"
+    },
+    {
+      "id": "agent-forge-animate-expo",
+      "roster": "development",
+      "kind": "external",
+      "externalId": "animate-expo"
+    },
+    {
+      "id": "agent-forge-break-ui",
+      "roster": "development",
+      "kind": "external",
+      "externalId": "break-ui"
+    },
+    {
+      "id": "agent-forge-taste-frontend",
+      "roster": "development",
+      "kind": "external",
+      "externalId": "taste-frontend"
+    },
+    {
+      "id": "agent-forge-build-software-products",
+      "roster": "development",
+      "kind": "product",
+      "sourcePath": "skills/direct-software-product-development"
+    },
+    {
+      "id": "agent-forge-research-citation-management",
+      "roster": "research",
+      "kind": "directory",
+      "sourcePath": "packages/research-specialists/skills/citation-management"
+    },
+    {
+      "id": "agent-forge-research-direct-research",
+      "roster": "research",
+      "kind": "directory",
+      "sourcePath": "packages/research-specialists/skills/direct-research"
+    },
+    {
+      "id": "agent-forge-research-experimental-design",
+      "roster": "research",
+      "kind": "directory",
+      "sourcePath": "packages/research-specialists/skills/experimental-design"
+    },
+    {
+      "id": "agent-forge-research-literature-review",
+      "roster": "research",
+      "kind": "directory",
+      "sourcePath": "packages/research-specialists/skills/literature-review"
+    },
+    {
+      "id": "agent-forge-research-nature-response",
+      "roster": "research",
+      "kind": "directory",
+      "sourcePath": "packages/research-specialists/skills/nature-response"
+    },
+    {
+      "id": "agent-forge-research-nature-shared",
+      "roster": "research",
+      "kind": "directory",
+      "sourcePath": "packages/research-specialists/skills/nature-shared"
+    },
+    {
+      "id": "agent-forge-research-nature-writing",
+      "roster": "research",
+      "kind": "directory",
+      "sourcePath": "packages/research-specialists/skills/nature-writing"
+    },
+    {
+      "id": "agent-forge-research-research-computer-vision",
+      "roster": "research",
+      "kind": "directory",
+      "sourcePath": "packages/research-specialists/skills/research-computer-vision"
+    },
+    {
+      "id": "agent-forge-research-research-extended-reality",
+      "roster": "research",
+      "kind": "directory",
+      "sourcePath": "packages/research-specialists/skills/research-extended-reality"
+    },
+    {
+      "id": "agent-forge-research-research-human-ai-interaction",
+      "roster": "research",
+      "kind": "directory",
+      "sourcePath": "packages/research-specialists/skills/research-human-ai-interaction"
+    },
+    {
+      "id": "agent-forge-research-research-human-participants",
+      "roster": "research",
+      "kind": "directory",
+      "sourcePath": "packages/research-specialists/skills/research-human-participants"
+    },
+    {
+      "id": "agent-forge-research-research-language-models",
+      "roster": "research",
+      "kind": "directory",
+      "sourcePath": "packages/research-specialists/skills/research-language-models"
+    },
+    {
+      "id": "agent-forge-research-research-latex",
+      "roster": "research",
+      "kind": "directory",
+      "sourcePath": "packages/research-specialists/skills/research-latex"
+    },
+    {
+      "id": "agent-forge-research-research-machine-learning",
+      "roster": "research",
+      "kind": "directory",
+      "sourcePath": "packages/research-specialists/skills/research-machine-learning"
+    },
+    {
+      "id": "agent-forge-research-research-mathematical-modeling",
+      "roster": "research",
+      "kind": "directory",
+      "sourcePath": "packages/research-specialists/skills/research-mathematical-modeling"
+    },
+    {
+      "id": "agent-forge-research-research-mathematics",
+      "roster": "research",
+      "kind": "directory",
+      "sourcePath": "packages/research-specialists/skills/research-mathematics"
+    },
+    {
+      "id": "agent-forge-research-research-physical-ai",
+      "roster": "research",
+      "kind": "directory",
+      "sourcePath": "packages/research-specialists/skills/research-physical-ai"
+    },
+    {
+      "id": "agent-forge-research-research-robotics",
+      "roster": "research",
+      "kind": "directory",
+      "sourcePath": "packages/research-specialists/skills/research-robotics"
+    },
+    {
+      "id": "agent-forge-research-scientific-critical-thinking",
+      "roster": "research",
+      "kind": "directory",
+      "sourcePath": "packages/research-specialists/skills/scientific-critical-thinking"
+    },
+    {
+      "id": "agent-forge-research-scientific-visualization",
+      "roster": "research",
+      "kind": "directory",
+      "sourcePath": "packages/research-specialists/skills/scientific-visualization"
+    },
+    {
+      "id": "agent-forge-research-statistical-analysis",
+      "roster": "research",
+      "kind": "directory",
+      "sourcePath": "packages/research-specialists/skills/statistical-analysis"
+    },
+    {
+      "id": "communication-design-styles",
+      "roster": "communication",
+      "kind": "directory",
+      "sourcePath": "packages/independent-specialists/skills/communication-design-styles"
+    },
+    {
+      "id": "independent-adult-learning",
+      "roster": "communication",
+      "kind": "directory",
+      "sourcePath": "packages/independent-specialists/skills/independent-adult-learning"
+    },
+    {
+      "id": "independent-content-strategy",
+      "roster": "communication",
+      "kind": "directory",
+      "sourcePath": "packages/independent-specialists/skills/independent-content-strategy"
+    },
+    {
+      "id": "independent-copywriting",
+      "roster": "communication",
+      "kind": "directory",
+      "sourcePath": "packages/independent-specialists/skills/independent-copywriting"
+    },
+    {
+      "id": "independent-elevenlabs",
+      "roster": "communication",
+      "kind": "directory",
+      "sourcePath": "packages/independent-specialists/skills/independent-elevenlabs"
+    },
+    {
+      "id": "independent-natural-writing",
+      "roster": "communication",
+      "kind": "directory",
+      "sourcePath": "packages/independent-specialists/skills/independent-natural-writing"
+    },
+    {
+      "id": "independent-sales-enablement",
+      "roster": "communication",
+      "kind": "directory",
+      "sourcePath": "packages/independent-specialists/skills/independent-sales-enablement"
+    },
+    {
+      "id": "independent-seo-audit",
+      "roster": "communication",
+      "kind": "directory",
+      "sourcePath": "packages/independent-specialists/skills/independent-seo-audit"
+    },
+    {
+      "id": "independent-shotstack",
+      "roster": "communication",
+      "kind": "directory",
+      "sourcePath": "packages/independent-specialists/skills/independent-shotstack"
+    },
+    {
+      "id": "independent-social",
+      "roster": "communication",
+      "kind": "directory",
+      "sourcePath": "packages/independent-specialists/skills/independent-social"
+    },
+    {
+      "id": "independent-specialist-coordination",
+      "roster": "communication",
+      "kind": "directory",
+      "sourcePath": "packages/independent-specialists/skills/independent-specialist-coordination"
+    },
+    {
+      "id": "independent-video-scriptwriting",
+      "roster": "communication",
+      "kind": "directory",
+      "sourcePath": "packages/independent-specialists/skills/independent-video-scriptwriting"
+    },
+    {
+      "id": "consulting-client-deliverables",
+      "roster": "consulting",
+      "kind": "directory",
+      "sourcePath": "packages/consulting-specialist/skills/consulting-client-deliverables"
+    },
+    {
+      "id": "consulting-financial-modeling",
+      "roster": "consulting",
+      "kind": "directory",
+      "sourcePath": "packages/consulting-specialist/skills/consulting-financial-modeling"
+    },
+    {
+      "id": "consulting-implementation-planning",
+      "roster": "consulting",
+      "kind": "directory",
+      "sourcePath": "packages/consulting-specialist/skills/consulting-implementation-planning"
+    },
+    {
+      "id": "consulting-logistics-customs-transport",
+      "roster": "consulting",
+      "kind": "directory",
+      "sourcePath": "packages/consulting-specialist/skills/consulting-logistics-customs-transport"
+    },
+    {
+      "id": "consulting-process-excellence",
+      "roster": "consulting",
+      "kind": "directory",
+      "sourcePath": "packages/consulting-specialist/skills/consulting-process-excellence"
+    },
+    {
+      "id": "consulting-proposal-development",
+      "roster": "consulting",
+      "kind": "directory",
+      "sourcePath": "packages/consulting-specialist/skills/consulting-proposal-development"
+    },
+    {
+      "id": "consulting-specialist-coordination",
+      "roster": "consulting",
+      "kind": "directory",
+      "sourcePath": "packages/consulting-specialist/skills/consulting-specialist-coordination"
+    },
+    {
+      "id": "consulting-strategic-analysis",
+      "roster": "consulting",
+      "kind": "directory",
+      "sourcePath": "packages/consulting-specialist/skills/consulting-strategic-analysis"
+    },
+    {
+      "id": "consulting-technology-ai-solutions",
+      "roster": "consulting",
+      "kind": "directory",
+      "sourcePath": "packages/consulting-specialist/skills/consulting-technology-ai-solutions"
+    },
+    {
+      "id": "agent-forge-elevenlabs-creative-studio",
+      "roster": "dependencies",
+      "kind": "directory",
+      "sourcePath": "packages/copilot-dependencies/skills/agent-forge-copilot-elevenlabs-creative-studio",
+      "dependency": true
+    },
+    {
+      "id": "agent-forge-elevenlabs-text-to-speech",
+      "roster": "dependencies",
+      "kind": "directory",
+      "sourcePath": "packages/copilot-dependencies/skills/agent-forge-copilot-elevenlabs-text-to-speech",
+      "dependency": true
+    },
+    {
+      "id": "agent-forge-elevenlabs-speech-to-text",
+      "roster": "dependencies",
+      "kind": "directory",
+      "sourcePath": "packages/copilot-dependencies/skills/agent-forge-copilot-elevenlabs-speech-to-text",
+      "dependency": true
+    },
+    {
+      "id": "agent-forge-jupyter-notebook",
+      "roster": "dependencies",
+      "kind": "directory",
+      "sourcePath": "packages/copilot-dependencies/skills/agent-forge-copilot-jupyter-notebook",
+      "dependency": true
+    },
+    {
+      "id": "agent-forge-zotero",
+      "roster": "dependencies",
+      "kind": "directory",
+      "sourcePath": "packages/copilot-dependencies/skills/agent-forge-copilot-zotero",
+      "dependency": true
+    },
+    {
+      "id": "agent-forge-documents",
+      "roster": "dependencies",
+      "kind": "directory",
+      "sourcePath": "packages/copilot-dependencies/skills/agent-forge-copilot-documents",
+      "dependency": true
+    },
+    {
+      "id": "agent-forge-presentations",
+      "roster": "dependencies",
+      "kind": "directory",
+      "sourcePath": "packages/copilot-dependencies/skills/agent-forge-copilot-presentations",
+      "dependency": true
+    },
+    {
+      "id": "agent-forge-spreadsheets",
+      "roster": "dependencies",
+      "kind": "directory",
+      "sourcePath": "packages/copilot-dependencies/skills/agent-forge-copilot-spreadsheets",
+      "dependency": true
+    },
+    {
+      "id": "agent-forge-pdf",
+      "roster": "dependencies",
+      "kind": "directory",
+      "sourcePath": "packages/copilot-dependencies/skills/agent-forge-copilot-pdf",
+      "dependency": true
+    },
+    {
+      "id": "agent-forge-latex",
+      "roster": "dependencies",
+      "kind": "directory",
+      "sourcePath": "packages/copilot-dependencies/skills/agent-forge-copilot-latex",
+      "dependency": true
+    }
+  ],
+  "workflowSources": [
+    {
+      "id": "query-knowledge-base",
+      "source": "skills/query-knowledge-base"
+    },
+    {
+      "id": "scaffold-project",
+      "source": "skills/scaffold-project"
+    },
+    {
+      "id": "search-stock-images",
+      "source": "skills/search-stock-images"
+    },
+    {
+      "id": "discover-repository",
+      "source": "skills/discover-repository"
+    },
+    {
+      "id": "trace-requirements",
+      "source": "skills/trace-requirements"
+    },
+    {
+      "id": "record-architecture-decision",
+      "source": "skills/record-architecture-decision"
+    },
+    {
+      "id": "verify-implementation",
+      "source": "skills/verify-implementation"
+    },
+    {
+      "id": "review-change-security",
+      "source": "skills/review-change-security"
+    },
+    {
+      "id": "operate-docker",
+      "source": "skills/operate-docker"
+    },
+    {
+      "id": "deploy-digitalocean",
+      "source": "skills/deploy-digitalocean"
+    },
+    {
+      "id": "manage-github-gitkraken",
+      "source": "skills/manage-github-gitkraken"
+    },
+    {
+      "id": "design-with-canva",
+      "source": "skills/design-with-canva"
+    },
+    {
+      "id": "engineer-specialized-platforms",
+      "source": "skills/engineer-specialized-platforms"
+    }
+  ],
+  "externalSkillCatalog": "config/external-skills.json",
+  "product": {
+    "source": "skills/direct-software-product-development",
+    "deploymentName": "agent-forge-build-software-products",
+    "hooksSource": "hooks/codex",
+    "hooksTarget": "%USERPROFILE%/.codex/hooks.json"
+  },
+  "graphify": {
+    "managedRoot": "%USERPROFILE%/.agent-forge/graphify",
+    "lockFile": "config/graphify-windows-x64-python312.lock.json"
+  },
+  "runtimePackages": [
+    "research-specialists",
+    "independent-specialists",
+    "consulting-specialist"
+  ],
+  "dependencyRuntime": {
+    "sourcePath": "packages/copilot-dependencies/runtime",
+    "relativePath": "dependencies"
+  },
+  "aliases": {
+    "agent-forge-copilot-software-architect": "software-architect",
+    "agent-forge-copilot-principal-engineer": "principal-engineer",
+    "agent-forge-copilot-backend-developer": "backend-developer",
+    "agent-forge-copilot-frontend-developer": "frontend-developer",
+    "agent-forge-copilot-database-engineer": "database-engineer",
+    "agent-forge-copilot-dotnet-engineer": "dotnet-engineer",
+    "agent-forge-copilot-desktop-app-engineer": "desktop-app-engineer",
+    "agent-forge-copilot-mobile-engineer": "mobile-engineer",
+    "agent-forge-copilot-ml-engineer": "ml-engineer",
+    "agent-forge-copilot-agentic-systems-engineer": "agentic-systems-engineer",
+    "agent-forge-copilot-digital-twin-engineer": "digital-twin-engineer",
+    "agent-forge-copilot-qa-engineer": "qa-engineer",
+    "agent-forge-copilot-cybersecurity-engineer": "cybersecurity-engineer",
+    "agent-forge-copilot-devops-engineer": "devops-engineer",
+    "agent-forge-copilot-ux-engineer": "ux-engineer",
+    "agent-forge-copilot-technical-writer": "technical-writer",
+    "agent-forge-copilot-research-literature-search": "research-literature-search",
+    "agent-forge-copilot-research-evidence-synthesis": "research-evidence-synthesis",
+    "agent-forge-copilot-research-bibliographic-references": "research-bibliographic-references",
+    "agent-forge-copilot-research-experimental-design": "agent-forge-research-experimental-design",
+    "agent-forge-copilot-research-human-participant-studies": "research-human-participant-studies",
+    "agent-forge-copilot-research-statistical-analysis": "agent-forge-research-statistical-analysis",
+    "agent-forge-copilot-research-computational-reproducibility": "research-computational-reproducibility",
+    "agent-forge-copilot-research-scientific-figures": "research-scientific-figures",
+    "agent-forge-copilot-research-scientific-writing": "research-scientific-writing",
+    "agent-forge-copilot-research-reviewer-responses": "research-reviewer-responses",
+    "agent-forge-copilot-research-independent-scientific-review": "research-independent-scientific-review",
+    "agent-forge-copilot-research-machine-learning": "research-machine-learning",
+    "agent-forge-copilot-research-language-models": "research-language-models",
+    "agent-forge-copilot-research-computer-vision": "research-computer-vision",
+    "agent-forge-copilot-research-human-ai-interaction": "research-human-ai-interaction",
+    "agent-forge-copilot-research-extended-reality": "research-extended-reality",
+    "agent-forge-copilot-research-physical-ai": "research-physical-ai",
+    "agent-forge-copilot-research-mathematical-modeling": "research-mathematical-modeling",
+    "agent-forge-copilot-research-mathematics": "research-mathematics",
+    "agent-forge-copilot-research-robotics": "research-robotics",
+    "agent-forge-copilot-adult-education-specialist": "adult-education-specialist",
+    "agent-forge-copilot-audiovisual-production-specialist": "audiovisual-production-specialist",
+    "agent-forge-copilot-brand-and-graphic-design-specialist": "brand-and-graphic-design-specialist",
+    "agent-forge-copilot-marketing-and-sales-specialist": "marketing-and-sales-specialist",
+    "agent-forge-copilot-technology-ai-logistics-consultant": "technology-ai-logistics-consultant",
+    "agent-forge-copilot-agent-forge-development": "agent-forge-development",
+    "agent-forge-copilot-agent-forge-research": "agent-forge-research",
+    "agent-forge-copilot-agent-forge-communication": "agent-forge-communication",
+    "agent-forge-copilot-agent-forge-consulting": "agent-forge-consulting",
+    "citation-management": "agent-forge-research-citation-management",
+    "agent-forge-copilot-research-citation-management": "agent-forge-research-citation-management",
+    "direct-research": "agent-forge-research-direct-research",
+    "agent-forge-copilot-research-direct-research": "agent-forge-research-direct-research",
+    "experimental-design": "agent-forge-research-experimental-design",
+    "literature-review": "agent-forge-research-literature-review",
+    "agent-forge-copilot-research-literature-review": "agent-forge-research-literature-review",
+    "nature-response": "agent-forge-research-nature-response",
+    "agent-forge-copilot-research-nature-response": "agent-forge-research-nature-response",
+    "nature-shared": "agent-forge-research-nature-shared",
+    "agent-forge-copilot-research-nature-shared": "agent-forge-research-nature-shared",
+    "nature-writing": "agent-forge-research-nature-writing",
+    "agent-forge-copilot-research-nature-writing": "agent-forge-research-nature-writing",
+    "research-computer-vision": "agent-forge-research-research-computer-vision",
+    "agent-forge-copilot-research-research-computer-vision": "agent-forge-research-research-computer-vision",
+    "research-extended-reality": "agent-forge-research-research-extended-reality",
+    "agent-forge-copilot-research-research-extended-reality": "agent-forge-research-research-extended-reality",
+    "research-human-ai-interaction": "agent-forge-research-research-human-ai-interaction",
+    "agent-forge-copilot-research-research-human-ai-interaction": "agent-forge-research-research-human-ai-interaction",
+    "research-human-participants": "agent-forge-research-research-human-participants",
+    "agent-forge-copilot-research-research-human-participants": "agent-forge-research-research-human-participants",
+    "research-language-models": "agent-forge-research-research-language-models",
+    "agent-forge-copilot-research-research-language-models": "agent-forge-research-research-language-models",
+    "research-latex": "agent-forge-research-research-latex",
+    "agent-forge-copilot-research-research-latex": "agent-forge-research-research-latex",
+    "research-machine-learning": "agent-forge-research-research-machine-learning",
+    "agent-forge-copilot-research-research-machine-learning": "agent-forge-research-research-machine-learning",
+    "research-mathematical-modeling": "agent-forge-research-research-mathematical-modeling",
+    "agent-forge-copilot-research-research-mathematical-modeling": "agent-forge-research-research-mathematical-modeling",
+    "research-mathematics": "agent-forge-research-research-mathematics",
+    "agent-forge-copilot-research-research-mathematics": "agent-forge-research-research-mathematics",
+    "research-physical-ai": "agent-forge-research-research-physical-ai",
+    "agent-forge-copilot-research-research-physical-ai": "agent-forge-research-research-physical-ai",
+    "research-robotics": "agent-forge-research-research-robotics",
+    "agent-forge-copilot-research-research-robotics": "agent-forge-research-research-robotics",
+    "scientific-critical-thinking": "agent-forge-research-scientific-critical-thinking",
+    "agent-forge-copilot-research-scientific-critical-thinking": "agent-forge-research-scientific-critical-thinking",
+    "scientific-visualization": "agent-forge-research-scientific-visualization",
+    "agent-forge-copilot-research-scientific-visualization": "agent-forge-research-scientific-visualization",
+    "statistical-analysis": "agent-forge-research-statistical-analysis",
+    "communication-design-styles": "communication-design-styles",
+    "agent-forge-copilot-communication-design-styles": "communication-design-styles",
+    "independent-adult-learning": "independent-adult-learning",
+    "agent-forge-copilot-independent-adult-learning": "independent-adult-learning",
+    "independent-content-strategy": "independent-content-strategy",
+    "agent-forge-copilot-independent-content-strategy": "independent-content-strategy",
+    "independent-copywriting": "independent-copywriting",
+    "agent-forge-copilot-independent-copywriting": "independent-copywriting",
+    "independent-elevenlabs": "independent-elevenlabs",
+    "agent-forge-copilot-independent-elevenlabs": "independent-elevenlabs",
+    "independent-natural-writing": "independent-natural-writing",
+    "agent-forge-copilot-independent-natural-writing": "independent-natural-writing",
+    "independent-sales-enablement": "independent-sales-enablement",
+    "agent-forge-copilot-independent-sales-enablement": "independent-sales-enablement",
+    "independent-seo-audit": "independent-seo-audit",
+    "agent-forge-copilot-independent-seo-audit": "independent-seo-audit",
+    "independent-shotstack": "independent-shotstack",
+    "agent-forge-copilot-independent-shotstack": "independent-shotstack",
+    "independent-social": "independent-social",
+    "agent-forge-copilot-independent-social": "independent-social",
+    "independent-specialist-coordination": "independent-specialist-coordination",
+    "agent-forge-copilot-independent-specialist-coordination": "independent-specialist-coordination",
+    "independent-video-scriptwriting": "independent-video-scriptwriting",
+    "agent-forge-copilot-independent-video-scriptwriting": "independent-video-scriptwriting",
+    "consulting-client-deliverables": "consulting-client-deliverables",
+    "agent-forge-copilot-consulting-client-deliverables": "consulting-client-deliverables",
+    "consulting-financial-modeling": "consulting-financial-modeling",
+    "agent-forge-copilot-consulting-financial-modeling": "consulting-financial-modeling",
+    "consulting-implementation-planning": "consulting-implementation-planning",
+    "agent-forge-copilot-consulting-implementation-planning": "consulting-implementation-planning",
+    "consulting-logistics-customs-transport": "consulting-logistics-customs-transport",
+    "agent-forge-copilot-consulting-logistics-customs-transport": "consulting-logistics-customs-transport",
+    "consulting-process-excellence": "consulting-process-excellence",
+    "agent-forge-copilot-consulting-process-excellence": "consulting-process-excellence",
+    "consulting-proposal-development": "consulting-proposal-development",
+    "agent-forge-copilot-consulting-proposal-development": "consulting-proposal-development",
+    "consulting-specialist-coordination": "consulting-specialist-coordination",
+    "agent-forge-copilot-consulting-specialist-coordination": "consulting-specialist-coordination",
+    "consulting-strategic-analysis": "consulting-strategic-analysis",
+    "agent-forge-copilot-consulting-strategic-analysis": "consulting-strategic-analysis",
+    "consulting-technology-ai-solutions": "consulting-technology-ai-solutions",
+    "agent-forge-copilot-consulting-technology-ai-solutions": "consulting-technology-ai-solutions",
+    "agent-forge-copilot-elevenlabs-creative-studio": "agent-forge-elevenlabs-creative-studio",
+    "agent-forge-copilot-elevenlabs-text-to-speech": "agent-forge-elevenlabs-text-to-speech",
+    "agent-forge-copilot-elevenlabs-speech-to-text": "agent-forge-elevenlabs-speech-to-text",
+    "agent-forge-copilot-jupyter-notebook": "agent-forge-jupyter-notebook",
+    "agent-forge-copilot-zotero": "agent-forge-zotero",
+    "agent-forge-copilot-documents": "agent-forge-documents",
+    "agent-forge-copilot-presentations": "agent-forge-presentations",
+    "agent-forge-copilot-spreadsheets": "agent-forge-spreadsheets",
+    "agent-forge-copilot-pdf": "agent-forge-pdf",
+    "agent-forge-copilot-latex": "agent-forge-latex",
+    "discover-repository": "agent-forge-lifecycle",
+    "trace-requirements": "agent-forge-lifecycle",
+    "record-architecture-decision": "agent-forge-lifecycle",
+    "scaffold-project": "agent-forge-lifecycle",
+    "verify-implementation": "agent-forge-engineering",
+    "engineer-specialized-platforms": "agent-forge-engineering",
+    "review-change-security": "agent-forge-security-operations",
+    "operate-docker": "agent-forge-security-operations",
+    "deploy-digitalocean": "agent-forge-security-operations",
+    "manage-github-gitkraken": "agent-forge-security-operations",
+    "design-with-canva": "agent-forge-design",
+    "search-stock-images": "agent-forge-design",
+    "query-knowledge-base": "agent-forge-agentic-knowledge",
+    "zotero:Zotero": "agent-forge-zotero",
+    "jupyter-notebook": "agent-forge-jupyter-notebook",
+    "documents:documents": "agent-forge-documents",
+    "presentations:Presentations": "agent-forge-presentations",
+    "spreadsheets:Spreadsheets": "agent-forge-spreadsheets",
+    "pdf:pdf": "agent-forge-pdf",
+    "creative-studio": "agent-forge-elevenlabs-creative-studio",
+    "text-to-speech": "agent-forge-elevenlabs-text-to-speech",
+    "speech-to-text": "agent-forge-elevenlabs-speech-to-text"
+  },
+  "expected": {
+    "agents": 45,
+    "coordinators": 4,
+    "specialists": 41,
+    "ownSkills": 60
+  }
+}

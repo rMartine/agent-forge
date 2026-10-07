@@ -19,6 +19,32 @@ const completeEvidence = {
   checks: [{ name: 'Acceptance case', command: 'node --test', result: 'passed', details: 'One isolated synthetic acceptance case passed.' }],
 };
 
+test('nested instances inherit read-only and stop or end without closing the root', async t => {
+  const f = await fixture(t);
+  await activateSession(f.context, 'Review the requested product.');
+  await f.hook('SubagentStart', { agent_id: 'review-parent', agent_type: 'software-architect' });
+  for (const agentId of ['same-role-one', 'same-role-two']) {
+    await f.hook('SubagentStart', { session_id: 'review-parent', parent_agent_id: 'review-parent', agent_id: agentId, agent_type: 'backend-developer', assignment_id: `assignment-${agentId}` });
+  }
+  let record = await readSession(f.context);
+  assert.equal(Object.keys(record.agents).length, 3);
+  assert.equal(record.agents['same-role-one'].parentAgentId, 'review-parent');
+  assert.equal(record.agents['same-role-two'].readOnly, true);
+  assert.equal(record.agents['same-role-two'].rootSessionId, 'session-1');
+  const denied = await f.hook('PreToolUse', { session_id: 'same-role-one', tool_name: 'functions.apply_patch' });
+  assert.equal(denied.hookSpecificOutput.permissionDecision, 'deny');
+  assert.deepEqual(await f.hook('PreToolUse', { session_id: 'same-role-one', tool_name: 'collaboration.spawn_agent' }), {});
+  await f.hook('Stop', { session_id: 'same-role-one' });
+  await f.hook('SessionEnd', { session_id: 'same-role-one' });
+  await f.hook('Interrupt', { session_id: 'same-role-two' });
+  record = await readSession(f.context);
+  assert.equal(record.status, 'active');
+  assert.equal(record.agents['same-role-one'].status, 'ended');
+  assert.equal(record.agents['same-role-two'].status, 'interrupted');
+  await recordEvidence(f.context, { status: 'interrupted', summary: 'Second child was interrupted.', checks: [], verificationNotRunReason: 'Interrupted before verification.' }, 'same-role-two');
+  assert.equal((await readSession(f.context)).agents['same-role-two'].evidence.status, 'interrupted');
+});
+
 function indexObservation(project) {
   return {
     status: 'fresh', observedAt: '2026-10-02T20:00:00Z',
@@ -370,6 +396,7 @@ test('copied bundle scripts perform the complete registered lifecycle using neig
   const installedHook = path.join(scriptsDirectory, 'product-hooks.mjs');
   await copyFile(sessionScript, installedSession);
   await copyFile(hookScript, installedHook);
+  await copyFile(fileURLToPath(new URL('../../../hooks/codex/hook-storage.mjs', import.meta.url)), path.join(scriptsDirectory, 'hook-storage.mjs'));
   await copyFile(f.rolesPath, path.join(scriptsDirectory, 'product-roles.json'));
   const environment = { AGENT_FORGE_SESSION_ROOT: f.sessionRoot };
   const identity = ['--session', 'session-1', '--project', f.project];

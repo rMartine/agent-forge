@@ -30,10 +30,10 @@ export function renderCodexAgent(
 ): string {
   const parsed = parseSource(source);
   const hasModel = agent.model !== undefined || agent.modelReasoningEffort !== undefined;
-  if (hasModel || manifest.schemaVersion === 5) {
+  if (hasModel || manifest.schemaVersion === 5 || manifest.schemaVersion === 6) {
     const problem = validateCodexModelConfiguration(agent.model, agent.modelReasoningEffort);
     if (problem) throw new Error(`Agent ${agent.id}: ${problem}`);
-    if (manifest.schemaVersion !== 5) throw new Error('Explicit Codex models require manifest schemaVersion 5');
+    if (manifest.schemaVersion !== 5 && manifest.schemaVersion !== 6) throw new Error('Explicit Codex models require manifest schemaVersion 5 or 6');
   }
   const mapping = codexSkillMap(manifest);
   const body = rewriteCodexSkillReferences(parsed.body, mapping);
@@ -42,14 +42,15 @@ export function renderCodexAgent(
   const bundles = agent.requiredSkillBundles.map(id => `$${manifest.codex.skillBundles[id].deploymentName}`).join(', ');
   const developerInstructions = [
     'Codex runtime contract (authoritative):',
-    agent.instructionOverlay || 'Do not delegate or spawn subagents.',
+    (agent.instructionOverlay || '').replace(/Do not delegate or spawn subagents\.?\s*/gi, '').replace(/; do not modify product code, delegate, or spawn subagents\./gi, '; do not modify product code.'),
+    'You may create subagents from any roster when useful for the authorized assignment. They may also delegate. Give each child concrete scope, context, ownership and expected results, integrate their work, and preserve all ancestor permissions and read-only restrictions.',
     `Use these Agent Forge skill bundles when relevant: ${bundles}.`,
     hasModel
       ? `This custom agent is configured for model ${agent.model} with ${agent.modelReasoningEffort} reasoning. Inherit the parent MCP configuration, permissions, and approval policy. Never weaken approval requirements.`
       : 'Inherit the parent model, MCP configuration, permissions, and approval policy. Never weaken approval requirements.',
     ...(manifest.codex.productDevelopment ? [
       'Participate only in a software-product development assignment from the primary agent. A general question, independent research task or isolated code discussion does not activate this roster.',
-      'The primary agent owns product-level technical decisions, delegation, integration and final delivery. Return unresolved business decisions to that agent rather than conducting a new user interview.',
+      'The coordinating agent owns product-level technical decisions and final delivery. Delegate within your assigned scope and return unresolved business decisions to the parent.',
       'Apply the checks required by the changed behavior and the current project phase. Do not turn optional checks or examples into universal requirements.',
       `Completion evidence for this assignment: ${(agent.completionEvidence ?? []).join('; ')}.`,
       ...(externalSkillNames.length ? [`Additional curated skills available when the assigned technology and task match: ${externalSkillNames.map(name => `$${name}`).join(', ')}. Read only those that apply.`] : []),

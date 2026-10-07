@@ -3,6 +3,7 @@ import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { clientDirectory } from './context.mjs';
 import { PACKAGE_ROOT, ROLES, findAssignment, loadManifest, now, readState, readStdinJson, resolveHookContext, updateState, writeAgentLink } from './assignment.mjs';
+import { classifyReadOnlyTool } from './hook-storage.mjs';
 
 const EVENTS = new Set(['SubagentStart', 'PreToolUse', 'PostToolUse', 'SubagentStop', 'Stop', 'Interrupt', 'SessionEnd']);
 const IDENTIFIER = /^[A-Za-z0-9][A-Za-z0-9_.:/-]{0,255}$/;
@@ -51,6 +52,13 @@ function evaluateConstraint(rule, input) {
 
 function beforeTool(assignment, input) {
   const tool = normalizeTool(input.tool_name);
+  const inheritedRules = (assignment.inheritedConstraintGroups ?? []).flatMap(group => group.filter(rule => normalizeTool(rule.toolName) === tool));
+  if (/^mcp__/i.test(tool) && !inheritedRules.length && !assignment.toolConstraints.some(rule => normalizeTool(rule.toolName) === tool)) return deny('La llamada MCP no está vinculada a una autorización vigente de este encargo.');
+  if (assignment.readOnly && classifyReadOnlyTool(tool) === 'deny') return deny('El encargo heredó permisos de solo lectura; devuelve cambios propuestos.');
+  for (const group of assignment.inheritedConstraintGroups ?? []) {
+    const inherited = group.filter(rule => normalizeTool(rule.toolName) === tool);
+    if (inherited.length && (inherited.some(rule => rule.deny) || inherited.every(rule => evaluateConstraint(rule, toolArguments(input.tool_input)) === 'contradiction'))) return deny('La llamada contradice un límite heredado del agente padre.');
+  }
   const rules = assignment.toolConstraints.filter(rule => normalizeTool(rule.toolName) === tool);
   if (!rules.length) return {};
   if (assignment.status !== 'running') return deny('El encargo está cerrado o interrumpido; no continúes sus operaciones. La principal debe recuperar la instrucción vigente antes de reanudarlo.');
@@ -89,26 +97,44 @@ export function responseMetadata(value) {
 }
 
 async function start(context, input, manifest, options) {
-  if (!ROLES.has(input.agent_type) || !IDENTIFIER.test(input.agent_id ?? '')) return {};
-  const role = manifest.agents.find(agent => agent.name === input.agent_type);
-  let assignment;
+  if ((!ROLES.has(input.agent_type) && !input.parent_agent_id) || !IDENTIFIER.test(input.agent_id ?? '')) return {};
+  let role = manifest.agents.find(agent => agent.name === input.agent_type);
+  let assignment, unmatchedPrepared = false;
   await updateState(context, current => {
     const record = current ?? { version: 1, sessionId: context.sessionId, project: context.project, assignments: {}, createdAt: now() };
+    const parent = findAssignment(record, input.parent_agent_id);
+    role ??= parent ? manifest.agents.find(entry => entry.name === parent.role) : undefined;
+    if (!role) return record;
     const existing = findAssignment(record, input.agent_id);
     if (existing && ['closed', 'ended', 'interrupted'].includes(existing.status)) return record;
-    const prepared = record.assignments[`pending-${role.name}`];
-    assignment = existing ?? (prepared?.status === 'prepared' ? prepared : undefined) ?? {
+    const preparedForRole = Object.entries(record.assignments).filter(([, entry]) => entry.role === role.name && entry.status === 'prepared' && (!entry.parentAgentId || entry.parentAgentId === input.parent_agent_id));
+    unmatchedPrepared = !input.assignment_id && preparedForRole.length > 0;
+    const candidates = input.assignment_id ? preparedForRole.filter(([key]) => key === input.assignment_id) : [];
+    if (!existing && input.assignment_id && candidates.length !== 1) return record;
+    const prepared = candidates[0]?.[1];
+    assignment = existing ?? prepared ?? {
       role: role.name, clientId: null, engagementId: null,
       objective: 'Completar el encargo de consultoría asignado por la conversación principal.',
       authorizationReference: null, toolConstraints: [], expectedDeliverables: [], delivered: [], operations: [], createdAt: now()
     };
     assignment.agentId = input.agent_id;
+    assignment.rootSessionId = context.sessionId;
+    assignment.parentAgentId = input.parent_agent_id ?? assignment.parentAgentId ?? null;
+    assignment.instanceId = input.agent_id;
+    assignment.observedRole = input.agent_type;
+    assignment.assignmentId ??= input.assignment_id ?? input.agent_id;
+    if (parent) {
+      assignment.inheritedConstraintGroups = [...(parent.inheritedConstraintGroups ?? []), ...(parent.toolConstraints?.length ? [parent.toolConstraints] : [])];
+      assignment.readOnly = assignment.readOnly === true || parent.readOnly === true;
+      assignment.clientId ??= parent.clientId;
+      assignment.engagementId ??= parent.engagementId;
+    }
     assignment.status = 'running';
     record.assignments[input.agent_id] = assignment;
-    if (prepared === assignment) delete record.assignments[`pending-${role.name}`];
+    if (prepared === assignment) delete record.assignments[candidates[0][0]];
     return record;
   }, true);
-  if (!assignment) return {};
+  if (!assignment) return note('No se pudo vincular una instancia de encargo sin ambigüedad. Proporciona assignment_id; no se atribuyen autorizaciones de otro agente.');
   await writeAgentLink(context, input.agent_id);
   const directory = assignment.clientId ? await clientDirectory(context.project, assignment.clientId, assignment.engagementId) : null;
   const skillDirectory = path.resolve(options.packageRoot ?? PACKAGE_ROOT, manifest.skillDirectory ?? 'skills');
@@ -119,6 +145,9 @@ async function start(context, input, manifest, options) {
     `Lee únicamente las skills necesarias: ${role.skills.map(skill => path.join(skillDirectory, skill, 'SKILL.md')).join('; ')}.`,
     assignment.expectedDeliverables.length ? `Entregables registrados: ${assignment.expectedDeliverables.join('; ')}.` : 'Entrega lo solicitado en la conversación, con profundidad proporcional.',
     'Hereda modelo, razonamiento y permisos. Conserva las decisiones empresariales no delegadas. Verifica jurisdicción y vigencia cuando una recomendación dependa de normativa.',
+    'Puedes crear subagentes de cualquier roster dentro del encargo vigente; integra sus resultados y conserva en todos los descendientes el alcance, límites de datos y cliente, permisos de solo lectura y aprobaciones aplicables.',
+    `Padre inmediato: ${assignment.parentAgentId ?? 'no informado por el cliente; parentesco no verificado'}. Instancia del encargo: ${assignment.assignmentId}.`,
+    unmatchedPrepared ? 'Había otra asignación preparada para este rol, pero la llamada de subagente no la identificó; no recibió su autorización ni su contexto de cliente.' : '',
     'Los hooks no verifican veracidad ni calidad. Bloquean contradicciones observables con límites explícitos, operaciones restringidas de un encargo inactivo y operaciones de un agente propio cuyo registro no puede verificarse. Herramientas alojadas y otras rutas pueden quedar fuera de interceptación.',
     'Devuelve resultados, comprobaciones reales y pendientes a la principal. No provoques otra continuación por ausencia de registros ni generes entregables adicionales para llenarlos.'
   ].join('\n') } };
@@ -170,8 +199,8 @@ async function finish(context, actorId, event, manifest) {
 async function runConsultingHookUnchecked(input, options = {}) {
   if (!input || typeof input !== 'object' || Array.isArray(input) || !EVENTS.has(input.hook_event_name)) return {};
   if (!IDENTIFIER.test(input.session_id ?? '') || typeof input.cwd !== 'string' || !path.isAbsolute(input.cwd)) return {};
-  if (['SubagentStart', 'SubagentStop'].includes(input.hook_event_name) && input.agent_type && !ROLES.has(input.agent_type)) return {};
-  if (input.hook_event_name === 'SubagentStart' && !ROLES.has(input.agent_type)) return {};
+  if (['SubagentStart', 'SubagentStop'].includes(input.hook_event_name) && input.agent_type && !ROLES.has(input.agent_type) && !input.parent_agent_id && input.hook_event_name !== 'SubagentStop') return {};
+  if (input.hook_event_name === 'SubagentStart' && !ROLES.has(input.agent_type) && !input.parent_agent_id) return {};
   const { context, actorId, owned } = await resolveHookContext(input, options);
   if (input.hook_event_name === 'SubagentStart') return start(context, input, await loadManifest(options.packageRoot), options);
   const record = await readState(context);

@@ -29,7 +29,7 @@ export async function generateResearchDefinitions(sourceRoot, installedRoot, cod
       `Additional installed skills, when relevant: ${json(role.externalSkills)}`,
       `Required completion evidence: ${json(role.completionEvidence)}`,
       role.readOnly ? 'This role is read-only. Return proposed changes to the principal; do not execute shell or writing tools.' : 'Use only the authorized assignment and current platform permissions.',
-      'Do not delegate or spawn subagents. Return unresolved scientific choices and deliverables to the principal.',
+      'You may create subagents from any roster when useful within the assignment. Preserve scope, read-only restrictions, permissions and approvals in all descendants; integrate their results and return unresolved scientific choices to your parent.',
       'The model and reasoning effort are configured by this global agent definition. Inherit MCP configuration, permissions and approval policy; never weaken approvals.',
     ].join('\n\n');
     // TOML basic strings share these JSON escapes; prohibit controls JSON does

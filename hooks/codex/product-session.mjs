@@ -4,6 +4,7 @@ import { lstat, mkdir, open, readFile, realpath, rename, stat, unlink } from 'no
 import os from 'node:os';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
+import { identityFile, resolveRegistered } from './hook-storage.mjs';
 
 export const MAX_JSON_BYTES = 1024 * 1024;
 const IDENTIFIER = /^[A-Za-z0-9][A-Za-z0-9_-]{0,127}$/;
@@ -211,6 +212,9 @@ function validateRecord(record, context) {
     object(agent, 'Agent record');
     validateIdentifier(agent.type, 'Agent type');
     if (agent.evidenceWriter !== undefined && !['agent', 'principal'].includes(agent.evidenceWriter)) throw new Error('Invalid agent evidence writer.');
+    for (const field of ['parentAgentId', 'instanceId', 'assignmentId']) if (agent[field] !== undefined && agent[field] !== null) validateIdentifier(agent[field], `Agent ${field}`);
+    if (agent.rootSessionId !== undefined && agent.rootSessionId !== context.sessionId) throw new Error('Agent root session differs from its record.');
+    if (agent.readOnly !== undefined && typeof agent.readOnly !== 'boolean') throw new Error('Invalid inherited read-only state.');
     if (agent.assignment !== undefined) validateAssignment(agent.assignment);
     for (const field of ['expectedModel', 'observedModel', 'expectedReasoningEffort']) if (agent[field] !== undefined) text(agent[field], `Agent ${field}`, 128);
     if (agent.modelMismatch !== undefined && typeof agent.modelMismatch !== 'boolean') throw new Error('Invalid model mismatch observation.');
@@ -227,6 +231,26 @@ export async function readSession(context) {
     if (error.code === 'ENOENT') return null;
     throw error;
   }
+}
+
+export async function writeAgentLink(context, agentId) {
+  validateIdentifier(agentId, 'Agent identifier');
+  const file = identityFile(context, agentId);
+  await mkdir(context.root, { recursive: true, mode: 0o700 });
+  const handle = await open(file, 'wx', 0o600).catch(async error => {
+    if (error.code !== 'EEXIST') throw error;
+    const previous = await readJsonFile(file);
+    if (previous.sessionId !== context.sessionId || previous.project !== context.project) throw new Error('Agent already belongs to another product session.');
+    return null;
+  });
+  if (handle) {
+    try { await handle.writeFile(JSON.stringify({ version: 1, sessionId: context.sessionId, project: context.project, agentId })); }
+    finally { await handle.close(); }
+  }
+}
+
+export async function resolveHookContext(input, options = {}) {
+  return resolveRegistered(input, { makeContext: (sessionId, project) => createSessionContext({ sessionId, project, ...options }), readState: readSession, readJson: readJsonFile });
 }
 
 async function writeSession(context, record) {

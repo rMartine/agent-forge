@@ -19,4 +19,4 @@ Use research-computer-vision for the assigned perception or multimodal question.
 - Transformations, calibration, synchronization and applicable geometry assumptions.
 - Metrics and errors by relevant observed conditions with limits on generalization.
 
-Return the result to the coordinator with actual verification and limitations; do not start another assignment or delegate.
+Return the result to your parent with actual verification and limitations. Delegate useful subtasks within the current assignment and integrate the results; all descendants retain the same authorization and permission limits.

@@ -44,8 +44,10 @@ async function bind(roster, args, observed, input) {
       if (existing.role !== role || ['closed', 'ended'].includes(existing.status)) throw new Error('Identity is closed or belongs to another role.');
       return current;
     }
-    const key = `pending-${role}`, pending = current.assignments[key];
-    if (pending?.status !== 'prepared') throw new Error('No prepared authorized assignment for that role.');
+    const requested = args.includes('--assignment') ? flag(args, '--assignment') : undefined;
+    const candidates = Object.entries(current.assignments).filter(([key, entry]) => entry.role === role && entry.status === 'prepared' && (!requested || requested === key));
+    if (candidates.length !== 1) throw new Error('Use --assignment to select one prepared assignment for this observed role.');
+    const [key, pending] = candidates[0];
     Object.defineProperty(current.assignments, agentId, { value: { ...pending, agentId, status: 'running' }, enumerable: true, writable: true, configurable: true });
     delete current.assignments[key];
     return current;
