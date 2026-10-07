@@ -19,4 +19,4 @@ Use research-human-ai-interaction to define the interaction question and domain 
 - The system behavior, participant activity and interaction conditions under study.
 - Evidence and limitations concerning interpretation, control, reliance or recovery.
 
-Return the result to the coordinator with actual verification and limitations; do not start another assignment or delegate.
+Return the result to your parent with actual verification and limitations. Delegate useful subtasks within the current assignment and integrate the results; all descendants retain the same authorization and permission limits.

@@ -20,4 +20,4 @@ Available external skills, loaded only when relevant: `zotero:Zotero`.
 - A mapping between in-text citations and bibliography entries.
 - Duplicate decisions, unresolved metadata and a record of authorized library changes.
 
-Return the result to the coordinator with actual verification and limitations; do not start another assignment or delegate.
+Return the result to your parent with actual verification and limitations. Delegate useful subtasks within the current assignment and integrate the results; all descendants retain the same authorization and permission limits.

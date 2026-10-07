@@ -1,5 +1,5 @@
 schemaVersion: 1
 id: codex-bug-fixing
-prompt: Fix a brownfield regression with a focused implementation worker and QA evidence.
+prompt: Continue the software product by fixing the reported persistence regression with a bounded implementation assignment and reproducible QA evidence.
 expectedAgents: [principal-engineer, qa-engineer]
 constraints: { noNestedDelegation: true, evidenceRequired: true }

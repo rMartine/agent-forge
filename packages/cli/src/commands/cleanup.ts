@@ -7,23 +7,26 @@ import {
   resolveStatePath,
   saveCleanupPlan,
 } from '@agent-forge/core';
-import { printDiagnostics, repoPath, runtimeSelection } from '../output.js';
+import { copilotSelection, printDiagnostics, repoPath, runtimeSelection } from '../output.js';
 
 export function registerCleanup(program: Command): void {
   program.command('cleanup').description('Preview or apply stale ledger-owned customization cleanup')
     .requiredOption('--managed-only', 'Only unchanged ledger-owned files are eligible')
     .option('--target <target>', 'Runtime target', 'all')
+    .option('--rosters <rosters>', 'Copilot roster selection', 'all')
+    .option('--harness <harness>', 'VS Code hook engine: copilot or local', 'copilot')
     .option('--plan <id>', 'Immutable cleanup plan id')
     .option('--confirm <id>', 'Exact cleanup plan id confirmation')
     .option('--json', 'Emit JSON')
     .action(async options => {
       const repo = repoPath(program);
       const target = runtimeSelection(options.target);
+      const copilot = copilotSelection(options);
       const manifest = await loadManifest(repo);
       const statePath = resolveStatePath(manifest.targets.state);
       if (!options.plan) {
         if (options.confirm) throw new Error('--confirm requires --plan.');
-        const plan = await createCleanupPlan(repo, { target });
+        const plan = await createCleanupPlan(repo, { target, ...copilot });
         const planPath = await saveCleanupPlan(plan, statePath);
         const result = { ...plan, planPath };
         if (options.json) console.log(JSON.stringify(result, null, 2));

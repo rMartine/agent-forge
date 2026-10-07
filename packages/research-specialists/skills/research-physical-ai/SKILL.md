@@ -11,7 +11,7 @@ Read [the assignment conditions](../../roles/research-specialist-common.md). Sta
 
 Separate what the method observes from what the simulator exposes and what would be available on real hardware. Record temporal assumptions, delays, state uncertainty, action limits and the consequences of acting on an incorrect estimate. Identify whether rewards, demonstrations or labels encode assumptions that affect the intended behavior.
 
-Describe which components are learned and which are fixed models or controllers. Coordinate robotic system details with the robotics specialist and numerical model questions with the modeling specialist through the direction of research. Load the available digital-twin-researcher skill only if the actual assignment concerns a digital twin.
+Describe which components are learned and which are fixed models or controllers. Coordinate robotic system details with the robotics specialist and numerical model questions with the modeling specialist through the direction of research.
 
 ## Examine transfer and evidence
 

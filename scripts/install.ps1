@@ -14,7 +14,11 @@ param(
     [switch]$UsePrebuilt,
     [switch]$Deploy,
     [ValidateSet('vscode', 'codex', 'all')]
-    [string]$Target = 'all'
+    [string]$Target = 'vscode',
+    [ValidateSet('all')]
+    [string]$Rosters = 'all',
+    [ValidateSet('copilot', 'local')]
+    [string]$Harness = 'copilot'
 )
 
 $ErrorActionPreference = 'Stop'
@@ -32,11 +36,15 @@ try {
         throw "Prebuilt CLI not found: $Cli"
     }
 
+    if ($Target -ne 'vscode') {
+        & npm.cmd run prepare:skills
+        if ($LASTEXITCODE -ne 0) { throw 'Pinned skill preparation failed.' }
+    }
     & node $Cli --repo $RepoRoot validate --strict --target $Target
     if ($LASTEXITCODE -ne 0) { throw 'Roster validation failed.' }
-    & node $Cli --repo $RepoRoot doctor --profile full --target $Target
+    & node $Cli --repo $RepoRoot doctor --profile full --target $Target --rosters $Rosters --harness $Harness
     if ($LASTEXITCODE -ne 0) { throw 'Capability doctor failed. Resolve provider diagnostics before deployment.' }
-    $previewJson = & node $Cli --repo $RepoRoot preview --scope user --profile full --target $Target --json
+    $previewJson = & node $Cli --repo $RepoRoot preview --scope user --profile full --target $Target --rosters $Rosters --harness $Harness --json
     if ($LASTEXITCODE -ne 0) { throw 'Deployment preview failed.' }
     $preview = $previewJson | ConvertFrom-Json
     Write-Host "Immutable plan: $($preview.deploymentId)" -ForegroundColor Cyan

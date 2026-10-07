@@ -1,0 +1,1624 @@
+{
+  "schemaVersion": 1,
+  "observedAt": "2026-10-03T01:16:33.414Z",
+  "scope": "32 bounded synthetic assignments, 16 roles, two configurations per role; implementation checked independently and review criteria assessed by the primary agent.",
+  "costCategories": {
+    "gpt-6-luna": "lightweight",
+    "gpt-6.1-sol": "general-purpose",
+    "gpt-6-astra": "frontier"
+  },
+  "limitations": [
+    "The category ordering is the selection policy; measured billing equivalence or lower actual token consumption was not established.",
+    "Native delegation selected the requested configurations; per-specialist file precedence and observed hooks in Desktop/VS Code remain separate acceptance checks.",
+    "Some native workers completed multiple independent role assignments in one thread, with separate inputs and outputs and no access to other model responses.",
+    "UI reviews were static, not browser/device execution. Required bundles were outside the restricted evaluation directories and were not loaded.",
+    "The desktop evaluator escape repair is recorded separately; its syntax error was not a model failure."
+  ],
+  "assignments": [
+    {
+      "agent": "software-architect",
+      "model": "gpt-6.1-sol",
+      "reasoningEffort": "high",
+      "reason": "Both candidates met all criteria; choose the lower configured cost category, without estimating subscription charges."
+    },
+    {
+      "agent": "principal-engineer",
+      "model": "gpt-6.1-sol",
+      "reasoningEffort": "high",
+      "reason": "Both candidates met all criteria; choose the lower configured cost category, without estimating subscription charges."
+    },
+    {
+      "agent": "backend-developer",
+      "model": "gpt-6-luna",
+      "reasoningEffort": "high",
+      "reason": "Both candidates met all criteria; choose the lower configured cost category, without estimating subscription charges."
+    },
+    {
+      "agent": "frontend-developer",
+      "model": "gpt-6.1-sol",
+      "reasoningEffort": "medium",
+      "reason": "Only this candidate met all recorded criteria."
+    },
+    {
+      "agent": "database-engineer",
+      "model": "gpt-6.1-sol",
+      "reasoningEffort": "high",
+      "reason": "Both candidates met all criteria; choose the lower configured cost category, without estimating subscription charges."
+    },
+    {
+      "agent": "dotnet-engineer",
+      "model": "gpt-6-luna",
+      "reasoningEffort": "high",
+      "reason": "Both candidates met all criteria; choose the lower configured cost category, without estimating subscription charges."
+    },
+    {
+      "agent": "desktop-app-engineer",
+      "model": "gpt-6.1-sol",
+      "reasoningEffort": "high",
+      "reason": "Both candidates met all criteria; choose the lower configured cost category, without estimating subscription charges."
+    },
+    {
+      "agent": "mobile-engineer",
+      "model": "gpt-6-luna",
+      "reasoningEffort": "high",
+      "reason": "Only this candidate met all recorded criteria."
+    },
+    {
+      "agent": "ml-engineer",
+      "model": "gpt-6.1-sol",
+      "reasoningEffort": "high",
+      "reason": "Both candidates met all criteria; choose the lower configured cost category, without estimating subscription charges."
+    },
+    {
+      "agent": "agentic-systems-engineer",
+      "model": "gpt-6.1-sol",
+      "reasoningEffort": "high",
+      "reason": "Both candidates met all criteria; choose the lower configured cost category, without estimating subscription charges."
+    },
+    {
+      "agent": "digital-twin-engineer",
+      "model": "gpt-6.1-sol",
+      "reasoningEffort": "high",
+      "reason": "Both candidates met all criteria; choose the lower configured cost category, without estimating subscription charges."
+    },
+    {
+      "agent": "qa-engineer",
+      "model": "gpt-6-luna",
+      "reasoningEffort": "high",
+      "reason": "Both candidates met all criteria; choose the lower configured cost category, without estimating subscription charges."
+    },
+    {
+      "agent": "cybersecurity-engineer",
+      "model": "gpt-6.1-sol",
+      "reasoningEffort": "high",
+      "reason": "Both candidates met all criteria; choose the lower configured cost category, without estimating subscription charges."
+    },
+    {
+      "agent": "devops-engineer",
+      "model": "gpt-6.1-sol",
+      "reasoningEffort": "high",
+      "reason": "Both candidates met all criteria; choose the lower configured cost category, without estimating subscription charges."
+    },
+    {
+      "agent": "ux-engineer",
+      "model": "gpt-6.1-sol",
+      "reasoningEffort": "medium",
+      "reason": "Only this candidate met all recorded criteria."
+    },
+    {
+      "agent": "technical-writer",
+      "model": "gpt-6-luna",
+      "reasoningEffort": "high",
+      "reason": "Both candidates met all criteria; choose the lower configured cost category, without estimating subscription charges."
+    }
+  ],
+  "observations": [
+    {
+      "agent": "software-architect",
+      "model": "gpt-6-astra",
+      "reasoningEffort": "high",
+      "outcome": "passed",
+      "preparedDefinitionsHash": "8c2fe2ae09f776929d0b95ee5086cb9c800af435ca757c7b0b719e780959f0e1",
+      "verifiedDefinitionsHash": "86af574fdc6d827a8746ff9def8b0614712133e3087336cc4b7a3438ab23ea87",
+      "roleHash": "864c9e55d2c3a0d0638f7c7ce50c5fc7bd271a1d4ac146547f67b81c775335f3",
+      "promptHash": "e703ffdc091aea0424757047ebb664d58076c1cd247c2e332ea273eec53888ba",
+      "artifacts": [
+        {
+          "path": "assessment.md",
+          "sha256": "d5cdeda99378dcb3db2789b0b9c1d58bbf954e00876b844cc5337c129bdb4bb3"
+        }
+      ],
+      "checks": [
+        {
+          "name": "Preserve proposal.md",
+          "passed": true
+        },
+        {
+          "name": "Preserve retained user material",
+          "passed": true
+        }
+      ],
+      "review": [
+        {
+          "criterion": "Ownership check must use authenticated actor, not supplied userId.",
+          "met": true
+        },
+        {
+          "criterion": "Explains concurrent balance / duplicate-charge race.",
+          "met": true
+        },
+        {
+          "criterion": "Separates durable reservation/state from remote call; does not hold SQL transaction during provider call.",
+          "met": true
+        },
+        {
+          "criterion": "Uses stable idempotency across retry and durable recovery, including uncertain provider outcomes.",
+          "met": true
+        },
+        {
+          "criterion": "Preserves results and supplies reproducible concurrency/timeout checks.",
+          "met": true
+        }
+      ],
+      "evidenceDirectory": ".cache/model-comparison/2026-10-03-native-configurations/software-architect--gpt-6-astra",
+      "requestedThrough": "native collaboration tool",
+      "modelObservedInClientHook": null,
+      "durationMs": null,
+      "consumption": null
+    },
+    {
+      "agent": "software-architect",
+      "model": "gpt-6.1-sol",
+      "reasoningEffort": "high",
+      "outcome": "passed",
+      "preparedDefinitionsHash": "8c2fe2ae09f776929d0b95ee5086cb9c800af435ca757c7b0b719e780959f0e1",
+      "verifiedDefinitionsHash": "86af574fdc6d827a8746ff9def8b0614712133e3087336cc4b7a3438ab23ea87",
+      "roleHash": "5d0a0c1eb5582da828b365bad425e414cfe63c3bf18bcc93f4e8584d359b343e",
+      "promptHash": "e703ffdc091aea0424757047ebb664d58076c1cd247c2e332ea273eec53888ba",
+      "artifacts": [
+        {
+          "path": "assessment.md",
+          "sha256": "c50b6da756eac6d6e9282697e8f65eb8974edde6b823be25cf39fc7a5f9e25ca"
+        }
+      ],
+      "checks": [
+        {
+          "name": "Preserve proposal.md",
+          "passed": true
+        },
+        {
+          "name": "Preserve retained user material",
+          "passed": true
+        }
+      ],
+      "review": [
+        {
+          "criterion": "Ownership check must use authenticated actor, not supplied userId.",
+          "met": true
+        },
+        {
+          "criterion": "Explains concurrent balance / duplicate-charge race.",
+          "met": true
+        },
+        {
+          "criterion": "Separates durable reservation/state from remote call; does not hold SQL transaction during provider call.",
+          "met": true
+        },
+        {
+          "criterion": "Uses stable idempotency across retry and durable recovery, including uncertain provider outcomes.",
+          "met": true
+        },
+        {
+          "criterion": "Preserves results and supplies reproducible concurrency/timeout checks.",
+          "met": true
+        }
+      ],
+      "evidenceDirectory": ".cache/model-comparison/2026-10-03-native-configurations/software-architect--gpt-6.1-sol",
+      "requestedThrough": "native collaboration tool",
+      "modelObservedInClientHook": null,
+      "durationMs": null,
+      "consumption": null
+    },
+    {
+      "agent": "principal-engineer",
+      "model": "gpt-6.1-sol",
+      "reasoningEffort": "high",
+      "outcome": "passed",
+      "preparedDefinitionsHash": "8c2fe2ae09f776929d0b95ee5086cb9c800af435ca757c7b0b719e780959f0e1",
+      "roleHash": "73ebfc5ee0f8be3768dec066bd0ab15e39dda92edfd998cc342eeb7491976b88",
+      "promptHash": "d9adc1600e0b90a829abdf80f13b8410f29623d9a8d06ed4fedd0e4fd7d22dbb",
+      "artifacts": [
+        {
+          "path": "solution.mjs",
+          "sha256": "d26c990f583e4f0b7285eca05da998bbb6d162ef20793fe9e72a43984ce03fa1"
+        }
+      ],
+      "checks": [
+        {
+          "name": "Preserve package.json",
+          "passed": true
+        },
+        {
+          "name": "Preserve retained user material",
+          "passed": true
+        },
+        {
+          "name": "Independent implementation acceptance",
+          "passed": true
+        }
+      ],
+      "review": [],
+      "evidenceDirectory": ".cache/model-comparison/2026-10-03-native-configurations/principal-engineer--gpt-6.1-sol",
+      "requestedThrough": "native collaboration tool",
+      "modelObservedInClientHook": null,
+      "durationMs": null,
+      "consumption": null
+    },
+    {
+      "agent": "principal-engineer",
+      "model": "gpt-6-astra",
+      "reasoningEffort": "high",
+      "outcome": "passed",
+      "preparedDefinitionsHash": "8c2fe2ae09f776929d0b95ee5086cb9c800af435ca757c7b0b719e780959f0e1",
+      "verifiedDefinitionsHash": "86af574fdc6d827a8746ff9def8b0614712133e3087336cc4b7a3438ab23ea87",
+      "roleHash": "12d0fdd6ebca06b9802ac41605f7724639661b394041239cdacb7e2f48422bab",
+      "promptHash": "d9adc1600e0b90a829abdf80f13b8410f29623d9a8d06ed4fedd0e4fd7d22dbb",
+      "artifacts": [
+        {
+          "path": "solution.mjs",
+          "sha256": "1ec8d013f788f0df39b0c97b951aa728b80195b349f1bfb2219b5809bce70138"
+        }
+      ],
+      "checks": [
+        {
+          "name": "Preserve package.json",
+          "passed": true
+        },
+        {
+          "name": "Preserve retained user material",
+          "passed": true
+        },
+        {
+          "name": "Independent implementation acceptance",
+          "passed": true
+        }
+      ],
+      "review": [],
+      "evidenceDirectory": ".cache/model-comparison/2026-10-03-native-configurations/principal-engineer--gpt-6-astra",
+      "requestedThrough": "native collaboration tool",
+      "modelObservedInClientHook": null,
+      "durationMs": null,
+      "consumption": null
+    },
+    {
+      "agent": "backend-developer",
+      "model": "gpt-6.1-sol",
+      "reasoningEffort": "high",
+      "outcome": "passed",
+      "preparedDefinitionsHash": "8c2fe2ae09f776929d0b95ee5086cb9c800af435ca757c7b0b719e780959f0e1",
+      "verifiedDefinitionsHash": "86af574fdc6d827a8746ff9def8b0614712133e3087336cc4b7a3438ab23ea87",
+      "roleHash": "3661a52df73d13d7654ad656a6bf93f848650021f9398eaf8939efc5a56b9dbe",
+      "promptHash": "f4888ed9eef28fb054630eab975586476d46c77629691c54ccb9ecf898bf8b07",
+      "artifacts": [
+        {
+          "path": "solution.mjs",
+          "sha256": "65c19033e47f488be1b689c7c081ecbf40da3a128578c2d05b075a26cf4dec78"
+        }
+      ],
+      "checks": [
+        {
+          "name": "Preserve package.json",
+          "passed": true
+        },
+        {
+          "name": "Preserve retained user material",
+          "passed": true
+        },
+        {
+          "name": "Independent implementation acceptance",
+          "passed": true
+        }
+      ],
+      "review": [],
+      "evidenceDirectory": ".cache/model-comparison/2026-10-03-native-configurations/backend-developer--gpt-6.1-sol",
+      "requestedThrough": "native collaboration tool",
+      "modelObservedInClientHook": null,
+      "durationMs": null,
+      "consumption": null
+    },
+    {
+      "agent": "backend-developer",
+      "model": "gpt-6-luna",
+      "reasoningEffort": "high",
+      "outcome": "passed",
+      "preparedDefinitionsHash": "8c2fe2ae09f776929d0b95ee5086cb9c800af435ca757c7b0b719e780959f0e1",
+      "verifiedDefinitionsHash": "86af574fdc6d827a8746ff9def8b0614712133e3087336cc4b7a3438ab23ea87",
+      "roleHash": "8b92ffa6102644a33c5939e1f4cdee53d064c0c54d139503074051c219611909",
+      "promptHash": "f4888ed9eef28fb054630eab975586476d46c77629691c54ccb9ecf898bf8b07",
+      "artifacts": [
+        {
+          "path": "solution.mjs",
+          "sha256": "04002afe34c64783a7fef60aef4c2cbb6481439669068c358e61cd0006c451d6"
+        }
+      ],
+      "checks": [
+        {
+          "name": "Preserve package.json",
+          "passed": true
+        },
+        {
+          "name": "Preserve retained user material",
+          "passed": true
+        },
+        {
+          "name": "Independent implementation acceptance",
+          "passed": true
+        }
+      ],
+      "review": [],
+      "evidenceDirectory": ".cache/model-comparison/2026-10-03-native-configurations/backend-developer--gpt-6-luna",
+      "requestedThrough": "native collaboration tool",
+      "modelObservedInClientHook": null,
+      "durationMs": null,
+      "consumption": null
+    },
+    {
+      "agent": "frontend-developer",
+      "model": "gpt-6.1-sol",
+      "reasoningEffort": "medium",
+      "outcome": "passed",
+      "preparedDefinitionsHash": "8c2fe2ae09f776929d0b95ee5086cb9c800af435ca757c7b0b719e780959f0e1",
+      "verifiedDefinitionsHash": "86af574fdc6d827a8746ff9def8b0614712133e3087336cc4b7a3438ab23ea87",
+      "roleHash": "31f5fdde668d9ef2f3009db72dc8c7ae7373bc3c653e876d914c8ace27ea4b8e",
+      "promptHash": "529fe887ed7ebec0d435b9ae0f5bc33a2a1f6a6c009cf761842bef94511104c0",
+      "artifacts": [
+        {
+          "path": "assessment.md",
+          "sha256": "204780d93e455f990c11c10eaa6339eb774e6276a253565f846f079c6bcc911d"
+        }
+      ],
+      "checks": [
+        {
+          "name": "Preserve EmailForm.tsx",
+          "passed": true
+        },
+        {
+          "name": "Preserve retained user material",
+          "passed": true
+        }
+      ],
+      "review": [
+        {
+          "criterion": "Uses client component with controlled state, semantic form and label, typed/validated email.",
+          "met": true
+        },
+        {
+          "criterion": "Handles non-OK HTTP and thrown requests, pending and retry states.",
+          "met": true
+        },
+        {
+          "criterion": "Prevents double submission and stale/unmounted updates.",
+          "met": true
+        },
+        {
+          "criterion": "Accessible status/error announcement, keyboard submission and disabled/loading behavior.",
+          "met": true
+        },
+        {
+          "criterion": "Does not change stack, invent execution, or install packages.",
+          "met": true
+        }
+      ],
+      "evidenceDirectory": ".cache/model-comparison/2026-10-03-native-configurations/frontend-developer--gpt-6.1-sol",
+      "requestedThrough": "native collaboration tool",
+      "modelObservedInClientHook": null,
+      "durationMs": null,
+      "consumption": null
+    },
+    {
+      "agent": "frontend-developer",
+      "model": "gpt-6-luna",
+      "reasoningEffort": "high",
+      "outcome": "failed",
+      "preparedDefinitionsHash": "8c2fe2ae09f776929d0b95ee5086cb9c800af435ca757c7b0b719e780959f0e1",
+      "verifiedDefinitionsHash": "86af574fdc6d827a8746ff9def8b0614712133e3087336cc4b7a3438ab23ea87",
+      "roleHash": "797fcb1ddd01a8916a1816cb1a5632b7c24d0a3be7f410be6c330fda80583616",
+      "promptHash": "529fe887ed7ebec0d435b9ae0f5bc33a2a1f6a6c009cf761842bef94511104c0",
+      "artifacts": [
+        {
+          "path": "assessment.md",
+          "sha256": "30e107555698765a610c65aa82a0054f0c034a3076b5b7603cd53a0e95685ef7"
+        }
+      ],
+      "checks": [
+        {
+          "name": "Preserve EmailForm.tsx",
+          "passed": true
+        },
+        {
+          "name": "Preserve retained user material",
+          "passed": true
+        }
+      ],
+      "review": [
+        {
+          "criterion": "Uses client component with controlled state, semantic form and label, typed/validated email.",
+          "met": true
+        },
+        {
+          "criterion": "Handles non-OK HTTP and thrown requests, pending and retry states.",
+          "met": true
+        },
+        {
+          "criterion": "Prevents double submission and stale/unmounted updates.",
+          "met": false,
+          "finding": "The sequence is checked only in finally. Success writes state without checking current request identity or abort after unmount; the editable pending input also permits an old response to describe a different address."
+        },
+        {
+          "criterion": "Accessible status/error announcement, keyboard submission and disabled/loading behavior.",
+          "met": true
+        },
+        {
+          "criterion": "Does not change stack, invent execution, or install packages.",
+          "met": true
+        }
+      ],
+      "evidenceDirectory": ".cache/model-comparison/2026-10-03-native-configurations/frontend-developer--gpt-6-luna",
+      "requestedThrough": "native collaboration tool",
+      "modelObservedInClientHook": null,
+      "durationMs": null,
+      "consumption": null
+    },
+    {
+      "agent": "database-engineer",
+      "model": "gpt-6.1-sol",
+      "reasoningEffort": "high",
+      "outcome": "passed",
+      "preparedDefinitionsHash": "8c2fe2ae09f776929d0b95ee5086cb9c800af435ca757c7b0b719e780959f0e1",
+      "verifiedDefinitionsHash": "86af574fdc6d827a8746ff9def8b0614712133e3087336cc4b7a3438ab23ea87",
+      "roleHash": "0964c219ce00e11001d9700189cc7067a0060a99120cdcc41079ffd7ddee7960",
+      "promptHash": "722d61efa98e479af8c55011e1342e505081271bf7b95de4711cd6904b65dca0",
+      "artifacts": [
+        {
+          "path": "assessment.md",
+          "sha256": "6bfa0e586caf1c2a959b827cff85b7ba785cabf56fddf1429e2025cf502d8335"
+        }
+      ],
+      "checks": [
+        {
+          "name": "Preserve migration.sql",
+          "passed": true
+        },
+        {
+          "name": "Preserve mutation.sql",
+          "passed": true
+        },
+        {
+          "name": "Preserve requirements.md",
+          "passed": true
+        },
+        {
+          "name": "Preserve retained user material",
+          "passed": true
+        }
+      ],
+      "review": [
+        {
+          "criterion": "Unique constraint covers tenant_id and request_key.",
+          "met": true
+        },
+        {
+          "criterion": "Rejects destructive column removal and silent duplicate deletion.",
+          "met": true
+        },
+        {
+          "criterion": "Makes idempotency decision and charge atomic with rollback.",
+          "met": true
+        },
+        {
+          "criterion": "Uses conditional debit/locking preventing concurrent negative balance and validates positive amount.",
+          "met": true
+        },
+        {
+          "criterion": "Handles repeated key with different amount; includes migration and concurrency acceptance checks.",
+          "met": true
+        }
+      ],
+      "evidenceDirectory": ".cache/model-comparison/2026-10-03-native-configurations/database-engineer--gpt-6.1-sol",
+      "requestedThrough": "native collaboration tool",
+      "modelObservedInClientHook": null,
+      "durationMs": null,
+      "consumption": null
+    },
+    {
+      "agent": "database-engineer",
+      "model": "gpt-6-astra",
+      "reasoningEffort": "high",
+      "outcome": "passed",
+      "preparedDefinitionsHash": "8c2fe2ae09f776929d0b95ee5086cb9c800af435ca757c7b0b719e780959f0e1",
+      "verifiedDefinitionsHash": "86af574fdc6d827a8746ff9def8b0614712133e3087336cc4b7a3438ab23ea87",
+      "roleHash": "129c4a88b0284d04a03fe4958914132c3c10699637e65bed764f3a28c5ef2f0d",
+      "promptHash": "722d61efa98e479af8c55011e1342e505081271bf7b95de4711cd6904b65dca0",
+      "artifacts": [
+        {
+          "path": "assessment.md",
+          "sha256": "fc313731f488c9a6b80d360fe307bf81309c0dba229a1f771da069417ec928cb"
+        }
+      ],
+      "checks": [
+        {
+          "name": "Preserve migration.sql",
+          "passed": true
+        },
+        {
+          "name": "Preserve mutation.sql",
+          "passed": true
+        },
+        {
+          "name": "Preserve requirements.md",
+          "passed": true
+        },
+        {
+          "name": "Preserve retained user material",
+          "passed": true
+        }
+      ],
+      "review": [
+        {
+          "criterion": "Unique constraint covers tenant_id and request_key.",
+          "met": true
+        },
+        {
+          "criterion": "Rejects destructive column removal and silent duplicate deletion.",
+          "met": true
+        },
+        {
+          "criterion": "Makes idempotency decision and charge atomic with rollback.",
+          "met": true
+        },
+        {
+          "criterion": "Uses conditional debit/locking preventing concurrent negative balance and validates positive amount.",
+          "met": true
+        },
+        {
+          "criterion": "Handles repeated key with different amount; includes migration and concurrency acceptance checks.",
+          "met": true
+        }
+      ],
+      "evidenceDirectory": ".cache/model-comparison/2026-10-03-native-configurations/database-engineer--gpt-6-astra",
+      "requestedThrough": "native collaboration tool",
+      "modelObservedInClientHook": null,
+      "durationMs": null,
+      "consumption": null
+    },
+    {
+      "agent": "dotnet-engineer",
+      "model": "gpt-6.1-sol",
+      "reasoningEffort": "high",
+      "outcome": "passed",
+      "preparedDefinitionsHash": "8c2fe2ae09f776929d0b95ee5086cb9c800af435ca757c7b0b719e780959f0e1",
+      "verifiedDefinitionsHash": "86af574fdc6d827a8746ff9def8b0614712133e3087336cc4b7a3438ab23ea87",
+      "roleHash": "d0bc9a016f550d935b71b9e8197fc663b3b8b5a475b7780ffc5e18ac737782ee",
+      "promptHash": "afd644ad8a7768e537b3bd6d613e7e7f52665d0b215cc914ebe043dab3b2b924",
+      "artifacts": [
+        {
+          "path": "Money.cs",
+          "sha256": "a0f2b573f32f7226d3b0334c169197e276de3a152bf597f24ea0be9431c80dc5"
+        }
+      ],
+      "checks": [
+        {
+          "name": "Preserve Evaluation.csproj",
+          "passed": true
+        },
+        {
+          "name": "Preserve Program.cs",
+          "passed": true
+        },
+        {
+          "name": "Preserve retained user material",
+          "passed": true
+        },
+        {
+          "name": "Independent decimal allocation acceptance",
+          "passed": true
+        }
+      ],
+      "review": [],
+      "evidenceDirectory": ".cache/model-comparison/2026-10-03-native-configurations/dotnet-engineer--gpt-6.1-sol",
+      "requestedThrough": "native collaboration tool",
+      "modelObservedInClientHook": null,
+      "durationMs": null,
+      "consumption": null
+    },
+    {
+      "agent": "dotnet-engineer",
+      "model": "gpt-6-luna",
+      "reasoningEffort": "high",
+      "outcome": "passed",
+      "preparedDefinitionsHash": "8c2fe2ae09f776929d0b95ee5086cb9c800af435ca757c7b0b719e780959f0e1",
+      "verifiedDefinitionsHash": "86af574fdc6d827a8746ff9def8b0614712133e3087336cc4b7a3438ab23ea87",
+      "roleHash": "40f9cfc421ececab75f97a1b57b09703e3d78db4a35e720b5193990e5b9c990a",
+      "promptHash": "afd644ad8a7768e537b3bd6d613e7e7f52665d0b215cc914ebe043dab3b2b924",
+      "artifacts": [
+        {
+          "path": "Money.cs",
+          "sha256": "51082193547849425fa0d006c1881c94fdc3d40367a26797ae8f5404ab6ebf2b"
+        }
+      ],
+      "checks": [
+        {
+          "name": "Preserve Evaluation.csproj",
+          "passed": true
+        },
+        {
+          "name": "Preserve Program.cs",
+          "passed": true
+        },
+        {
+          "name": "Preserve retained user material",
+          "passed": true
+        },
+        {
+          "name": "Independent decimal allocation acceptance",
+          "passed": true
+        }
+      ],
+      "review": [],
+      "evidenceDirectory": ".cache/model-comparison/2026-10-03-native-configurations/dotnet-engineer--gpt-6-luna",
+      "requestedThrough": "native collaboration tool",
+      "modelObservedInClientHook": null,
+      "durationMs": null,
+      "consumption": null
+    },
+    {
+      "agent": "desktop-app-engineer",
+      "model": "gpt-6.1-sol",
+      "reasoningEffort": "high",
+      "outcome": "passed",
+      "preparedDefinitionsHash": "8c2fe2ae09f776929d0b95ee5086cb9c800af435ca757c7b0b719e780959f0e1",
+      "verifiedDefinitionsHash": "86af574fdc6d827a8746ff9def8b0614712133e3087336cc4b7a3438ab23ea87",
+      "roleHash": "0ab713f903630d68bd8660c1eaa8e04906a568d75af1df71885cf7cbfa28b143",
+      "promptHash": "b396b13802a534eb40801d5865a23fc517f4bb2dff5647b6da300f6c2fae141e",
+      "artifacts": [
+        {
+          "path": "solution.mjs",
+          "sha256": "2ac917fdbc1e4f9097ea405109f4efbceb76f0f607822355ae185f72edfad96e"
+        }
+      ],
+      "checks": [
+        {
+          "name": "Preserve package.json",
+          "passed": true
+        },
+        {
+          "name": "Preserve retained user material",
+          "passed": true
+        },
+        {
+          "name": "Independent implementation acceptance",
+          "passed": true
+        }
+      ],
+      "review": [],
+      "evidenceDirectory": ".cache/model-comparison/2026-10-03-native-configurations/desktop-app-engineer--gpt-6.1-sol",
+      "requestedThrough": "native collaboration tool",
+      "modelObservedInClientHook": null,
+      "durationMs": null,
+      "consumption": null
+    },
+    {
+      "agent": "desktop-app-engineer",
+      "model": "gpt-6-astra",
+      "reasoningEffort": "high",
+      "outcome": "passed",
+      "preparedDefinitionsHash": "8c2fe2ae09f776929d0b95ee5086cb9c800af435ca757c7b0b719e780959f0e1",
+      "verifiedDefinitionsHash": "86af574fdc6d827a8746ff9def8b0614712133e3087336cc4b7a3438ab23ea87",
+      "roleHash": "578974c0c4bb7f9045a9c6e692f2d11bbcaa2d74b2ab5346a74997642ac0f619",
+      "promptHash": "b396b13802a534eb40801d5865a23fc517f4bb2dff5647b6da300f6c2fae141e",
+      "artifacts": [
+        {
+          "path": "solution.mjs",
+          "sha256": "56496ec327c8f59f78b3cd227224031c58c8acedbcdffdeee975fd80cd796054"
+        }
+      ],
+      "checks": [
+        {
+          "name": "Preserve package.json",
+          "passed": true
+        },
+        {
+          "name": "Preserve retained user material",
+          "passed": true
+        },
+        {
+          "name": "Independent implementation acceptance",
+          "passed": true
+        }
+      ],
+      "review": [],
+      "evidenceDirectory": ".cache/model-comparison/2026-10-03-native-configurations/desktop-app-engineer--gpt-6-astra",
+      "requestedThrough": "native collaboration tool",
+      "modelObservedInClientHook": null,
+      "durationMs": null,
+      "consumption": null
+    },
+    {
+      "agent": "mobile-engineer",
+      "model": "gpt-6.1-sol",
+      "reasoningEffort": "high",
+      "outcome": "failed",
+      "preparedDefinitionsHash": "8c2fe2ae09f776929d0b95ee5086cb9c800af435ca757c7b0b719e780959f0e1",
+      "verifiedDefinitionsHash": "86af574fdc6d827a8746ff9def8b0614712133e3087336cc4b7a3438ab23ea87",
+      "roleHash": "dea1d6c70357a503ca80e4a8452a7ec6e870762556db61b8cf99a1ac8d46f5a8",
+      "promptHash": "036a2f5e71ef97642a0375f96b27d0ae7e499d590c1cbf0e67aaefcf2e93dc22",
+      "artifacts": [
+        {
+          "path": "assessment.md",
+          "sha256": "b6998601b011b842c7b00fcc484db3387aa572738a6befcb1fe92b5e7cce76ce"
+        }
+      ],
+      "checks": [
+        {
+          "name": "Preserve Sheet.tsx",
+          "passed": true
+        },
+        {
+          "name": "Preserve retained user material",
+          "passed": true
+        }
+      ],
+      "review": [
+        {
+          "criterion": "Uses shared values/worklets and animated styles rather than setState per frame.",
+          "met": true
+        },
+        {
+          "criterion": "Runs JS side effect only on completion and prevents accidental/repeated destructive activation.",
+          "met": false,
+          "finding": "onFinalize and the button invoke onDelete without a guard against repeated destructive activation."
+        },
+        {
+          "criterion": "Provides accessible named button/action and preserves text scaling.",
+          "met": true
+        },
+        {
+          "criterion": "Accounts for reduced motion, velocity/cancellation and confirmation or undo for deletion.",
+          "met": false,
+          "finding": "The proposal resets cancellation and respects reduced motion, but does not cover velocity or confirmation/undo, which were recorded acceptance criteria before execution."
+        },
+        {
+          "criterion": "Uses compatible APIs or explicitly identifies version checks; does not claim real-device validation.",
+          "met": true
+        }
+      ],
+      "evidenceDirectory": ".cache/model-comparison/2026-10-03-native-configurations/mobile-engineer--gpt-6.1-sol",
+      "requestedThrough": "native collaboration tool",
+      "modelObservedInClientHook": null,
+      "durationMs": null,
+      "consumption": null
+    },
+    {
+      "agent": "mobile-engineer",
+      "model": "gpt-6-luna",
+      "reasoningEffort": "high",
+      "outcome": "passed",
+      "preparedDefinitionsHash": "8c2fe2ae09f776929d0b95ee5086cb9c800af435ca757c7b0b719e780959f0e1",
+      "verifiedDefinitionsHash": "86af574fdc6d827a8746ff9def8b0614712133e3087336cc4b7a3438ab23ea87",
+      "roleHash": "3811aa36fdb5647c6ac058540e83857b9af584aa4a0040097a9b12df0c725c7b",
+      "promptHash": "036a2f5e71ef97642a0375f96b27d0ae7e499d590c1cbf0e67aaefcf2e93dc22",
+      "artifacts": [
+        {
+          "path": "assessment.md",
+          "sha256": "88920250a7e41bcfaa202dbb7b9aef4b195a22d156f134e8007ed29f811c16c4"
+        }
+      ],
+      "checks": [
+        {
+          "name": "Preserve Sheet.tsx",
+          "passed": true
+        },
+        {
+          "name": "Preserve retained user material",
+          "passed": true
+        }
+      ],
+      "review": [
+        {
+          "criterion": "Uses shared values/worklets and animated styles rather than setState per frame.",
+          "met": true
+        },
+        {
+          "criterion": "Runs JS side effect only on completion and prevents accidental/repeated destructive activation.",
+          "met": true
+        },
+        {
+          "criterion": "Provides accessible named button/action and preserves text scaling.",
+          "met": true
+        },
+        {
+          "criterion": "Accounts for reduced motion, velocity/cancellation and confirmation or undo for deletion.",
+          "met": true
+        },
+        {
+          "criterion": "Uses compatible APIs or explicitly identifies version checks; does not claim real-device validation.",
+          "met": true
+        }
+      ],
+      "evidenceDirectory": ".cache/model-comparison/2026-10-03-native-configurations/mobile-engineer--gpt-6-luna",
+      "requestedThrough": "native collaboration tool",
+      "modelObservedInClientHook": null,
+      "durationMs": null,
+      "consumption": null
+    },
+    {
+      "agent": "ml-engineer",
+      "model": "gpt-6.1-sol",
+      "reasoningEffort": "high",
+      "outcome": "passed",
+      "preparedDefinitionsHash": "8c2fe2ae09f776929d0b95ee5086cb9c800af435ca757c7b0b719e780959f0e1",
+      "verifiedDefinitionsHash": "86af574fdc6d827a8746ff9def8b0614712133e3087336cc4b7a3438ab23ea87",
+      "roleHash": "e73ab04974f9f86ef837dd6e09ab654d573b744ce1b2092eb1a52120df061a07",
+      "promptHash": "6c134b0bbc47941e8b7bf4b60ba8f6995cd2684b4a2da74d14c92bdaccf8a5b6",
+      "artifacts": [
+        {
+          "path": "solution.mjs",
+          "sha256": "7ccd333ec0f051e980826b025c8dae3b7d233b6c8422dd2d07bed7310463eefb"
+        }
+      ],
+      "checks": [
+        {
+          "name": "Preserve package.json",
+          "passed": true
+        },
+        {
+          "name": "Preserve retained user material",
+          "passed": true
+        },
+        {
+          "name": "Independent implementation acceptance",
+          "passed": true
+        }
+      ],
+      "review": [],
+      "evidenceDirectory": ".cache/model-comparison/2026-10-03-native-configurations/ml-engineer--gpt-6.1-sol",
+      "requestedThrough": "native collaboration tool",
+      "modelObservedInClientHook": null,
+      "durationMs": null,
+      "consumption": null
+    },
+    {
+      "agent": "ml-engineer",
+      "model": "gpt-6-astra",
+      "reasoningEffort": "high",
+      "outcome": "passed",
+      "preparedDefinitionsHash": "8c2fe2ae09f776929d0b95ee5086cb9c800af435ca757c7b0b719e780959f0e1",
+      "verifiedDefinitionsHash": "86af574fdc6d827a8746ff9def8b0614712133e3087336cc4b7a3438ab23ea87",
+      "roleHash": "79bba67b886d11e03384b47364099dab7af73ddc7e143460ae3f244bed3dbf77",
+      "promptHash": "6c134b0bbc47941e8b7bf4b60ba8f6995cd2684b4a2da74d14c92bdaccf8a5b6",
+      "artifacts": [
+        {
+          "path": "solution.mjs",
+          "sha256": "13872f12944e31d412afbbb50cb02ff54e098a3614379bf2874a56e05eb44446"
+        }
+      ],
+      "checks": [
+        {
+          "name": "Preserve package.json",
+          "passed": true
+        },
+        {
+          "name": "Preserve retained user material",
+          "passed": true
+        },
+        {
+          "name": "Independent implementation acceptance",
+          "passed": true
+        }
+      ],
+      "review": [],
+      "evidenceDirectory": ".cache/model-comparison/2026-10-03-native-configurations/ml-engineer--gpt-6-astra",
+      "requestedThrough": "native collaboration tool",
+      "modelObservedInClientHook": null,
+      "durationMs": null,
+      "consumption": null
+    },
+    {
+      "agent": "agentic-systems-engineer",
+      "model": "gpt-6.1-sol",
+      "reasoningEffort": "high",
+      "outcome": "passed",
+      "preparedDefinitionsHash": "8c2fe2ae09f776929d0b95ee5086cb9c800af435ca757c7b0b719e780959f0e1",
+      "verifiedDefinitionsHash": "86af574fdc6d827a8746ff9def8b0614712133e3087336cc4b7a3438ab23ea87",
+      "roleHash": "9df5d89fcb8e6f96ed0ac74b573300a3c941d7a3b84e5a286ffd46c3aeaed075",
+      "promptHash": "7ffb8cec6a97045cf3c744763347ee7c3df1838a554742ef9fcb60c2322f0e6d",
+      "artifacts": [
+        {
+          "path": "solution.mjs",
+          "sha256": "9b696b4d21d9cb0a9bca64226e6a32c6778f4658722d625aa487c87cdde91b60"
+        }
+      ],
+      "checks": [
+        {
+          "name": "Preserve package.json",
+          "passed": true
+        },
+        {
+          "name": "Preserve retained user material",
+          "passed": true
+        },
+        {
+          "name": "Independent implementation acceptance",
+          "passed": true
+        }
+      ],
+      "review": [],
+      "evidenceDirectory": ".cache/model-comparison/2026-10-03-native-configurations/agentic-systems-engineer--gpt-6.1-sol",
+      "requestedThrough": "native collaboration tool",
+      "modelObservedInClientHook": null,
+      "durationMs": null,
+      "consumption": null
+    },
+    {
+      "agent": "agentic-systems-engineer",
+      "model": "gpt-6-astra",
+      "reasoningEffort": "high",
+      "outcome": "passed",
+      "preparedDefinitionsHash": "8c2fe2ae09f776929d0b95ee5086cb9c800af435ca757c7b0b719e780959f0e1",
+      "verifiedDefinitionsHash": "86af574fdc6d827a8746ff9def8b0614712133e3087336cc4b7a3438ab23ea87",
+      "roleHash": "5af7be3610327eac33f427c784ea50cc454467fab533354e7e11c63c5d8e96fb",
+      "promptHash": "7ffb8cec6a97045cf3c744763347ee7c3df1838a554742ef9fcb60c2322f0e6d",
+      "artifacts": [
+        {
+          "path": "solution.mjs",
+          "sha256": "b28ec79e0397bfe4afc18293d2e1ab32d990cae1b060b129d2003b165e461927"
+        }
+      ],
+      "checks": [
+        {
+          "name": "Preserve package.json",
+          "passed": true
+        },
+        {
+          "name": "Preserve retained user material",
+          "passed": true
+        },
+        {
+          "name": "Independent implementation acceptance",
+          "passed": true
+        }
+      ],
+      "review": [],
+      "evidenceDirectory": ".cache/model-comparison/2026-10-03-native-configurations/agentic-systems-engineer--gpt-6-astra",
+      "requestedThrough": "native collaboration tool",
+      "modelObservedInClientHook": null,
+      "durationMs": null,
+      "consumption": null
+    },
+    {
+      "agent": "digital-twin-engineer",
+      "model": "gpt-6.1-sol",
+      "reasoningEffort": "high",
+      "outcome": "passed",
+      "preparedDefinitionsHash": "8c2fe2ae09f776929d0b95ee5086cb9c800af435ca757c7b0b719e780959f0e1",
+      "verifiedDefinitionsHash": "86af574fdc6d827a8746ff9def8b0614712133e3087336cc4b7a3438ab23ea87",
+      "roleHash": "4fe2f7a4da795ec4ebf20e3e583e01256d11eb94e496a5bbf6bb092f001480b4",
+      "promptHash": "3da66078247d5c0385b53e02891260998aeee9cc7b6c358fcd03a5437994200d",
+      "artifacts": [
+        {
+          "path": "solution.mjs",
+          "sha256": "9caae9d157e29a2c1731f85ef7cc96f57efcfdffd17d5b8d81c2426c7383562f"
+        }
+      ],
+      "checks": [
+        {
+          "name": "Preserve package.json",
+          "passed": true
+        },
+        {
+          "name": "Preserve retained user material",
+          "passed": true
+        },
+        {
+          "name": "Independent implementation acceptance",
+          "passed": true
+        }
+      ],
+      "review": [],
+      "evidenceDirectory": ".cache/model-comparison/2026-10-03-native-configurations/digital-twin-engineer--gpt-6.1-sol",
+      "requestedThrough": "native collaboration tool",
+      "modelObservedInClientHook": null,
+      "durationMs": null,
+      "consumption": null
+    },
+    {
+      "agent": "digital-twin-engineer",
+      "model": "gpt-6-astra",
+      "reasoningEffort": "high",
+      "outcome": "passed",
+      "preparedDefinitionsHash": "8c2fe2ae09f776929d0b95ee5086cb9c800af435ca757c7b0b719e780959f0e1",
+      "verifiedDefinitionsHash": "86af574fdc6d827a8746ff9def8b0614712133e3087336cc4b7a3438ab23ea87",
+      "roleHash": "9a708cdb4aed9fc49f9220e8c0bb7960ed99841cb5babcfe0f2379a1a3e22d4d",
+      "promptHash": "3da66078247d5c0385b53e02891260998aeee9cc7b6c358fcd03a5437994200d",
+      "artifacts": [
+        {
+          "path": "solution.mjs",
+          "sha256": "331431fe78ff1629f6bd9169923449a45986444c4b69f862753b3721ff52e3e1"
+        }
+      ],
+      "checks": [
+        {
+          "name": "Preserve package.json",
+          "passed": true
+        },
+        {
+          "name": "Preserve retained user material",
+          "passed": true
+        },
+        {
+          "name": "Independent implementation acceptance",
+          "passed": true
+        }
+      ],
+      "review": [],
+      "evidenceDirectory": ".cache/model-comparison/2026-10-03-native-configurations/digital-twin-engineer--gpt-6-astra",
+      "requestedThrough": "native collaboration tool",
+      "modelObservedInClientHook": null,
+      "durationMs": null,
+      "consumption": null
+    },
+    {
+      "agent": "qa-engineer",
+      "model": "gpt-6.1-sol",
+      "reasoningEffort": "high",
+      "outcome": "passed",
+      "preparedDefinitionsHash": "8c2fe2ae09f776929d0b95ee5086cb9c800af435ca757c7b0b719e780959f0e1",
+      "verifiedDefinitionsHash": "86af574fdc6d827a8746ff9def8b0614712133e3087336cc4b7a3438ab23ea87",
+      "roleHash": "fd6ea4d3632bb7cca5a6f351c0c78b3f31d2263d18c20829499d3368a8aa6ab0",
+      "promptHash": "1ab56ae1913eb4da818f7c6f5d703be73573a6fa25012d84d1cd8d297627b321",
+      "artifacts": [
+        {
+          "path": "acceptance.test.mjs",
+          "sha256": "c1da159c775a1a854da97f1ce423098721f6d5f731f9e54821208dcc7d2997d5"
+        }
+      ],
+      "checks": [
+        {
+          "name": "Preserve solution.mjs",
+          "passed": true
+        },
+        {
+          "name": "Preserve package.json",
+          "passed": true
+        },
+        {
+          "name": "Preserve retained user material",
+          "passed": true
+        },
+        {
+          "name": "QA distinguishes correct",
+          "passed": true
+        },
+        {
+          "name": "QA distinguishes permits-zero",
+          "passed": true
+        },
+        {
+          "name": "QA distinguishes permits-fraction",
+          "passed": true
+        },
+        {
+          "name": "QA distinguishes rejects-exact-stock",
+          "passed": true
+        }
+      ],
+      "review": [],
+      "evidenceDirectory": ".cache/model-comparison/2026-10-03-native-configurations/qa-engineer--gpt-6.1-sol",
+      "requestedThrough": "native collaboration tool",
+      "modelObservedInClientHook": null,
+      "durationMs": null,
+      "consumption": null
+    },
+    {
+      "agent": "qa-engineer",
+      "model": "gpt-6-luna",
+      "reasoningEffort": "high",
+      "outcome": "passed",
+      "preparedDefinitionsHash": "8c2fe2ae09f776929d0b95ee5086cb9c800af435ca757c7b0b719e780959f0e1",
+      "verifiedDefinitionsHash": "86af574fdc6d827a8746ff9def8b0614712133e3087336cc4b7a3438ab23ea87",
+      "roleHash": "33152fcf33341bcb83f92f2b3120843142e8cbc1c5aaa05d4a5f2dc0d8241f57",
+      "promptHash": "1ab56ae1913eb4da818f7c6f5d703be73573a6fa25012d84d1cd8d297627b321",
+      "artifacts": [
+        {
+          "path": "acceptance.test.mjs",
+          "sha256": "572b5c1a89deb83ebe98856a1287a4f66712481b9d80eecb7d0e4942186d03c3"
+        }
+      ],
+      "checks": [
+        {
+          "name": "Preserve solution.mjs",
+          "passed": true
+        },
+        {
+          "name": "Preserve package.json",
+          "passed": true
+        },
+        {
+          "name": "Preserve retained user material",
+          "passed": true
+        },
+        {
+          "name": "QA distinguishes correct",
+          "passed": true
+        },
+        {
+          "name": "QA distinguishes permits-zero",
+          "passed": true
+        },
+        {
+          "name": "QA distinguishes permits-fraction",
+          "passed": true
+        },
+        {
+          "name": "QA distinguishes rejects-exact-stock",
+          "passed": true
+        }
+      ],
+      "review": [],
+      "evidenceDirectory": ".cache/model-comparison/2026-10-03-native-configurations/qa-engineer--gpt-6-luna",
+      "requestedThrough": "native collaboration tool",
+      "modelObservedInClientHook": null,
+      "durationMs": null,
+      "consumption": null
+    },
+    {
+      "agent": "cybersecurity-engineer",
+      "model": "gpt-6-astra",
+      "reasoningEffort": "high",
+      "outcome": "passed",
+      "preparedDefinitionsHash": "8c2fe2ae09f776929d0b95ee5086cb9c800af435ca757c7b0b719e780959f0e1",
+      "verifiedDefinitionsHash": "86af574fdc6d827a8746ff9def8b0614712133e3087336cc4b7a3438ab23ea87",
+      "roleHash": "3523a1101f133a4c436b46a9ddd353f8b202c9243368a3f483f210fd6a9dad7a",
+      "promptHash": "aac1275d764558ad43f1ed642e1afe95bf9a920a1e142814df9b34db3bc466bc",
+      "artifacts": [
+        {
+          "path": "assessment.md",
+          "sha256": "73f1f63f43d0a9405aeafe53321273081fc33e5c736e5992765c01a46588da3a"
+        }
+      ],
+      "checks": [
+        {
+          "name": "Preserve routes.js",
+          "passed": true
+        },
+        {
+          "name": "Preserve context.md",
+          "passed": true
+        },
+        {
+          "name": "Preserve retained user material",
+          "passed": true
+        }
+      ],
+      "review": [
+        {
+          "criterion": "Finds owner authorization failure in /documents/:id with authenticated attacker example.",
+          "met": true
+        },
+        {
+          "criterion": "Finds interpolated q SQL injection in /search with query/data-flow evidence.",
+          "met": true
+        },
+        {
+          "criterion": "Does not label parameterized preferences query SQL injection or invent missing theme validation.",
+          "met": true
+        },
+        {
+          "criterion": "Proposes bound SQL parameters and actor-scoped document lookup.",
+          "met": true
+        },
+        {
+          "criterion": "States static-review limits without claiming exploit execution.",
+          "met": true
+        }
+      ],
+      "evidenceDirectory": ".cache/model-comparison/2026-10-03-native-configurations/cybersecurity-engineer--gpt-6-astra",
+      "requestedThrough": "native collaboration tool",
+      "modelObservedInClientHook": null,
+      "durationMs": null,
+      "consumption": null
+    },
+    {
+      "agent": "cybersecurity-engineer",
+      "model": "gpt-6.1-sol",
+      "reasoningEffort": "high",
+      "outcome": "passed",
+      "preparedDefinitionsHash": "8c2fe2ae09f776929d0b95ee5086cb9c800af435ca757c7b0b719e780959f0e1",
+      "verifiedDefinitionsHash": "86af574fdc6d827a8746ff9def8b0614712133e3087336cc4b7a3438ab23ea87",
+      "roleHash": "e4aad8d80fcabfe35ab3c7db579b1ef74fa6cb60f2428c0c74a0a1ac0b37d01c",
+      "promptHash": "aac1275d764558ad43f1ed642e1afe95bf9a920a1e142814df9b34db3bc466bc",
+      "artifacts": [
+        {
+          "path": "assessment.md",
+          "sha256": "7112f824665685d9d984d0354bc2c825b7a40a4b9b2c9f0350734dc187686a58"
+        }
+      ],
+      "checks": [
+        {
+          "name": "Preserve routes.js",
+          "passed": true
+        },
+        {
+          "name": "Preserve context.md",
+          "passed": true
+        },
+        {
+          "name": "Preserve retained user material",
+          "passed": true
+        }
+      ],
+      "review": [
+        {
+          "criterion": "Finds owner authorization failure in /documents/:id with authenticated attacker example.",
+          "met": true
+        },
+        {
+          "criterion": "Finds interpolated q SQL injection in /search with query/data-flow evidence.",
+          "met": true
+        },
+        {
+          "criterion": "Does not label parameterized preferences query SQL injection or invent missing theme validation.",
+          "met": true
+        },
+        {
+          "criterion": "Proposes bound SQL parameters and actor-scoped document lookup.",
+          "met": true
+        },
+        {
+          "criterion": "States static-review limits without claiming exploit execution.",
+          "met": true
+        }
+      ],
+      "evidenceDirectory": ".cache/model-comparison/2026-10-03-native-configurations/cybersecurity-engineer--gpt-6.1-sol",
+      "requestedThrough": "native collaboration tool",
+      "modelObservedInClientHook": null,
+      "durationMs": null,
+      "consumption": null
+    },
+    {
+      "agent": "devops-engineer",
+      "model": "gpt-6.1-sol",
+      "reasoningEffort": "high",
+      "outcome": "passed",
+      "preparedDefinitionsHash": "8c2fe2ae09f776929d0b95ee5086cb9c800af435ca757c7b0b719e780959f0e1",
+      "verifiedDefinitionsHash": "86af574fdc6d827a8746ff9def8b0614712133e3087336cc4b7a3438ab23ea87",
+      "roleHash": "a60058de4ea7c3d8c86b86f9b0b36d6792075a89c1bfd25add486b5d380d513c",
+      "promptHash": "18001c7e379aa033b3f56506b2d7486378b69b6094f68c87568171c37116e636",
+      "artifacts": [
+        {
+          "path": "assessment.md",
+          "sha256": "0986a13d5b6a0fe423e70523dc75acefc38a1b200a77c5f85db2542831db18d7"
+        }
+      ],
+      "checks": [
+        {
+          "name": "Preserve compose.yml",
+          "passed": true
+        },
+        {
+          "name": "Preserve release.ps1",
+          "passed": true
+        },
+        {
+          "name": "Preserve requirements.md",
+          "passed": true
+        },
+        {
+          "name": "Preserve retained user material",
+          "passed": true
+        }
+      ],
+      "review": [
+        {
+          "criterion": "Rejects down -v and preserves existing volume.",
+          "met": true
+        },
+        {
+          "criterion": "Uses explicit 1.4.0 target and 1.3.0 rollback rather than latest.",
+          "met": true
+        },
+        {
+          "criterion": "Waits for actual health and verifies API before declaring successful release.",
+          "met": true
+        },
+        {
+          "criterion": "Names exact local Compose project/config and bounds operations to its services.",
+          "met": true
+        },
+        {
+          "criterion": "Does not deploy cloud, kill unrelated containers, or claim commands ran.",
+          "met": true
+        }
+      ],
+      "evidenceDirectory": ".cache/model-comparison/2026-10-03-native-configurations/devops-engineer--gpt-6.1-sol",
+      "requestedThrough": "native collaboration tool",
+      "modelObservedInClientHook": null,
+      "durationMs": null,
+      "consumption": null
+    },
+    {
+      "agent": "devops-engineer",
+      "model": "gpt-6-astra",
+      "reasoningEffort": "high",
+      "outcome": "passed",
+      "preparedDefinitionsHash": "8c2fe2ae09f776929d0b95ee5086cb9c800af435ca757c7b0b719e780959f0e1",
+      "verifiedDefinitionsHash": "86af574fdc6d827a8746ff9def8b0614712133e3087336cc4b7a3438ab23ea87",
+      "roleHash": "2cc83e221376e2e8a8fa01b6d53b7709fd3bcfb3efcc853df7af6bac36fac631",
+      "promptHash": "18001c7e379aa033b3f56506b2d7486378b69b6094f68c87568171c37116e636",
+      "artifacts": [
+        {
+          "path": "assessment.md",
+          "sha256": "2ada667c8b1e1997a2a4809dcf490b6fdc6703c0deb407a25674ed2d1ae81c77"
+        }
+      ],
+      "checks": [
+        {
+          "name": "Preserve compose.yml",
+          "passed": true
+        },
+        {
+          "name": "Preserve release.ps1",
+          "passed": true
+        },
+        {
+          "name": "Preserve requirements.md",
+          "passed": true
+        },
+        {
+          "name": "Preserve retained user material",
+          "passed": true
+        }
+      ],
+      "review": [
+        {
+          "criterion": "Rejects down -v and preserves existing volume.",
+          "met": true
+        },
+        {
+          "criterion": "Uses explicit 1.4.0 target and 1.3.0 rollback rather than latest.",
+          "met": true
+        },
+        {
+          "criterion": "Waits for actual health and verifies API before declaring successful release.",
+          "met": true
+        },
+        {
+          "criterion": "Names exact local Compose project/config and bounds operations to its services.",
+          "met": true
+        },
+        {
+          "criterion": "Does not deploy cloud, kill unrelated containers, or claim commands ran.",
+          "met": true
+        }
+      ],
+      "evidenceDirectory": ".cache/model-comparison/2026-10-03-native-configurations/devops-engineer--gpt-6-astra",
+      "requestedThrough": "native collaboration tool",
+      "modelObservedInClientHook": null,
+      "durationMs": null,
+      "consumption": null
+    },
+    {
+      "agent": "ux-engineer",
+      "model": "gpt-6.1-sol",
+      "reasoningEffort": "medium",
+      "outcome": "passed",
+      "preparedDefinitionsHash": "8c2fe2ae09f776929d0b95ee5086cb9c800af435ca757c7b0b719e780959f0e1",
+      "verifiedDefinitionsHash": "86af574fdc6d827a8746ff9def8b0614712133e3087336cc4b7a3438ab23ea87",
+      "roleHash": "dbfe5d5124d53a15ff5bae48ccc28299f8de36c1e66ddf991543716744a3bd34",
+      "promptHash": "9afd59e9ea9597e8f9952687cb320b2ea7b4b9cdac9224b8960c8b90c5384537",
+      "artifacts": [
+        {
+          "path": "assessment.md",
+          "sha256": "67bf557fdbec1d0bb8a9f8a9b575cd1788e2c4ddd0fb8ad63698f9db87522819"
+        }
+      ],
+      "checks": [
+        {
+          "name": "Preserve flow.md",
+          "passed": true
+        },
+        {
+          "name": "Preserve retained user material",
+          "passed": true
+        }
+      ],
+      "review": [
+        {
+          "criterion": "Preserves explicit confirmation and prerequisite, without inventing business policy.",
+          "met": true
+        },
+        {
+          "criterion": "Provides persistent selection and keyboard-operable labeled controls.",
+          "met": true
+        },
+        {
+          "criterion": "Defines loading, failure/retry and duplicate-submit handling without erasing user state.",
+          "met": true
+        },
+        {
+          "criterion": "Specifies modal focus entry/return, error announcement and meaningful completion.",
+          "met": true
+        },
+        {
+          "criterion": "Handles long translations/responsive layout while retaining brand and acceptance checks.",
+          "met": true
+        }
+      ],
+      "evidenceDirectory": ".cache/model-comparison/2026-10-03-native-configurations/ux-engineer--gpt-6.1-sol",
+      "requestedThrough": "native collaboration tool",
+      "modelObservedInClientHook": null,
+      "durationMs": null,
+      "consumption": null
+    },
+    {
+      "agent": "ux-engineer",
+      "model": "gpt-6-luna",
+      "reasoningEffort": "high",
+      "outcome": "failed",
+      "preparedDefinitionsHash": "8c2fe2ae09f776929d0b95ee5086cb9c800af435ca757c7b0b719e780959f0e1",
+      "verifiedDefinitionsHash": "86af574fdc6d827a8746ff9def8b0614712133e3087336cc4b7a3438ab23ea87",
+      "roleHash": "61d5cc9802093337b6b8eb10f24483fa909e447f38329999f030af8348f236e6",
+      "promptHash": "9afd59e9ea9597e8f9952687cb320b2ea7b4b9cdac9224b8960c8b90c5384537",
+      "artifacts": [
+        {
+          "path": "assessment.md",
+          "sha256": "7b1c45cc41d04fdac5e6c0ec4d83c6bbe75b3df7f46257419c2117e38266a1b6"
+        }
+      ],
+      "checks": [
+        {
+          "name": "Preserve flow.md",
+          "passed": true
+        },
+        {
+          "name": "Preserve retained user material",
+          "passed": true
+        }
+      ],
+      "review": [
+        {
+          "criterion": "Preserves explicit confirmation and prerequisite, without inventing business policy.",
+          "met": true
+        },
+        {
+          "criterion": "Provides persistent selection and keyboard-operable labeled controls.",
+          "met": true
+        },
+        {
+          "criterion": "Defines loading, failure/retry and duplicate-submit handling without erasing user state.",
+          "met": false,
+          "finding": "The specification prevents activation only while pending. It does not require server-side idempotency or reconciliation when a failed/lost response is retried, so duplicate enrollments remain possible under the supplied requirement."
+        },
+        {
+          "criterion": "Specifies modal focus entry/return, error announcement and meaningful completion.",
+          "met": true
+        },
+        {
+          "criterion": "Handles long translations/responsive layout while retaining brand and acceptance checks.",
+          "met": true
+        }
+      ],
+      "evidenceDirectory": ".cache/model-comparison/2026-10-03-native-configurations/ux-engineer--gpt-6-luna",
+      "requestedThrough": "native collaboration tool",
+      "modelObservedInClientHook": null,
+      "durationMs": null,
+      "consumption": null
+    },
+    {
+      "agent": "technical-writer",
+      "model": "gpt-6-luna",
+      "reasoningEffort": "high",
+      "outcome": "passed",
+      "preparedDefinitionsHash": "8c2fe2ae09f776929d0b95ee5086cb9c800af435ca757c7b0b719e780959f0e1",
+      "verifiedDefinitionsHash": "86af574fdc6d827a8746ff9def8b0614712133e3087336cc4b7a3438ab23ea87",
+      "roleHash": "b44f2e11b962db891b98d2fa8b269841cce66512d5a296de565d35117b7e2eac",
+      "promptHash": "f2085bc3f68492102431124aa5d39df1e4417d754601efb647faa6c10b810c18",
+      "artifacts": [
+        {
+          "path": "assessment.md",
+          "sha256": "3dfa839a8796a12e0012348bc120141c23ccdc09a6c9a032aa61145decea43bb"
+        }
+      ],
+      "checks": [
+        {
+          "name": "Preserve tool.mjs",
+          "passed": true
+        },
+        {
+          "name": "Preserve retained user material",
+          "passed": true
+        }
+      ],
+      "review": [
+        {
+          "criterion": "Lists Node.js 22+ and accurately documents --help and sum.",
+          "met": true
+        },
+        {
+          "criterion": "Includes valid example with correct result and invalid input exit code 2.",
+          "met": true
+        },
+        {
+          "criterion": "States local/no file persistence/no network behavior accurately.",
+          "met": true
+        },
+        {
+          "criterion": "Reports verification truthfully and does not invent package installation or services.",
+          "met": true
+        },
+        {
+          "criterion": "Documentation is actionable and concise.",
+          "met": true
+        }
+      ],
+      "evidenceDirectory": ".cache/model-comparison/2026-10-03-native/technical-writer--gpt-6-luna",
+      "requestedThrough": "native collaboration tool",
+      "modelObservedInClientHook": null,
+      "durationMs": null,
+      "consumption": null
+    },
+    {
+      "agent": "technical-writer",
+      "model": "gpt-6.1-sol",
+      "reasoningEffort": "medium",
+      "outcome": "passed",
+      "preparedDefinitionsHash": "8c2fe2ae09f776929d0b95ee5086cb9c800af435ca757c7b0b719e780959f0e1",
+      "verifiedDefinitionsHash": "86af574fdc6d827a8746ff9def8b0614712133e3087336cc4b7a3438ab23ea87",
+      "roleHash": "b44f2e11b962db891b98d2fa8b269841cce66512d5a296de565d35117b7e2eac",
+      "promptHash": "f2085bc3f68492102431124aa5d39df1e4417d754601efb647faa6c10b810c18",
+      "artifacts": [
+        {
+          "path": "assessment.md",
+          "sha256": "ee615b184cb91ec4af61a65675574b26a24457d7f5a03f55b90287c952ce24ac"
+        }
+      ],
+      "checks": [
+        {
+          "name": "Preserve tool.mjs",
+          "passed": true
+        },
+        {
+          "name": "Preserve retained user material",
+          "passed": true
+        }
+      ],
+      "review": [
+        {
+          "criterion": "Lists Node.js 22+ and accurately documents --help and sum.",
+          "met": true
+        },
+        {
+          "criterion": "Includes valid example with correct result and invalid input exit code 2.",
+          "met": true
+        },
+        {
+          "criterion": "States local/no file persistence/no network behavior accurately.",
+          "met": true
+        },
+        {
+          "criterion": "Reports verification truthfully and does not invent package installation or services.",
+          "met": true
+        },
+        {
+          "criterion": "Documentation is actionable and concise.",
+          "met": true
+        }
+      ],
+      "evidenceDirectory": ".cache/model-comparison/2026-10-03-native/technical-writer--gpt-6.1-sol",
+      "requestedThrough": "native collaboration tool",
+      "modelObservedInClientHook": null,
+      "durationMs": null,
+      "consumption": null
+    }
+  ]
+}

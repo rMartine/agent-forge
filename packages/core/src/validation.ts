@@ -7,6 +7,12 @@ import { resolveRepoFilePath } from './paths.js';
 import { parseCodexToml, renderCodexAgent } from './renderCodex.js';
 import { codexSkillMap } from './skillBundles.js';
 import { loadJsonc } from './manifest.js';
+import { loadExternalSkillCatalog } from './externalSkills.js';
+import { renderCopilotRosters } from './copilotRosters.js';
+import { loadRosterCatalog } from './rosterCatalog.js';
+import type { RosterCatalog } from './rosterTypes.js';
+import { loadDeploymentState } from './state.js';
+import { hashFile } from './hash.js';
 
 async function exists(filePath: string): Promise<boolean> {
   try { await access(filePath); return true; } catch { return false; }
@@ -33,41 +39,132 @@ function stringList(value: unknown): string[] | undefined {
   return Array.isArray(value) && value.every(item => typeof item === 'string') ? value : undefined;
 }
 
-function graphHasCycle(manifest: DeploymentManifestV3): boolean {
-  const visiting = new Set<string>();
-  const visited = new Set<string>();
-  const visit = (id: string): boolean => {
-    if (visiting.has(id)) return true;
-    if (visited.has(id)) return false;
-    visiting.add(id);
-    for (const child of manifest.agents[id].allowedSubagents) if (visit(child)) return true;
-    visiting.delete(id);
-    visited.add(id);
-    return false;
-  };
-  return Object.keys(manifest.agents).some(visit);
+/** Detect rediscovery without changing user files. Managed stale copies are exempt only in their removal plan. */
+async function canonicalDiscovery(
+  repoPath: string, manifest: DeploymentManifestV3, canonical: RosterCatalog,
+  options: { target?: RuntimeSelection; env?: NodeJS.ProcessEnv; plannedCleanupPaths?: ReadonlySet<string> },
+): Promise<Diagnostic[]> {
+  const diagnostics: Diagnostic[] = [];
+  const env = options.env ?? process.env;
+  const userProfile = env.USERPROFILE || env.HOME;
+  const targets = options.target === 'all' ? ['vscode', 'codex'] : [options.target ?? 'vscode'];
+  const skillNames = new Set(canonical.resources.filter(resource => resource.kind === 'skill').map(resource => resource.relativePath.split('/')[0]));
+  const normalize = (value: string): string => path.resolve(value).toLowerCase();
+  const managed = new Map<string, string>();
+  if (options.plannedCleanupPaths?.size) {
+    try {
+      const statePath = manifest.targets.state.replace(/%([^%]+)%/g, (_whole, name: string) => {
+        if (env[name] === undefined) throw new Error(`Missing state environment variable ${name}`);
+        return env[name]!;
+      });
+      const state = await loadDeploymentState(statePath);
+      for (const runtime of ['codex', 'vscode'] as const) {
+        if (!targets.includes(runtime)) continue;
+        const active = state.deployments.find(record => record.id === state.activeDeployments[runtime] && record.runtime === runtime);
+        for (const artifact of active?.artifacts ?? []) {
+          const key = normalize(artifact.targetPath);
+          if (options.plannedCleanupPaths.has(key)) managed.set(key, artifact.deployedHash);
+        }
+      }
+    } catch { /* A missing or unreadable ownership ledger cannot exempt a duplicate. */ }
+  }
+  async function scheduledManagedRemoval(directory: string): Promise<boolean> {
+    if (!managed.size) return false;
+    let count = 0;
+    const visit = async (current: string): Promise<boolean> => {
+      for (const entry of await readdir(current, { withFileTypes: true })) {
+        const file = path.join(current, entry.name);
+        if (entry.isSymbolicLink()) return false;
+        if (entry.isDirectory()) { if (!await visit(file)) return false; }
+        else if (entry.isFile()) {
+          count++;
+          const expected = managed.get(normalize(file));
+          if (!expected || await hashFile(file) !== expected) return false;
+        } else return false;
+      }
+      return true;
+    };
+    return await visit(directory) && count > 0;
+  }
+  async function duplicateSkill(directory: string, name: string, label: string): Promise<void> {
+    if (await scheduledManagedRemoval(directory)) diagnostics.push(diagnostic('AF002', 'warning', `${label} ${name} is hash-intact and owned; this deployment explicitly removes its obsolete copy during roster migration`, { path: directory }));
+    else diagnostics.push(diagnostic('AF002', 'error', `${label} ${name}`, { path: directory }));
+  }
+  for (const location of ['.claude/agents', '.github/agents']) {
+    const root = path.join(repoPath, ...location.split('/'));
+    if (!await exists(root)) continue;
+    const pending = [root];
+    let found = false;
+    while (pending.length && !found) {
+      const current = pending.pop()!;
+      for (const entry of await readdir(current, { withFileTypes: true })) {
+        if (entry.isDirectory()) pending.push(path.join(current, entry.name));
+        else if (entry.name.endsWith('.md')) { found = true; break; }
+      }
+    }
+    if (found) diagnostics.push(diagnostic('AF002', 'error', `${location} is VS Code-discoverable and duplicates the canonical roster`, { path: root }));
+  }
+  const settingsPath = path.join(repoPath, '.vscode', 'settings.json');
+  if (await exists(settingsPath)) {
+    try {
+      const settings = await loadJsonc<Record<string, unknown>>(settingsPath);
+      for (const key of ['chat.agentFilesLocations', 'chat.agentSkillsLocations', 'chat.instructionsFilesLocations']) {
+        const locations = settings[key];
+        if (!locations || typeof locations !== 'object') continue;
+        for (const [location, enabled] of Object.entries(locations)) if (enabled === true && await containsEntries(path.resolve(repoPath, location))) diagnostics.push(diagnostic('AF002', 'error', `${key} rediscovers canonical or deployed Agent Forge customizations`, { path: settingsPath }));
+      }
+    } catch (error) { diagnostics.push(diagnostic('AF002', 'error', `Unable to inspect workspace customization discovery: ${(error as Error).message}`, { path: settingsPath })); }
+  }
+  if (targets.includes('codex')) {
+    const localAgents = path.join(repoPath, '.codex', 'agents');
+    if (await containsEntries(localAgents)) diagnostics.push(diagnostic('AF002', 'error', 'Project-scoped Codex agents would duplicate the managed user roster', { path: localAgents }));
+    for (const localSkills of [path.join(repoPath, '.codex', 'skills'), path.join(repoPath, '.agents', 'skills')]) {
+      if (await containsEntries(localSkills)) diagnostics.push(diagnostic('AF002', 'error', 'Project-scoped Agent Forge skill copies would duplicate the managed user roster', { path: localSkills }));
+    }
+    if (userProfile) {
+      const codexHome = env.CODEX_HOME || path.join(userProfile, '.codex');
+      const personal = path.join(codexHome, 'skills');
+      if (await exists(personal)) {
+        for (const entry of await readdir(personal, { withFileTypes: true })) if (entry.isDirectory() && skillNames.has(entry.name)) await duplicateSkill(path.join(personal, entry.name), entry.name, 'Personal Codex skill duplicates managed skill');
+      }
+      const legacy = path.join(userProfile, 'AppData', 'Roaming', 'Code', 'User', 'prompts');
+      if (await containsEntries(legacy)) diagnostics.push(diagnostic('AF002', 'error', 'Legacy VS Code prompt files may duplicate the managed roster', { path: legacy }));
+      let current = path.resolve(repoPath);
+      const globalManaged = normalize(path.join(userProfile, '.agents', 'skills'));
+      for (;;) {
+        const candidate = path.join(current, '.agents', 'skills');
+        if (normalize(candidate) !== globalManaged && await exists(candidate)) {
+          for (const entry of await readdir(candidate, { withFileTypes: true })) if (entry.isDirectory() && skillNames.has(entry.name)) await duplicateSkill(path.join(candidate, entry.name), entry.name, 'Repository-chain skill duplicates managed skill');
+        }
+        const parent = path.dirname(current);
+        if (parent === current) break;
+        current = parent;
+      }
+    }
+  }
+  return diagnostics;
 }
 
 export async function validateRoster(
   repoPath: string,
   manifest: DeploymentManifestV3,
   catalog?: CapabilityCatalog,
-  options: { target?: RuntimeSelection; env?: NodeJS.ProcessEnv } = {},
+  options: { target?: RuntimeSelection; env?: NodeJS.ProcessEnv; checkCopilot?: boolean; downloadSkills?: boolean; resolvedCatalog?: RosterCatalog; plannedCleanupPaths?: ReadonlySet<string> } = {},
 ): Promise<ValidationResult> {
   const diagnostics: Diagnostic[] = [];
+  if (manifest.schemaVersion === 6) {
+    try {
+      const canonical = options.resolvedCatalog ?? await loadRosterCatalog(repoPath, { downloadSkills: options.downloadSkills });
+      diagnostics.push(...canonical.diagnostics);
+      for (const agent of canonical.agents) {
+        if (agent.delegation !== 'allowed') diagnostics.push(diagnostic('AF007', 'error', 'All roster agents must permit delegation', { agentId: agent.id }));
+      }
+      diagnostics.push(...await canonicalDiscovery(repoPath, manifest, canonical, options));
+    } catch (error) { diagnostics.push(diagnostic('AF001', 'error', `Invalid canonical roster: ${(error as Error).message}`)); }
+    return { valid: !hasErrors(diagnostics), diagnostics };
+  }
   const visible = Object.values(manifest.agents).filter(agent => agent.visibility === 'entry');
   if (visible.length !== 9) diagnostics.push(diagnostic('AF001', 'error', `Expected 9 entry agents, found ${visible.length}`));
-  const delegators = Object.values(manifest.agents).filter(agent => agent.allowedSubagents.length > 0).map(agent => agent.id).sort();
-  if (delegators.join(',') !== 'creative-director,principal-engineer') {
-    diagnostics.push(diagnostic('AF007', 'error', 'Only creative-director and principal-engineer may delegate'));
-  }
-  if (graphHasCycle(manifest)) diagnostics.push(diagnostic('AF007', 'error', 'The subagent graph contains a cycle'));
-  for (const agent of Object.values(manifest.agents)) {
-    if (agent.allowedSubagents.some(target => manifest.agents[target].allowedSubagents.length > 0)) {
-      diagnostics.push(diagnostic('AF007', 'error', `Agent ${agent.id} requires subagent nesting depth greater than one`, { agentId: agent.id }));
-    }
-  }
-
   const seenNames = new Set<string>();
   for (const agent of Object.values(manifest.agents)) {
     const sourcePath = resolveRepoFilePath(repoPath, agent.source);
@@ -90,9 +187,6 @@ export async function validateRoster(
     if (!tools || !sourceAgents) diagnostics.push(diagnostic('AF001', 'error', 'Agent tools and agents must be string arrays', { path: agent.source, agentId: agent.id }));
     if ((tools?.includes('agent') ?? false) !== (agent.allowedSubagents.length > 0)) {
       diagnostics.push(diagnostic('AF007', 'error', 'The agent tool and explicit subagent allowlist must be enabled together', { path: agent.source, agentId: agent.id }));
-    }
-    if (sourceAgents?.includes('*')) {
-      diagnostics.push(diagnostic('AF007', 'error', 'Wildcard subagent access is forbidden', { path: agent.source, agentId: agent.id }));
     }
     if (sourceAgents && sourceAgents.slice().sort().join(',') !== agent.allowedSubagents.slice().sort().join(',')) {
       diagnostics.push(diagnostic('AF003', 'error', 'Agent frontmatter subagents differ from the manifest allowlist', { path: agent.source, agentId: agent.id }));
@@ -194,15 +288,20 @@ export async function validateRoster(
   const targets = options.target === 'all' ? ['vscode', 'codex'] : [options.target ?? 'vscode'];
   if (targets.includes('codex')) {
     const codexAgents = Object.values(manifest.codex.agents);
-    const readOnly = codexAgents.filter(agent => agent.sandboxMode === 'read-only').map(agent => agent.id).sort();
-    if (codexAgents.length !== 16) diagnostics.push(diagnostic('AF001', 'error', `Expected 16 Codex agents, found ${codexAgents.length}`));
-    if (readOnly.join(',') !== 'cybersecurity-engineer,software-architect') {
-      diagnostics.push(diagnostic('AF001', 'error', 'Only software-architect and cybersecurity-engineer may use the Codex read-only sandbox'));
+    const skillNames = new Set(Object.values(manifest.codex.skillBundles).map(bundle => bundle.deploymentName));
+    if (manifest.codex.productDevelopment) {
+      skillNames.add(manifest.codex.productDevelopment.deploymentName);
+      const source = resolveRepoFilePath(repoPath, manifest.codex.productDevelopment.source);
+      if (!(await exists(path.join(source, 'SKILL.md')))) diagnostics.push(diagnostic('AF005', 'error', 'Product development skill is missing SKILL.md', { path: source }));
+      for (const agent of codexAgents) if (!agent.completionEvidence?.length) diagnostics.push(diagnostic('AF005', 'error', 'Product specialist requires completion evidence', { agentId: agent.id }));
     }
+    try {
+      const external = await loadExternalSkillCatalog(repoPath, manifest);
+      for (const skill of external.skills) skillNames.add(skill.deploymentName);
+    } catch (error: unknown) { diagnostics.push(diagnostic('AF005', 'error', (error as Error).message)); }
     let mapping: Map<string, string> | undefined;
     try { mapping = codexSkillMap(manifest); }
     catch (error: unknown) { diagnostics.push(diagnostic('AF005', 'error', (error as Error).message)); }
-    if (Object.keys(manifest.codex.skillBundles).length !== 5) diagnostics.push(diagnostic('AF005', 'error', 'Codex must expose exactly five Agent Forge skill bundles'));
     if (mapping) {
       for (const agent of codexAgents) {
         try {
@@ -210,11 +309,14 @@ export async function validateRoster(
           const rendered = renderCodexAgent(await readFile(resolveRepoFilePath(repoPath, source.source), 'utf8'), agent, manifest);
           const parsed = parseCodexToml(rendered);
           const keys = Object.keys(parsed).sort();
-          if (keys.join(',') !== 'description,developer_instructions,name,sandbox_mode') {
+          const expectedKeys = manifest.schemaVersion === 5
+            ? 'description,developer_instructions,model,model_reasoning_effort,name,sandbox_mode'
+            : 'description,developer_instructions,name,sandbox_mode';
+          if (keys.join(',') !== expectedKeys) {
             diagnostics.push(diagnostic('AF001', 'error', 'Codex TOML contains unsupported or Copilot-only fields', { agentId: agent.id }));
           }
-          if (!/do not[\s\S]{0,120}spawn subagents/i.test(String(parsed.developer_instructions))) {
-            diagnostics.push(diagnostic('AF007', 'error', 'Codex custom agents must not require delegation', { agentId: agent.id }));
+          if (/do not delegate|do not[^\n.]{0,100}spawn subagents/i.test(String(parsed.developer_instructions))) {
+            diagnostics.push(diagnostic('AF007', 'error', 'Codex custom agents must allow delegation', { agentId: agent.id }));
           }
         } catch (error: unknown) {
           diagnostics.push(diagnostic('AF001', 'error', `Invalid Codex agent rendering: ${(error as Error).message}`, { agentId: agent.id }));
@@ -238,8 +340,8 @@ export async function validateRoster(
       const personalSkills = path.join(userProfile, '.codex', 'skills');
       if (await exists(personalSkills)) {
         const names = new Set((await readdir(personalSkills, { withFileTypes: true })).filter(item => item.isDirectory()).map(item => item.name));
-        for (const bundle of Object.values(manifest.codex.skillBundles)) {
-          if (names.has(bundle.deploymentName)) diagnostics.push(diagnostic('AF002', 'error', `Personal Codex skill duplicates managed bundle ${bundle.deploymentName}`, { path: path.join(personalSkills, bundle.deploymentName) }));
+        for (const name of skillNames) {
+          if (names.has(name)) diagnostics.push(diagnostic('AF002', 'error', `Personal Codex skill duplicates managed skill ${name}`, { path: path.join(personalSkills, name) }));
         }
       }
       let current = path.resolve(repoPath);
@@ -248,8 +350,8 @@ export async function validateRoster(
         const candidate = path.join(current, '.agents', 'skills');
         if (path.resolve(candidate).toLowerCase() !== globalManagedSkills && await containsEntries(candidate)) {
           const names = new Set((await readdir(candidate, { withFileTypes: true })).filter(item => item.isDirectory()).map(item => item.name));
-          for (const bundle of Object.values(manifest.codex.skillBundles)) {
-            if (names.has(bundle.deploymentName)) diagnostics.push(diagnostic('AF002', 'error', `Repository-chain skill duplicates managed bundle ${bundle.deploymentName}`, { path: path.join(candidate, bundle.deploymentName) }));
+          for (const name of skillNames) {
+            if (names.has(name)) diagnostics.push(diagnostic('AF002', 'error', `Repository-chain skill duplicates managed skill ${name}`, { path: path.join(candidate, name) }));
           }
         }
         const parent = path.dirname(current);
@@ -257,6 +359,10 @@ export async function validateRoster(
         current = parent;
       }
     }
+  }
+  if (manifest.copilotFourRosters && targets.includes('vscode') && options.checkCopilot !== false) {
+    try { diagnostics.push(...(await renderCopilotRosters(repoPath, manifest)).diagnostics); }
+    catch (error) { diagnostics.push(diagnostic('AF001', 'error', `Invalid Copilot four-roster rendering: ${(error as Error).message}`)); }
   }
   return { valid: !hasErrors(diagnostics), diagnostics };
 }

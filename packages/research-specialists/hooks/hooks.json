@@ -7,7 +7,7 @@
             "type": "command",
             "command": "node \"./scripts/research-hooks.mjs\"",
             "timeout": 10,
-            "statusMessage": "Investigación: comprobar la asignación antes de usar herramientas"
+            "statusMessage": "Roster de Investigación | Especialistas | PreToolUse | Comprobar límites del encargo"
           }
         ]
       }
@@ -19,7 +19,7 @@
             "type": "command",
             "command": "node \"./scripts/research-hooks.mjs\"",
             "timeout": 10,
-            "statusMessage": "Investigación: identificar al especialista creado"
+            "statusMessage": "Roster de Investigación | Especialistas | PostToolUse | Registrar resultado observable"
           }
         ]
       }
@@ -31,7 +31,7 @@
             "type": "command",
             "command": "node \"./scripts/research-hooks.mjs\"",
             "timeout": 10,
-            "statusMessage": "Investigación: comprobar el contexto del especialista"
+            "statusMessage": "Roster de Investigación | Especialistas | SubagentStart | Preparar contexto"
           }
         ]
       }
@@ -43,7 +43,7 @@
             "type": "command",
             "command": "node \"./scripts/research-hooks.mjs\"",
             "timeout": 10,
-            "statusMessage": "Investigación: devolver los resultados al agente principal"
+            "statusMessage": "Roster de Investigación | Especialistas | SubagentStop | Revisar entregables registrados"
           }
         ]
       }
@@ -55,7 +55,7 @@
             "type": "command",
             "command": "node \"./scripts/research-hooks.mjs\"",
             "timeout": 10,
-            "statusMessage": "Investigación: comprobar la evidencia registrada"
+            "statusMessage": "Roster de Investigación | Sesión | Stop | Comprobar evidencia registrada"
           }
         ]
       }
@@ -67,7 +67,7 @@
             "type": "command",
             "command": "node \"./scripts/research-hooks.mjs\"",
             "timeout": 3,
-            "statusMessage": "Investigación: registrar la interrupción sin reanudar"
+            "statusMessage": "Roster de Investigación | Sesión | Interrupt | Registrar interrupción"
           }
         ]
       }
@@ -79,7 +79,7 @@
             "type": "command",
             "command": "node \"./scripts/research-hooks.mjs\"",
             "timeout": 3,
-            "statusMessage": "Investigación: cerrar el registro de la sesión"
+            "statusMessage": "Roster de Investigación | Sesión | SessionEnd | Cerrar registro de sesión"
           }
         ]
       }

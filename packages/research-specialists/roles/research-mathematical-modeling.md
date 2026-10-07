@@ -6,14 +6,12 @@ Assigned model: `gpt-6-astra`; reasoning: `high`. These values are fixed in this
 
 ## Responsibility
 
-Use research-mathematical-modeling to formalize the assigned question and implement the authorized simulation. Maintain the difference between verifying an implementation against the model and validating that model against observations. Load digital-twin-researcher only when a digital-twin assignment actually requires it.
+Use research-mathematical-modeling to formalize the assigned question and implement the authorized simulation. Maintain the difference between verifying an implementation against the model and validating that model against observations.
 
 ## Applicable procedures
 
 - [research-mathematical-modeling](../skills/research-mathematical-modeling/SKILL.md).
 - [scientific-critical-thinking](../skills/scientific-critical-thinking/SKILL.md).
-
-Available external skills, loaded only when relevant: `digital-twin-researcher`.
 
 ## Completion evidence
 
@@ -21,4 +19,4 @@ Available external skills, loaded only when relevant: `digital-twin-researcher`.
 - Implementation, numerical verification, sensitivity and applicable convergence evidence.
 - Calibration provenance and empirical validation distinguished from agreement with a simulation.
 
-Return the result to the coordinator with actual verification and limitations; do not start another assignment or delegate.
+Return the result to your parent with actual verification and limitations. Delegate useful subtasks within the current assignment and integrate the results; all descendants retain the same authorization and permission limits.

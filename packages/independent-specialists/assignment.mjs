@@ -1,3 +1,4 @@
+import {identityFile, resolveRegistered} from './hook-storage.mjs';
 import { createHash, randomUUID } from 'node:crypto';
 import { lstat, mkdir, open, readFile, realpath, rename, unlink } from 'node:fs/promises';
 import os from 'node:os';
@@ -123,6 +124,16 @@ function validateState(record, context) {
     identifier(key, 'asignación');
     if (!ROLES.has(assignment.role) || !['prepared', 'running', 'returned', 'interrupted', 'ended', 'closed'].includes(assignment.status)) throw new Error('Asignación inválida.');
     if (assignment.agentId) identifier(assignment.agentId, 'agente');
+    for (const field of ['assignmentId', 'parentAgentId', 'instanceId']) if (assignment[field] !== undefined && assignment[field] !== null) identifier(assignment[field], field);
+    if (assignment.rootSessionId !== undefined && assignment.rootSessionId !== context.sessionId) throw new Error('La sesión raíz no coincide.');
+    if (assignment.readOnly !== undefined && typeof assignment.readOnly !== 'boolean') throw new Error('Permiso heredado inválido.');
+    if (assignment.inheritedAuthorizationGroups !== undefined) {
+      if (!Array.isArray(assignment.inheritedAuthorizationGroups) || assignment.inheritedAuthorizationGroups.length > 100) throw new Error('Límites heredados inválidos.');
+      for (const group of assignment.inheritedAuthorizationGroups) {
+        if (!Array.isArray(group) || group.length > 100) throw new Error('Grupo de límites heredados inválido.');
+        group.forEach(validateToolAuthorization);
+      }
+    }
     validateAssignmentInput(Object.fromEntries(['role', 'objective', 'expectedDeliverables', 'authorizationReference', 'toolAuthorizations'].filter(key => assignment[key] !== null).map(key => [key, assignment[key]])));
     summaries(assignment.delivered ?? [], 'entregables registrados');
   }
@@ -142,7 +153,10 @@ async function atomicJson(file, value) {
     const handle = await open(temporary, 'wx', 0o600);
     try { await handle.writeFile(serialized, 'utf8'); await handle.sync(); }
     finally { await handle.close(); }
-    await rename(temporary, file);
+    for (let attempt=0;;attempt++) {
+      try {await rename(temporary, file);break;}
+      catch(error){if(process.platform!=='win32'||!['EPERM','EACCES','EBUSY'].includes(error.code)||attempt>=4)throw error;await new Promise(resolve=>setTimeout(resolve,20*(attempt+1)));}
+    }
   } finally { await unlink(temporary).catch(error => { if (error.code !== 'ENOENT') throw error; }); }
 }
 
@@ -159,6 +173,7 @@ export async function updateState(context, callback, create = false) {
     }
   }
   try {
+    await lock.writeFile(JSON.stringify({processId:process.pid, createdAt:now()}));
     const previous = await readState(context);
     const next = await callback(previous);
     if (next) { next.updatedAt = now(); validateState(next, context); await atomicJson(context.recordPath, next); }
@@ -172,16 +187,12 @@ function linkFile(context, agentId) {
   return path.join(context.root, `agent-${digest(JSON.stringify([agentId, project]))}.json`);
 }
 export async function writeAgentLink(context, agentId) {
-  await atomicJson(linkFile(context, agentId), { version: 1, sessionId: context.sessionId, project: context.project, agentId });
+  const identity = { version: 1, sessionId: context.sessionId, project: context.project, agentId };
+  await atomicJson(linkFile(context, agentId), identity);
+  await atomicJson(identityFile(context, agentId), identity);
 }
 export async function resolveHookContext(input, options = {}) {
-  const direct = await sessionContext(input.session_id, input.cwd, options);
-  if (await readState(direct)) return { context: direct, actorId: input.agent_id ?? null };
-  let link;
-  try { link = await readJson(linkFile(direct, input.session_id)); }
-  catch (error) { if (error.code === 'ENOENT') return { context: direct, actorId: input.agent_id ?? null }; throw error; }
-  if (link.version !== 1 || link.agentId !== input.session_id || link.project !== direct.project) throw new Error('Identidad vinculada inválida.');
-  return { context: await sessionContext(link.sessionId, direct.project, options), actorId: input.session_id };
+  return resolveRegistered(input, {makeContext:(sessionId, project)=>sessionContext(sessionId, project, options), readState, readJson});
 }
 
 export function findAssignment(record, actorId) {
@@ -201,7 +212,7 @@ export async function readStdinJson() {
 }
 
 function status(record) {
-  return record ? { sessionId: record.sessionId, assignments: Object.values(record.assignments).map(({ role, agentId, status, expectedDeliverables, delivered, observedModel }) => ({ role, agentId, status, expectedDeliverables, delivered, observedModel })) } : { status: 'unregistered' };
+  return record ? { sessionId: record.sessionId, assignments: Object.values(record.assignments).map(({ role, agentId, assignmentId, parentAgentId, rootSessionId, status, expectedDeliverables, delivered, observedModel }) => ({ role, agentId, assignmentId, parentAgentId, rootSessionId, status, expectedDeliverables, delivered, observedModel })) } : { status: 'unregistered' };
 }
 
 export async function runCommand(args, options = {}) {
@@ -209,7 +220,7 @@ export async function runCommand(args, options = {}) {
   if (!['open', 'status', 'record', 'close', 'resume'].includes(command)) throw new Error('Use open, status, record, close o resume; --session ID --project RUTA [--agent ID]. open y record leen JSON por stdin.');
   const flags = {};
   for (let i = 0; i < rest.length; i += 2) {
-    if (!['--session', '--project', '--agent'].includes(rest[i]) || !rest[i + 1] || flags[rest[i]]) throw new Error('Argumentos inválidos.');
+    if (!['--session', '--project', '--agent', '--assignment', '--parent'].includes(rest[i]) || !rest[i + 1] || flags[rest[i]]) throw new Error('Argumentos inválidos.');
     flags[rest[i]] = rest[i + 1];
   }
   const environment = options.environment ?? process.env;
@@ -225,12 +236,15 @@ export async function runCommand(args, options = {}) {
     const role = manifest.agents.find(entry => entry.name === input.role);
     const state = await updateState(context, current => {
       const record = current ?? { version: 1, sessionId, project: context.project, assignments: {}, createdAt: now() };
-      const pending = record.assignments[`pending-${input.role}`];
+      const selectedId = flags['--assignment'];
+      const pending = selectedId ? record.assignments[selectedId] : undefined;
       const existing = actorId ? findAssignment(record, actorId) : pending?.status === 'prepared' ? pending : undefined;
       if (actorId && (!existing || existing.role !== input.role)) throw new Error('El agente no está vinculado a ese rol en esta sesión.');
       if (existing && ['closed', 'ended'].includes(existing.status)) throw new Error('El encargo terminó; prepare un agente nuevo.');
-      const key = actorId ?? `pending-${input.role}`;
-      record.assignments[key] = { ...existing, ...input, agentId: actorId ?? null, configuredModel: role.model, status: actorId ? 'running' : 'prepared', delivered: existing?.delivered ?? [], operations: existing?.operations ?? [], createdAt: existing?.createdAt ?? now() };
+      const key = actorId ?? flags['--assignment'] ?? (record.assignments[`pending-${input.role}`] ? `assignment-${randomUUID()}` : `pending-${input.role}`);
+      const parent = flags['--parent'] ? findAssignment(record, flags['--parent']) : undefined;
+      if (flags['--parent'] && (!parent || parent.status !== 'running')) throw new Error('Parent assignment must be running.');
+      record.assignments[key] = { ...existing, ...input, ...(parent ? { inheritedConstraintGroups: [...(parent.inheritedConstraintGroups ?? []), ...(parent.toolConstraints?.length ? [parent.toolConstraints] : [])], inheritedAuthorizationGroups: [...(parent.inheritedAuthorizationGroups ?? []), ...(parent.toolAuthorizations?.length ? [parent.toolAuthorizations] : [])], readOnly: parent.readOnly === true } : {}), agentId: actorId ?? null, assignmentId: existing?.assignmentId ?? key, rootSessionId: context.sessionId, parentAgentId: flags['--parent'] ?? existing?.parentAgentId ?? null, configuredModel: role.model, status: actorId ? 'running' : 'prepared', delivered: existing?.delivered ?? [], operations: existing?.operations ?? [], createdAt: existing?.createdAt ?? now() };
       return record;
     }, true);
     return status(state);

@@ -8,7 +8,7 @@ Roberto defines or authorizes the question, sources, documents, datasets, method
 
 Read the role's assigned skills only as needed. A reference to an optional skill is not an instruction to install it or to conduct its entire workflow. External skills in the catalog are already-available capabilities to locate in the current skill catalog; if a needed capability is unavailable, state the limitation rather than inventing access. Do not install a dependency merely because a skill mentions it.
 
-Only the direction of research delegates assignments. Specialists return their work to that direction and do not spawn additional agents. Experimental code can model a system with agents without granting the specialist delegation authority.
+All research agents may delegate useful subtasks to any roster within the authorized assignment. Each parent defines responsibility and integrates its children’s results. Preserve the current sources, methods, scope, read-only restrictions and platform approval policy throughout the tree. Coordinators are optional, and delegation does not authorize new operations.
 
 ## Execution boundaries
 

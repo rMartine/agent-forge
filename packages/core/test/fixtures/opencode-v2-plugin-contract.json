@@ -1,0 +1,39 @@
+{
+  "contract": "OpenCode plugin API",
+  "version": "V2",
+  "reviewedDate": "2026-10-07",
+  "sources": [
+    "https://opencode.ai/v2/docs/build/plugins/",
+    "https://opencode.ai/v2/docs/agents/",
+    "https://opencode.ai/v2/docs/permissions/"
+  ],
+  "plugin": {
+    "defaultExport": "Plugin.define",
+    "setupArgument": "ctx",
+    "registrations": [
+      {
+        "domain": "session",
+        "method": "hook",
+        "event": "context",
+        "fields": ["agent", "system", "tools"],
+        "accessedFields": ["system"],
+        "systemPartFields": ["type", "text"]
+      },
+      {
+        "domain": "permission",
+        "method": "hook",
+        "event": "evaluate",
+        "fields": ["agent", "action", "resources", "effect", "message"],
+        "accessedFields": ["agent", "action", "resources", "effect", "message"],
+        "effects": ["allow", "ask", "deny"],
+        "explicitDenyIsFinal": true
+      }
+    ],
+    "registrationDisposeMethod": "dispose",
+    "limitations": [
+      "Native context hook is automatic before agent model dispatch.",
+      "Agent Forge does not claim native mappings for unsupported lifecycle events.",
+      "This contract fixture does not verify a live OpenCode installation or model availability."
+    ]
+  }
+}

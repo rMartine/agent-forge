@@ -16,7 +16,7 @@ async function profile(t) {
   const dataRoot = path.join(directory, 'retained-records');
   const runtimeRoot = path.join(codexHome, 'research-specialists');
   const args = ['--codex-home', codexHome, '--state-home', stateHome, '--python', process.execPath, '--data-root', dataRoot];
-  const run = (command, extra = []) => spawnSync(process.execPath, [path.join(sourceRoot, 'install.mjs'), command, ...args, ...extra], { encoding: 'utf8', windowsHide: true, shell: false });
+  const run = (command, extra = []) => spawnSync(process.execPath, [path.join(sourceRoot, 'tests', 'fixtures', 'legacy-native', 'install.mjs'), command, ...args, ...extra], { encoding: 'utf8', windowsHide: true, shell: false });
   const success = (command, extra = []) => {
     const result = run(command, extra);
     assert.equal(result.status, 0, result.stderr);

@@ -12,7 +12,12 @@
       "author": "Corey Haines",
       "license": "MIT",
       "licenseFile": "skills/independent-content-strategy/LICENSE",
-      "changes": ["Traducción y adaptación al español de México y Codex.", "Conserva intención de búsqueda, necesidades de la audiencia, organización temática, priorización y distribución.", "Retira proporciones y producción de variantes obligatorias, estadísticas promocionales, investigación automática y enlaces a servicios comerciales.", "La distribución y colaboración respetan el encargo; Canva produce los gráficos."]
+      "changes": [
+        "Traducción y adaptación al español de México y Codex.",
+        "Conserva intención de búsqueda, necesidades de la audiencia, organización temática, priorización y distribución.",
+        "Retira proporciones y producción de variantes obligatorias, estadísticas promocionales, investigación automática y enlaces a servicios comerciales.",
+        "La distribución y colaboración respetan el encargo; Canva produce los gráficos."
+      ]
     },
     {
       "name": "independent-copywriting",
@@ -22,7 +27,12 @@
       "author": "Corey Haines",
       "license": "MIT",
       "licenseFile": "skills/independent-copywriting/LICENSE",
-      "changes": ["Conserva contexto de audiencia, oferta, prueba, objeciones, estructura de páginas y acciones claras.", "Retira cifras de conversión no sustentadas para el encargo, fórmulas rígidas y dependencias no instaladas.", "Mantiene condiciones y matices; impide testimonios, resultados o urgencia inventados.", "Deriva revisión de voz a independent-natural-writing."]
+      "changes": [
+        "Conserva contexto de audiencia, oferta, prueba, objeciones, estructura de páginas y acciones claras.",
+        "Retira cifras de conversión no sustentadas para el encargo, fórmulas rígidas y dependencias no instaladas.",
+        "Mantiene condiciones y matices; impide testimonios, resultados o urgencia inventados.",
+        "Deriva revisión de voz a independent-natural-writing."
+      ]
     },
     {
       "name": "independent-seo-audit",
@@ -32,7 +42,12 @@
       "author": "Corey Haines",
       "license": "MIT",
       "licenseFile": "skills/independent-seo-audit/LICENSE",
-      "changes": ["Conserva diagnóstico de rastreo, indexación, contenido, variantes lingüísticas y limitación de detección estática de JSON-LD.", "Acota diagnóstico a las páginas solicitadas; no inicia rastreos completos ni compra herramientas.", "Distingue evidencia, hipótesis y datos de campo; remite umbrales o afirmaciones cambiantes a fuentes oficiales.", "Retira recomendaciones universales sobre caracteres, enlaces y penalizaciones."]
+      "changes": [
+        "Conserva diagnóstico de rastreo, indexación, contenido, variantes lingüísticas y limitación de detección estática de JSON-LD.",
+        "Acota diagnóstico a las páginas solicitadas; no inicia rastreos completos ni compra herramientas.",
+        "Distingue evidencia, hipótesis y datos de campo; remite umbrales o afirmaciones cambiantes a fuentes oficiales.",
+        "Retira recomendaciones universales sobre caracteres, enlaces y penalizaciones."
+      ]
     },
     {
       "name": "independent-social",
@@ -42,7 +57,12 @@
       "author": "Corey Haines",
       "license": "MIT",
       "licenseFile": "skills/independent-social/LICENSE",
-      "changes": ["Conserva adaptación por plataforma, carruseles, video breve, reutilización, calendario e interpretación de desempeño.", "Retira extracción masiva, mensajes directos diarios, cadencias obligatorias y afirmaciones de rendimiento sin evidencia.", "Reemplaza proveedores de gráficos, voz y montaje por Canva, ElevenLabs y Shotstack.", "La publicación y mensajería dependen de autorización; ante resultados ambiguos se consulta estado para evitar duplicados."]
+      "changes": [
+        "Conserva adaptación por plataforma, carruseles, video breve, reutilización, calendario e interpretación de desempeño.",
+        "Retira extracción masiva, mensajes directos diarios, cadencias obligatorias y afirmaciones de rendimiento sin evidencia.",
+        "Reemplaza proveedores de gráficos, voz y montaje por Canva, ElevenLabs y Shotstack.",
+        "La publicación y mensajería dependen de autorización; ante resultados ambiguos se consulta estado para evitar duplicados."
+      ]
     },
     {
       "name": "independent-sales-enablement",
@@ -52,7 +72,12 @@
       "author": "Corey Haines",
       "license": "MIT",
       "licenseFile": "skills/independent-sales-enablement/LICENSE",
-      "changes": ["Conserva materiales por audiencia, propuestas, objeciones, comparaciones, casos y guiones de demostración.", "Mantiene atribución y fecha de evidencia competitiva, cálculo explícito de supuestos y límites de muestras.", "Retira cuotas de páginas, métricas o diapositivas, contactos automáticos y dependencias de otras herramientas.", "Preserva decisiones empresariales de precio, descuentos y compromisos."]
+      "changes": [
+        "Conserva materiales por audiencia, propuestas, objeciones, comparaciones, casos y guiones de demostración.",
+        "Mantiene atribución y fecha de evidencia competitiva, cálculo explícito de supuestos y límites de muestras.",
+        "Retira cuotas de páginas, métricas o diapositivas, contactos automáticos y dependencias de otras herramientas.",
+        "Preserva decisiones empresariales de precio, descuentos y compromisos."
+      ]
     },
     {
       "name": "independent-natural-writing",
@@ -62,7 +87,13 @@
       "author": "Siqi Chen (blader)",
       "license": "MIT",
       "licenseFile": "skills/independent-natural-writing/LICENSE",
-      "changes": ["Conserva familias de revisión editorial y verificación de fidelidad a hechos, citas y matices.", "Adapta a español de México, educación de adultos y narración oral.", "Prohíbe inventar experiencias, opiniones o emociones atribuidas al autor; mantiene ficción cuando sea el encargo.", "Conserva recapitulaciones y repeticiones pedagógicas; no presenta patrones estilísticos como detector de autoría.", "Entrega la versión final sin exigir borrador y diagnóstico adicionales."]
+      "changes": [
+        "Conserva familias de revisión editorial y verificación de fidelidad a hechos, citas y matices.",
+        "Adapta a español de México, educación de adultos y narración oral.",
+        "Prohíbe inventar experiencias, opiniones o emociones atribuidas al autor; mantiene ficción cuando sea el encargo.",
+        "Conserva recapitulaciones y repeticiones pedagógicas; no presenta patrones estilísticos como detector de autoría.",
+        "Entrega la versión final sin exigir borrador y diagnóstico adicionales."
+      ]
     },
     {
       "name": "independent-video-scriptwriting",
@@ -71,7 +102,12 @@
       "author": "GTM Agents / LaunchIQ AI, Inc.",
       "license": "Apache-2.0",
       "licenseFile": "skills/independent-video-scriptwriting/LICENSE",
-      "changes": ["Conserva estructura comercial y separación de voz, imagen, movimiento y duración.", "Añade secuencia educativa, dirección oral, pronunciación, texto en pantalla y subtítulos.", "Distingue estimación previa de duración real; no genera audio para validar un guion.", "Canva, ElevenLabs y Shotstack se usan cuando el encargo incluya producción."]
+      "changes": [
+        "Conserva estructura comercial y separación de voz, imagen, movimiento y duración.",
+        "Añade secuencia educativa, dirección oral, pronunciación, texto en pantalla y subtítulos.",
+        "Distingue estimación previa de duración real; no genera audio para validar un guion.",
+        "Canva, ElevenLabs y Shotstack se usan cuando el encargo incluya producción."
+      ]
     },
     {
       "name": "independent-adult-learning",
@@ -82,7 +118,14 @@
       "license": "CC-BY-SA-4.0",
       "licenseFile": "skills/independent-adult-learning/LICENSE",
       "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0/legalcode",
-      "changes": ["Adapta la formación docente británica a contextos de educación de adultos.", "Conserva conexión con experiencia previa, práctica, aplicación y seguimiento pertinente.", "Añade currícula, resultados observables, evaluación, rúbricas y criterios de certificados o diplomas.", "Retira porcentaje 20/80 obligatorio, exposición pública de nombres y compromisos y afirmaciones absolutas sobre evidencia.", "Sustituye el ejemplo inconsistente de 90 minutos con 75 minutos de actividades por instrucciones para sumar tiempos reales.", "La adaptación se distribuye bajo CC BY-SA 4.0; no se atribuye acreditación o validez profesional no comprobada."]
+      "changes": [
+        "Adapta la formación docente británica a contextos de educación de adultos.",
+        "Conserva conexión con experiencia previa, práctica, aplicación y seguimiento pertinente.",
+        "Añade currícula, resultados observables, evaluación, rúbricas y criterios de certificados o diplomas.",
+        "Retira porcentaje 20/80 obligatorio, exposición pública de nombres y compromisos y afirmaciones absolutas sobre evidencia.",
+        "Sustituye el ejemplo inconsistente de 90 minutos con 75 minutos de actividades por instrucciones para sumar tiempos reales.",
+        "La adaptación se distribuye bajo CC BY-SA 4.0; no se atribuye acreditación o validez profesional no comprobada."
+      ]
     },
     {
       "name": "independent-shotstack",
@@ -93,17 +136,56 @@
       "license": "Apache-2.0",
       "licenseFile": "skills/independent-shotstack/LICENSE",
       "licenseEvidence": "La skill original declara Apache-2.0 en su frontmatter. El texto estándar de la licencia se obtuvo de https://www.apache.org/licenses/LICENSE-2.0.txt; no se atribuye a Shotstack el copyright de otro repositorio.",
-      "officialReferences": ["https://shotstack.io/docs/guide/agents/mcp-server/", "https://shotstack.io/docs/api/", "https://shotstack.io/docs/api/api.edit.json"],
-      "changes": ["Reemplaza ejecución CLI por descubrimiento de herramientas y guía de la integración oficial.", "Retira instalación y comprobaciones de actualizaciones, almacenamiento de claves en archivos y comandos ajenos al encargo.", "Mantiene reglas útiles de Edit JSON y URLs de recursos; consulta el esquema activo antes de ejecutar.", "Aclara que Studio puede transmitir la edición y crear un enlace compartible, y que stage no implica generación de recursos gratuita.", "Evita regeneraciones para consultar estado, y utiliza Canva para gráficos y ElevenLabs para voz.", "No impone estilo de movimiento propio de Shotstack a marcas del usuario."]
+      "officialReferences": [
+        "https://shotstack.io/docs/guide/agents/mcp-server/",
+        "https://shotstack.io/docs/api/",
+        "https://shotstack.io/docs/api/api.edit.json"
+      ],
+      "changes": [
+        "Reemplaza ejecución CLI por descubrimiento de herramientas y guía de la integración oficial.",
+        "Retira instalación y comprobaciones de actualizaciones, almacenamiento de claves en archivos y comandos ajenos al encargo.",
+        "Mantiene reglas útiles de Edit JSON y URLs de recursos; consulta el esquema activo antes de ejecutar.",
+        "Aclara que Studio puede transmitir la edición y crear un enlace compartible, y que stage no implica generación de recursos gratuita.",
+        "Evita regeneraciones para consultar estado, y utiliza Canva para gráficos y ElevenLabs para voz.",
+        "No impone estilo de movimiento propio de Shotstack a marcas del usuario."
+      ]
     },
     {
       "name": "independent-elevenlabs",
       "source": "Instrucciones nuevas de coordinación para este paquete; no es copia de una skill oficial.",
       "providerReference": "https://github.com/elevenlabs/skills",
-      "runtimeSkillNames": ["text-to-speech", "speech-to-text", "creative-studio"],
+      "runtimeSkillNames": [
+        "text-to-speech",
+        "speech-to-text",
+        "creative-studio"
+      ],
       "runtimeProvider": "ElevenLabs",
       "redistributesUpstreamSkills": false,
-      "changes": ["Resuelve skills por catálogo activo, sin rutas de caché fijadas ni instalación duplicada.", "Distingue uso directo del conector y trabajo con API; lee la skill oficial correspondiente.", "Conserva el número de variantes predeterminado de la metadata actual, cuatro en la versión revisada, salvo indicación del usuario.", "Usa estimación cuando está disponible, consulta trabajos por identificador y evita generar otra vez para comprobar estado.", "Dirige gráficos a Canva y montaje a Shotstack; no produce muestras como parte de la instalación."]
+      "changes": [
+        "Resuelve skills por catálogo activo, sin rutas de caché fijadas ni instalación duplicada.",
+        "Distingue uso directo del conector y trabajo con API; lee la skill oficial correspondiente.",
+        "Conserva el número de variantes predeterminado de la metadata actual, cuatro en la versión revisada, salvo indicación del usuario.",
+        "Usa estimación cuando está disponible, consulta trabajos por identificador y evita generar otra vez para comprobar estado.",
+        "Dirige gráficos a Canva y montaje a Shotstack; no produce muestras como parte de la instalación."
+      ]
+    },
+    {
+      "name": "communication-design-styles",
+      "source": "https://github.com/bergside/awesome-design-skills",
+      "commit": "f631a09b4fcc0166f2e2c1a8c81906ef680c57e8",
+      "author": "TypeUI / Bergside",
+      "license": "MIT",
+      "licenseFile": "skills/communication-design-styles/LICENSE",
+      "provenanceFile": "skills/communication-design-styles/SOURCES.json",
+      "changes": [
+        "Traducción y adaptación local al español; separación de reglas originales y aplicaciones por medio.",
+        "Conserva estilo, paletas y fuentes como bases ajustables a la marca; no interpreta todos los pesos tipográficos como disponibles.",
+        "Elimina del flujo activo la misión de escribir guías completas, estructura obligatoria de informe, listas extensas y exigencia de ejemplos por cada regla.",
+        "Los requisitos de interacción web no se aplican a slides, videos o material impreso. Las referencias no certifican accesibilidad.",
+        "Omite la misión de producto de comunicación genérica del original Glassmorphism porque no define la marca del usuario.",
+        "Consulta antes de diseñar cursos sin identidad ni estilo indicado; Clean + Editorial no se activa automáticamente.",
+        "Carga progresiva; sin ejecutables, descargas en tiempo de uso ni actualización automática."
+      ]
     }
   ]
 }

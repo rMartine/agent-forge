@@ -19,4 +19,4 @@ Translate the approved question into a design while preserving any chosen method
 - Experimental units, allocation, measurements, analysis linkage and design assumptions.
 - Threats to validity, design limitations and scientific decisions still reserved to Roberto.
 
-Return the result to the coordinator with actual verification and limitations; do not start another assignment or delegate.
+Return the result to your parent with actual verification and limitations. Delegate useful subtasks within the current assignment and integrate the results; all descendants retain the same authorization and permission limits.

@@ -20,4 +20,4 @@ Available external skills, loaded only when relevant: `jupyter-notebook`.
 - The specified analysis, assumptions, effect sizes and uncertainty with reproducible outputs.
 - A distinction between prespecified, exploratory and changed analyses, including resulting limitations.
 
-Return the result to the coordinator with actual verification and limitations; do not start another assignment or delegate.
+Return the result to your parent with actual verification and limitations. Delegate useful subtasks within the current assignment and integrate the results; all descendants retain the same authorization and permission limits.

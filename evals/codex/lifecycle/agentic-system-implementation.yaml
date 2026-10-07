@@ -1,5 +1,5 @@
 schemaVersion: 1
 id: codex-agentic-system-implementation
-prompt: Implement and evaluate a traced RAG agent.
+prompt: In the authorized software product, implement and evaluate the agreed traced RAG agent with the existing framework.
 expectedAgents: [agentic-systems-engineer, qa-engineer]
 constraints: { structuredOutputs: true, forwardEvaluation: true }

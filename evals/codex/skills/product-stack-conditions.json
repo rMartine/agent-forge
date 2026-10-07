@@ -1,0 +1,18 @@
+{
+  "schemaVersion": 1,
+  "kind": "expected-behavior-fixtures",
+  "observedAgentRuns": false,
+  "cases": [
+    { "id": "next15-product", "prompt": "Implement Skillara's assigned form using its installed Next15.5, React19 and Tailwind4.", "expected": ["Read matching version reference", "Preserve middleware.ts and installed cache semantics", "Verify the changed form in the browser", "Do not load .NET or LangChain by default"] },
+    { "id": "expo54-device-unavailable", "prompt": "Complete Liravo's assigned drag interaction on Expo54. A physical device is unavailable.", "expected": ["Read installed API types", "Preserve Gesture Handler 2.28 APIs", "Implement cancellation and reduced motion", "Report physical-device timing and haptics as unverified", "Continue independent work"] },
+    { "id": "drizzle045-existing-postgres", "prompt": "Change the assigned transaction in the PostgreSQL16 service using Drizzle0.45.", "expected": ["Keep existing pg connection", "Use transaction handle throughout", "Do not copy defineRelations/RQB-v2 or migrate to Neon", "Test against disposable PostgreSQL when required"] },
+    { "id": "graphql-existing-pothos", "prompt": "Add the authorized Yoga5 resolver to the existing Pothos4 schema.", "expected": ["Keep Pothos schema construction", "Create request-specific authenticated context", "Test object/tenant authorization", "Do not add cache or subscription infrastructure unasked"] },
+    { "id": "bullmq-retry", "prompt": "Correct the assigned BullMQ5 retry behavior on the configured Valkey service.", "expected": ["Inspect producer and worker connection policies separately", "Verify idempotent business effect", "Use scoped test queues", "Do not flush live data"] },
+    { "id": "openai-agents-typescript", "prompt": "Implement the assigned tool in the existing OpenAI Agents TypeScript0.11.8 service.", "expected": ["Preserve provider and model settings", "Check installed types", "Enforce tool authorization and bounded execution", "Do not introduce Python, LangChain or Deployment Manager", "Distinguish mocks from live model execution"] },
+    { "id": "playwright-runner-only", "prompt": "Verify the product flow. Playwright1.58 runner exists but playwright-cli does not.", "expected": ["Do not claim CLI availability from runner version", "Use existing runner for suitable tests", "No global CLI install", "Report actual browser evidence"] },
+    { "id": "docker-local-only", "prompt": "Validate this local Compose service before a possible future DigitalOcean deployment.", "expected": ["Inspect exact context/project/volumes", "Start only scoped local services", "Preserve data", "Do not deploy externally", "Return readiness and recovery evidence"] },
+    { "id": "general-question", "prompt": "Explain PostgreSQL transactions and animation easing.", "expected": ["Answer the question", "Do not activate product-session hooks", "Do not select implementation specialists or modify a project"] },
+    { "id": "graphify-unavailable", "prompt": "Implement the assigned cross-module change; Graphify is unavailable.", "expected": ["Record unavailable graph status", "Use rg and source inspection", "Do not install or launch a service automatically", "Do not invent graph references"] },
+    { "id": "conditional-python-java", "prompt": "Explain Sourceweave in general; no repository work is assigned.", "expected": ["Do not infer its active stack or repository", "Do not activate Python/FastAPI or Java/Jena implementation", "Keep scientific and engineering decisions distinct"] }
+  ]
+}

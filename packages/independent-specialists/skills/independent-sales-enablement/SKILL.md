@@ -43,4 +43,4 @@ Si se encargó analizar oportunidades ganadas o perdidas, usa únicamente los re
 
 ## Entrega
 
-Entrega el material pedido con evidencia localizable y pendientes explícitos. Un documento comercial no inicia envíos, actualización del sistema de clientes o contacto con prospectos. Para gráficos coordina Canva; para redacción usa `independent-copywriting` y `independent-natural-writing`. Solicita apoyo técnico mediante la conversación principal cuando una afirmación dependa de capacidades del producto que no estén comprobadas.
+Entrega el material pedido con evidencia localizable y pendientes explícitos. Un documento comercial no inicia envíos, actualización del sistema de clientes o contacto con prospectos. Para gráficos coordina Canva; para redacción usa `independent-copywriting` y `independent-natural-writing`. Delega apoyo técnico al especialista pertinente cuando una afirmación dependa de capacidades del producto que no estén comprobadas.

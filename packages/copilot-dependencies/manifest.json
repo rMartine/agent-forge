@@ -1,0 +1,442 @@
+{
+  "schemaVersion": 1,
+  "name": "agent-forge-copilot-dependencies",
+  "runtimeDir": "runtime",
+  "runtimeInstallSubdirectory": "dependencies",
+  "runtimeToken": "__COPILOT_RUNTIME__",
+  "skillCount": 10,
+  "skills": [
+    {
+      "id": "agent-forge-copilot-elevenlabs-creative-studio",
+      "source": "packages/copilot-dependencies/skills/agent-forge-copilot-elevenlabs-creative-studio",
+      "provenance": {
+        "kind": "original-agent-forge-portable-implementation",
+        "authoredFor": "Copilot four-roster migration",
+        "thirdPartySourceCopied": false,
+        "references": [
+          "https://elevenlabs.io/mcp"
+        ],
+        "license": "Repository-owner terms; third-party runtimes retain their upstream licenses"
+      },
+      "dependencies": {
+        "pythonPackages": [],
+        "mcpProviders": [
+          "elevenlabs"
+        ],
+        "python": "not-required",
+        "optionalEngines": []
+      },
+      "files": [
+        {
+          "path": "skills/agent-forge-copilot-elevenlabs-creative-studio/assets/production-brief.json",
+          "sha256": "7d9dedc54d00566d69ffb2881578a89a3c08fc846200c020f4cf16e72fa4a529",
+          "bytes": 190
+        },
+        {
+          "path": "skills/agent-forge-copilot-elevenlabs-creative-studio/PROVENANCE.json",
+          "sha256": "b4b553f65ef89d20888e259f10997bf4dc8f388a251c6a0f3656a49bd7aef2b3",
+          "bytes": 293
+        },
+        {
+          "path": "skills/agent-forge-copilot-elevenlabs-creative-studio/SKILL.md",
+          "sha256": "28e8eaca91f70349ded3f1664bab3ac24abf7fb48d4cf58ba67f97b9acf3021d",
+          "bytes": 2833
+        }
+      ]
+    },
+    {
+      "id": "agent-forge-copilot-elevenlabs-text-to-speech",
+      "source": "packages/copilot-dependencies/skills/agent-forge-copilot-elevenlabs-text-to-speech",
+      "provenance": {
+        "kind": "original-agent-forge-portable-implementation",
+        "authoredFor": "Copilot four-roster migration",
+        "thirdPartySourceCopied": false,
+        "references": [
+          "https://elevenlabs.io/mcp",
+          "https://elevenlabs.io/docs/api-reference/text-to-speech/convert"
+        ],
+        "license": "Repository-owner terms; third-party runtimes retain their upstream licenses"
+      },
+      "dependencies": {
+        "pythonPackages": [],
+        "mcpProviders": [
+          "elevenlabs"
+        ],
+        "python": "not-required",
+        "optionalEngines": []
+      },
+      "files": [
+        {
+          "path": "skills/agent-forge-copilot-elevenlabs-text-to-speech/PROVENANCE.json",
+          "sha256": "7f8c761341c5da4a5951be3305ddfc63f0fc28bb38b02823ac51f94fb59f2794",
+          "bytes": 364
+        },
+        {
+          "path": "skills/agent-forge-copilot-elevenlabs-text-to-speech/SKILL.md",
+          "sha256": "a0c2fef15b842569ab73383453c870d1fce74b4cbb728cceea4d4e75cdca8ccf",
+          "bytes": 2443
+        }
+      ]
+    },
+    {
+      "id": "agent-forge-copilot-elevenlabs-speech-to-text",
+      "source": "packages/copilot-dependencies/skills/agent-forge-copilot-elevenlabs-speech-to-text",
+      "provenance": {
+        "kind": "original-agent-forge-portable-implementation",
+        "authoredFor": "Copilot four-roster migration",
+        "thirdPartySourceCopied": false,
+        "references": [
+          "https://elevenlabs.io/mcp",
+          "https://elevenlabs.io/docs/api-reference/speech-to-text/convert"
+        ],
+        "license": "Repository-owner terms; third-party runtimes retain their upstream licenses"
+      },
+      "dependencies": {
+        "pythonPackages": [],
+        "mcpProviders": [
+          "elevenlabs"
+        ],
+        "python": "3.11+",
+        "optionalEngines": []
+      },
+      "files": [
+        {
+          "path": "skills/agent-forge-copilot-elevenlabs-speech-to-text/PROVENANCE.json",
+          "sha256": "73501e52a6058747b1356abc14175428757435802eb7734a500f54ade8309a26",
+          "bytes": 364
+        },
+        {
+          "path": "skills/agent-forge-copilot-elevenlabs-speech-to-text/scripts/subtitles.py",
+          "sha256": "700fb4e8e98d0fab16eda1483fe278df5823c9b0e13eca0d82542e12a95c8bed",
+          "bytes": 1555
+        },
+        {
+          "path": "skills/agent-forge-copilot-elevenlabs-speech-to-text/SKILL.md",
+          "sha256": "d9465210eba83c7a8bafaeb0911e78d80a86af0faff380965a9928855795a441",
+          "bytes": 2190
+        }
+      ]
+    },
+    {
+      "id": "agent-forge-copilot-jupyter-notebook",
+      "source": "packages/copilot-dependencies/skills/agent-forge-copilot-jupyter-notebook",
+      "provenance": {
+        "kind": "original-agent-forge-portable-implementation",
+        "authoredFor": "Copilot four-roster migration",
+        "thirdPartySourceCopied": false,
+        "references": [
+          "https://nbformat.readthedocs.io/en/latest/format_description.html",
+          "https://nbclient.readthedocs.io/en/latest/"
+        ],
+        "license": "Repository-owner terms; third-party runtimes retain their upstream licenses"
+      },
+      "dependencies": {
+        "pythonPackages": [
+          "nbformat",
+          "nbclient",
+          "ipykernel"
+        ],
+        "mcpProviders": [],
+        "python": "3.11+",
+        "optionalEngines": []
+      },
+      "files": [
+        {
+          "path": "skills/agent-forge-copilot-jupyter-notebook/PROVENANCE.json",
+          "sha256": "929e98a99e22c395e8385ebf295dcbd0f90c24bc174e53e3e9a47bac77ba6d40",
+          "bytes": 383
+        },
+        {
+          "path": "skills/agent-forge-copilot-jupyter-notebook/scripts/notebook.py",
+          "sha256": "fa6431df4ca38d1bd817f0fd8f2b73ec53112a54fbac280be4e290814d5a9593",
+          "bytes": 2560
+        },
+        {
+          "path": "skills/agent-forge-copilot-jupyter-notebook/SKILL.md",
+          "sha256": "b8788de829aa43dfcf2b6056f9b433c98b8ad0212fe321e4aeee23b41e4ad9c9",
+          "bytes": 1894
+        }
+      ]
+    },
+    {
+      "id": "agent-forge-copilot-zotero",
+      "source": "packages/copilot-dependencies/skills/agent-forge-copilot-zotero",
+      "provenance": {
+        "kind": "original-agent-forge-portable-implementation",
+        "authoredFor": "Copilot four-roster migration",
+        "thirdPartySourceCopied": false,
+        "references": [
+          "https://www.zotero.org/support/dev/web_api/v3/basics"
+        ],
+        "license": "Repository-owner terms; third-party runtimes retain their upstream licenses"
+      },
+      "dependencies": {
+        "pythonPackages": [],
+        "mcpProviders": [],
+        "python": "3.11+",
+        "optionalEngines": []
+      },
+      "files": [
+        {
+          "path": "skills/agent-forge-copilot-zotero/PROVENANCE.json",
+          "sha256": "b4620d01c6a8c3fea4d60797cf1d13fb559d4bd6d55de2e655244f47701a8ab9",
+          "bytes": 320
+        },
+        {
+          "path": "skills/agent-forge-copilot-zotero/scripts/zotero.py",
+          "sha256": "e2c1e88053b8e36ea10cf6cb8d8f646ea8d407a5d8f463bc44ff5f622b5a51bf",
+          "bytes": 4590
+        },
+        {
+          "path": "skills/agent-forge-copilot-zotero/SKILL.md",
+          "sha256": "dfc4ca06c3afa2fce50b92342610b47c958a009e05a28db548473e60ec0faf3d",
+          "bytes": 2247
+        }
+      ]
+    },
+    {
+      "id": "agent-forge-copilot-documents",
+      "source": "packages/copilot-dependencies/skills/agent-forge-copilot-documents",
+      "provenance": {
+        "kind": "original-agent-forge-portable-implementation",
+        "authoredFor": "Copilot four-roster migration",
+        "thirdPartySourceCopied": false,
+        "references": [
+          "https://python-docx.readthedocs.io/en/latest/"
+        ],
+        "license": "Repository-owner terms; third-party runtimes retain their upstream licenses"
+      },
+      "dependencies": {
+        "pythonPackages": [
+          "python-docx"
+        ],
+        "mcpProviders": [],
+        "python": "3.11+",
+        "optionalEngines": [
+          "Microsoft Office",
+          "LibreOffice"
+        ]
+      },
+      "files": [
+        {
+          "path": "skills/agent-forge-copilot-documents/assets/brief.json",
+          "sha256": "7f0114b9e5299f74e18eabdbfd9123a481dec3b7a96b401d41d0a32e64bccf32",
+          "bytes": 187
+        },
+        {
+          "path": "skills/agent-forge-copilot-documents/PROVENANCE.json",
+          "sha256": "c0859537752cb1296ffa7649631f1fb970ecb75fcd4cad2625c58bab59431dbf",
+          "bytes": 313
+        },
+        {
+          "path": "skills/agent-forge-copilot-documents/scripts/document.py",
+          "sha256": "10dc4598d8f230294e01a621ebe5d70606eb04bcfc49674fbd855846693934e3",
+          "bytes": 1870
+        },
+        {
+          "path": "skills/agent-forge-copilot-documents/SKILL.md",
+          "sha256": "16d771c2d10b7fd48448ad4c40eb35475c7591ac7423aa1de714c60374f7e698",
+          "bytes": 2176
+        }
+      ]
+    },
+    {
+      "id": "agent-forge-copilot-presentations",
+      "source": "packages/copilot-dependencies/skills/agent-forge-copilot-presentations",
+      "provenance": {
+        "kind": "original-agent-forge-portable-implementation",
+        "authoredFor": "Copilot four-roster migration",
+        "thirdPartySourceCopied": false,
+        "references": [
+          "https://python-pptx.readthedocs.io/en/latest/"
+        ],
+        "license": "Repository-owner terms; third-party runtimes retain their upstream licenses"
+      },
+      "dependencies": {
+        "pythonPackages": [
+          "python-pptx"
+        ],
+        "mcpProviders": [],
+        "python": "3.11+",
+        "optionalEngines": [
+          "Microsoft Office",
+          "LibreOffice"
+        ]
+      },
+      "files": [
+        {
+          "path": "skills/agent-forge-copilot-presentations/assets/brief.json",
+          "sha256": "c35461e7fc815eeff7eb8d82dd7c15697e5fee7bea8aff658d53250d22a1f3c5",
+          "bytes": 134
+        },
+        {
+          "path": "skills/agent-forge-copilot-presentations/PROVENANCE.json",
+          "sha256": "d0f24c7a1109078dd931f68d07c0e0e6809c99be5b9fff5fef2189da881ff8de",
+          "bytes": 313
+        },
+        {
+          "path": "skills/agent-forge-copilot-presentations/scripts/presentation.py",
+          "sha256": "e1b1e04bfbd90c60473c0146b524e6fd0bcc5d61ed2ef928796597063db2af5a",
+          "bytes": 2093
+        },
+        {
+          "path": "skills/agent-forge-copilot-presentations/SKILL.md",
+          "sha256": "497c562b5b1cf51b57dda728ea4de7212bef4a93933e7cd1914ea0855713a05f",
+          "bytes": 2082
+        }
+      ]
+    },
+    {
+      "id": "agent-forge-copilot-spreadsheets",
+      "source": "packages/copilot-dependencies/skills/agent-forge-copilot-spreadsheets",
+      "provenance": {
+        "kind": "original-agent-forge-portable-implementation",
+        "authoredFor": "Copilot four-roster migration",
+        "thirdPartySourceCopied": false,
+        "references": [
+          "https://openpyxl.readthedocs.io/en/stable/"
+        ],
+        "license": "Repository-owner terms; third-party runtimes retain their upstream licenses"
+      },
+      "dependencies": {
+        "pythonPackages": [
+          "openpyxl"
+        ],
+        "mcpProviders": [],
+        "python": "3.11+",
+        "optionalEngines": [
+          "Microsoft Office",
+          "LibreOffice"
+        ]
+      },
+      "files": [
+        {
+          "path": "skills/agent-forge-copilot-spreadsheets/assets/brief.json",
+          "sha256": "fc7da2a6cfd9fb345f21e8255baffbd45c2ae62792967e7ea7eda9d97c797424",
+          "bytes": 106
+        },
+        {
+          "path": "skills/agent-forge-copilot-spreadsheets/PROVENANCE.json",
+          "sha256": "f84c60b140a23cb4f368fbe25677473fb9c9cd229a57512cbe7863b54d58561b",
+          "bytes": 310
+        },
+        {
+          "path": "skills/agent-forge-copilot-spreadsheets/scripts/workbook.py",
+          "sha256": "a901da347265084b91e2316edf1492aa2e443935002cde02a5e78a90183ec4af",
+          "bytes": 2139
+        },
+        {
+          "path": "skills/agent-forge-copilot-spreadsheets/SKILL.md",
+          "sha256": "81af4e8f07e3790b88312b363b41d9536ba72a468e5af34ca76b1e6eaf63a5e8",
+          "bytes": 2123
+        }
+      ]
+    },
+    {
+      "id": "agent-forge-copilot-pdf",
+      "source": "packages/copilot-dependencies/skills/agent-forge-copilot-pdf",
+      "provenance": {
+        "kind": "original-agent-forge-portable-implementation",
+        "authoredFor": "Copilot four-roster migration",
+        "thirdPartySourceCopied": false,
+        "references": [
+          "https://pymupdf.readthedocs.io/en/latest/"
+        ],
+        "license": "Repository-owner terms; third-party runtimes retain their upstream licenses"
+      },
+      "dependencies": {
+        "pythonPackages": [
+          "PyMuPDF"
+        ],
+        "mcpProviders": [],
+        "python": "3.11+",
+        "optionalEngines": []
+      },
+      "files": [
+        {
+          "path": "skills/agent-forge-copilot-pdf/PROVENANCE.json",
+          "sha256": "2cdfd0d21133290d7c361f33b69b1244499fd74c362805c92114d5482f1b4041",
+          "bytes": 309
+        },
+        {
+          "path": "skills/agent-forge-copilot-pdf/scripts/pdf.py",
+          "sha256": "d5c74d13bfc88579daff6be8b0d915620ea7524d9a096dce6b7fa6c7975fb598",
+          "bytes": 2440
+        },
+        {
+          "path": "skills/agent-forge-copilot-pdf/SKILL.md",
+          "sha256": "07a152361cb8e3b9a4961d44fb8c3e1d5e0443863b2367df491d4a4b213b6792",
+          "bytes": 2130
+        }
+      ]
+    },
+    {
+      "id": "agent-forge-copilot-latex",
+      "source": "packages/copilot-dependencies/skills/agent-forge-copilot-latex",
+      "provenance": {
+        "kind": "original-agent-forge-portable-implementation",
+        "authoredFor": "Copilot four-roster migration",
+        "thirdPartySourceCopied": false,
+        "references": [
+          "https://www.latex-project.org/help/documentation/"
+        ],
+        "license": "Repository-owner terms; third-party runtimes retain their upstream licenses"
+      },
+      "dependencies": {
+        "pythonPackages": [],
+        "mcpProviders": [],
+        "python": "3.11+",
+        "optionalEngines": [
+          "latexmk",
+          "pdflatex",
+          "tectonic"
+        ]
+      },
+      "files": [
+        {
+          "path": "skills/agent-forge-copilot-latex/assets/document.tex",
+          "sha256": "6c72803ff073bb56ed9d838c2c0c19edf3a8c242a804190af0a8b0e370aa9ea9",
+          "bytes": 350
+        },
+        {
+          "path": "skills/agent-forge-copilot-latex/PROVENANCE.json",
+          "sha256": "4f67ec61775b8acc3a41f53609a980bee512a981c5af5c855ed11b59778cd9c8",
+          "bytes": 317
+        },
+        {
+          "path": "skills/agent-forge-copilot-latex/scripts/compile.py",
+          "sha256": "8e6317c174fb1c0adc112a43ab46255abbd7bb07bfe255606b83769d974e4f80",
+          "bytes": 1678
+        },
+        {
+          "path": "skills/agent-forge-copilot-latex/SKILL.md",
+          "sha256": "7d8616e4af79c5f1e3a0f8981ab9af249ef68a32763c9d845e93408a72ba2765",
+          "bytes": 2174
+        }
+      ]
+    }
+  ],
+  "runtime": [
+    {
+      "path": "runtime/discover.mjs",
+      "sha256": "42625ef7c1d9519e1005ad557f8377c8c161846be2f83d0a27ee52528d7c7766",
+      "bytes": 3591
+    },
+    {
+      "path": "runtime/requirements.txt",
+      "sha256": "8bca5cb841c59bef608517154e97bd33103a927f35e191d5281d2e7218342cbb",
+      "bytes": 192
+    },
+    {
+      "path": "runtime/requirements.windows-py312.lock.txt",
+      "sha256": "620b8a9473064f02599321afc59e8327b1fd753af3fa0dac6cadf36a74a2746f",
+      "bytes": 4352
+    }
+  ],
+  "limitations": [
+    "Python libraries and optional TeX/Office engines are discovered locally and are not bundled or automatically installed.",
+    "MCP provider authentication and actual live schemas require VS Code connection; no authenticated status is implied.",
+    "No functional generation, agent execution, notebook execution or model tests are part of preparation.",
+    "Portable artifact workflows are original implementations; vendor-only cloud artifact editing APIs are not available."
+  ]
+}

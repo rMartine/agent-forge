@@ -40,6 +40,6 @@ Comprueba que títulos, contenido y señales locales correspondan al idioma y re
 
 Cada hallazgo debe incluir la página afectada, evidencia observada, método de comprobación, consecuencia probable, corrección propuesta y prioridad razonada. Separa causas confirmadas de hipótesis. Declara qué partes no se revisaron; no calcules una puntuación de salud sin un método acordado.
 
-Agrupa primero lo que impide acceder o indexar y después lo que afecta comprensión y utilidad. Evita prometer posiciones, tráfico o ventas. Los cambios de software se coordinan con el agente apropiado mediante la conversación principal; una recomendación no autoriza modificar ni publicar el sitio.
+Agrupa primero lo que impide acceder o indexar y después lo que afecta comprensión y utilidad. Evita prometer posiciones, tráfico o ventas. Los cambios de software pueden delegarse al agente apropiado dentro del encargo vigente; una recomendación no autoriza modificar ni publicar el sitio.
 
 Fuentes oficiales para resolver dudas concretas: [Google Search Central](https://developers.google.com/search/docs), [Search Console](https://search.google.com/search-console) y [Rich Results Test](https://search.google.com/test/rich-results). No abras nuevas investigaciones si los datos disponibles ya resuelven el encargo.

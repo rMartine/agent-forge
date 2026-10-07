@@ -172,10 +172,15 @@ export async function handleSetupMcp(output: vscode.OutputChannel): Promise<void
   output.appendLine('\n[MCP Setup Preview/VS Code] ' + new Date().toISOString());
   for (const [name, provider] of Object.entries(preview.doctor.providers)) {
     output.appendLine(name + ': ' + (provider.ready ? 'ready' : 'not ready') + ' — ' + provider.message);
-    output.appendLine(JSON.stringify(preview.catalog.providers[name].configuration));
+    const planned = preview.plan.changes.find(change => change.provider === name);
+    if (planned?.cliPayload) output.appendLine(JSON.stringify(planned.cliPayload));
+    else if (planned) output.appendLine(planned.action + ': ' + planned.message);
   }
+  appendDiagnostics(output, preview.plan.diagnostics);
   output.show(true);
+  if (preview.plan.diagnostics.some(item => item.severity === 'error')) return;
   const addable = preview.plan.changes.filter(change => change.action === 'add').map(change => change.provider);
+  if (!addable.length) { vscode.window.showInformationMessage('Agent Forge: existing MCP providers were preserved; no providers need adding.'); return; }
   const choice = await vscode.window.showWarningMessage(
     'Review the MCP preview in Output. Add these providers to the VS Code user profile: ' + addable.join(', ') + '?',
     { modal: true },
@@ -187,6 +192,7 @@ export async function handleSetupMcp(output: vscode.OutputChannel): Promise<void
   } else if (choice === 'Apply MCP Setup') {
     const result = await applyMcpSetupPreview(preview, addable);
     appendDiagnostics(output, result.diagnostics);
+    if (result.backupDirectory) output.appendLine('Private MCP rollback backup: ' + result.backupDirectory);
     vscode.window.showInformationMessage(result.success
       ? 'Agent Forge: added ' + (result.applied.join(', ') || 'no') + ' MCP providers. Review trust and OAuth prompts in VS Code.'
       : 'Agent Forge: MCP setup failed. See Output.');

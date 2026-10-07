@@ -1,0 +1,7 @@
+schemaVersion: 1
+id: agent-forge-review-animations
+runtime: codex
+prompt: "Review the assigned application's changed transitions and report observed interruption or accessibility defects."
+explicitPrompt: "Use $agent-forge-review-animations for this product diff. Only source inspection is available."
+negativePrompt: "What are the principles of classical animation?"
+expect: { trigger: true, negativeTrigger: false, noAutomaticBlockForStyle: true, separatesObservationAndInference: true, noForcedWait: true, primaryRetainsAcceptance: true }

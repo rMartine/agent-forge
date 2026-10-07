@@ -1,0 +1,10 @@
+{
+  "kind": "original-agent-forge-portable-implementation",
+  "authoredFor": "Copilot four-roster migration",
+  "thirdPartySourceCopied": false,
+  "references": [
+    "https://nbformat.readthedocs.io/en/latest/format_description.html",
+    "https://nbclient.readthedocs.io/en/latest/"
+  ],
+  "license": "Repository-owner terms; third-party runtimes retain their upstream licenses"
+}

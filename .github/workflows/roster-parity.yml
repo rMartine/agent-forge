@@ -1,0 +1,58 @@
+name: Roster parity and recovery
+
+on:
+  pull_request:
+  push:
+    branches: [development, main]
+
+permissions:
+  contents: read
+
+jobs:
+  verify:
+    runs-on: windows-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: npm
+      - name: Install locked dependencies
+        run: npm ci
+      - name: Prepare pinned skills
+        run: npm run prepare:skills
+      - name: Build all interfaces
+        run: npm run build
+      - name: Check contracts, migrations and rollback
+        run: npm test
+      - name: Verify VS Code extension host
+        run: npm run test:extension-host
+      - name: Validate all installed runtime contracts
+        run: node packages/cli/dist/index.js --repo . validate --strict --target all
+      - name: Export all three editions from the same source revision
+        shell: pwsh
+        run: |
+          $destination = Join-Path $env:RUNNER_TEMP 'agent-forge-editions'
+          node packages/cli/dist/index.js --repo . export --target all --output $destination --json
+          if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
+          $receipt = Get-Content -LiteralPath (Join-Path $destination 'export.json') -Raw | ConvertFrom-Json
+          $editions = @($receipt.editions | ForEach-Object { $_.edition } | Sort-Object)
+          if (($editions -join ',') -ne 'codex,opencode,vscode') { throw 'All three editions must be generated together.' }
+          if ($receipt.sourceCommit -ne '${{ github.sha }}') { throw 'Export source revision differs from the checked-out revision.' }
+          foreach ($edition in $receipt.editions) {
+            if ($edition.canonicalFingerprint -ne $receipt.canonicalFingerprint) { throw 'Edition catalog fingerprint differs.' }
+            foreach ($file in $edition.files) {
+              $filePath = Join-Path (Join-Path $destination $edition.edition) $file.path
+              if ((Get-FileHash -LiteralPath $filePath -Algorithm SHA256).Hash.ToLowerInvariant() -ne $file.sha256) { throw "Export artifact hash differs: $filePath" }
+            }
+          }
+          # Keep installed profiles and external clients out of CI. OpenCode is
+          # generated and statically checked only; no executable is installed.
+      - name: Preserve generated editions for review
+        uses: actions/upload-artifact@v4
+        with:
+          name: agent-forge-editions-${{ github.sha }}
+          path: ${{ runner.temp }}/agent-forge-editions
+          if-no-files-found: error
+          retention-days: 14

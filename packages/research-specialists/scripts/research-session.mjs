@@ -1,3 +1,4 @@
+import {identityFile, resolveRegistered} from './hook-storage.mjs';
 import { createHash, randomUUID } from 'node:crypto';
 import { lstat, mkdir, open, readFile, realpath, rename, stat, unlink } from 'node:fs/promises';
 import os from 'node:os';
@@ -244,7 +245,7 @@ async function roleSource(pluginRoot, relative) {
 
 export async function assignResearch(context, input, { pluginRoot = MODULE_ROOT } = {}) {
   requireObject(input, 'assignment input');
-  onlyKeys(input, ['roleId', 'task', 'taskName', 'authorizationReference'], 'assignment input');
+  onlyKeys(input, ['roleId', 'task', 'taskName', 'authorizationReference', 'parentAgentId'], 'assignment input');
   const catalog = await loadCatalog(pluginRoot);
   const role = catalog.specialists.find(item => item.id === input.roleId);
   if (!role) throw new Error('Unknown research specialist.');
@@ -256,12 +257,13 @@ export async function assignResearch(context, input, { pluginRoot = MODULE_ROOT 
   const token = randomUUID();
   await updateState(context, record => {
     if (record?.status !== 'active') throw new Error('No active research session.');
-    if (Object.values(record.assignments).some(entry => ['prepared', 'spawning'].includes(entry.status))) throw new Error('Only one unbound research assignment can be prepared at a time.');
+    const parent = input.parentAgentId ? Object.values(record.assignments).find(entry => entry.agentId === input.parentAgentId) : undefined;
+    if (input.parentAgentId && (!parent || parent.status !== 'running')) throw new Error('The parent research assignment must be running.');
     if (Object.values(record.assignments).some(entry => entry.taskName === taskName)) throw new Error('Research task name must be unique within the session.');
     if (input.authorizationReference && input.authorizationReference !== record.authorization.reference) throw new Error('Assignment authorization does not match the human reference.');
     const message = [
       `${MARKER}${JSON.stringify({ assignmentId: id, token, parentSessionId: context.sessionId, taskName })}`,
-      `Research role: ${role.id}. Follow only the authorized assignment described below. Do not delegate or spawn subagents.`,
+      `Research role: ${role.id}. You may delegate useful subtasks within this authorization, preserving all scope and permission limits. Integrate your descendants' results.`,
       `Human authorization reference: ${record.authorization.reference}`,
       `Authorized purpose: ${record.authorization.purpose}`,
       `Authorized sources: ${JSON.stringify(record.authorization.sources)}`,
@@ -278,7 +280,7 @@ export async function assignResearch(context, input, { pluginRoot = MODULE_ROOT 
       `Required evidence: ${JSON.stringify(role.completionEvidence)}`,
       '', source, '', 'Assigned task:', task,
     ].join('\n');
-    record.assignments[id] = { id, token, roleId: role.id, task, taskName, model: role.model, reasoning: role.reasoning, readOnly: role.readOnly, completionEvidence: role.completionEvidence, status: 'prepared', continuationRequested: false, modelMismatch: false, message, createdAt: new Date().toISOString() };
+    record.assignments[id] = { id, token, roleId: role.id, task, taskName, model: role.model, reasoning: role.reasoning, readOnly: role.readOnly || parent?.readOnly === true, rootSessionId: context.sessionId, parentAgentId: input.parentAgentId ?? null, assignmentId: id, completionEvidence: role.completionEvidence, status: 'prepared', continuationRequested: false, modelMismatch: false, message, createdAt: new Date().toISOString() };
     return record;
   });
   const record = await readState(context);
@@ -321,19 +323,13 @@ export async function endSession(context) {
 export async function writeAgentLink(context, agentId) {
   if (typeof agentId !== 'string' || !IDENTIFIER.test(agentId)) throw new Error('Invalid agent identifier.');
   const key = createHash('sha256').update(JSON.stringify([agentId, normalized(context.project)])).digest('hex');
-  await atomicJson(path.join(context.root, `agent-${key}.json`), { version: 1, sessionId: context.sessionId, project: context.project, agentId });
+  const identity = {version:1, sessionId:context.sessionId, project:context.project, agentId};
+  await atomicJson(path.join(context.root, `agent-${key}.json`), identity);
+  await atomicJson(identityFile(context, agentId), identity);
 }
 
 export async function resolveHookContext(input, options = {}) {
-  const direct = await sessionContext({ sessionId: input.session_id, project: input.cwd, ...options });
-  const record = await readState(direct);
-  if (record) return { context: direct, actorId: input.agent_id ?? null };
-  const key = createHash('sha256').update(JSON.stringify([input.session_id, normalized(direct.project)])).digest('hex');
-  let link;
-  try { link = await readJson(path.join(direct.root, `agent-${key}.json`)); }
-  catch (error) { if (error.code === 'ENOENT') return { context: direct, actorId: null }; throw error; }
-  if (link.version !== 1 || link.agentId !== input.session_id || normalized(link.project) !== normalized(direct.project)) throw new Error('Invalid research agent mapping.');
-  return { context: await sessionContext({ sessionId: link.sessionId, project: direct.project, ...options }), actorId: input.session_id };
+  return resolveRegistered(input,{makeContext:(sessionId,project)=>sessionContext({sessionId,project,...options}),readState,readJson});
 }
 
 function principalOnly(context, environment) {
