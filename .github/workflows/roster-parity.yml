@@ -20,10 +20,10 @@ jobs:
           cache: npm
       - name: Install locked dependencies
         run: npm ci
-      - name: Prepare pinned skills
-        run: npm run prepare:skills
       - name: Build all interfaces
         run: npm run build
+      - name: Prepare pinned skills
+        run: npm run prepare:skills
       - name: Check contracts, migrations and rollback
         run: npm test
       - name: Verify VS Code extension host
