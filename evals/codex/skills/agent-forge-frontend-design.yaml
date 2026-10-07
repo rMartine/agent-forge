@@ -1,0 +1,7 @@
+schemaVersion: 1
+id: agent-forge-frontend-design
+runtime: codex
+prompt: "Within the assigned issue tracker product, implement the accessible interface."
+explicitPrompt: "Use $agent-forge-frontend-design. Within the assigned issue tracker product, implement the accessible interface."
+negativePrompt: "What is CSS?"
+expect: { trigger: true, negativeTrigger: false, noInventedClientFeedback: true, projectConventions: true }

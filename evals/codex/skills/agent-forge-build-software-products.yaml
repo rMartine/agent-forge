@@ -1,0 +1,7 @@
+schemaVersion: 1
+id: agent-forge-build-software-products
+runtime: codex
+prompt: "Build a local issue tracker with accessible UI, HTTP API and persistence. Deliver the working product."
+explicitPrompt: "Use $agent-forge-build-software-products. Build a local issue tracker with accessible UI, HTTP API and persistence. Deliver the working product."
+negativePrompt: "What is the difference between a CTO and a software architect?"
+expect: { trigger: true, negativeTrigger: false, primaryOwnsCoordination: true, startsSessionRecord: true, relevantQualityChecks: true }

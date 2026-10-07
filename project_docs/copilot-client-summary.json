@@ -1,0 +1,150 @@
+{
+  "capturedAt": "2026-10-05T07:30:46.051Z",
+  "vscodeVersion": "1.140.0",
+  "models": [
+    {
+      "id": "auto",
+      "name": "Auto",
+      "vendor": "copilot",
+      "family": "claude-fable-5.1",
+      "version": "claude-fable-5.1",
+      "maxInputTokens": 935793
+    },
+    {
+      "id": "copilot-dictation-cleanup-luna",
+      "name": "GPT-5.6 Luna",
+      "vendor": "copilot",
+      "family": "copilot-dictation-cleanup-luna",
+      "version": "gpt-5.6-luna",
+      "maxInputTokens": 921793
+    },
+    {
+      "id": "copilot-utility",
+      "name": "GPT-5 mini",
+      "vendor": "copilot",
+      "family": "copilot-utility",
+      "version": "gpt-5-mini",
+      "maxInputTokens": 127790
+    },
+    {
+      "id": "copilot-utility-small",
+      "name": "GPT-4o mini",
+      "vendor": "copilot",
+      "family": "copilot-utility-small",
+      "version": "gpt-4o-mini-2024-07-18",
+      "maxInputTokens": 12078
+    },
+    {
+      "id": "gpt-4o-mini",
+      "name": "GPT-4o mini",
+      "vendor": "copilot",
+      "family": "gpt-4o-mini",
+      "version": "gpt-4o-mini-2024-07-18",
+      "maxInputTokens": 12078
+    },
+    {
+      "id": "gpt-5.6-luna",
+      "name": "GPT-5.6 Luna",
+      "vendor": "copilot",
+      "family": "gpt-5.6-luna",
+      "version": "gpt-5.6-luna",
+      "maxInputTokens": 921793
+    }
+  ],
+  "registeredToolCount": 358,
+  "toolGroups": {
+    "built-in/extension": 89,
+    "mcp_canva_mcp_ser": 32,
+    "mcp_elevenlabs_agents_add": 2,
+    "mcp_elevenlabs_agents_bulk": 2,
+    "mcp_elevenlabs_agents_calculate": 1,
+    "mcp_elevenlabs_agents_comment": 1,
+    "mcp_elevenlabs_agents_compile": 1,
+    "mcp_elevenlabs_agents_compute": 1,
+    "mcp_elevenlabs_agents_create": 17,
+    "mcp_elevenlabs_agents_delete": 10,
+    "mcp_elevenlabs_agents_duplicate": 1,
+    "mcp_elevenlabs_agents_get": 25,
+    "mcp_elevenlabs_agents_list": 14,
+    "mcp_elevenlabs_agents_merge": 3,
+    "mcp_elevenlabs_agents_move": 1,
+    "mcp_elevenlabs_agents_query": 1,
+    "mcp_elevenlabs_agents_resolve": 1,
+    "mcp_elevenlabs_agents_review": 1,
+    "mcp_elevenlabs_agents_run": 1,
+    "mcp_elevenlabs_agents_search": 2,
+    "mcp_elevenlabs_agents_semantic": 1,
+    "mcp_elevenlabs_agents_update": 11,
+    "mcp_elevenlabs_creative_add": 3,
+    "mcp_elevenlabs_creative_attach": 1,
+    "mcp_elevenlabs_creative_connect": 1,
+    "mcp_elevenlabs_creative_create": 4,
+    "mcp_elevenlabs_creative_delete": 3,
+    "mcp_elevenlabs_creative_design": 1,
+    "mcp_elevenlabs_creative_disconnect": 1,
+    "mcp_elevenlabs_creative_edit": 1,
+    "mcp_elevenlabs_creative_finalize": 1,
+    "mcp_elevenlabs_creative_generate": 4,
+    "mcp_elevenlabs_creative_get": 9,
+    "mcp_elevenlabs_creative_list": 2,
+    "mcp_elevenlabs_creative_run": 1,
+    "mcp_elevenlabs_creative_save": 1,
+    "mcp_elevenlabs_creative_show": 1,
+    "mcp_elevenlabs_creative_transcribe": 1,
+    "mcp_elevenlabs_creative_update": 4,
+    "mcp_elevenlabs_creative_upload": 1,
+    "mcp_elevenlabs_get_more": 1,
+    "mcp_github_mcp_se": 47,
+    "mcp_gitkraken_cli_git": 15,
+    "mcp_gitkraken_cli_gitkraken": 1,
+    "mcp_gitkraken_cli_gitlens": 3,
+    "mcp_gitkraken_cli_issues": 4,
+    "mcp_gitkraken_cli_pull": 5,
+    "mcp_gitkraken_cli_repository": 1,
+    "mcp_mcp-digitaloc_apps-create-app-from-spec": 1,
+    "mcp_mcp-digitaloc_apps-delete": 1,
+    "mcp_mcp-digitaloc_apps-get-deployment-status": 1,
+    "mcp_mcp-digitaloc_apps-get-info": 1,
+    "mcp_mcp-digitaloc_apps-get-logs": 1,
+    "mcp_mcp-digitaloc_apps-list": 1,
+    "mcp_mcp-digitaloc_apps-update": 1,
+    "mcp_mcp-digitaloc_region-list": 1,
+    "mcp_shotstack-mcp_create_studio": 1,
+    "mcp_shotstack-mcp_create_template": 1,
+    "mcp_shotstack-mcp_delete_template": 1,
+    "mcp_shotstack-mcp_generate_asset": 1,
+    "mcp_shotstack-mcp_get_generation": 1,
+    "mcp_shotstack-mcp_get_render": 1,
+    "mcp_shotstack-mcp_get_shotstack": 1,
+    "mcp_shotstack-mcp_get_template": 1,
+    "mcp_shotstack-mcp_list_models": 1,
+    "mcp_shotstack-mcp_list_templates": 1,
+    "mcp_shotstack-mcp_quote_generation": 1,
+    "mcp_shotstack-mcp_render_template": 1,
+    "mcp_shotstack-mcp_render_video": 1,
+    "mcp_shotstack-mcp_studio": 1,
+    "mcp_shotstack-mcp_update_template": 1
+  },
+  "requestedModels": [
+    {
+      "id": "gpt-6.1-sol",
+      "advertisedByInspectedApi": false,
+      "substitution": "none"
+    },
+    {
+      "id": "gpt-6-luna",
+      "advertisedByInspectedApi": false,
+      "substitution": "none"
+    },
+    {
+      "id": "gpt-6-astra",
+      "advertisedByInspectedApi": false,
+      "substitution": "none"
+    }
+  ],
+  "limits": [
+    "Models were enumerated without execution. Enumeration does not establish successful inference or reasoning settings.",
+    "Tools are registered metadata from vscode.lm.tools; no invocation, MCP authentication or server health check was performed.",
+    "The file contains no chat messages, invocation inputs, authentication sessions or local provider configuration."
+  ]
+}

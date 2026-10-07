@@ -11,18 +11,24 @@ import type {
   Diagnostic,
   RuntimeSelection,
   RuntimeTarget,
+  GraphifyDeploymentPlan,
 } from './types.js';
 import { hashBuffer, hashFile } from './hash.js';
 import { loadManifest } from './manifest.js';
 import { resolveRepoFilePath, resolveStatePath, resolveTargetPath } from './paths.js';
 import { loadCapabilityCatalog, resolveAgentCapabilities } from './capabilities.js';
-import { loadModelPolicy, resolveAgentModel } from './models.js';
+import { loadModelPolicy, resolveAgentModel, validateCodexModelAvailability } from './models.js';
 import { renderVsCodeAgent } from './renderVsCode.js';
 import { renderCodexAgent } from './renderCodex.js';
 import { renderCodexSkillBundle } from './skillBundles.js';
 import { validateRoster } from './validation.js';
 import { diagnostic } from './diagnostics.js';
 import { deploymentPlanPath, loadDeploymentState } from './state.js';
+import { loadExternalSkillCatalog, resolveExternalSkillFiles } from './externalSkills.js';
+import { renderProductDevelopmentSkill, productDevelopmentHookGroups } from './productDevelopment.js';
+import { prepareSharedHooks } from './sharedHooks.js';
+import { prepareGraphifyDeployment } from './graphifyDeployment.js';
+import { renderCopilotRosters } from './copilotRosters.js';
 
 const execFileAsync = promisify(execFile);
 
@@ -32,9 +38,14 @@ async function exists(filePath: string): Promise<boolean> {
 
 export interface DeploymentPlanOptions {
   target?: RuntimeSelection;
+  rosters?: 'all';
+  harness?: 'copilot' | 'local';
   availableTools?: string[];
   availableModels?: string[];
   strictCapabilities?: boolean;
+  downloadSkills?: boolean;
+  codexModelAvailability?: Parameters<typeof validateCodexModelAvailability>[1];
+  graphifyProvisionPlanId?: string;
 }
 
 function selectedTargets(target: RuntimeSelection = 'vscode'): RuntimeTarget[] {
@@ -83,14 +94,25 @@ export async function createDeploymentPlan(
   options: DeploymentPlanOptions = {},
 ): Promise<DeploymentPlan> {
   const manifest = await loadManifest(repoPath);
+  if (options.rosters !== undefined && options.rosters !== 'all') throw new Error('Only --rosters all is supported');
+  if (options.harness !== undefined && !['copilot', 'local'].includes(options.harness)) throw new Error('Harness must be copilot or local');
   const targets = selectedTargets(options.target);
   const catalog = await loadCapabilityCatalog(repoPath, manifest.capabilityCatalog);
   const models = await loadModelPolicy(repoPath, manifest.modelProfiles);
-  const validation = await validateRoster(repoPath, manifest, catalog, { target: options.target ?? 'vscode' });
+  const validation = await validateRoster(repoPath, manifest, catalog, { target: options.target ?? 'vscode', checkCopilot: false });
   const diagnostics: Diagnostic[] = [...validation.diagnostics];
   const artifacts: DeploymentArtifact[] = [];
+  let graphify: GraphifyDeploymentPlan | undefined;
+  const statePath = resolveStatePath(manifest.targets.state);
+  const state = await loadDeploymentState(statePath);
 
-  if (targets.includes('vscode')) {
+  if (targets.includes('vscode') && manifest.copilotFourRosters) {
+    const rendered = await renderCopilotRosters(repoPath, manifest, options);
+    artifacts.push(...rendered.artifacts);
+    diagnostics.push(...rendered.diagnostics);
+  }
+
+  if (targets.includes('vscode') && !manifest.copilotFourRosters) {
     const agentTarget = resolveTargetPath(manifest.targets.vscode.agents);
     const instructionTarget = resolveTargetPath(manifest.targets.vscode.instructions);
     const skillTarget = resolveTargetPath(manifest.targets.vscode.skills);
@@ -131,12 +153,15 @@ export async function createDeploymentPlan(
   }
 
   if (targets.includes('codex')) {
+    diagnostics.push(...validateCodexModelAvailability(manifest.codex.agents, options.codexModelAvailability ?? {}));
     const agentTarget = resolveTargetPath(manifest.targets.codex.agents);
     const skillTarget = resolveTargetPath(manifest.targets.codex.skills);
+    const externalSkills = await loadExternalSkillCatalog(repoPath, manifest);
     for (const agent of Object.values(manifest.codex.agents)) {
       const source = manifest.agents[agent.sourceAgent];
       const sourcePath = resolveRepoFilePath(repoPath, source.source);
-      const rendered = Buffer.from(renderCodexAgent(await readFile(sourcePath, 'utf8'), agent, manifest));
+      const skillNames = externalSkills.skills.filter(skill => skill.agentIds.includes(agent.id)).map(skill => skill.deploymentName);
+      const rendered = Buffer.from(renderCodexAgent(await readFile(sourcePath, 'utf8'), agent, manifest, skillNames));
       artifacts.push(artifact('codex', agent.id, 'agent', sourcePath, path.join(agentTarget, `${agent.id}.toml`), rendered));
     }
     for (const bundle of Object.values(manifest.codex.skillBundles)) {
@@ -144,10 +169,52 @@ export async function createDeploymentPlan(
         artifacts.push(artifact('codex', `${bundle.id}/${rendered.relativePath.replaceAll('\\', '/')}`, 'skill', rendered.sourcePath, path.join(skillTarget, bundle.deploymentName, rendered.relativePath), rendered.content));
       }
     }
+    for (const skill of externalSkills.skills) {
+      for (const rendered of await resolveExternalSkillFiles(repoPath, skill, options.downloadSkills)) {
+        artifacts.push(artifact('codex', `${skill.deploymentName}/${rendered.relativePath.replaceAll('\\', '/')}`, 'skill', rendered.sourcePath, path.join(skillTarget, skill.deploymentName, rendered.relativePath), rendered.content));
+      }
+    }
+    const product = manifest.codex.productDevelopment;
+    if (product) {
+      for (const rendered of await renderProductDevelopmentSkill(repoPath, manifest, externalSkills)) {
+        artifacts.push(artifact('codex', `${product.deploymentName}/${rendered.relativePath.replaceAll('\\', '/')}`, 'skill', rendered.sourcePath, path.join(skillTarget, product.deploymentName, rendered.relativePath), rendered.content));
+      }
+      if (manifest.codex.graphify) {
+        const managedRoot = resolveTargetPath(manifest.codex.graphify.managedRoot);
+        try {
+          graphify = await prepareGraphifyDeployment(managedRoot, options.graphifyProvisionPlanId);
+          const expectedLock = JSON.parse(await readFile(resolveRepoFilePath(repoPath, manifest.codex.graphify.lockFile), 'utf8'));
+          if (hashBuffer(Buffer.from(JSON.stringify(expectedLock))) !== graphify.lockHash) throw new Error('Installed Graphify dependencies differ from the reviewed manifest lock');
+        } catch (error) {
+          graphify = undefined;
+          diagnostics.push(diagnostic('AF012', options.graphifyProvisionPlanId ? 'error' : 'warning', `Graphify is unavailable for this deployment: ${(error as Error).message}`, { path: managedRoot }));
+        }
+        const scriptTarget = path.join(skillTarget, product.deploymentName, 'scripts');
+        const wrapper = resolveRepoFilePath(repoPath, 'hooks/codex/graphify-client.cjs');
+        try {
+          artifacts.push(artifact('codex', `${product.deploymentName}/scripts/graphify-client.cjs`, 'skill', wrapper, path.join(scriptTarget, 'graphify-client.cjs'), await readFile(wrapper)));
+          for (const name of ['graphifyCommand.js', 'graphifyRuntime.js', 'graphifyIndex.js', 'graphifyFiles.js', 'graphifyProcess.js']) {
+            const local = path.join(__dirname, name);
+            const source = await exists(local) ? local : path.join(__dirname, 'graphify', name);
+            artifacts.push(artifact('codex', `${product.deploymentName}/scripts/graphify/${name}`, 'skill', source, path.join(scriptTarget, 'graphify', name), await readFile(source)));
+          }
+          const descriptor = Buffer.from(JSON.stringify({ schemaVersion: 1, managedRoot, runtimeId: graphify?.runtimeId ?? null, ...(graphify?.runtimeHash ? { runtimeHash: graphify.runtimeHash } : {}) }, null, 2) + '\n');
+          artifacts.push(artifact('codex', `${product.deploymentName}/scripts/graphify-runtime.json`, 'skill', manifest.codex.graphify.lockFile, path.join(scriptTarget, 'graphify-runtime.json'), descriptor));
+        } catch (error) { diagnostics.push(diagnostic('AF012', 'error', `Graphify portable client is incomplete; build the shared core before preview: ${(error as Error).message}`)); }
+      }
+      const hookTarget = resolveTargetPath(product.hooksTarget);
+      const active = state.deployments.find(item => item.id === state.activeDeployments.codex && item.runtime === 'codex');
+      const previous = active?.artifacts.find(item => path.resolve(item.targetPath).toLowerCase() === path.resolve(hookTarget).toLowerCase());
+      try {
+        const before = await exists(hookTarget) ? await readFile(hookTarget) : undefined;
+        const prepared = prepareSharedHooks(before, productDevelopmentHookGroups(manifest, skillTarget), previous?.sharedHooks);
+        artifacts.push({ ...artifact('codex', 'agent-forge-product-hooks', 'hook', resolveRepoFilePath(repoPath, product.hooksSource), hookTarget, prepared.content), sharedHooks: prepared.sharedHooks });
+      } catch (error: unknown) {
+        diagnostics.push(diagnostic('AF012', 'error', `Cannot safely prepare shared hooks: ${(error as Error).message}`, { path: hookTarget }));
+      }
+    }
   }
 
-  const statePath = resolveStatePath(manifest.targets.state);
-  const state = await loadDeploymentState(statePath);
   const managedPaths = new Map<string, string>();
   for (const runtime of targets) {
     const activeId = state.activeDeployments[runtime];
@@ -155,6 +222,7 @@ export async function createDeploymentPlan(
     for (const item of active?.artifacts ?? []) managedPaths.set(path.resolve(item.targetPath).toLowerCase(), item.deployedHash);
   }
   for (const item of artifacts) {
+    if (item.sharedHooks) continue;
     if (!(await exists(item.targetPath))) continue;
     const expected = managedPaths.get(path.resolve(item.targetPath).toLowerCase());
     if (!expected) diagnostics.push(diagnostic('AF009', 'error', 'Target collides with an unmanaged customization', { path: item.targetPath }));
@@ -167,7 +235,15 @@ export async function createDeploymentPlan(
     const active = state.deployments.find(item => item.id === activeId && item.runtime === runtime);
     for (const item of active?.artifacts ?? []) {
       if (!plannedPaths.has(path.resolve(item.targetPath).toLowerCase())) {
-        cleanupActions.push({ runtime, targetPath: item.targetPath, expectedHash: item.deployedHash, type: item.type, reason: 'stale-managed' });
+        if (runtime === 'vscode' && manifest.copilotFourRosters && !await exists(item.targetPath)) {
+          diagnostics.push(diagnostic('AF012', 'warning', 'Obsolete managed customization is already absent; no deletion required', { path: item.targetPath }));
+          continue;
+        }
+        if (runtime === 'vscode' && manifest.copilotFourRosters && await exists(item.targetPath) && await hashFile(item.targetPath) !== item.deployedHash) {
+          diagnostics.push(diagnostic('AF012', 'warning', 'Obsolete managed customization was modified; preserved without claiming ownership', { path: item.targetPath }));
+          continue;
+        }
+        cleanupActions.push({ runtime, targetPath: item.targetPath, expectedHash: item.deployedHash, type: item.type, reason: 'stale-managed', ...(item.sharedHooks ? { sharedHooks: item.sharedHooks } : {}) });
       }
     }
   }
@@ -182,6 +258,7 @@ export async function createDeploymentPlan(
     artifacts,
     cleanupActions,
     diagnostics,
+    ...(graphify ? { graphify } : {}),
   };
 }
 
@@ -207,6 +284,6 @@ export async function loadDeploymentPlan(statePath: string, planId: string): Pro
   if (serialized.deploymentId !== planId) throw new Error('AF012: immutable deployment plan ID mismatch');
   return {
     ...serialized,
-    artifacts: serialized.artifacts.map(({ contentBase64, ...item }) => ({ ...item, content: contentBase64 ? Buffer.from(contentBase64, 'base64') : undefined })),
+    artifacts: serialized.artifacts.map(({ contentBase64, ...item }) => ({ ...item, content: contentBase64 !== undefined ? Buffer.from(contentBase64, 'base64') : undefined })),
   };
 }

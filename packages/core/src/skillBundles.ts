@@ -80,7 +80,7 @@ export async function renderCodexSkillBundle(
     '',
     'Use this bundle when its description matches the task. Read only the workflow or platform references needed for the current request.',
     '',
-    'Preserve user approval requirements for cloud, deployment, push, release, downloads, destructive operations, and external mutations.',
+    'Use the authorization already granted for the task and destination. Ask only when a necessary operation is not covered. Applicable project and platform rules determine which actions require approval.',
     '',
     '## Workflows',
     '',

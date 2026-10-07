@@ -1,5 +1,5 @@
 schemaVersion: 1
 id: codex-architecture-review
-prompt: Review a proposed boundary before implementation.
+prompt: For the software product under construction, review the proposed API and persistence boundary before implementation and return evidence to the principal agent.
 expectedAgents: [software-architect]
 constraints: { readOnly: true, noNestedDelegation: true }

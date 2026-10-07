@@ -1,0 +1,7 @@
+schemaVersion: 1
+id: agent-forge-code-review-security
+runtime: codex
+prompt: "Review input validation and authorization in the assigned product. Return substantiated findings to the principal agent."
+explicitPrompt: "Use $agent-forge-code-review-security. Review input validation and authorization in the assigned product. Return substantiated findings to the principal agent."
+negativePrompt: "Explain SQL injection in general."
+expect: { trigger: true, negativeTrigger: false, readOnly: true, evidenceToPrincipal: true, boundedReview: true }

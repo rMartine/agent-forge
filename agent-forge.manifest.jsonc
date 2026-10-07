@@ -1,6 +1,15 @@
 {
-  "schemaVersion": 3,
-  "platforms": ["vscode", "codex"],
+  "schemaVersion": 5,
+  "copilotFourRosters": {
+    "catalog": "config/copilot-four-rosters.json",
+    "runtimeRoot": "%USERPROFILE%/.agent-forge/copilot/runtime",
+    "defaultHarness": "copilot",
+    "mcpProviders": "config/copilot-mcp-providers.json"
+  },
+  "platforms": [
+    "vscode",
+    "codex"
+  ],
   "scope": "user",
   "targets": {
     "vscode": {
@@ -19,80 +28,1014 @@
   "modelProfiles": "config/model-profiles.jsonc",
   "mcpProviders": "config/mcp-providers.jsonc",
   "agents": {
-    "cto": { "id": "cto", "source": "agents/cto.agent.md", "visibility": "entry", "capabilityProfile": "strategy-read", "modelProfile": "reasoning", "requiredSkills": ["discover-repository"], "optionalSkills": [], "allowedSubagents": [], "handoffs": ["requirements-engineer", "creative-director", "software-architect", "principal-engineer", "cybersecurity-engineer", "devops-engineer"], "requiredCapabilities": [], "optionalCapabilities": ["gitkraken-read", "github-read", "digitalocean-read"] },
-    "requirements-engineer": { "id": "requirements-engineer", "source": "agents/requirements-engineer.agent.md", "visibility": "entry", "capabilityProfile": "requirements-docs", "modelProfile": "reasoning", "requiredSkills": ["trace-requirements"], "optionalSkills": [], "allowedSubagents": [], "handoffs": ["creative-director", "software-architect", "project-manager"], "requiredCapabilities": [], "optionalCapabilities": ["github-read"] },
-    "creative-director": { "id": "creative-director", "source": "agents/creative-director.agent.md", "visibility": "entry", "capabilityProfile": "creative-coordination", "modelProfile": "creative", "requiredSkills": ["design-with-canva"], "optionalSkills": ["search-stock-images"], "allowedSubagents": ["graphic-designer", "ux-engineer"], "handoffs": ["software-architect", "project-manager"], "requiredCapabilities": ["canva-write"], "optionalCapabilities": ["gitkraken-read"] },
-    "software-architect": { "id": "software-architect", "source": "agents/software-architect.agent.md", "visibility": "entry", "capabilityProfile": "architecture-review", "modelProfile": "reasoning", "requiredSkills": ["discover-repository", "record-architecture-decision", "review-change-security"], "optionalSkills": [], "allowedSubagents": [], "handoffs": ["project-manager", "principal-engineer", "cybersecurity-engineer"], "requiredCapabilities": [], "optionalCapabilities": ["gitkraken-read", "github-read", "docker-read", "digitalocean-read"] },
-    "project-manager": { "id": "project-manager", "source": "agents/project-manager.agent.md", "visibility": "entry", "capabilityProfile": "planning", "modelProfile": "balanced", "requiredSkills": ["trace-requirements"], "optionalSkills": [], "allowedSubagents": [], "handoffs": ["principal-engineer"], "requiredCapabilities": [], "optionalCapabilities": ["github-write", "gitkraken-write"] },
-    "principal-engineer": { "id": "principal-engineer", "source": "agents/principal-engineer.agent.md", "visibility": "entry", "capabilityProfile": "implementation", "modelProfile": "reasoning", "requiredSkills": ["discover-repository", "verify-implementation", "manage-github-gitkraken"], "optionalSkills": ["operate-docker"], "allowedSubagents": ["backend-developer", "frontend-developer", "database-engineer", "dotnet-engineer", "desktop-app-engineer", "mobile-engineer", "ml-engineer", "data-scientist", "agentic-systems-engineer", "xr-engineer", "digital-twin-engineer", "qa-engineer", "cybersecurity-engineer", "technical-writer", "knowledge-engineer"], "handoffs": ["qa-engineer", "cybersecurity-engineer", "devops-engineer", "technical-writer"], "requiredCapabilities": ["gitkraken-write"], "optionalCapabilities": ["github-write", "docker-write"] },
-    "backend-developer": { "id": "backend-developer", "source": "agents/backend-developer.agent.md", "visibility": "worker", "capabilityProfile": "implementation", "modelProfile": "coding", "requiredSkills": ["engineer-specialized-platforms", "verify-implementation"], "optionalSkills": ["operate-docker"], "allowedSubagents": [], "handoffs": [], "requiredCapabilities": [], "optionalCapabilities": ["gitkraken-write", "github-read", "docker-write"] },
-    "frontend-developer": { "id": "frontend-developer", "source": "agents/frontend-developer.agent.md", "visibility": "worker", "capabilityProfile": "implementation", "modelProfile": "coding", "requiredSkills": ["engineer-specialized-platforms", "verify-implementation"], "optionalSkills": [], "allowedSubagents": [], "handoffs": [], "requiredCapabilities": [], "optionalCapabilities": ["gitkraken-write", "github-read", "docker-write"] },
-    "database-engineer": { "id": "database-engineer", "source": "agents/database-engineer.agent.md", "visibility": "worker", "capabilityProfile": "implementation", "modelProfile": "coding", "requiredSkills": ["engineer-specialized-platforms", "verify-implementation"], "optionalSkills": ["operate-docker"], "allowedSubagents": [], "handoffs": [], "requiredCapabilities": [], "optionalCapabilities": ["gitkraken-write", "docker-write"] },
-    "dotnet-engineer": { "id": "dotnet-engineer", "source": "agents/dotnet-engineer.agent.md", "visibility": "worker", "capabilityProfile": "implementation", "modelProfile": "coding", "requiredSkills": ["engineer-specialized-platforms", "verify-implementation"], "optionalSkills": [], "allowedSubagents": [], "handoffs": [], "requiredCapabilities": [], "optionalCapabilities": ["gitkraken-write", "docker-write"] },
-    "desktop-app-engineer": { "id": "desktop-app-engineer", "source": "agents/desktop-app-engineer.agent.md", "visibility": "worker", "capabilityProfile": "implementation", "modelProfile": "coding", "requiredSkills": ["engineer-specialized-platforms", "verify-implementation"], "optionalSkills": [], "allowedSubagents": [], "handoffs": [], "requiredCapabilities": [], "optionalCapabilities": ["gitkraken-write"] },
-    "mobile-engineer": { "id": "mobile-engineer", "source": "agents/mobile-engineer.agent.md", "visibility": "worker", "capabilityProfile": "implementation", "modelProfile": "coding", "requiredSkills": ["engineer-specialized-platforms", "verify-implementation"], "optionalSkills": [], "allowedSubagents": [], "handoffs": [], "requiredCapabilities": [], "optionalCapabilities": ["gitkraken-write"] },
-    "ml-engineer": { "id": "ml-engineer", "source": "agents/ml-engineer.agent.md", "visibility": "worker", "capabilityProfile": "implementation", "modelProfile": "reasoning", "requiredSkills": ["engineer-specialized-platforms", "verify-implementation"], "optionalSkills": ["operate-docker"], "allowedSubagents": [], "handoffs": [], "requiredCapabilities": [], "optionalCapabilities": ["gitkraken-write", "docker-write"] },
-    "data-scientist": { "id": "data-scientist", "source": "agents/data-scientist.agent.md", "visibility": "worker", "capabilityProfile": "implementation", "modelProfile": "balanced", "requiredSkills": ["engineer-specialized-platforms", "verify-implementation"], "optionalSkills": ["query-knowledge-base"], "allowedSubagents": [], "handoffs": [], "requiredCapabilities": [], "optionalCapabilities": ["gitkraken-write", "docker-write"] },
-    "agentic-systems-engineer": { "id": "agentic-systems-engineer", "source": "agents/agentic-systems-engineer.agent.md", "visibility": "worker", "capabilityProfile": "implementation", "modelProfile": "reasoning", "requiredSkills": ["verify-implementation"], "optionalSkills": ["operate-docker"], "allowedSubagents": [], "handoffs": [], "requiredCapabilities": [], "optionalCapabilities": ["gitkraken-write", "docker-write"] },
-    "xr-engineer": { "id": "xr-engineer", "source": "agents/xr-engineer.agent.md", "visibility": "worker", "capabilityProfile": "implementation", "modelProfile": "coding", "requiredSkills": ["engineer-specialized-platforms", "verify-implementation"], "optionalSkills": [], "allowedSubagents": [], "handoffs": [], "requiredCapabilities": [], "optionalCapabilities": ["gitkraken-write"] },
-    "digital-twin-engineer": { "id": "digital-twin-engineer", "source": "agents/digital-twin-engineer.agent.md", "visibility": "worker", "capabilityProfile": "implementation", "modelProfile": "reasoning", "requiredSkills": ["engineer-specialized-platforms", "review-change-security"], "optionalSkills": ["operate-docker"], "allowedSubagents": [], "handoffs": [], "requiredCapabilities": [], "optionalCapabilities": ["gitkraken-write", "docker-write"] },
-    "qa-engineer": { "id": "qa-engineer", "source": "agents/qa-engineer.agent.md", "visibility": "entry", "capabilityProfile": "verification", "modelProfile": "coding", "requiredSkills": ["verify-implementation"], "optionalSkills": ["operate-docker"], "allowedSubagents": [], "handoffs": ["principal-engineer", "cybersecurity-engineer"], "requiredCapabilities": [], "optionalCapabilities": ["github-write", "docker-write", "gitkraken-write"] },
-    "cybersecurity-engineer": { "id": "cybersecurity-engineer", "source": "agents/cybersecurity-engineer.agent.md", "visibility": "entry", "capabilityProfile": "security-review", "modelProfile": "reasoning", "requiredSkills": ["review-change-security"], "optionalSkills": [], "allowedSubagents": [], "handoffs": ["principal-engineer", "devops-engineer"], "requiredCapabilities": [], "optionalCapabilities": ["gitkraken-read", "github-write", "docker-read", "digitalocean-read"] },
-    "devops-engineer": { "id": "devops-engineer", "source": "agents/devops-engineer.agent.md", "visibility": "entry", "capabilityProfile": "operations-admin", "modelProfile": "coding", "requiredSkills": ["operate-docker", "deploy-digitalocean", "manage-github-gitkraken"], "optionalSkills": [], "allowedSubagents": [], "handoffs": ["qa-engineer", "technical-writer", "cto"], "requiredCapabilities": ["docker-admin", "digitalocean-admin", "github-admin", "gitkraken-write"], "optionalCapabilities": [] },
-    "graphic-designer": { "id": "graphic-designer", "source": "agents/graphic-designer.agent.md", "visibility": "worker", "capabilityProfile": "design-production", "modelProfile": "creative", "requiredSkills": ["design-with-canva"], "optionalSkills": ["search-stock-images"], "allowedSubagents": [], "handoffs": [], "requiredCapabilities": ["canva-write"], "optionalCapabilities": ["gitkraken-write"] },
-    "ux-engineer": { "id": "ux-engineer", "source": "agents/ux-engineer.agent.md", "visibility": "worker", "capabilityProfile": "design-production", "modelProfile": "creative", "requiredSkills": ["design-with-canva", "engineer-specialized-platforms"], "optionalSkills": [], "allowedSubagents": [], "handoffs": [], "requiredCapabilities": ["canva-write"], "optionalCapabilities": ["gitkraken-write"] },
-    "technical-writer": { "id": "technical-writer", "source": "agents/technical-writer.agent.md", "visibility": "worker", "capabilityProfile": "documentation", "modelProfile": "balanced", "requiredSkills": ["verify-implementation"], "optionalSkills": [], "allowedSubagents": [], "handoffs": [], "requiredCapabilities": [], "optionalCapabilities": ["github-write", "gitkraken-write"] },
-    "knowledge-engineer": { "id": "knowledge-engineer", "source": "agents/knowledge-engineer.agent.md", "visibility": "worker", "capabilityProfile": "knowledge-curation", "modelProfile": "balanced", "requiredSkills": ["query-knowledge-base"], "optionalSkills": [], "allowedSubagents": [], "handoffs": [], "requiredCapabilities": [], "optionalCapabilities": ["docker-write", "gitkraken-write"] }
+    "cto": {
+      "id": "cto",
+      "source": "agents/cto.agent.md",
+      "visibility": "entry",
+      "capabilityProfile": "strategy-read",
+      "modelProfile": "reasoning",
+      "requiredSkills": [
+        "discover-repository"
+      ],
+      "optionalSkills": [],
+      "allowedSubagents": [],
+      "handoffs": [
+        "principal-engineer",
+        "cybersecurity-engineer",
+        "devops-engineer"
+      ],
+      "requiredCapabilities": [],
+      "optionalCapabilities": [
+        "gitkraken-read",
+        "github-read",
+        "digitalocean-read"
+      ]
+    },
+    "requirements-engineer": {
+      "id": "requirements-engineer",
+      "source": "agents/requirements-engineer.agent.md",
+      "visibility": "entry",
+      "capabilityProfile": "requirements-docs",
+      "modelProfile": "reasoning",
+      "requiredSkills": [
+        "trace-requirements"
+      ],
+      "optionalSkills": [],
+      "allowedSubagents": [],
+      "handoffs": [
+        "creative-director",
+        "software-architect"
+      ],
+      "requiredCapabilities": [],
+      "optionalCapabilities": [
+        "github-read"
+      ]
+    },
+    "creative-director": {
+      "id": "creative-director",
+      "source": "agents/creative-director.agent.md",
+      "visibility": "entry",
+      "capabilityProfile": "creative-coordination",
+      "modelProfile": "creative",
+      "requiredSkills": [
+        "design-with-canva"
+      ],
+      "optionalSkills": [
+        "search-stock-images"
+      ],
+      "allowedSubagents": [
+        "graphic-designer",
+        "ux-engineer"
+      ],
+      "handoffs": [
+        "software-architect",
+        "project-manager"
+      ],
+      "requiredCapabilities": [
+        "canva-write"
+      ],
+      "optionalCapabilities": [
+        "gitkraken-read"
+      ]
+    },
+    "software-architect": {
+      "id": "software-architect",
+      "source": "agents/software-architect.agent.md",
+      "visibility": "entry",
+      "capabilityProfile": "architecture-review",
+      "modelProfile": "reasoning",
+      "requiredSkills": [
+        "discover-repository",
+        "record-architecture-decision",
+        "review-change-security"
+      ],
+      "optionalSkills": [],
+      "allowedSubagents": [],
+      "handoffs": [
+        "project-manager",
+        "principal-engineer",
+        "cybersecurity-engineer"
+      ],
+      "requiredCapabilities": [],
+      "optionalCapabilities": [
+        "gitkraken-read",
+        "github-read",
+        "docker-read",
+        "digitalocean-read"
+      ]
+    },
+    "project-manager": {
+      "id": "project-manager",
+      "source": "agents/project-manager.agent.md",
+      "visibility": "entry",
+      "capabilityProfile": "planning",
+      "modelProfile": "balanced",
+      "requiredSkills": [
+        "trace-requirements"
+      ],
+      "optionalSkills": [],
+      "allowedSubagents": [],
+      "handoffs": [],
+      "requiredCapabilities": [],
+      "optionalCapabilities": [
+        "github-write",
+        "gitkraken-write"
+      ]
+    },
+    "principal-engineer": {
+      "id": "principal-engineer",
+      "source": "agents/principal-engineer.agent.md",
+      "visibility": "entry",
+      "capabilityProfile": "implementation",
+      "modelProfile": "reasoning",
+      "requiredSkills": [
+        "discover-repository",
+        "verify-implementation",
+        "manage-github-gitkraken"
+      ],
+      "optionalSkills": [
+        "operate-docker"
+      ],
+      "allowedSubagents": [
+        "backend-developer",
+        "frontend-developer",
+        "database-engineer",
+        "dotnet-engineer",
+        "desktop-app-engineer",
+        "mobile-engineer",
+        "ml-engineer",
+        "data-scientist",
+        "agentic-systems-engineer",
+        "xr-engineer",
+        "digital-twin-engineer",
+        "qa-engineer",
+        "cybersecurity-engineer",
+        "technical-writer",
+        "knowledge-engineer"
+      ],
+      "handoffs": [
+        "qa-engineer",
+        "cybersecurity-engineer",
+        "devops-engineer",
+        "technical-writer"
+      ],
+      "requiredCapabilities": [
+        "gitkraken-write"
+      ],
+      "optionalCapabilities": [
+        "github-write",
+        "docker-write"
+      ]
+    },
+    "backend-developer": {
+      "id": "backend-developer",
+      "source": "agents/backend-developer.agent.md",
+      "visibility": "worker",
+      "capabilityProfile": "implementation",
+      "modelProfile": "coding",
+      "requiredSkills": [
+        "engineer-specialized-platforms",
+        "verify-implementation"
+      ],
+      "optionalSkills": [
+        "operate-docker"
+      ],
+      "allowedSubagents": [],
+      "handoffs": [],
+      "requiredCapabilities": [],
+      "optionalCapabilities": [
+        "gitkraken-write",
+        "github-read",
+        "docker-write"
+      ]
+    },
+    "frontend-developer": {
+      "id": "frontend-developer",
+      "source": "agents/frontend-developer.agent.md",
+      "visibility": "worker",
+      "capabilityProfile": "implementation",
+      "modelProfile": "coding",
+      "requiredSkills": [
+        "engineer-specialized-platforms",
+        "verify-implementation"
+      ],
+      "optionalSkills": [],
+      "allowedSubagents": [],
+      "handoffs": [],
+      "requiredCapabilities": [],
+      "optionalCapabilities": [
+        "gitkraken-write",
+        "github-read",
+        "docker-write"
+      ]
+    },
+    "database-engineer": {
+      "id": "database-engineer",
+      "source": "agents/database-engineer.agent.md",
+      "visibility": "worker",
+      "capabilityProfile": "implementation",
+      "modelProfile": "coding",
+      "requiredSkills": [
+        "engineer-specialized-platforms",
+        "verify-implementation"
+      ],
+      "optionalSkills": [
+        "operate-docker"
+      ],
+      "allowedSubagents": [],
+      "handoffs": [],
+      "requiredCapabilities": [],
+      "optionalCapabilities": [
+        "gitkraken-write",
+        "docker-write"
+      ]
+    },
+    "dotnet-engineer": {
+      "id": "dotnet-engineer",
+      "source": "agents/dotnet-engineer.agent.md",
+      "visibility": "worker",
+      "capabilityProfile": "implementation",
+      "modelProfile": "coding",
+      "requiredSkills": [
+        "engineer-specialized-platforms",
+        "verify-implementation"
+      ],
+      "optionalSkills": [],
+      "allowedSubagents": [],
+      "handoffs": [],
+      "requiredCapabilities": [],
+      "optionalCapabilities": [
+        "gitkraken-write",
+        "docker-write"
+      ]
+    },
+    "desktop-app-engineer": {
+      "id": "desktop-app-engineer",
+      "source": "agents/desktop-app-engineer.agent.md",
+      "visibility": "worker",
+      "capabilityProfile": "implementation",
+      "modelProfile": "coding",
+      "requiredSkills": [
+        "engineer-specialized-platforms",
+        "verify-implementation"
+      ],
+      "optionalSkills": [],
+      "allowedSubagents": [],
+      "handoffs": [],
+      "requiredCapabilities": [],
+      "optionalCapabilities": [
+        "gitkraken-write"
+      ]
+    },
+    "mobile-engineer": {
+      "id": "mobile-engineer",
+      "source": "agents/mobile-engineer.agent.md",
+      "visibility": "worker",
+      "capabilityProfile": "implementation",
+      "modelProfile": "coding",
+      "requiredSkills": [
+        "engineer-specialized-platforms",
+        "verify-implementation"
+      ],
+      "optionalSkills": [],
+      "allowedSubagents": [],
+      "handoffs": [],
+      "requiredCapabilities": [],
+      "optionalCapabilities": [
+        "gitkraken-write"
+      ]
+    },
+    "ml-engineer": {
+      "id": "ml-engineer",
+      "source": "agents/ml-engineer.agent.md",
+      "visibility": "worker",
+      "capabilityProfile": "implementation",
+      "modelProfile": "reasoning",
+      "requiredSkills": [
+        "engineer-specialized-platforms",
+        "verify-implementation"
+      ],
+      "optionalSkills": [
+        "operate-docker"
+      ],
+      "allowedSubagents": [],
+      "handoffs": [],
+      "requiredCapabilities": [],
+      "optionalCapabilities": [
+        "gitkraken-write",
+        "docker-write"
+      ]
+    },
+    "data-scientist": {
+      "id": "data-scientist",
+      "source": "agents/data-scientist.agent.md",
+      "visibility": "worker",
+      "capabilityProfile": "implementation",
+      "modelProfile": "balanced",
+      "requiredSkills": [
+        "engineer-specialized-platforms",
+        "verify-implementation"
+      ],
+      "optionalSkills": [
+        "query-knowledge-base"
+      ],
+      "allowedSubagents": [],
+      "handoffs": [],
+      "requiredCapabilities": [],
+      "optionalCapabilities": [
+        "gitkraken-write",
+        "docker-write"
+      ]
+    },
+    "agentic-systems-engineer": {
+      "id": "agentic-systems-engineer",
+      "source": "agents/agentic-systems-engineer.agent.md",
+      "visibility": "worker",
+      "capabilityProfile": "implementation",
+      "modelProfile": "reasoning",
+      "requiredSkills": [
+        "verify-implementation"
+      ],
+      "optionalSkills": [
+        "operate-docker"
+      ],
+      "allowedSubagents": [],
+      "handoffs": [],
+      "requiredCapabilities": [],
+      "optionalCapabilities": [
+        "gitkraken-write",
+        "docker-write"
+      ]
+    },
+    "xr-engineer": {
+      "id": "xr-engineer",
+      "source": "agents/xr-engineer.agent.md",
+      "visibility": "worker",
+      "capabilityProfile": "implementation",
+      "modelProfile": "coding",
+      "requiredSkills": [
+        "engineer-specialized-platforms",
+        "verify-implementation"
+      ],
+      "optionalSkills": [],
+      "allowedSubagents": [],
+      "handoffs": [],
+      "requiredCapabilities": [],
+      "optionalCapabilities": [
+        "gitkraken-write"
+      ]
+    },
+    "digital-twin-engineer": {
+      "id": "digital-twin-engineer",
+      "source": "agents/digital-twin-engineer.agent.md",
+      "visibility": "worker",
+      "capabilityProfile": "implementation",
+      "modelProfile": "reasoning",
+      "requiredSkills": [
+        "engineer-specialized-platforms",
+        "review-change-security"
+      ],
+      "optionalSkills": [
+        "operate-docker"
+      ],
+      "allowedSubagents": [],
+      "handoffs": [],
+      "requiredCapabilities": [],
+      "optionalCapabilities": [
+        "gitkraken-write",
+        "docker-write"
+      ]
+    },
+    "qa-engineer": {
+      "id": "qa-engineer",
+      "source": "agents/qa-engineer.agent.md",
+      "visibility": "entry",
+      "capabilityProfile": "verification",
+      "modelProfile": "coding",
+      "requiredSkills": [
+        "verify-implementation"
+      ],
+      "optionalSkills": [
+        "operate-docker"
+      ],
+      "allowedSubagents": [],
+      "handoffs": [
+        "principal-engineer",
+        "cybersecurity-engineer"
+      ],
+      "requiredCapabilities": [],
+      "optionalCapabilities": [
+        "github-write",
+        "docker-write",
+        "gitkraken-write"
+      ]
+    },
+    "cybersecurity-engineer": {
+      "id": "cybersecurity-engineer",
+      "source": "agents/cybersecurity-engineer.agent.md",
+      "visibility": "entry",
+      "capabilityProfile": "security-review",
+      "modelProfile": "reasoning",
+      "requiredSkills": [
+        "review-change-security"
+      ],
+      "optionalSkills": [],
+      "allowedSubagents": [],
+      "handoffs": [
+        "principal-engineer",
+        "devops-engineer"
+      ],
+      "requiredCapabilities": [],
+      "optionalCapabilities": [
+        "gitkraken-read",
+        "github-write",
+        "docker-read",
+        "digitalocean-read"
+      ]
+    },
+    "devops-engineer": {
+      "id": "devops-engineer",
+      "source": "agents/devops-engineer.agent.md",
+      "visibility": "entry",
+      "capabilityProfile": "operations-admin",
+      "modelProfile": "coding",
+      "requiredSkills": [
+        "operate-docker",
+        "deploy-digitalocean",
+        "manage-github-gitkraken"
+      ],
+      "optionalSkills": [],
+      "allowedSubagents": [],
+      "handoffs": [
+        "qa-engineer",
+        "technical-writer",
+        "cto"
+      ],
+      "requiredCapabilities": [
+        "docker-admin",
+        "digitalocean-admin",
+        "github-admin",
+        "gitkraken-write"
+      ],
+      "optionalCapabilities": []
+    },
+    "graphic-designer": {
+      "id": "graphic-designer",
+      "source": "agents/graphic-designer.agent.md",
+      "visibility": "worker",
+      "capabilityProfile": "design-production",
+      "modelProfile": "creative",
+      "requiredSkills": [
+        "design-with-canva"
+      ],
+      "optionalSkills": [
+        "search-stock-images"
+      ],
+      "allowedSubagents": [],
+      "handoffs": [],
+      "requiredCapabilities": [
+        "canva-write"
+      ],
+      "optionalCapabilities": [
+        "gitkraken-write"
+      ]
+    },
+    "ux-engineer": {
+      "id": "ux-engineer",
+      "source": "agents/ux-engineer.agent.md",
+      "visibility": "worker",
+      "capabilityProfile": "design-production",
+      "modelProfile": "creative",
+      "requiredSkills": [
+        "design-with-canva",
+        "engineer-specialized-platforms"
+      ],
+      "optionalSkills": [],
+      "allowedSubagents": [],
+      "handoffs": [],
+      "requiredCapabilities": [
+        "canva-write"
+      ],
+      "optionalCapabilities": [
+        "gitkraken-write"
+      ]
+    },
+    "technical-writer": {
+      "id": "technical-writer",
+      "source": "agents/technical-writer.agent.md",
+      "visibility": "worker",
+      "capabilityProfile": "documentation",
+      "modelProfile": "balanced",
+      "requiredSkills": [
+        "verify-implementation"
+      ],
+      "optionalSkills": [],
+      "allowedSubagents": [],
+      "handoffs": [],
+      "requiredCapabilities": [],
+      "optionalCapabilities": [
+        "github-write",
+        "gitkraken-write"
+      ]
+    },
+    "knowledge-engineer": {
+      "id": "knowledge-engineer",
+      "source": "agents/knowledge-engineer.agent.md",
+      "visibility": "worker",
+      "capabilityProfile": "knowledge-curation",
+      "modelProfile": "balanced",
+      "requiredSkills": [
+        "query-knowledge-base"
+      ],
+      "optionalSkills": [],
+      "allowedSubagents": [],
+      "handoffs": [],
+      "requiredCapabilities": [],
+      "optionalCapabilities": [
+        "docker-write",
+        "gitkraken-write"
+      ]
+    }
   },
   "instructions": [
-    { "id": "agent-communication", "source": "instructions/agent-communication.instructions.md" },
-    { "id": "agent-safety", "source": "instructions/agent-safety.instructions.md" },
-    { "id": "git-workflow", "source": "instructions/git-workflow.instructions.md" },
-    { "id": "project-conventions", "source": "instructions/project-conventions.instructions.md" },
-    { "id": "verification-evidence", "source": "instructions/verification-evidence.instructions.md" },
-    { "id": "documentation-quality", "source": "instructions/documentation-quality.instructions.md" }
+    {
+      "id": "agent-communication",
+      "source": "instructions/agent-communication.instructions.md"
+    },
+    {
+      "id": "agent-safety",
+      "source": "instructions/agent-safety.instructions.md"
+    },
+    {
+      "id": "git-workflow",
+      "source": "instructions/git-workflow.instructions.md"
+    },
+    {
+      "id": "project-conventions",
+      "source": "instructions/project-conventions.instructions.md"
+    },
+    {
+      "id": "verification-evidence",
+      "source": "instructions/verification-evidence.instructions.md"
+    },
+    {
+      "id": "documentation-quality",
+      "source": "instructions/documentation-quality.instructions.md"
+    }
   ],
   "skills": [
-    { "id": "query-knowledge-base", "source": "skills/query-knowledge-base" },
-    { "id": "scaffold-project", "source": "skills/scaffold-project" },
-    { "id": "search-stock-images", "source": "skills/search-stock-images" },
-    { "id": "discover-repository", "source": "skills/discover-repository" },
-    { "id": "trace-requirements", "source": "skills/trace-requirements" },
-    { "id": "record-architecture-decision", "source": "skills/record-architecture-decision" },
-    { "id": "verify-implementation", "source": "skills/verify-implementation" },
-    { "id": "review-change-security", "source": "skills/review-change-security" },
-    { "id": "operate-docker", "source": "skills/operate-docker" },
-    { "id": "deploy-digitalocean", "source": "skills/deploy-digitalocean" },
-    { "id": "manage-github-gitkraken", "source": "skills/manage-github-gitkraken" },
-    { "id": "design-with-canva", "source": "skills/design-with-canva" },
-    { "id": "engineer-specialized-platforms", "source": "skills/engineer-specialized-platforms" }
+    {
+      "id": "query-knowledge-base",
+      "source": "skills/query-knowledge-base"
+    },
+    {
+      "id": "scaffold-project",
+      "source": "skills/scaffold-project"
+    },
+    {
+      "id": "search-stock-images",
+      "source": "skills/search-stock-images"
+    },
+    {
+      "id": "discover-repository",
+      "source": "skills/discover-repository"
+    },
+    {
+      "id": "trace-requirements",
+      "source": "skills/trace-requirements"
+    },
+    {
+      "id": "record-architecture-decision",
+      "source": "skills/record-architecture-decision"
+    },
+    {
+      "id": "verify-implementation",
+      "source": "skills/verify-implementation"
+    },
+    {
+      "id": "review-change-security",
+      "source": "skills/review-change-security"
+    },
+    {
+      "id": "operate-docker",
+      "source": "skills/operate-docker"
+    },
+    {
+      "id": "deploy-digitalocean",
+      "source": "skills/deploy-digitalocean"
+    },
+    {
+      "id": "manage-github-gitkraken",
+      "source": "skills/manage-github-gitkraken"
+    },
+    {
+      "id": "design-with-canva",
+      "source": "skills/design-with-canva"
+    },
+    {
+      "id": "engineer-specialized-platforms",
+      "source": "skills/engineer-specialized-platforms"
+    }
   ],
   "hooks": [],
   "codex": {
     "agents": {
-      "software-architect": { "id": "software-architect", "sourceAgent": "software-architect", "sandboxMode": "read-only", "modelProfile": "inherit", "requiredSkillBundles": ["agent-forge-lifecycle", "agent-forge-security-operations"], "instructionOverlay": "Review architecture and technical risk without modifying files. Do not delegate or spawn subagents.", "requiredCapabilities": [], "optionalCapabilities": [] },
-      "principal-engineer": { "id": "principal-engineer", "sourceAgent": "principal-engineer", "sandboxMode": "workspace-write", "modelProfile": "inherit", "requiredSkillBundles": ["agent-forge-lifecycle", "agent-forge-engineering", "agent-forge-security-operations"], "instructionOverlay": "Act as a bounded implementation and integration worker. Do not delegate, route, or spawn subagents; return the completed result and evidence to the parent agent.", "requiredCapabilities": [], "optionalCapabilities": [] },
-      "backend-developer": { "id": "backend-developer", "sourceAgent": "backend-developer", "sandboxMode": "workspace-write", "modelProfile": "inherit", "requiredSkillBundles": ["agent-forge-engineering"], "instructionOverlay": "Do not delegate or spawn subagents.", "requiredCapabilities": [], "optionalCapabilities": [] },
-      "frontend-developer": { "id": "frontend-developer", "sourceAgent": "frontend-developer", "sandboxMode": "workspace-write", "modelProfile": "inherit", "requiredSkillBundles": ["agent-forge-engineering"], "instructionOverlay": "Do not delegate or spawn subagents.", "requiredCapabilities": [], "optionalCapabilities": [] },
-      "database-engineer": { "id": "database-engineer", "sourceAgent": "database-engineer", "sandboxMode": "workspace-write", "modelProfile": "inherit", "requiredSkillBundles": ["agent-forge-engineering", "agent-forge-security-operations"], "instructionOverlay": "Do not delegate or spawn subagents. Require approval for destructive migrations and production changes.", "requiredCapabilities": [], "optionalCapabilities": [] },
-      "dotnet-engineer": { "id": "dotnet-engineer", "sourceAgent": "dotnet-engineer", "sandboxMode": "workspace-write", "modelProfile": "inherit", "requiredSkillBundles": ["agent-forge-engineering"], "instructionOverlay": "Do not delegate or spawn subagents.", "requiredCapabilities": [], "optionalCapabilities": [] },
-      "desktop-app-engineer": { "id": "desktop-app-engineer", "sourceAgent": "desktop-app-engineer", "sandboxMode": "workspace-write", "modelProfile": "inherit", "requiredSkillBundles": ["agent-forge-engineering"], "instructionOverlay": "Do not delegate or spawn subagents.", "requiredCapabilities": [], "optionalCapabilities": [] },
-      "mobile-engineer": { "id": "mobile-engineer", "sourceAgent": "mobile-engineer", "sandboxMode": "workspace-write", "modelProfile": "inherit", "requiredSkillBundles": ["agent-forge-engineering"], "instructionOverlay": "Do not delegate or spawn subagents.", "requiredCapabilities": [], "optionalCapabilities": [] },
-      "ml-engineer": { "id": "ml-engineer", "sourceAgent": "ml-engineer", "sandboxMode": "workspace-write", "modelProfile": "inherit", "requiredSkillBundles": ["agent-forge-engineering"], "instructionOverlay": "Use the bundled ML and data-science guidance. Do not delegate or spawn subagents.", "requiredCapabilities": [], "optionalCapabilities": [] },
-      "agentic-systems-engineer": { "id": "agentic-systems-engineer", "sourceAgent": "agentic-systems-engineer", "sandboxMode": "workspace-write", "modelProfile": "inherit", "requiredSkillBundles": ["agent-forge-agentic-knowledge", "agent-forge-engineering"], "instructionOverlay": "Do not delegate or spawn subagents.", "requiredCapabilities": [], "optionalCapabilities": [] },
-      "digital-twin-engineer": { "id": "digital-twin-engineer", "sourceAgent": "digital-twin-engineer", "sandboxMode": "workspace-write", "modelProfile": "inherit", "requiredSkillBundles": ["agent-forge-engineering", "agent-forge-security-operations"], "instructionOverlay": "Use the bundled XR and digital-twin guidance. Do not delegate or spawn subagents; require approval for control actions.", "requiredCapabilities": [], "optionalCapabilities": [] },
-      "qa-engineer": { "id": "qa-engineer", "sourceAgent": "qa-engineer", "sandboxMode": "workspace-write", "modelProfile": "inherit", "requiredSkillBundles": ["agent-forge-engineering"], "instructionOverlay": "Implement and run verification within scope. Do not delegate or spawn subagents.", "requiredCapabilities": [], "optionalCapabilities": [] },
-      "cybersecurity-engineer": { "id": "cybersecurity-engineer", "sourceAgent": "cybersecurity-engineer", "sandboxMode": "read-only", "modelProfile": "inherit", "requiredSkillBundles": ["agent-forge-security-operations"], "instructionOverlay": "Perform a read-only security review and report findings; do not modify product code, delegate, or spawn subagents.", "requiredCapabilities": [], "optionalCapabilities": [] },
-      "devops-engineer": { "id": "devops-engineer", "sourceAgent": "devops-engineer", "sandboxMode": "workspace-write", "modelProfile": "inherit", "requiredSkillBundles": ["agent-forge-security-operations", "agent-forge-lifecycle"], "instructionOverlay": "Do not delegate or spawn subagents. Cloud, production, push, release, and destructive operations require explicit user approval.", "requiredCapabilities": [], "optionalCapabilities": [] },
-      "ux-engineer": { "id": "ux-engineer", "sourceAgent": "ux-engineer", "sandboxMode": "workspace-write", "modelProfile": "inherit", "requiredSkillBundles": ["agent-forge-design", "agent-forge-engineering"], "instructionOverlay": "Use the design bundle for visual production. Do not delegate or spawn subagents.", "requiredCapabilities": [], "optionalCapabilities": [] },
-      "technical-writer": { "id": "technical-writer", "sourceAgent": "technical-writer", "sandboxMode": "workspace-write", "modelProfile": "inherit", "requiredSkillBundles": ["agent-forge-lifecycle", "agent-forge-engineering"], "instructionOverlay": "Validate documentation commands and links. Do not delegate or spawn subagents.", "requiredCapabilities": [], "optionalCapabilities": [] }
+      "software-architect": {
+        "id": "software-architect",
+        "sourceAgent": "software-architect",
+        "displayName": "Arquitectura de software",
+        "sandboxMode": "read-only",
+        "modelProfile": "inherit",
+        "requiredSkillBundles": [
+          "agent-forge-lifecycle",
+          "agent-forge-security-operations"
+        ],
+        "instructionOverlay": "Review architecture and technical risk without modifying files. Do not delegate or spawn subagents.",
+        "requiredCapabilities": [],
+        "optionalCapabilities": [],
+        "completionEvidence": [
+          "Architecture decisions tied to product requirements and repository evidence",
+          "Compatibility, trust boundaries and risks requiring a decision"
+        ],
+        "model": "gpt-6.1-sol",
+        "modelReasoningEffort": "high"
+      },
+      "principal-engineer": {
+        "id": "principal-engineer",
+        "sourceAgent": "principal-engineer",
+        "displayName": "Implementación e integración",
+        "sandboxMode": "workspace-write",
+        "modelProfile": "inherit",
+        "requiredSkillBundles": [
+          "agent-forge-lifecycle",
+          "agent-forge-engineering",
+          "agent-forge-security-operations"
+        ],
+        "instructionOverlay": "Integrate the implementation scope assigned by the primary product-development agent. The primary agent owns specialist selection and delegation. Do not delegate or spawn subagents. Return integrated changes and verification evidence.",
+        "requiredCapabilities": [],
+        "optionalCapabilities": [],
+        "completionEvidence": [
+          "Integrated behavior and files owned by this assignment",
+          "Commands actually executed, results and remaining integration issues"
+        ],
+        "model": "gpt-6.1-sol",
+        "modelReasoningEffort": "high"
+      },
+      "backend-developer": {
+        "id": "backend-developer",
+        "sourceAgent": "backend-developer",
+        "displayName": "Servicios del servidor",
+        "sandboxMode": "workspace-write",
+        "modelProfile": "inherit",
+        "requiredSkillBundles": [
+          "agent-forge-engineering"
+        ],
+        "instructionOverlay": "Do not delegate or spawn subagents.",
+        "requiredCapabilities": [],
+        "optionalCapabilities": [],
+        "completionEvidence": [
+          "Service contracts, error handling and authorization behavior changed",
+          "Focused checks of the changed request and data paths"
+        ],
+        "model": "gpt-6-luna",
+        "modelReasoningEffort": "high"
+      },
+      "frontend-developer": {
+        "id": "frontend-developer",
+        "sourceAgent": "frontend-developer",
+        "displayName": "Interfaz web",
+        "sandboxMode": "workspace-write",
+        "modelProfile": "inherit",
+        "requiredSkillBundles": [
+          "agent-forge-engineering"
+        ],
+        "instructionOverlay": "Do not delegate or spawn subagents. For assigned visual/interface work, consult the shared $communication-design-styles skill when relevant and read only the selected style reference. It is installed in CODEX_HOME/skills/communication-design-styles (default ~/.codex/skills) and owned by the Communication and Training roster; do not deploy a second copy. Preserve the approved project identity and existing Impeccable activation. For a course without an established identity or an explicitly selected style, ask the principal to obtain Roberto’s choice before visual design; Clean + Editorial is not automatic. If the library is missing when requested, report that limitation without downloading or recreating it.",
+        "requiredCapabilities": [],
+        "optionalCapabilities": [],
+        "completionEvidence": [
+          "Implemented user flows and relevant loading, empty, error and keyboard states",
+          "Observed browser behavior and applicable build or type checks"
+        ],
+        "model": "gpt-6.1-sol",
+        "modelReasoningEffort": "medium"
+      },
+      "database-engineer": {
+        "id": "database-engineer",
+        "sourceAgent": "database-engineer",
+        "displayName": "Bases de datos",
+        "sandboxMode": "workspace-write",
+        "modelProfile": "inherit",
+        "requiredSkillBundles": [
+          "agent-forge-engineering",
+          "agent-forge-security-operations"
+        ],
+        "instructionOverlay": "Do not delegate or spawn subagents. Require approval for destructive migrations and production changes.",
+        "requiredCapabilities": [],
+        "optionalCapabilities": [],
+        "completionEvidence": [
+          "Schema invariants, data compatibility and migration effects",
+          "Forward and recovery checks on disposable data when a migration changes"
+        ],
+        "model": "gpt-6.1-sol",
+        "modelReasoningEffort": "high"
+      },
+      "dotnet-engineer": {
+        "id": "dotnet-engineer",
+        "sourceAgent": "dotnet-engineer",
+        "displayName": "Desarrollo con .NET",
+        "sandboxMode": "workspace-write",
+        "modelProfile": "inherit",
+        "requiredSkillBundles": [
+          "agent-forge-engineering"
+        ],
+        "instructionOverlay": "Do not delegate or spawn subagents.",
+        "requiredCapabilities": [],
+        "optionalCapabilities": [],
+        "completionEvidence": [
+          "Affected target frameworks and public behavior",
+          "Applicable build and test results, with unavailable platforms identified"
+        ],
+        "model": "gpt-6-luna",
+        "modelReasoningEffort": "high"
+      },
+      "desktop-app-engineer": {
+        "id": "desktop-app-engineer",
+        "sourceAgent": "desktop-app-engineer",
+        "displayName": "Aplicaciones de escritorio",
+        "sandboxMode": "workspace-write",
+        "modelProfile": "inherit",
+        "requiredSkillBundles": [
+          "agent-forge-engineering"
+        ],
+        "instructionOverlay": "Do not delegate or spawn subagents.",
+        "requiredCapabilities": [],
+        "optionalCapabilities": [],
+        "completionEvidence": [
+          "Native boundaries, packaging or update behavior changed",
+          "Results on the operating systems actually available"
+        ],
+        "model": "gpt-6.1-sol",
+        "modelReasoningEffort": "high"
+      },
+      "mobile-engineer": {
+        "id": "mobile-engineer",
+        "sourceAgent": "mobile-engineer",
+        "displayName": "Aplicaciones móviles",
+        "sandboxMode": "workspace-write",
+        "modelProfile": "inherit",
+        "requiredSkillBundles": [
+          "agent-forge-engineering"
+        ],
+        "instructionOverlay": "Do not delegate or spawn subagents.",
+        "requiredCapabilities": [],
+        "optionalCapabilities": [],
+        "completionEvidence": [
+          "Implemented device flows, permissions and relevant offline states",
+          "Device or simulator results explicitly distinguished"
+        ],
+        "model": "gpt-6-luna",
+        "modelReasoningEffort": "high"
+      },
+      "ml-engineer": {
+        "id": "ml-engineer",
+        "sourceAgent": "ml-engineer",
+        "displayName": "Aprendizaje automático",
+        "sandboxMode": "workspace-write",
+        "modelProfile": "inherit",
+        "requiredSkillBundles": [
+          "agent-forge-engineering"
+        ],
+        "instructionOverlay": "Use the bundled ML and data-science guidance. Do not delegate or spawn subagents.",
+        "requiredCapabilities": [],
+        "optionalCapabilities": [],
+        "completionEvidence": [
+          "Authorized data, split and artifact provenance",
+          "Reproducible measurements with uncertainty and evaluation limitations"
+        ],
+        "model": "gpt-6.1-sol",
+        "modelReasoningEffort": "high"
+      },
+      "agentic-systems-engineer": {
+        "id": "agentic-systems-engineer",
+        "sourceAgent": "agentic-systems-engineer",
+        "displayName": "Sistemas con agentes de inteligencia artificial",
+        "sandboxMode": "workspace-write",
+        "modelProfile": "inherit",
+        "requiredSkillBundles": [
+          "agent-forge-agentic-knowledge",
+          "agent-forge-engineering"
+        ],
+        "instructionOverlay": "Do not delegate or spawn subagents.",
+        "requiredCapabilities": [],
+        "optionalCapabilities": [],
+        "completionEvidence": [
+          "Tool and state contracts, failure handling and authorization boundaries",
+          "Observed routing, argument validation and recovery results"
+        ],
+        "model": "gpt-6.1-sol",
+        "modelReasoningEffort": "high"
+      },
+      "digital-twin-engineer": {
+        "id": "digital-twin-engineer",
+        "sourceAgent": "digital-twin-engineer",
+        "displayName": "Gemelos digitales",
+        "sandboxMode": "workspace-write",
+        "modelProfile": "inherit",
+        "requiredSkillBundles": [
+          "agent-forge-engineering",
+          "agent-forge-security-operations"
+        ],
+        "instructionOverlay": "Use the bundled XR and digital-twin guidance. Do not delegate or spawn subagents; require approval for control actions.",
+        "requiredCapabilities": [],
+        "optionalCapabilities": [],
+        "completionEvidence": [
+          "Telemetry, timing, units and simulation boundaries",
+          "Relevant replay, duplicate event, disconnect and stale-data checks"
+        ],
+        "model": "gpt-6.1-sol",
+        "modelReasoningEffort": "high"
+      },
+      "qa-engineer": {
+        "id": "qa-engineer",
+        "sourceAgent": "qa-engineer",
+        "displayName": "Pruebas y calidad",
+        "sandboxMode": "workspace-write",
+        "modelProfile": "inherit",
+        "requiredSkillBundles": [
+          "agent-forge-engineering"
+        ],
+        "instructionOverlay": "Implement and run verification within scope. Do not delegate or spawn subagents.",
+        "requiredCapabilities": [],
+        "optionalCapabilities": [],
+        "completionEvidence": [
+          "Requirement-to-test correspondence and observed failures",
+          "Reproduction steps, actual results and unverified cases"
+        ],
+        "model": "gpt-6-luna",
+        "modelReasoningEffort": "high"
+      },
+      "cybersecurity-engineer": {
+        "id": "cybersecurity-engineer",
+        "sourceAgent": "cybersecurity-engineer",
+        "displayName": "Seguridad del software",
+        "sandboxMode": "read-only",
+        "modelProfile": "inherit",
+        "requiredSkillBundles": [
+          "agent-forge-security-operations"
+        ],
+        "instructionOverlay": "Perform a read-only security review and report findings; do not modify product code, delegate, or spawn subagents.",
+        "requiredCapabilities": [],
+        "optionalCapabilities": [],
+        "completionEvidence": [
+          "Evidence-backed findings with affected boundaries and exploit conditions",
+          "Uncertainty, residual risk and recommendation for the scoped change"
+        ],
+        "model": "gpt-6.1-sol",
+        "modelReasoningEffort": "high"
+      },
+      "devops-engineer": {
+        "id": "devops-engineer",
+        "sourceAgent": "devops-engineer",
+        "displayName": "Operación y despliegue",
+        "sandboxMode": "workspace-write",
+        "modelProfile": "inherit",
+        "requiredSkillBundles": [
+          "agent-forge-security-operations",
+          "agent-forge-lifecycle"
+        ],
+        "instructionOverlay": "Perform the assigned operational work within the authorization already granted for its effects and destination. Ask only for missing authorization. Do not delegate or spawn subagents.",
+        "requiredCapabilities": [],
+        "optionalCapabilities": [],
+        "completionEvidence": [
+          "Exact authorized environment, artifact and external operation",
+          "Observed health, persistence and recovery evidence or the outstanding authorization"
+        ],
+        "model": "gpt-6.1-sol",
+        "modelReasoningEffort": "high"
+      },
+      "ux-engineer": {
+        "id": "ux-engineer",
+        "sourceAgent": "ux-engineer",
+        "displayName": "Experiencia de uso y accesibilidad",
+        "sandboxMode": "workspace-write",
+        "modelProfile": "inherit",
+        "requiredSkillBundles": [
+          "agent-forge-design",
+          "agent-forge-engineering"
+        ],
+        "instructionOverlay": "Use the design bundle for visual production. Do not delegate or spawn subagents. For assigned visual/interface work, consult the shared $communication-design-styles skill when relevant and read only the selected style reference. It is installed in CODEX_HOME/skills/communication-design-styles (default ~/.codex/skills) and owned by the Communication and Training roster; do not deploy a second copy. Preserve the approved project identity and existing Impeccable activation. For a course without an established identity or an explicitly selected style, ask the principal to obtain Roberto’s choice before visual design; Clean + Editorial is not automatic. If the library is missing when requested, report that limitation without downloading or recreating it.",
+        "requiredCapabilities": [],
+        "optionalCapabilities": [],
+        "completionEvidence": [
+          "User flows, interaction and accessibility decisions tied to the product",
+          "Acceptance criteria and observed or explicitly unverified interface behavior"
+        ],
+        "model": "gpt-6.1-sol",
+        "modelReasoningEffort": "medium"
+      },
+      "technical-writer": {
+        "id": "technical-writer",
+        "sourceAgent": "technical-writer",
+        "displayName": "Documentación técnica",
+        "sandboxMode": "workspace-write",
+        "modelProfile": "inherit",
+        "requiredSkillBundles": [
+          "agent-forge-lifecycle",
+          "agent-forge-engineering"
+        ],
+        "instructionOverlay": "Validate documentation commands and links. Do not delegate or spawn subagents.",
+        "requiredCapabilities": [],
+        "optionalCapabilities": [],
+        "completionEvidence": [
+          "Documentation tied to implemented behavior and its audience",
+          "Verified references and commands, distinguishing execution from static review"
+        ],
+        "model": "gpt-6-luna",
+        "modelReasoningEffort": "high"
+      }
     },
     "skillBundles": {
-      "agent-forge-lifecycle": { "id": "agent-forge-lifecycle", "deploymentName": "agent-forge-lifecycle", "entrypoint": "SKILL.md", "description": "Agent Forge lifecycle workflow for repository discovery, requirements, architecture decisions, delivery planning, handoffs, scaffolding, release preparation, and primary-agent routing.", "componentSkills": ["discover-repository", "trace-requirements", "record-architecture-decision", "scaffold-project"], "flattenedReferences": [] },
-      "agent-forge-engineering": { "id": "agent-forge-engineering", "deploymentName": "agent-forge-engineering", "entrypoint": "SKILL.md", "description": "Agent Forge engineering workflow for implementation verification and backend, frontend, database, .NET, desktop, mobile, ML/data, XR, and digital-twin specialization.", "componentSkills": ["verify-implementation", "engineer-specialized-platforms"], "flattenedReferences": ["backend", "frontend", "database", "dotnet", "desktop", "mobile", "ml-data", "xr", "digital-twin"] },
-      "agent-forge-security-operations": { "id": "agent-forge-security-operations", "deploymentName": "agent-forge-security-operations", "entrypoint": "SKILL.md", "description": "Agent Forge security and operations workflow for change review, Docker, DigitalOcean, GitHub, GitKraken, and approval-gated release or infrastructure work.", "componentSkills": ["review-change-security", "operate-docker", "deploy-digitalocean", "manage-github-gitkraken"], "flattenedReferences": [] },
-      "agent-forge-design": { "id": "agent-forge-design", "deploymentName": "agent-forge-design", "entrypoint": "SKILL.md", "description": "Agent Forge design workflow for UX, Canva production, asset variants, accessibility, and stock-image license and provenance checks.", "componentSkills": ["design-with-canva", "search-stock-images"], "flattenedReferences": [] },
-      "agent-forge-agentic-knowledge": { "id": "agent-forge-agentic-knowledge", "deploymentName": "agent-forge-agentic-knowledge", "entrypoint": "SKILL.md", "description": "Agent Forge workflow for agentic-system evaluation, RAG and MCP quality, trace analysis, and evidence-based knowledge retrieval and curation.", "componentSkills": ["query-knowledge-base"], "flattenedReferences": ["postgres"] }
+      "agent-forge-lifecycle": {
+        "id": "agent-forge-lifecycle",
+        "deploymentName": "agent-forge-lifecycle",
+        "entrypoint": "SKILL.md",
+        "description": "During an assigned software-product build, inspect its repository, clarify requirements, record architecture decisions or scaffold the requested project. The primary agent coordinates delivery through agent-forge-build-software-products.",
+        "componentSkills": [
+          "discover-repository",
+          "trace-requirements",
+          "record-architecture-decision",
+          "scaffold-project"
+        ],
+        "flattenedReferences": []
+      },
+      "agent-forge-engineering": {
+        "id": "agent-forge-engineering",
+        "deploymentName": "agent-forge-engineering",
+        "entrypoint": "SKILL.md",
+        "description": "During an assigned software-product build, implement or verify a change using the relevant backend, frontend, database, .NET, desktop, mobile, ML, XR or digital-twin guidance.",
+        "componentSkills": [
+          "verify-implementation",
+          "engineer-specialized-platforms"
+        ],
+        "flattenedReferences": [
+          "backend",
+          "frontend",
+          "database",
+          "dotnet",
+          "desktop",
+          "mobile",
+          "ml-data",
+          "xr",
+          "digital-twin"
+        ]
+      },
+      "agent-forge-security-operations": {
+        "id": "agent-forge-security-operations",
+        "deploymentName": "agent-forge-security-operations",
+        "entrypoint": "SKILL.md",
+        "description": "During an assigned software-product build, review a changed security boundary or carry out authorized Git, container or deployment work. Select only the procedure required by the task.",
+        "componentSkills": [
+          "review-change-security",
+          "operate-docker",
+          "deploy-digitalocean",
+          "manage-github-gitkraken"
+        ],
+        "flattenedReferences": []
+      },
+      "agent-forge-design": {
+        "id": "agent-forge-design",
+        "deploymentName": "agent-forge-design",
+        "entrypoint": "SKILL.md",
+        "description": "During an assigned software-product build, define interface flows, accessibility or visual assets. Use Canva or stock assets only when the product calls for them and the tools are available.",
+        "componentSkills": [
+          "design-with-canva",
+          "search-stock-images"
+        ],
+        "flattenedReferences": []
+      },
+      "agent-forge-agentic-knowledge": {
+        "id": "agent-forge-agentic-knowledge",
+        "deploymentName": "agent-forge-agentic-knowledge",
+        "entrypoint": "SKILL.md",
+        "description": "During an assigned software-product build, retrieve and curate repository knowledge for an agentic application. Research questions unrelated to building the product do not activate this skill.",
+        "componentSkills": [
+          "query-knowledge-base"
+        ],
+        "flattenedReferences": [
+          "postgres"
+        ]
+      }
+    },
+    "externalSkillCatalog": "config/external-skills.json",
+    "productDevelopment": {
+      "source": "skills/direct-software-product-development",
+      "deploymentName": "agent-forge-build-software-products",
+      "hooksSource": "hooks/codex",
+      "hooksTarget": "%USERPROFILE%/.codex/hooks.json"
+    },
+    "graphify": {
+      "managedRoot": "%USERPROFILE%/.agent-forge/graphify",
+      "lockFile": "config/graphify-windows-x64-python312.lock.json"
     }
   }
 }

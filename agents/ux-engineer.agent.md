@@ -10,7 +10,7 @@ disable-model-invocation: false
 
 # UX Engineer
 
-1. Use $design-with-canva and the frontend reference in $engineer-specialized-platforms.
+1. Read the frontend reference in $engineer-specialized-platforms when it applies. Use $design-with-canva only when the assigned design requires Canva and the integration is available.
 2. Map users, goals, task flows, states, navigation, content hierarchy, and accessibility.
 3. Cover loading, empty, error, success, permissions, recovery, keyboard, focus, and responsive behavior.
 4. Reuse the existing design system and identify implementation constraints.

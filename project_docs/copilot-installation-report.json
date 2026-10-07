@@ -1,0 +1,134 @@
+{
+  "checkedAt": "2026-10-05T07:42:10.443Z",
+  "status": "installed-and-statically-checked",
+  "deploymentId": "2026-10-05T07-38-38-007Z-ec6b38",
+  "sourceCommit": "da6b5b563f46ad0f6eaf8ec87b96ca754412fa39",
+  "files": 900,
+  "protectedCodexFiles": 725,
+  "codexRecordUnchanged": true,
+  "changedProtectedFiles": [],
+  "preservedModifiedLegacy": [
+    {
+      "path": "C:\\Users\\rober\\.copilot\\agents\\cto.agent.md",
+      "sha256": "80d07aeb9bf5fa907c1399bb1bb42edee26ad05fe376b88aebcc3e43b24c28c6"
+    },
+    {
+      "path": "C:\\Users\\rober\\.copilot\\agents\\requirements-engineer.agent.md",
+      "sha256": "562ed4304a02c2821969cc16ef239130db7f840a0b38564b330c8a273bcc050f"
+    },
+    {
+      "path": "C:\\Users\\rober\\.copilot\\agents\\creative-director.agent.md",
+      "sha256": "dd095d9eb622cd29170156c54e3013d9c6dad923f9d22a1acba1b6f50bf9e1a6"
+    },
+    {
+      "path": "C:\\Users\\rober\\.copilot\\agents\\software-architect.agent.md",
+      "sha256": "fa0c917b8c06f46fdfee7bf44b10296f8552c5e8238678ecafd40044841e8fb0"
+    },
+    {
+      "path": "C:\\Users\\rober\\.copilot\\agents\\project-manager.agent.md",
+      "sha256": "7cf7ba0113063cc435cf4117eef0fe8aa2bb3f88e791d508ecbcae0f8a45f37e"
+    },
+    {
+      "path": "C:\\Users\\rober\\.copilot\\agents\\principal-engineer.agent.md",
+      "sha256": "f6ce0ed6e79a147ff9d2755a454df9618b52e10ded2ab6561f7bdc0587d390ed"
+    },
+    {
+      "path": "C:\\Users\\rober\\.copilot\\agents\\data-scientist.agent.md",
+      "sha256": "f98381ed3579a90d1653c03eda66da34e53f6d7534d59bc2c8996f37f7abbe57"
+    },
+    {
+      "path": "C:\\Users\\rober\\.copilot\\agents\\agentic-systems-engineer.agent.md",
+      "sha256": "c10b9ae52adaf66cd3c7467111a3e6170ae1a84e11e1cc134cdb40a7bef6bd99"
+    },
+    {
+      "path": "C:\\Users\\rober\\.copilot\\agents\\cybersecurity-engineer.agent.md",
+      "sha256": "f7b67163b7aa7457326d4f55229dd04ddd8d388405ed72c2e8a9905694c98772"
+    },
+    {
+      "path": "C:\\Users\\rober\\.copilot\\agents\\devops-engineer.agent.md",
+      "sha256": "5270788a0a7ef368db125dd5b6a34f32db99716114d08280b98d166ccc839785"
+    },
+    {
+      "path": "C:\\Users\\rober\\.copilot\\agents\\technical-writer.agent.md",
+      "sha256": "aec06e65ccee58afb957abe417fc41ac5d302e586868b60af1fa66d4ea597893"
+    },
+    {
+      "path": "C:\\Users\\rober\\.copilot\\instructions\\agent-communication.instructions.md",
+      "sha256": "0280c1cd60fc99e04e0757b2012776d91bee24620eea75eae259ab51b7b9aedd"
+    },
+    {
+      "path": "C:\\Users\\rober\\.copilot\\instructions\\agent-safety.instructions.md",
+      "sha256": "756172bd78ab0f73e313209012c8c3052d99302693362845f6c980486d7bd1e3"
+    },
+    {
+      "path": "C:\\Users\\rober\\.copilot\\instructions\\git-workflow.instructions.md",
+      "sha256": "c3baa460673111896c13c6eb702b6d4db46672ce0906bf968ac85f5a2b445c5b"
+    },
+    {
+      "path": "C:\\Users\\rober\\.copilot\\instructions\\project-conventions.instructions.md",
+      "sha256": "4794c6b0a4d4d8ad76af3886d957c5e77adea9edf14a80b7440e3e6b0d92d023"
+    },
+    {
+      "path": "C:\\Users\\rober\\.copilot\\instructions\\documentation-quality.instructions.md",
+      "sha256": "aebb3da5dd0718ca90126bfbbe8d544698e1742151e42a541017da1e1ce31000"
+    },
+    {
+      "path": "C:\\Users\\rober\\.copilot\\skills\\scaffold-project\\SKILL.md",
+      "sha256": "8fef0ade8185e8673e8e406252dcc1f09e048d54742114830dc9521386a85d64"
+    },
+    {
+      "path": "C:\\Users\\rober\\.copilot\\skills\\search-stock-images\\SKILL.md",
+      "sha256": "761a1459692da6428857a50c87ee15fb19aa8c0d5554d81b2744bfc0d88c8b50"
+    },
+    {
+      "path": "C:\\Users\\rober\\.copilot\\skills\\trace-requirements\\SKILL.md",
+      "sha256": "acb90dec8b4f0c2ca575185eccfc7d8a83be5f44ef489a3358020b54287e8141"
+    },
+    {
+      "path": "C:\\Users\\rober\\.copilot\\skills\\verify-implementation\\SKILL.md",
+      "sha256": "79ef9eca981178cc95560e583a9b24aedd7968137e26d6eeb98ec6623b17e730"
+    },
+    {
+      "path": "C:\\Users\\rober\\.copilot\\skills\\review-change-security\\SKILL.md",
+      "sha256": "dc466e9c15a41870b6929686f5d0d7a35e7786cbb02abdbf977c6b17a7994c07"
+    },
+    {
+      "path": "C:\\Users\\rober\\.copilot\\skills\\operate-docker\\SKILL.md",
+      "sha256": "a07aaa9f67c0409196bb62ec025a3a7914292cee1d96bba4f6369a8d0f4dde2b"
+    },
+    {
+      "path": "C:\\Users\\rober\\.copilot\\skills\\deploy-digitalocean\\SKILL.md",
+      "sha256": "b22ffb61e75ab8ef52fa610b74ea1edf0922079327a65e94bfce7993c04bf6b6"
+    },
+    {
+      "path": "C:\\Users\\rober\\.copilot\\skills\\manage-github-gitkraken\\SKILL.md",
+      "sha256": "7801d7c399f7fd48612b2baac998dd56cd1df42cf3bfd00a70c895985db9b1dd"
+    },
+    {
+      "path": "C:\\Users\\rober\\.copilot\\skills\\engineer-specialized-platforms\\SKILL.md",
+      "sha256": "2ff90beafc6ea6bf30e7d218251288d26ffd131d85131dbab7865cb6ad4e3e4c"
+    }
+  ],
+  "installedHashMismatches": [],
+  "mcpProvidersPreserved": [
+    "gitkraken",
+    "github",
+    "canva",
+    "digitalocean"
+  ],
+  "mcpProvidersChanged": [],
+  "mcpConfiguredProviders": [
+    "gitkraken",
+    "github",
+    "canva",
+    "digitalocean",
+    "elevenlabs",
+    "shotstack"
+  ],
+  "removedManaged": 28,
+  "backups": "C:\\Users\\rober\\.agent-forge",
+  "behavioralVerification": "not-performed-per-user-instruction",
+  "fileInventory": "copilot-installed-files.json",
+  "checkedBackups": 28,
+  "backupErrors": []
+}

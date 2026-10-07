@@ -1,0 +1,713 @@
+{
+  "checkedAt": "2026-10-05T07:34:18.566Z",
+  "kind": "static-installation-only",
+  "harness": "copilot",
+  "counts": {
+    "agents": 45,
+    "visible": 4,
+    "hidden": 41,
+    "ownSkills": 60,
+    "dependencySkills": 10,
+    "explicitSpecialistModels": 40,
+    "files": 900,
+    "obsoleteManaged": 28
+  },
+  "structuralErrors": [],
+  "unknownSkills": [],
+  "legacyReferences": [],
+  "brokenLinks": [],
+  "diagnostics": [
+    {
+      "code": "AF011",
+      "severity": "warning",
+      "message": "software-architect: original model gpt-6.1-sol retained; not exposed by the inspected VS Code metadata API; no substitute selected. Original reasoning high is catalog metadata, not a supported frontmatter control.",
+      "agentId": "software-architect"
+    },
+    {
+      "code": "AF011",
+      "severity": "warning",
+      "message": "principal-engineer: original model gpt-6.1-sol retained; not exposed by the inspected VS Code metadata API; no substitute selected. Original reasoning high is catalog metadata, not a supported frontmatter control.",
+      "agentId": "principal-engineer"
+    },
+    {
+      "code": "AF011",
+      "severity": "warning",
+      "message": "backend-developer: original model gpt-6-luna retained; not exposed by the inspected VS Code metadata API; no substitute selected. Original reasoning high is catalog metadata, not a supported frontmatter control.",
+      "agentId": "backend-developer"
+    },
+    {
+      "code": "AF011",
+      "severity": "warning",
+      "message": "frontend-developer: original model gpt-6.1-sol retained; not exposed by the inspected VS Code metadata API; no substitute selected. Original reasoning medium is catalog metadata, not a supported frontmatter control.",
+      "agentId": "frontend-developer"
+    },
+    {
+      "code": "AF011",
+      "severity": "warning",
+      "message": "database-engineer: original model gpt-6.1-sol retained; not exposed by the inspected VS Code metadata API; no substitute selected. Original reasoning high is catalog metadata, not a supported frontmatter control.",
+      "agentId": "database-engineer"
+    },
+    {
+      "code": "AF011",
+      "severity": "warning",
+      "message": "dotnet-engineer: original model gpt-6-luna retained; not exposed by the inspected VS Code metadata API; no substitute selected. Original reasoning high is catalog metadata, not a supported frontmatter control.",
+      "agentId": "dotnet-engineer"
+    },
+    {
+      "code": "AF011",
+      "severity": "warning",
+      "message": "desktop-app-engineer: original model gpt-6.1-sol retained; not exposed by the inspected VS Code metadata API; no substitute selected. Original reasoning high is catalog metadata, not a supported frontmatter control.",
+      "agentId": "desktop-app-engineer"
+    },
+    {
+      "code": "AF011",
+      "severity": "warning",
+      "message": "mobile-engineer: original model gpt-6-luna retained; not exposed by the inspected VS Code metadata API; no substitute selected. Original reasoning high is catalog metadata, not a supported frontmatter control.",
+      "agentId": "mobile-engineer"
+    },
+    {
+      "code": "AF011",
+      "severity": "warning",
+      "message": "ml-engineer: original model gpt-6.1-sol retained; not exposed by the inspected VS Code metadata API; no substitute selected. Original reasoning high is catalog metadata, not a supported frontmatter control.",
+      "agentId": "ml-engineer"
+    },
+    {
+      "code": "AF011",
+      "severity": "warning",
+      "message": "agentic-systems-engineer: original model gpt-6.1-sol retained; not exposed by the inspected VS Code metadata API; no substitute selected. Original reasoning high is catalog metadata, not a supported frontmatter control.",
+      "agentId": "agentic-systems-engineer"
+    },
+    {
+      "code": "AF011",
+      "severity": "warning",
+      "message": "digital-twin-engineer: original model gpt-6.1-sol retained; not exposed by the inspected VS Code metadata API; no substitute selected. Original reasoning high is catalog metadata, not a supported frontmatter control.",
+      "agentId": "digital-twin-engineer"
+    },
+    {
+      "code": "AF011",
+      "severity": "warning",
+      "message": "qa-engineer: original model gpt-6-luna retained; not exposed by the inspected VS Code metadata API; no substitute selected. Original reasoning high is catalog metadata, not a supported frontmatter control.",
+      "agentId": "qa-engineer"
+    },
+    {
+      "code": "AF011",
+      "severity": "warning",
+      "message": "cybersecurity-engineer: original model gpt-6.1-sol retained; not exposed by the inspected VS Code metadata API; no substitute selected. Original reasoning high is catalog metadata, not a supported frontmatter control.",
+      "agentId": "cybersecurity-engineer"
+    },
+    {
+      "code": "AF011",
+      "severity": "warning",
+      "message": "devops-engineer: original model gpt-6.1-sol retained; not exposed by the inspected VS Code metadata API; no substitute selected. Original reasoning high is catalog metadata, not a supported frontmatter control.",
+      "agentId": "devops-engineer"
+    },
+    {
+      "code": "AF011",
+      "severity": "warning",
+      "message": "ux-engineer: original model gpt-6.1-sol retained; not exposed by the inspected VS Code metadata API; no substitute selected. Original reasoning medium is catalog metadata, not a supported frontmatter control.",
+      "agentId": "ux-engineer"
+    },
+    {
+      "code": "AF011",
+      "severity": "warning",
+      "message": "technical-writer: original model gpt-6-luna retained; not exposed by the inspected VS Code metadata API; no substitute selected. Original reasoning high is catalog metadata, not a supported frontmatter control.",
+      "agentId": "technical-writer"
+    },
+    {
+      "code": "AF011",
+      "severity": "warning",
+      "message": "research-literature-search: original model gpt-6.1-sol retained; not exposed by the inspected VS Code metadata API; no substitute selected. Original reasoning high is catalog metadata, not a supported frontmatter control.",
+      "agentId": "research-literature-search"
+    },
+    {
+      "code": "AF011",
+      "severity": "warning",
+      "message": "research-evidence-synthesis: original model gpt-6-astra retained; not exposed by the inspected VS Code metadata API; no substitute selected. Original reasoning high is catalog metadata, not a supported frontmatter control.",
+      "agentId": "research-evidence-synthesis"
+    },
+    {
+      "code": "AF011",
+      "severity": "warning",
+      "message": "research-bibliographic-references: original model gpt-6.1-sol retained; not exposed by the inspected VS Code metadata API; no substitute selected. Original reasoning medium is catalog metadata, not a supported frontmatter control.",
+      "agentId": "research-bibliographic-references"
+    },
+    {
+      "code": "AF011",
+      "severity": "warning",
+      "message": "research-experimental-design: original model gpt-6-astra retained; not exposed by the inspected VS Code metadata API; no substitute selected. Original reasoning high is catalog metadata, not a supported frontmatter control.",
+      "agentId": "research-experimental-design"
+    },
+    {
+      "code": "AF011",
+      "severity": "warning",
+      "message": "research-human-participant-studies: original model gpt-6-astra retained; not exposed by the inspected VS Code metadata API; no substitute selected. Original reasoning high is catalog metadata, not a supported frontmatter control.",
+      "agentId": "research-human-participant-studies"
+    },
+    {
+      "code": "AF011",
+      "severity": "warning",
+      "message": "research-statistical-analysis: original model gpt-6-astra retained; not exposed by the inspected VS Code metadata API; no substitute selected. Original reasoning high is catalog metadata, not a supported frontmatter control.",
+      "agentId": "research-statistical-analysis"
+    },
+    {
+      "code": "AF011",
+      "severity": "warning",
+      "message": "research-computational-reproducibility: original model gpt-6.1-sol retained; not exposed by the inspected VS Code metadata API; no substitute selected. Original reasoning high is catalog metadata, not a supported frontmatter control.",
+      "agentId": "research-computational-reproducibility"
+    },
+    {
+      "code": "AF011",
+      "severity": "warning",
+      "message": "research-scientific-figures: original model gpt-6.1-sol retained; not exposed by the inspected VS Code metadata API; no substitute selected. Original reasoning high is catalog metadata, not a supported frontmatter control.",
+      "agentId": "research-scientific-figures"
+    },
+    {
+      "code": "AF011",
+      "severity": "warning",
+      "message": "research-scientific-writing: original model gpt-6-astra retained; not exposed by the inspected VS Code metadata API; no substitute selected. Original reasoning medium is catalog metadata, not a supported frontmatter control.",
+      "agentId": "research-scientific-writing"
+    },
+    {
+      "code": "AF011",
+      "severity": "warning",
+      "message": "research-reviewer-responses: original model gpt-6-astra retained; not exposed by the inspected VS Code metadata API; no substitute selected. Original reasoning high is catalog metadata, not a supported frontmatter control.",
+      "agentId": "research-reviewer-responses"
+    },
+    {
+      "code": "AF011",
+      "severity": "warning",
+      "message": "research-independent-scientific-review: original model gpt-6-astra retained; not exposed by the inspected VS Code metadata API; no substitute selected. Original reasoning high is catalog metadata, not a supported frontmatter control.",
+      "agentId": "research-independent-scientific-review"
+    },
+    {
+      "code": "AF011",
+      "severity": "warning",
+      "message": "research-machine-learning: original model gpt-6-astra retained; not exposed by the inspected VS Code metadata API; no substitute selected. Original reasoning high is catalog metadata, not a supported frontmatter control.",
+      "agentId": "research-machine-learning"
+    },
+    {
+      "code": "AF011",
+      "severity": "warning",
+      "message": "research-language-models: original model gpt-6-astra retained; not exposed by the inspected VS Code metadata API; no substitute selected. Original reasoning high is catalog metadata, not a supported frontmatter control.",
+      "agentId": "research-language-models"
+    },
+    {
+      "code": "AF011",
+      "severity": "warning",
+      "message": "research-computer-vision: original model gpt-6-astra retained; not exposed by the inspected VS Code metadata API; no substitute selected. Original reasoning high is catalog metadata, not a supported frontmatter control.",
+      "agentId": "research-computer-vision"
+    },
+    {
+      "code": "AF011",
+      "severity": "warning",
+      "message": "research-human-ai-interaction: original model gpt-6-astra retained; not exposed by the inspected VS Code metadata API; no substitute selected. Original reasoning high is catalog metadata, not a supported frontmatter control.",
+      "agentId": "research-human-ai-interaction"
+    },
+    {
+      "code": "AF011",
+      "severity": "warning",
+      "message": "research-extended-reality: original model gpt-6-astra retained; not exposed by the inspected VS Code metadata API; no substitute selected. Original reasoning high is catalog metadata, not a supported frontmatter control.",
+      "agentId": "research-extended-reality"
+    },
+    {
+      "code": "AF011",
+      "severity": "warning",
+      "message": "research-physical-ai: original model gpt-6-astra retained; not exposed by the inspected VS Code metadata API; no substitute selected. Original reasoning high is catalog metadata, not a supported frontmatter control.",
+      "agentId": "research-physical-ai"
+    },
+    {
+      "code": "AF011",
+      "severity": "warning",
+      "message": "research-mathematical-modeling: original model gpt-6-astra retained; not exposed by the inspected VS Code metadata API; no substitute selected. Original reasoning high is catalog metadata, not a supported frontmatter control.",
+      "agentId": "research-mathematical-modeling"
+    },
+    {
+      "code": "AF011",
+      "severity": "warning",
+      "message": "research-mathematics: original model gpt-6-astra retained; not exposed by the inspected VS Code metadata API; no substitute selected. Original reasoning high is catalog metadata, not a supported frontmatter control.",
+      "agentId": "research-mathematics"
+    },
+    {
+      "code": "AF011",
+      "severity": "warning",
+      "message": "research-robotics: original model gpt-6-astra retained; not exposed by the inspected VS Code metadata API; no substitute selected. Original reasoning high is catalog metadata, not a supported frontmatter control.",
+      "agentId": "research-robotics"
+    },
+    {
+      "code": "AF011",
+      "severity": "warning",
+      "message": "adult-education-specialist: original model gpt-6-astra retained; not exposed by the inspected VS Code metadata API; no substitute selected. Original reasoning high is catalog metadata, not a supported frontmatter control.",
+      "agentId": "adult-education-specialist"
+    },
+    {
+      "code": "AF011",
+      "severity": "warning",
+      "message": "audiovisual-production-specialist: original model gpt-6.1-sol retained; not exposed by the inspected VS Code metadata API; no substitute selected. Original reasoning high is catalog metadata, not a supported frontmatter control.",
+      "agentId": "audiovisual-production-specialist"
+    },
+    {
+      "code": "AF011",
+      "severity": "warning",
+      "message": "brand-and-graphic-design-specialist: original model gpt-6.1-sol retained; not exposed by the inspected VS Code metadata API; no substitute selected. Original reasoning high is catalog metadata, not a supported frontmatter control.",
+      "agentId": "brand-and-graphic-design-specialist"
+    },
+    {
+      "code": "AF011",
+      "severity": "warning",
+      "message": "marketing-and-sales-specialist: original model gpt-6-astra retained; not exposed by the inspected VS Code metadata API; no substitute selected. Original reasoning high is catalog metadata, not a supported frontmatter control.",
+      "agentId": "marketing-and-sales-specialist"
+    },
+    {
+      "code": "AF011",
+      "severity": "warning",
+      "message": "agent-forge-research: original model gpt-6-astra retained; not exposed by the inspected VS Code metadata API; no substitute selected. Original reasoning high is catalog metadata, not a supported frontmatter control.",
+      "agentId": "agent-forge-research"
+    },
+    {
+      "code": "AF012",
+      "severity": "warning",
+      "message": "Obsolete managed customization was modified; preserved without claiming ownership",
+      "path": "C:\\Users\\rober\\.copilot\\agents\\cto.agent.md"
+    },
+    {
+      "code": "AF012",
+      "severity": "warning",
+      "message": "Obsolete managed customization was modified; preserved without claiming ownership",
+      "path": "C:\\Users\\rober\\.copilot\\agents\\requirements-engineer.agent.md"
+    },
+    {
+      "code": "AF012",
+      "severity": "warning",
+      "message": "Obsolete managed customization was modified; preserved without claiming ownership",
+      "path": "C:\\Users\\rober\\.copilot\\agents\\creative-director.agent.md"
+    },
+    {
+      "code": "AF012",
+      "severity": "warning",
+      "message": "Obsolete managed customization was modified; preserved without claiming ownership",
+      "path": "C:\\Users\\rober\\.copilot\\agents\\software-architect.agent.md"
+    },
+    {
+      "code": "AF012",
+      "severity": "warning",
+      "message": "Obsolete managed customization was modified; preserved without claiming ownership",
+      "path": "C:\\Users\\rober\\.copilot\\agents\\project-manager.agent.md"
+    },
+    {
+      "code": "AF012",
+      "severity": "warning",
+      "message": "Obsolete managed customization was modified; preserved without claiming ownership",
+      "path": "C:\\Users\\rober\\.copilot\\agents\\principal-engineer.agent.md"
+    },
+    {
+      "code": "AF012",
+      "severity": "warning",
+      "message": "Obsolete managed customization was modified; preserved without claiming ownership",
+      "path": "C:\\Users\\rober\\.copilot\\agents\\data-scientist.agent.md"
+    },
+    {
+      "code": "AF012",
+      "severity": "warning",
+      "message": "Obsolete managed customization was modified; preserved without claiming ownership",
+      "path": "C:\\Users\\rober\\.copilot\\agents\\agentic-systems-engineer.agent.md"
+    },
+    {
+      "code": "AF012",
+      "severity": "warning",
+      "message": "Obsolete managed customization was modified; preserved without claiming ownership",
+      "path": "C:\\Users\\rober\\.copilot\\agents\\cybersecurity-engineer.agent.md"
+    },
+    {
+      "code": "AF012",
+      "severity": "warning",
+      "message": "Obsolete managed customization was modified; preserved without claiming ownership",
+      "path": "C:\\Users\\rober\\.copilot\\agents\\devops-engineer.agent.md"
+    },
+    {
+      "code": "AF012",
+      "severity": "warning",
+      "message": "Obsolete managed customization was modified; preserved without claiming ownership",
+      "path": "C:\\Users\\rober\\.copilot\\agents\\technical-writer.agent.md"
+    },
+    {
+      "code": "AF012",
+      "severity": "warning",
+      "message": "Obsolete managed customization was modified; preserved without claiming ownership",
+      "path": "C:\\Users\\rober\\.copilot\\instructions\\agent-communication.instructions.md"
+    },
+    {
+      "code": "AF012",
+      "severity": "warning",
+      "message": "Obsolete managed customization was modified; preserved without claiming ownership",
+      "path": "C:\\Users\\rober\\.copilot\\instructions\\agent-safety.instructions.md"
+    },
+    {
+      "code": "AF012",
+      "severity": "warning",
+      "message": "Obsolete managed customization was modified; preserved without claiming ownership",
+      "path": "C:\\Users\\rober\\.copilot\\instructions\\git-workflow.instructions.md"
+    },
+    {
+      "code": "AF012",
+      "severity": "warning",
+      "message": "Obsolete managed customization was modified; preserved without claiming ownership",
+      "path": "C:\\Users\\rober\\.copilot\\instructions\\project-conventions.instructions.md"
+    },
+    {
+      "code": "AF012",
+      "severity": "warning",
+      "message": "Obsolete managed customization was modified; preserved without claiming ownership",
+      "path": "C:\\Users\\rober\\.copilot\\instructions\\documentation-quality.instructions.md"
+    },
+    {
+      "code": "AF012",
+      "severity": "warning",
+      "message": "Obsolete managed customization was modified; preserved without claiming ownership",
+      "path": "C:\\Users\\rober\\.copilot\\skills\\scaffold-project\\SKILL.md"
+    },
+    {
+      "code": "AF012",
+      "severity": "warning",
+      "message": "Obsolete managed customization was modified; preserved without claiming ownership",
+      "path": "C:\\Users\\rober\\.copilot\\skills\\search-stock-images\\SKILL.md"
+    },
+    {
+      "code": "AF012",
+      "severity": "warning",
+      "message": "Obsolete managed customization is already absent; no deletion required",
+      "path": "C:\\Users\\rober\\.copilot\\skills\\compose-agent-handoff\\SKILL.md"
+    },
+    {
+      "code": "AF012",
+      "severity": "warning",
+      "message": "Obsolete managed customization was modified; preserved without claiming ownership",
+      "path": "C:\\Users\\rober\\.copilot\\skills\\trace-requirements\\SKILL.md"
+    },
+    {
+      "code": "AF012",
+      "severity": "warning",
+      "message": "Obsolete managed customization is already absent; no deletion required",
+      "path": "C:\\Users\\rober\\.copilot\\skills\\plan-delivery\\SKILL.md"
+    },
+    {
+      "code": "AF012",
+      "severity": "warning",
+      "message": "Obsolete managed customization was modified; preserved without claiming ownership",
+      "path": "C:\\Users\\rober\\.copilot\\skills\\verify-implementation\\SKILL.md"
+    },
+    {
+      "code": "AF012",
+      "severity": "warning",
+      "message": "Obsolete managed customization was modified; preserved without claiming ownership",
+      "path": "C:\\Users\\rober\\.copilot\\skills\\review-change-security\\SKILL.md"
+    },
+    {
+      "code": "AF012",
+      "severity": "warning",
+      "message": "Obsolete managed customization is already absent; no deletion required",
+      "path": "C:\\Users\\rober\\.copilot\\skills\\prepare-release\\SKILL.md"
+    },
+    {
+      "code": "AF012",
+      "severity": "warning",
+      "message": "Obsolete managed customization was modified; preserved without claiming ownership",
+      "path": "C:\\Users\\rober\\.copilot\\skills\\operate-docker\\SKILL.md"
+    },
+    {
+      "code": "AF012",
+      "severity": "warning",
+      "message": "Obsolete managed customization was modified; preserved without claiming ownership",
+      "path": "C:\\Users\\rober\\.copilot\\skills\\deploy-digitalocean\\SKILL.md"
+    },
+    {
+      "code": "AF012",
+      "severity": "warning",
+      "message": "Obsolete managed customization was modified; preserved without claiming ownership",
+      "path": "C:\\Users\\rober\\.copilot\\skills\\manage-github-gitkraken\\SKILL.md"
+    },
+    {
+      "code": "AF012",
+      "severity": "warning",
+      "message": "Obsolete managed customization is already absent; no deletion required",
+      "path": "C:\\Users\\rober\\.copilot\\skills\\evaluate-agentic-systems\\SKILL.md"
+    },
+    {
+      "code": "AF012",
+      "severity": "warning",
+      "message": "Obsolete managed customization was modified; preserved without claiming ownership",
+      "path": "C:\\Users\\rober\\.copilot\\skills\\engineer-specialized-platforms\\SKILL.md"
+    }
+  ],
+  "models": [
+    {
+      "id": "software-architect",
+      "model": "gpt-6.1-sol",
+      "reasoning": "high",
+      "availability": "not-executed; explicit assignment retained"
+    },
+    {
+      "id": "principal-engineer",
+      "model": "gpt-6.1-sol",
+      "reasoning": "high",
+      "availability": "not-executed; explicit assignment retained"
+    },
+    {
+      "id": "backend-developer",
+      "model": "gpt-6-luna",
+      "reasoning": "high",
+      "availability": "not-executed; explicit assignment retained"
+    },
+    {
+      "id": "frontend-developer",
+      "model": "gpt-6.1-sol",
+      "reasoning": "medium",
+      "availability": "not-executed; explicit assignment retained"
+    },
+    {
+      "id": "database-engineer",
+      "model": "gpt-6.1-sol",
+      "reasoning": "high",
+      "availability": "not-executed; explicit assignment retained"
+    },
+    {
+      "id": "dotnet-engineer",
+      "model": "gpt-6-luna",
+      "reasoning": "high",
+      "availability": "not-executed; explicit assignment retained"
+    },
+    {
+      "id": "desktop-app-engineer",
+      "model": "gpt-6.1-sol",
+      "reasoning": "high",
+      "availability": "not-executed; explicit assignment retained"
+    },
+    {
+      "id": "mobile-engineer",
+      "model": "gpt-6-luna",
+      "reasoning": "high",
+      "availability": "not-executed; explicit assignment retained"
+    },
+    {
+      "id": "ml-engineer",
+      "model": "gpt-6.1-sol",
+      "reasoning": "high",
+      "availability": "not-executed; explicit assignment retained"
+    },
+    {
+      "id": "agentic-systems-engineer",
+      "model": "gpt-6.1-sol",
+      "reasoning": "high",
+      "availability": "not-executed; explicit assignment retained"
+    },
+    {
+      "id": "digital-twin-engineer",
+      "model": "gpt-6.1-sol",
+      "reasoning": "high",
+      "availability": "not-executed; explicit assignment retained"
+    },
+    {
+      "id": "qa-engineer",
+      "model": "gpt-6-luna",
+      "reasoning": "high",
+      "availability": "not-executed; explicit assignment retained"
+    },
+    {
+      "id": "cybersecurity-engineer",
+      "model": "gpt-6.1-sol",
+      "reasoning": "high",
+      "availability": "not-executed; explicit assignment retained"
+    },
+    {
+      "id": "devops-engineer",
+      "model": "gpt-6.1-sol",
+      "reasoning": "high",
+      "availability": "not-executed; explicit assignment retained"
+    },
+    {
+      "id": "ux-engineer",
+      "model": "gpt-6.1-sol",
+      "reasoning": "medium",
+      "availability": "not-executed; explicit assignment retained"
+    },
+    {
+      "id": "technical-writer",
+      "model": "gpt-6-luna",
+      "reasoning": "high",
+      "availability": "not-executed; explicit assignment retained"
+    },
+    {
+      "id": "research-literature-search",
+      "model": "gpt-6.1-sol",
+      "reasoning": "high",
+      "availability": "not-executed; explicit assignment retained"
+    },
+    {
+      "id": "research-evidence-synthesis",
+      "model": "gpt-6-astra",
+      "reasoning": "high",
+      "availability": "not-executed; explicit assignment retained"
+    },
+    {
+      "id": "research-bibliographic-references",
+      "model": "gpt-6.1-sol",
+      "reasoning": "medium",
+      "availability": "not-executed; explicit assignment retained"
+    },
+    {
+      "id": "research-experimental-design",
+      "model": "gpt-6-astra",
+      "reasoning": "high",
+      "availability": "not-executed; explicit assignment retained"
+    },
+    {
+      "id": "research-human-participant-studies",
+      "model": "gpt-6-astra",
+      "reasoning": "high",
+      "availability": "not-executed; explicit assignment retained"
+    },
+    {
+      "id": "research-statistical-analysis",
+      "model": "gpt-6-astra",
+      "reasoning": "high",
+      "availability": "not-executed; explicit assignment retained"
+    },
+    {
+      "id": "research-computational-reproducibility",
+      "model": "gpt-6.1-sol",
+      "reasoning": "high",
+      "availability": "not-executed; explicit assignment retained"
+    },
+    {
+      "id": "research-scientific-figures",
+      "model": "gpt-6.1-sol",
+      "reasoning": "high",
+      "availability": "not-executed; explicit assignment retained"
+    },
+    {
+      "id": "research-scientific-writing",
+      "model": "gpt-6-astra",
+      "reasoning": "medium",
+      "availability": "not-executed; explicit assignment retained"
+    },
+    {
+      "id": "research-reviewer-responses",
+      "model": "gpt-6-astra",
+      "reasoning": "high",
+      "availability": "not-executed; explicit assignment retained"
+    },
+    {
+      "id": "research-independent-scientific-review",
+      "model": "gpt-6-astra",
+      "reasoning": "high",
+      "availability": "not-executed; explicit assignment retained"
+    },
+    {
+      "id": "research-machine-learning",
+      "model": "gpt-6-astra",
+      "reasoning": "high",
+      "availability": "not-executed; explicit assignment retained"
+    },
+    {
+      "id": "research-language-models",
+      "model": "gpt-6-astra",
+      "reasoning": "high",
+      "availability": "not-executed; explicit assignment retained"
+    },
+    {
+      "id": "research-computer-vision",
+      "model": "gpt-6-astra",
+      "reasoning": "high",
+      "availability": "not-executed; explicit assignment retained"
+    },
+    {
+      "id": "research-human-ai-interaction",
+      "model": "gpt-6-astra",
+      "reasoning": "high",
+      "availability": "not-executed; explicit assignment retained"
+    },
+    {
+      "id": "research-extended-reality",
+      "model": "gpt-6-astra",
+      "reasoning": "high",
+      "availability": "not-executed; explicit assignment retained"
+    },
+    {
+      "id": "research-physical-ai",
+      "model": "gpt-6-astra",
+      "reasoning": "high",
+      "availability": "not-executed; explicit assignment retained"
+    },
+    {
+      "id": "research-mathematical-modeling",
+      "model": "gpt-6-astra",
+      "reasoning": "high",
+      "availability": "not-executed; explicit assignment retained"
+    },
+    {
+      "id": "research-mathematics",
+      "model": "gpt-6-astra",
+      "reasoning": "high",
+      "availability": "not-executed; explicit assignment retained"
+    },
+    {
+      "id": "research-robotics",
+      "model": "gpt-6-astra",
+      "reasoning": "high",
+      "availability": "not-executed; explicit assignment retained"
+    },
+    {
+      "id": "adult-education-specialist",
+      "model": "gpt-6-astra",
+      "reasoning": "high",
+      "availability": "not-executed; explicit assignment retained"
+    },
+    {
+      "id": "audiovisual-production-specialist",
+      "model": "gpt-6.1-sol",
+      "reasoning": "high",
+      "availability": "not-executed; explicit assignment retained"
+    },
+    {
+      "id": "brand-and-graphic-design-specialist",
+      "model": "gpt-6.1-sol",
+      "reasoning": "high",
+      "availability": "not-executed; explicit assignment retained"
+    },
+    {
+      "id": "marketing-and-sales-specialist",
+      "model": "gpt-6-astra",
+      "reasoning": "high",
+      "availability": "not-executed; explicit assignment retained"
+    },
+    {
+      "id": "technology-ai-logistics-consultant",
+      "model": "inherit",
+      "reasoning": "inherit",
+      "availability": "not-executed; explicit assignment retained"
+    },
+    {
+      "id": "agent-forge-development",
+      "model": "inherit",
+      "reasoning": "inherit",
+      "availability": "not-executed; explicit assignment retained"
+    },
+    {
+      "id": "agent-forge-research",
+      "model": "gpt-6-astra",
+      "reasoning": "high",
+      "availability": "not-executed; explicit assignment retained"
+    },
+    {
+      "id": "agent-forge-communication",
+      "model": "inherit",
+      "reasoning": "inherit",
+      "availability": "not-executed; explicit assignment retained"
+    },
+    {
+      "id": "agent-forge-consulting",
+      "model": "inherit",
+      "reasoning": "inherit",
+      "availability": "not-executed; explicit assignment retained"
+    }
+  ]
+}

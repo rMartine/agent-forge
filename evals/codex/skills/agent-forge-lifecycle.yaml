@@ -1,5 +1,7 @@
 schemaVersion: 1
 id: agent-forge-lifecycle
 runtime: codex
-prompt: Discover a brownfield repository, trace the requested outcome, record a decision, plan delivery, and prepare a result envelope.
-expect: { trigger: true, progressiveDisclosure: true, externalMutation: false }
+prompt: "Within the authorized software product under construction: Discover a brownfield repository, trace the requested outcome, record a decision, plan delivery, and prepare a result envelope."
+explicitPrompt: "Use $agent-forge-lifecycle. Within the authorized software product under construction: Discover a brownfield repository, trace the requested outcome, record a decision, plan delivery, and prepare a result envelope."
+negativePrompt: "Explain what an architecture decision record is, without starting a software project."
+expect: { trigger: true, negativeTrigger: false, progressiveDisclosure: true, externalMutation: false }

@@ -16,6 +16,7 @@ Los siguientes comandos son la secuencia documentada para preparar y realizar la
 ```powershell
 npm ci
 npm run build
+npm run prepare:skills
 npm test
 npm run test:extension-host
 node packages/cli/dist/index.js --repo . validate --strict --target all
@@ -65,10 +66,31 @@ Este procedimiento documenta una instalación sobre un perfil real; no es una pr
 2. Antes de aplicar, el asistente obtiene el inventario existente de ~/.codex/skills, ~/.codex/agents y ~/.agents/skills.
 3. Antes de aplicar, el asistente inspecciona todas las acciones de limpieza del plan.
 4. Cuando la autorización vigente cubra la aplicación del plan concreto y se haya cumplido el protocolo de la herramienta, el asistente aplica exactamente ese plan confirmado.
-5. Después de aplicar, el asistente verifica 24 agentes Copilot, 16 agentes Codex y cinco paquetes Codex con prefijo.
-6. Después de aplicar, el asistente observa si el estado informa que ambos entornos están sincronizados, conforme al plan aplicado y la operación autorizada.
+5. Después de aplicar, el asistente verifica las identidades, los archivos y los hashes declarados en el plan del destino autorizado. La configuración actual de Codex contiene 16 agentes, 12 skills y grupos administrados en `hooks.json`; estas cantidades no son restricciones del esquema.
+6. Después de aplicar, el asistente observa si el estado informa que el destino autorizado está sincronizado y distingue esa comprobación de archivos del comportamiento observado en sesiones nuevas de Desktop y de la extensión de Codex para VS Code. Las entradas nuevas o modificadas requieren la revisión de confianza nativa mediante `/hooks` en la CLI de Codex con el mismo perfil; el instalador no la simula ni la omite. No se presupone que ese comando exista en las interfaces de Desktop o de la extensión.
 7. Después de aplicar, el asistente confirma que los hashes protegidos y el inventario de procedimientos personales no cambiaron.
 
 Si la autorización no cubre aplicar el plan, la preparación no debe incluir esa aplicación. Autorizar una instalación no autoriza por sí mismo otras operaciones externas ni la eliminación de archivos no administrados; el asistente debe comprobar si el encargo incluye expresamente esas otras acciones.
 
 Antes de publicar la extensión, publicar ramas de Git, instalar proveedores, modificar recursos de nube o eliminar archivos no administrados, el asistente debe comprobar que Roberto autorizó expresamente esa acción, sus efectos y su destino. Si la autorización vigente ya los cubre, no debe pedirla de nuevo. Si no los cubre, debe solicitar únicamente la autorización pendiente antes de realizar esa acción. La autorización de una instalación de Agent Forge no autoriza por sí misma las otras acciones de esta enumeración.
+
+## Reconcile an existing managed installation
+
+When an authorized upgrade must preserve changes or absences in an existing installation, explicitly capture the current state of paths already owned by that runtime:
+
+```powershell
+node packages/cli/dist/index.js --repo . reconcile preview --target codex --json
+node packages/cli/dist/index.js --repo . reconcile apply --target codex --plan <reconciliation-id> --confirm <reconciliation-id> --json
+```
+
+Review the changed, missing, and unchanged paths, their previous and observed hashes, the saved plan hash, and the backup location. Preview saves the snapshots but does not change the installation ledger or installed files. Apply requires the exact plan ID and verifies that the ledger, current file bytes, and absences still match the preview. It records only paths already owned by the selected runtime; it provides no general overwrite or adoption option.
+
+Persistent backups are saved beside the ledger under `reconciliations/<reconciliation-id>/`: `plan.json`, `state-before.json`, `state-reconciled.json`, and the current file snapshots in `files/`. Apply changes the ledger only. Existing files become the baseline for a subsequent deployment; missing files are recorded as absent. Then create and review a new deployment preview and apply it normally. Rolling back that deployment restores the captured current files and removes files that were previously absent.
+
+To restore the ledger that preceded reconciliation:
+
+```powershell
+node packages/cli/dist/index.js --repo . reconcile restore --target codex --plan <reconciliation-id> --json
+```
+
+Recovery requires the reconciliation baseline to be active and the profile to match its snapshots. Roll back a later deployment first. Recovery refuses incompatible changes to files, deployment history, or another runtime, and preserves the replaced ledger in `state-before-restore.json`. Shared hook files with ownership tracked per group are outside this migration; their normal deployment and rollback preserve foreign groups.

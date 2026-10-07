@@ -1,5 +1,7 @@
 schemaVersion: 1
 id: agent-forge-engineering
 runtime: codex
-prompt: Select the relevant platform reference, implement a bounded change, and verify it.
-expect: { trigger: true, progressiveDisclosure: true, evidenceRequired: true }
+prompt: "Within the authorized software product under construction: Select the relevant platform reference, implement a bounded change, and verify it."
+explicitPrompt: "Use $agent-forge-engineering. Within the authorized software product under construction: Select the relevant platform reference, implement a bounded change, and verify it."
+negativePrompt: "Explain what a compiler does; do not change any software."
+expect: { trigger: true, negativeTrigger: false, progressiveDisclosure: true, evidenceRequired: true }

@@ -30,3 +30,9 @@ export function runtimeTarget(value: string): RuntimeTarget {
   if (value !== 'vscode' && value !== 'codex') throw new Error('Target must be vscode or codex.');
   return value;
 }
+
+export function copilotSelection(options: { rosters?: string; harness?: string }): { rosters?: 'all'; harness: 'copilot' | 'local' } {
+  if (options.rosters !== undefined && options.rosters !== 'all') throw new Error('Rosters must be all.');
+  if (options.harness !== undefined && options.harness !== 'copilot' && options.harness !== 'local') throw new Error('Harness must be copilot or local.');
+  return { rosters: options.rosters as 'all' | undefined, harness: options.harness ?? 'copilot' };
+}

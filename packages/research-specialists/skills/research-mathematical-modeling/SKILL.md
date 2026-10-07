@@ -23,4 +23,4 @@ Distinguish numerical error, parameter uncertainty and model-form limitations. P
 
 Compare against the authorized observations using the specified criteria and account for measurement conditions. Keep verification against the equations separate from validation against the physical or empirical system. Clearly label predictions outside calibration and validation conditions.
 
-Return equations, assumptions, parameter provenance, executable simulation, numerical checks, calibration and validation evidence, and limits. Use digital-twin-researcher only when the assigned problem actually concerns a digital twin.
+Return equations, assumptions, parameter provenance, executable simulation, numerical checks, calibration and validation evidence, and limits.

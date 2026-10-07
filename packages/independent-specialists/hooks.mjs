@@ -44,7 +44,7 @@ function responseMetadata(value, depth = 0, metadata = { identifiers: {}, status
     if (typeof value[key] === 'string' && /^[A-Za-z0-9][A-Za-z0-9_-]{0,119}$/.test(value[key])) metadata.identifiers[key] = value[key];
   }
   if (Array.isArray(value.session_ids)) metadata.identifiers.session_ids = value.session_ids.filter(item => typeof item === 'string' && /^[A-Za-z0-9][A-Za-z0-9_-]{0,119}$/.test(item)).slice(0,20);
-  if (typeof value.status === 'string' && STATES.has(value.status.toLowerCase())) metadata.status = value.status.toLowerCase();
+  if (typeof value.status === 'string' && STATES.has(value.status.toLowerCase())) metadata.status = ['error', 'failed', 'cancelled', 'canceled'].includes(metadata.status) ? metadata.status : value.status.toLowerCase();
   if (value.isError === true || (typeof value.exit_code === 'number' && value.exit_code !== 0)) metadata.status = 'error';
   // Never traverse free-form text, prompts, transcripts, URLs or arbitrary response fields.
   for (const key of ['structuredContent', 'result', 'data', 'output', 'content']) responseMetadata(value[key], depth + 1, metadata);
@@ -59,7 +59,7 @@ async function start(context, input, manifest, options) {
     const record = current ?? { version: 1, sessionId: context.sessionId, project: context.project, assignments: {}, createdAt: now() };
     const existing = findAssignment(record, input.agent_id);
     if (existing && existing.role !== role.name) throw new Error('La identidad del especialista ya pertenece a otro rol.');
-    if (existing && ['closed', 'ended'].includes(existing.status)) return record;
+    if (existing && ['closed', 'ended', 'interrupted'].includes(existing.status)) return record;
     const candidate = record.assignments[`pending-${role.name}`];
     const pending = candidate?.status === 'prepared' ? candidate : undefined;
     assignment = existing ?? pending ?? {
@@ -92,13 +92,17 @@ async function start(context, input, manifest, options) {
   ].filter(Boolean).join('\n') } };
 }
 
+function toolArguments(value) {
+  if (typeof value === 'string') {try {value = JSON.parse(value);} catch {return null;}}
+  return value && typeof value === 'object' && !Array.isArray(value) ? value : null;
+}
 function beforeTool(assignment, input, manifest) {
   const tool = toolName(input.tool_name);
   const rules = assignment.toolAuthorizations.filter(rule => toolName(rule.toolName) === tool);
   const registeredExternal = (manifest.externalTools ?? []).some(name => toolName(name) === tool);
   if (!registeredExternal && !rules.length) return {};
   if (assignment.status !== 'running') return deny('El encargo del especialista está cerrado o interrumpido. El principal debe reanudarlo antes de otra operación externa.');
-  if (!rules.length || !rules.some(rule => matchesAuthorization(rule, input.tool_input ?? {}))) return deny('La herramienta o sus parámetros observables no coinciden con la autorización registrada de este encargo. El principal debe registrar la autorización humana vigente; este bloqueo no exige pedirla otra vez si ya existe.');
+  if (!rules.length || !rules.some(rule => toolArguments(input.tool_input) && matchesAuthorization(rule, toolArguments(input.tool_input)))) return deny('La herramienta o sus parámetros observables no coinciden con la autorización registrada de este encargo. El principal debe registrar la autorización humana vigente; este bloqueo no exige pedirla otra vez si ya existe.');
   // An empty decision preserves platform approval policies. Hooks never grant an allow override.
   return {};
 }
@@ -127,27 +131,31 @@ async function finish(context, actorId, event, manifest) {
         assignment.status = event === 'Interrupt' ? 'interrupted' : 'ended';
         if (event === 'SessionEnd') assignment.toolAuthorizations = [];
       } else {
-        assignment.status = 'returned';
+        if (event === 'SubagentStop' && assignment.status !== 'interrupted') assignment.status = 'returned';
+        const signature = createHash('sha256').update(JSON.stringify([assignment.status, assignment.expectedDeliverables, assignment.delivered, assignment.operations])).digest('hex');
+        if (assignment.lastNoticeSignature === signature) continue;
+        assignment.lastNoticeSignature = signature;
         const missing = assignment.expectedDeliverables.filter(name => !assignment.delivered.includes(name));
         const role = manifest.agents.find(entry => entry.name === assignment.role);
         messages.push(`${assignment.role}: ${missing.length ? `sin constancia registrada de ${missing.join('; ')}. Esto no demuestra que falten en la conversación.` : 'consulta el resultado devuelto para comprobar los entregables reales.'} ${role.completionChecks?.length ? `Criterios pertinentes al encargo: ${role.completionChecks.join('; ')}.` : ''}`);
       }
-      assignment.stoppedAt = now();
+      if (event === 'Stop') assignment.lastTurnStoppedAt = now();
+      else assignment.stoppedAt = now();
     }
     return record;
   });
   return messages.length ? note(`${messages.join('\n')} El hook no solicita continuación ni producción adicional.`) : {};
 }
 
-export async function runSpecialistHook(input, options = {}) {
+async function runSpecialistHookUnchecked(input, options = {}) {
   if (!input || typeof input !== 'object' || Array.isArray(input) || !EVENTS.has(input.hook_event_name)) return {};
   if (typeof input.session_id !== 'string' || !IDENTIFIER.test(input.session_id) || typeof input.cwd !== 'string' || !path.isAbsolute(input.cwd)) return {};
   // Avoid looking up or changing state for another team's SubagentStart event.
   if (input.hook_event_name === 'SubagentStart' && !ROLES.has(input.agent_type)) return {};
-  const { context, actorId } = await resolveHookContext(input, options);
+  const { context, actorId, owned } = await resolveHookContext(input, options);
   if (input.hook_event_name === 'SubagentStart') return start(context, input, await loadManifest(options.packageRoot), options);
   const record = await readState(context);
-  if (!record) return {};
+  if (!record) { if (owned) throw new Error('Falta el estado de una identidad registrada.'); return {}; }
   const assignment = findAssignment(record, actorId);
   if (actorId && !assignment) return {};
   if (['PreToolUse', 'PostToolUse', 'SubagentStop'].includes(input.hook_event_name) && !assignment) return {};
@@ -157,13 +165,19 @@ export async function runSpecialistHook(input, options = {}) {
   return finish(context, actorId, input.hook_event_name, manifest);
 }
 
-if (process.argv[1] && path.resolve(process.argv[1]) === fileURLToPath(import.meta.url)) {
-  let input;
-  try { input = await readStdinJson(); process.stdout.write(`${JSON.stringify(await runSpecialistHook(input))}\n`); }
-  catch {
-    // An unknown actor must not receive another team's lifecycle instructions.
-    const ownedRole = ROLES.has(input?.agent_type);
-    if (ownedRole) process.stderr.write('No se pudo comprobar el registro de especialistas; no se copiaron entradas ni credenciales al diagnóstico.\n');
-    process.stdout.write(`${JSON.stringify(ownedRole ? note('La comprobación de hooks de especialistas no estuvo disponible. No presentes sus restricciones como verificadas; conserva los permisos y límites del encargo.') : {})}\n`);
+export async function runSpecialistHook(input, options = {}) {
+  try { return await runSpecialistHookUnchecked(input, options); }
+  catch (error) {
+    let owned = error.rosterOwned === true || ROLES.has(input?.agent_type);
+    if (!owned) {try {owned = (await resolveHookContext(input, options)).owned === true;} catch (lookupError) {owned = lookupError.rosterOwned === true;}}
+    const code = /^E[A-Z]{1,20}$/.test(error.code ?? '') ? error.code : 'STATE_INVALID';
+    process.stderr.write(`No se pudo verificar el estado del roster (${code}). No se registraron datos del encargo.\n`);
+    if (owned && input?.hook_event_name === 'PreToolUse') return deny('No se pudo verificar el registro de este encargo. Recupera su estado antes de continuar; no se concede autorización por omisión.');
+    return owned ? note('No se pudo verificar el estado del encargo; conserva sus límites y comunica el impedimento.') : {};
   }
+}
+
+if (process.argv[1] && path.resolve(process.argv[1]) === fileURLToPath(import.meta.url)) {
+  try { process.stdout.write(JSON.stringify(await runSpecialistHook(await readStdinJson())) + '\n'); }
+  catch { process.stderr.write('Entrada de hook inválida; no se reprodujo su contenido.\n'); process.stdout.write('{}\n'); }
 }

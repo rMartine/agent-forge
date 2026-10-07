@@ -1,3 +1,4 @@
+import {identityFile, resolveRegistered} from './hook-storage.mjs';
 import { createHash, randomUUID } from 'node:crypto';
 import { lstat, mkdir, open, readFile, realpath, rename, stat, unlink } from 'node:fs/promises';
 import os from 'node:os';
@@ -321,19 +322,13 @@ export async function endSession(context) {
 export async function writeAgentLink(context, agentId) {
   if (typeof agentId !== 'string' || !IDENTIFIER.test(agentId)) throw new Error('Invalid agent identifier.');
   const key = createHash('sha256').update(JSON.stringify([agentId, normalized(context.project)])).digest('hex');
-  await atomicJson(path.join(context.root, `agent-${key}.json`), { version: 1, sessionId: context.sessionId, project: context.project, agentId });
+  const identity = {version:1, sessionId:context.sessionId, project:context.project, agentId};
+  await atomicJson(path.join(context.root, `agent-${key}.json`), identity);
+  await atomicJson(identityFile(context, agentId), identity);
 }
 
 export async function resolveHookContext(input, options = {}) {
-  const direct = await sessionContext({ sessionId: input.session_id, project: input.cwd, ...options });
-  const record = await readState(direct);
-  if (record) return { context: direct, actorId: input.agent_id ?? null };
-  const key = createHash('sha256').update(JSON.stringify([input.session_id, normalized(direct.project)])).digest('hex');
-  let link;
-  try { link = await readJson(path.join(direct.root, `agent-${key}.json`)); }
-  catch (error) { if (error.code === 'ENOENT') return { context: direct, actorId: null }; throw error; }
-  if (link.version !== 1 || link.agentId !== input.session_id || normalized(link.project) !== normalized(direct.project)) throw new Error('Invalid research agent mapping.');
-  return { context: await sessionContext({ sessionId: link.sessionId, project: direct.project, ...options }), actorId: input.session_id };
+  return resolveRegistered(input,{makeContext:(sessionId,project)=>sessionContext({sessionId,project,...options}),readState,readJson});
 }
 
 function principalOnly(context, environment) {

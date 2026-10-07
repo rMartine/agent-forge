@@ -1,0 +1,7 @@
+schemaVersion: 1
+id: agent-forge-supabase-postgres-best-practices
+runtime: codex
+prompt: "Implement the approved PostgreSQL issue schema and transaction constraints for the product."
+explicitPrompt: "Use $agent-forge-supabase-postgres-best-practices. Implement the approved PostgreSQL issue schema and transaction constraints for the product."
+negativePrompt: "Explain database indexes in general."
+expect: { trigger: true, negativeTrigger: false, noUnrequestedOptimization: true, noImplicitSupabaseAdoption: true }

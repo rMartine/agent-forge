@@ -1,0 +1,51 @@
+{
+  "version": 1,
+  "verifiedDate": "2026-10-05",
+  "target": "vscode-user-mcp-json",
+  "mergePolicy": "preserve-existing-entries-and-secrets; add-only-absent-provider",
+  "authenticationPolicy": "VS Code OAuth preferred; user-managed secret inputs only when required; never import another application's tokens",
+  "catalogPolicy": "Discover tool names and JSON schemas through authenticated tools/list. Never synthesize tool identifiers from these capability descriptions.",
+  "providers": {
+    "elevenlabs": {
+      "id": "elevenlabs",
+      "requiredForFull": false,
+      "detection": {},
+      "displayName": "ElevenLabs",
+      "action": "add-if-missing",
+      "configuration": { "type": "http", "url": "https://api.elevenlabs.io/v1/mcp" },
+      "authentication": { "preferred": "oauth", "status": "pending-vscode-authentication" },
+      "capabilities": ["voice and model discovery", "speech generation", "transcription", "creative media generation and editing", "job status and result retrieval"],
+      "source": "https://elevenlabs.io/mcp"
+    },
+    "shotstack": {
+      "id": "shotstack",
+      "requiredForFull": false,
+      "detection": {},
+      "displayName": "Shotstack",
+      "action": "add-if-missing",
+      "configuration": { "type": "http", "url": "https://mcp.shotstack.io/" },
+      "authentication": { "preferred": "oauth", "alternative": { "header": "x-api-key", "storage": "vscode-secret-input", "inputId": "agent-forge-shotstack-api-key" }, "status": "pending-vscode-authentication" },
+      "capabilities": ["timeline conventions", "editable studio preview", "authorized video rendering", "render status", "template management"],
+      "source": "https://shotstack.io/docs/guide/agents/mcp-server/",
+      "status": "upstream-beta"
+    },
+    "canva": {
+      "id": "canva",
+      "requiredForFull": false,
+      "detection": {},
+      "configuration": {},
+      "notes": "Preserve the existing Canva connection; missing connection requires setup in VS Code.",
+      "displayName": "Canva",
+      "action": "preserve-existing",
+      "knownEndpoint": "https://mcp.canva.com/mcp",
+      "capabilities": ["design discovery", "editable design creation and editing", "export"],
+      "authentication": { "preferred": "oauth", "status": "reuse-existing-without-reading-secrets" }
+    },
+    "github": { "id": "github", "action": "preserve-existing", "requiredForFull": false, "detection": {}, "configuration": {}, "notes": "Preserve the existing GitHub connection." },
+    "gitkraken": { "id": "gitkraken", "action": "preserve-existing", "requiredForFull": false, "detection": {}, "configuration": {}, "notes": "Preserve the existing GitKraken connection." },
+    "digitalocean": { "id": "digitalocean", "action": "preserve-existing", "requiredForFull": false, "detection": {}, "configuration": {}, "notes": "Preserve the existing DigitalOcean connection." }
+  },
+  "installationVerification": ["configuration shape", "OAuth authentication when user interaction is available", "MCP initialization", "tools/list metadata"],
+  "excludedInstallationActions": ["tools/call for generation or publication", "voice samples", "paid renders", "agent execution", "credential copying"],
+  "pending": ["Authenticate newly configured providers in VS Code", "Record actual tool schemas only after successful authenticated discovery"]
+}

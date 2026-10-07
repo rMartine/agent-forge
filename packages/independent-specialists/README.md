@@ -34,10 +34,28 @@ No se compran guías o skills. `sources.json` conserva origen, versión, licenci
 
 ## Hooks y límites
 
-SubagentStart identifica únicamente los cuatro roles; PreToolUse comprueba las herramientas externas explícitas del manifiesto frente a autorizaciones de la asignación; PostToolUse conserva identificadores y estados. SubagentStop, Stop, Interrupt y SessionEnd informan y cierran sin crear ciclos de continuación. No hacen llamadas de red.
+SubagentStart identifica únicamente los cuatro roles; PreToolUse comprueba las herramientas externas explícitas del manifiesto frente a autorizaciones de la asignación; PostToolUse conserva identificadores y estados. SubagentStop devuelve la asignación; Stop informa sin cerrarla; Interrupt suspende y SessionEnd termina. Los avisos idénticos no se repiten ni crean ciclos de continuación. No hacen llamadas de red.
 
 Las autorizaciones registradas provienen de encargos humanos existentes y no son aprobaciones nuevas de plataforma. Las herramientas alojadas, llamadas anidadas y navegador pueden quedar fuera de la interceptación. El registro, los hashes de texto y los máximos numéricos no son una garantía de aislamiento ni un sistema de contabilidad de consumo. La principal conserva la comprobación del alcance, datos y costo reales.
 
 ## Verificación acotada
 
 Se comprueban sintaxis, referencias, conservación de archivos previos y carga de perfiles, skills y hooks por un proceso nuevo del cliente nativo de Codex. No se realizan encargos de demostración, generaciones, publicaciones, evaluaciones de calidad ni pruebas exhaustivas.
+
+## Hooks: nombres, estado y recuperación
+
+Los nombres visibles usan `Roster de {nombre} | {ámbito} | {evento} | {acción}` en statusMessage. Los cuatro nombres son Roster de Desarrollo, Roster de Investigación, Roster de Comunicación y Formación y Roster de Consultoría. El ámbito es el agente cuando el hook es exclusivo, Especialistas cuando es compartido y Sesión para Stop, Interrupt y SessionEnd. No se cambian identificadores técnicos ni se duplican hooks para mostrar etiquetas.
+
+Las actualizaciones reemplazan cada grupo en su posición; no mueven los grupos ajenos. Cambiar una definición puede requerir renovar su confianza en Codex. El registro del instalador debe acompañar cualquier cambio de archivos administrados; no editar solamente la copia instalada.
+
+La resolución usa la identidad registrada del agente y su proyecto. Los subdirectorios conservan las restricciones; cambiar a otro proyecto o a un repositorio anidado requiere registrar el encargo correspondiente. Un estado corrupto produce un diagnóstico sin datos del encargo y bloquea PreToolUse para el agente propio identificado. Un agente ajeno no queda bloqueado por ese error.
+
+Los archivos .lock no se eliminan automáticamente por antigüedad. Para recuperar uno, con los encargos detenidos, ejecutar el helper hook-storage.mjs junto a los scripts con `recover-lock RUTA_ABSOLUTA.lock`. Solo si identifica un PID terminado devolverá sha256; aplicar con `recover-lock RUTA_ABSOLUTA.lock --apply --expected SHA256`. Conserva un recibo local. Un propietario activo o desconocido impide la recuperación: conservar el archivo y revisar offline el proceso y el registro antes de una intervención manual. No borrar bloqueos en lote.
+
+En Comunicación y Consultoría, Stop conserva el estado de la asignación. SubagentStop marca returned; Interrupt marca interrupted. Reanudar exige el comando resume desde la conversación principal correspondiente; SubagentStart no reanuda una interrupción. El cierre explícito o SessionEnd termina el encargo. Consultoría mantiene las prohibiciones después del cierre.
+
+## Biblioteca compartida de estilos
+
+Este paquete administra una única copia de `communication-design-styles` en el directorio global de skills de Codex. Incluye Futuristic, Levels, Clean, Dithered, Editorial y Glassmorphism. El principal y los cuatro especialistas pueden consultarla cuando corresponda; UX y Frontend son consumidores, sin duplicar la biblioteca. Los cursos sin identidad ni estilo indicado requieren consultar a Roberto antes del diseño visual. Los originales, licencia, revisión fijada y hashes se conservan dentro de la skill.
+
+La biblioteca se instala, verifica y revierte con este mismo instalador. Desinstalar el paquete también retira su biblioteca; los consumidores deben informar su ausencia, sin descargarla automáticamente. No se añaden hooks ni se cambia su lógica.

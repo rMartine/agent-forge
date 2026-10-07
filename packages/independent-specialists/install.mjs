@@ -23,6 +23,16 @@ const manifest = JSON.parse(await readFile(path.join(sourceRoot, 'manifest.json'
 if (manifest.schemaVersion !== 1 || manifest.packageName !== 'independent-specialists') throw new Error('Manifest incompatible');
 const allowedEvents = ['SubagentStart', 'PreToolUse', 'PostToolUse', 'SubagentStop', 'Stop', 'Interrupt', 'SessionEnd'];
 
+const hookDescriptions = {
+  "SubagentStart": "Roster de Comunicación y Formación | Especialistas | SubagentStart | Preparar contexto",
+  "PreToolUse": "Roster de Comunicación y Formación | Especialistas | PreToolUse | Comprobar límites del encargo",
+  "PostToolUse": "Roster de Comunicación y Formación | Especialistas | PostToolUse | Registrar resultado observable",
+  "SubagentStop": "Roster de Comunicación y Formación | Especialistas | SubagentStop | Revisar entregables registrados",
+  "Stop": "Roster de Comunicación y Formación | Sesión | Stop | Informar estado y pendientes",
+  "Interrupt": "Roster de Comunicación y Formación | Sesión | Interrupt | Registrar interrupción",
+  "SessionEnd": "Roster de Comunicación y Formación | Sesión | SessionEnd | Cerrar registro de sesión"
+};
+
 async function assertRegularPath(file) {
   let current = path.resolve(file);
   while (true) {
@@ -55,27 +65,37 @@ function parseHooks(bytes) {
   return document;
 }
 function replaceGroups(document, oldGroups, newGroups) {
-  const next = structuredClone(document);
-  next.hooks ??= {};
-  for (const { event, group } of oldGroups) {
-    const matches = (next.hooks[event] || []).filter(existing => same(existing, group));
-    if (matches.length !== 1) throw new Error(`Un grupo propio de ${event} fue modificado o eliminado; se conserva hooks.json`);
-    next.hooks[event] = next.hooks[event].filter(existing => !same(existing, group));
+  const next = structuredClone(document); next.hooks ??= {};
+  const used = new Set();
+  for (const old of oldGroups) {
+    const matches = (next.hooks[old.event] || []).filter(group => same(group, old.group));
+    if (matches.length !== 1) throw new Error('Un grupo administrado fue modificado, eliminado o duplicado; se conserva hooks.json');
+  }
+  for (const [event, groups] of Object.entries(next.hooks)) {
+    next.hooks[event] = groups.flatMap(group => {
+      if (!oldGroups.some(old => old.event === event && same(old.group, group))) return [group];
+      const index = newGroups.findIndex((item,i) => !used.has(i) && item.event === event && (item.group.matcher ?? '') === (group.matcher ?? ''));
+      if (index < 0) return [];
+      used.add(index); return [newGroups[index].group];
+    });
     if (!next.hooks[event].length) delete next.hooks[event];
   }
-  for (const { event, group } of newGroups) {
-    if ((next.hooks[event] || []).some(existing => same(existing, group))) throw new Error(`Colisión con grupo no administrado: ${event}`);
-    (next.hooks[event] ??= []).push(group);
+  for (let i=0;i<newGroups.length;i++) {
+    const {event,group}=newGroups[i];
+    const foreign=(document.hooks?.[event]??[]).filter(g=>!oldGroups.some(old=>old.event===event&&same(old.group,g)));
+    if (foreign.some(g=>same(g,group))) throw new Error('Colisión con grupo ajeno');
+    if (!used.has(i)) (next.hooks[event]??=[]).push(group);
   }
   return next;
 }
+
 function desiredGroups() {
   const script = path.join(runtimeRoot, 'hooks.mjs').replaceAll('\\', '/');
   const executable = process.execPath.replaceAll('\\', '/');
   const matcher = `^(${manifest.agents.map(agent => agent.name).join('|')})$`;
   return allowedEvents.map(event => ({ event, group: {
     ...(['SubagentStart', 'SubagentStop'].includes(event) ? { matcher } : {}),
-    hooks: [{ type: 'command', command: `"${executable}" "${script}"`, timeout: ['Interrupt', 'SessionEnd'].includes(event) ? 3 : 10, statusMessage: `Especialistas independientes: ${event}` }]
+    hooks: [{ type: 'command', command: `"${executable}" "${script}"`, commandWindows: `node "${script}"`, timeout: ['Interrupt', 'SessionEnd'].includes(event) ? 3 : 10, statusMessage: hookDescriptions[event] }]
   } }));
 }
 async function desiredFiles() {
@@ -91,7 +111,7 @@ async function desiredFiles() {
     for (const skill of agent.skills) if (!await read(path.join(sourceRoot, 'skills', skill, 'SKILL.md'))) throw new Error(`Falta skill: ${skill}`);
   }
   for (const file of await enumerate(path.join(sourceRoot, 'skills'))) await add(path.join(codexHome, 'skills', path.relative(path.join(sourceRoot, 'skills'), file)), await readFile(file));
-  for (const name of ['hooks.mjs', 'assignment.mjs', 'sources.json', 'README.md']) await add(path.join(runtimeRoot, name), await readFile(path.join(sourceRoot, name)));
+  for (const name of ['hooks.mjs', 'assignment.mjs', 'hook-storage.mjs', 'sources.json', 'README.md']) await add(path.join(runtimeRoot, name), await readFile(path.join(sourceRoot, name)));
   await add(path.join(runtimeRoot, 'manifest.json'), Buffer.from(json({ ...manifest, skillDirectory: path.join(codexHome, 'skills'), stateDirectory: stateHome })));
   const unique = new Set(result.map(file => file.path));
   if (unique.size !== result.length) throw new Error('Destinos duplicados');
