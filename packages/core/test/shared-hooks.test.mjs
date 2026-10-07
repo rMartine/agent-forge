@@ -14,6 +14,18 @@ const hook = command => ({ matcher: 'backend-developer', hooks: [{ type: 'comman
 const ownedGroups = command => ({ SubagentStart: [hook(command)] });
 const bytes = document => Buffer.from(JSON.stringify(document));
 
+test('updates keep owned slots and foreign positions stable', () => {
+  const before=hook('foreign-before'), after=hook('foreign-after');
+  const first=prepareSharedHooks(bytes({hooks:{SubagentStart:[before]}}),ownedGroups('old'));
+  const installed=JSON.parse(first.content.toString());
+  installed.hooks.SubagentStart.push(after);
+  const updated=prepareSharedHooks(bytes(installed),ownedGroups('new'),first.sharedHooks.ownership);
+  assert.deepEqual(JSON.parse(updated.content.toString()).hooks.SubagentStart,[before,hook('new'),after]);
+  const restored=prepareSharedHooks(updated.content,ownedGroups('old'),updated.sharedHooks.ownership);
+  assert.deepEqual(JSON.parse(restored.content.toString()),installed);
+  assert.deepEqual(prepareSharedHooks(updated.content,ownedGroups('new'),updated.sharedHooks.ownership).content,updated.content);
+});
+
 async function fixture(run) {
   const root = await mkdtemp(path.join(os.tmpdir(), 'agent-forge-shared-hooks-'));
   const targetPath = path.join(root, '.codex', 'hooks.json');
